@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ArcViewAttrs">
+        <attr name="rectWidth" format="integer" />
+        <attr name="rectHeight" format="integer" />
+        <attr name="startAngle" format="float" />
+        <attr name="sweepAngle" format="float" />
+        <attr name="strokeColor" format="color" />
+        <attr name="arcStrokeWidth" format="float" />
+        <attr name="clockwise" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="CMAnimView">
+        <attr name="sound" format="enum">
+            <enum name="click" value="0"/>
+            <enum name="delete" value="1"/>
+            <enum name="long_click" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="DMRoundView">
+        <attr name="topLeftCornerRadius" format="dimension" />
+        <attr name="topRightCornerRadius" format="dimension" />
+        <attr name="bottomLeftCornerRadius" format="dimension" />
+        <attr name="bottomRightCornerRadius" format="dimension" />
+    </declare-styleable>
+</resources>
