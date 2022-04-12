@@ -11,7 +11,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.fragment.koin.fragmentFactory
 import org.koin.core.context.startKoin
 
-class DMApplication : Application() {
+class DMApp : Application() {
 
     companion object {
         lateinit var user: User
@@ -23,7 +23,7 @@ class DMApplication : Application() {
         super.onCreate()
 
         startKoin {
-            androidContext(this@DMApplication)
+            androidContext(this@DMApp)
             fragmentFactory()
             modules(appModules)
             modules(fragmentModules)

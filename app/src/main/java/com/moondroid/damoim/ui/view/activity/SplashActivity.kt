@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.moondroid.damoim.R
-import com.moondroid.damoim.application.DMApplication
+import com.moondroid.damoim.application.DMApp
 import com.moondroid.damoim.base.BaseActivity
-import com.moondroid.damoim.ui.viewmodel.SignInViewModel
 import com.moondroid.damoim.ui.viewmodel.SplashViewModel
 import com.moondroid.damoim.utils.Constants
 import com.moondroid.damoim.utils.view.logException
@@ -32,7 +31,7 @@ class SplashActivity : BaseActivity(), Animation.AnimationListener {
     }
 
     fun checkAutoLogin() {
-        val userId = DMApplication.prefs.getString(Constants.PrefKey.USER_ID)
+        val userId = DMApp.prefs.getString(Constants.PrefKey.USER_ID)
         if (!userId.isNullOrEmpty()) {
             getUserInfo(userId)
         } else {
@@ -44,7 +43,7 @@ class SplashActivity : BaseActivity(), Animation.AnimationListener {
         viewModel.getUserInfo(userId)
 
         viewModel.userInfo.observe(this) {
-            DMApplication.user = it
+            DMApp.user = it
         }
     }
 

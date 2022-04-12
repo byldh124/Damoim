@@ -1,12 +1,10 @@
 package com.moondroid.damoim.ui.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.moondroid.damoim.R
-import com.moondroid.damoim.application.DMApplication
+import com.moondroid.damoim.application.DMApp
 import com.moondroid.damoim.base.BaseActivity
-import com.moondroid.damoim.ui.viewmodel.HomeViewModel
 import com.moondroid.damoim.ui.viewmodel.SignInViewModel
 import com.moondroid.damoim.utils.Constants
 import com.moondroid.damoim.utils.DMLog
@@ -36,7 +34,7 @@ class SignInActivity : BaseActivity() {
             viewModel.getUserInfo(userId)
 
             viewModel.userInfo.observe(this) {
-                DMApplication.user = it
+                DMApp.user = it
                 DMLog.e(it.toString())
                 goToHomActivity(Constants.ActivityTy.SIGN_IN)
             }

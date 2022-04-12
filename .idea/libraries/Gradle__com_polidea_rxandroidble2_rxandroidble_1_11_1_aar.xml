@@ -2,6 +2,7 @@
   <library name="Gradle: com.polidea.rxandroidble2:rxandroidble:1.11.1@aar">
     <ANNOTATIONS>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/81c7fb8cccc9022097845dd015701993/transformed/jetified-rxandroidble-1.11.1/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/badce15ba13f41c4bd428a66e02cf0d8/transformed/jetified-rxandroidble-1.11.1/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a3a6266bb4e926240b6226be72a18730/transformed/jetified-rxandroidble-1.11.1/res" />
@@ -9,6 +10,9 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/81c7fb8cccc9022097845dd015701993/transformed/jetified-rxandroidble-1.11.1/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/81c7fb8cccc9022097845dd015701993/transformed/jetified-rxandroidble-1.11.1/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/81c7fb8cccc9022097845dd015701993/transformed/jetified-rxandroidble-1.11.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/badce15ba13f41c4bd428a66e02cf0d8/transformed/jetified-rxandroidble-1.11.1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/badce15ba13f41c4bd428a66e02cf0d8/transformed/jetified-rxandroidble-1.11.1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/badce15ba13f41c4bd428a66e02cf0d8/transformed/jetified-rxandroidble-1.11.1/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.polidea.rxandroidble2/rxandroidble/1.11.1/e1b06b497c178f7ca55b4ae97f149fc6f288a703/rxandroidble-1.11.1-javadoc.jar!/" />

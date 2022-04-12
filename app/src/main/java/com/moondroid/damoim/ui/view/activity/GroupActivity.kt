@@ -1,20 +1,15 @@
 package com.moondroid.damoim.ui.view.activity
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.google.gson.Gson
 import com.moondroid.damoim.R
-import com.moondroid.damoim.application.DMApplication
-import com.moondroid.damoim.base.BaseActivity
+import com.moondroid.damoim.application.DMApp
 import com.moondroid.damoim.databinding.ActivityGroupBinding
 import com.moondroid.damoim.model.GroupInfo
 import com.moondroid.damoim.ui.view.fragment.*
-import com.moondroid.damoim.utils.Constants
-import com.moondroid.damoim.utils.DMLog
 import com.moondroid.damoim.utils.view.logException
 import kotlinx.android.synthetic.main.activity_group.*
 
@@ -48,7 +43,7 @@ class GroupActivity : FragmentActivity() {
         try {
             binding = DataBindingUtil.setContentView(this, R.layout.activity_group)
             binding.groupActivity = this
-            groupInfo = DMApplication.group
+            groupInfo = DMApp.group
 
             title = groupInfo.meetName
 
