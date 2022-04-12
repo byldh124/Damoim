@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.moondroid.damoim.R
-import com.moondroid.damoim.model.GroupInfo
 import com.moondroid.damoim.model.User
 import com.moondroid.damoim.utils.DMUtils
 import de.hdodenhof.circleimageview.CircleImageView

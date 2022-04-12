@@ -5,6 +5,7 @@ import com.google.gson.JsonObject
 import com.moondroid.damoim.model.BaseResponse
 import com.moondroid.damoim.network.URLManager.GET_GROUP
 import com.moondroid.damoim.network.URLManager.GET_MEMBER
+import com.moondroid.damoim.network.URLManager.LOG_IN
 import kotlinx.coroutines.Deferred
 import retrofit2.Call
 import retrofit2.http.Body
@@ -15,9 +16,12 @@ import retrofit2.http.Query
 interface ApiInterface {
 
     @GET(GET_GROUP)
-    fun getGroup(): Call<BaseResponse>
+    fun getGroup(): Deferred<BaseResponse>
 
     @GET(GET_MEMBER)
-    fun getMember(@Query("meetName") groupName: String):Call<BaseResponse>
+    fun getMember(@Query("meetName") groupName: String):Deferred<BaseResponse>
+
+    @POST(LOG_IN)
+    fun login(@Query("userId") userId: String): Deferred<BaseResponse>
 
 }

@@ -11,8 +11,13 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="main_001">#FFF7313E</color>
-    <color name="main_002">#FB5762</color>
+    <color name="red_dark01">#FFF7313E</color>
+    <color name="red_light01">#FB5762</color>
+    <color name="red_light02">#F8949B</color>
+
+    <color name="blue_dark01">#182743</color>
+    <color name="blue_light01">#CAD8F3</color>
+
 
 
     <color name="pastel_1">#8DA0FB</color>

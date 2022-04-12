@@ -18,7 +18,7 @@ data class GroupInfo(
 )
 
 data class GroupMember(
-    val master:String,
+    val master: String,
     val member: ArrayList<String>
 )
 

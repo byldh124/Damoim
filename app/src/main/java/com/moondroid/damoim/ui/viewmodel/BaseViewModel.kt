@@ -1,6 +1,7 @@
 package com.moondroid.damoim.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.moondroid.damoim.utils.firebase.DMCrash
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,6 +19,11 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
         super.onCleared()
         // 메모리 누수를 막기 위해 연결된 액티비티가 destroyed 될 때 job을 제거한다.
         job.cancel()
+    }
+
+    fun logException(msg: String){
+        DMCrash.getInstance()
+            .log(msg)
     }
 
 

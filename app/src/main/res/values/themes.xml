@@ -3,7 +3,7 @@
     <style name="Theme.Damoim" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/main_002</item>
+        <item name="colorPrimaryVariant">@color/red_light01</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -19,6 +19,6 @@
     </style>
 
     <style name="ToolbarTheme_Red">
-        <item name="colorControlNormal">@color/main_001</item>
+        <item name="colorControlNormal">@color/red_dark01</item>
     </style>
 </resources>

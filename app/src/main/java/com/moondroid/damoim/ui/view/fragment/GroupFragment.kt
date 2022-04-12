@@ -17,7 +17,7 @@ import com.moondroid.damoim.utils.DMLog
 import kotlinx.android.synthetic.main.activity_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class GroupInfoFragment : BaseFragment() {
+class InfoFragment : BaseFragment() {
 
     private var activity: GroupActivity? = null
     private val viewModel: GroupViewModel by viewModel()
@@ -59,6 +59,109 @@ class GroupInfoFragment : BaseFragment() {
             }
         })
     }
+}
 
+class BoardFragment : BaseFragment() {
 
+    private var activity: GroupActivity? = null
+    private val viewModel: GroupViewModel by viewModel()
+    private lateinit var adapter: MemberListAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = context as GroupActivity
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_group_board, container, false)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initViewModel()
+    }
+
+    private fun initView() {
+
+    }
+
+    private fun initViewModel() {
+
+    }
+}
+
+class GalleryFragment : BaseFragment() {
+
+    private var activity: GroupActivity? = null
+    private val viewModel: GroupViewModel by viewModel()
+    private lateinit var adapter: MemberListAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = context as GroupActivity
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_group_gallery, container, false)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initViewModel()
+    }
+
+    private fun initView() {
+
+    }
+
+    private fun initViewModel() {
+
+    }
+}
+
+class ChatFragment : BaseFragment() {
+
+    private var activity: GroupActivity? = null
+    private val viewModel: GroupViewModel by viewModel()
+    private lateinit var adapter: MemberListAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = context as GroupActivity
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_group_chat, container, false)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initViewModel()
+    }
+
+    private fun initView() {
+
+    }
+
+    private fun initViewModel() {
+
+    }
 }

@@ -15,5 +15,6 @@ object URLManager {
 
     const val GET_GROUP = "getItemBaseData.php"
     const val GET_MEMBER = "loadMembers.php"
+    const val LOG_IN = "loadUserBaseDBOnIntro.php"
 
 }

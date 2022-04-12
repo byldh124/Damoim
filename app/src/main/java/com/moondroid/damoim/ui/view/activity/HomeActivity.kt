@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.moondroid.damoim.R
+import com.moondroid.damoim.application.DMApplication
 import com.moondroid.damoim.base.BaseActivity
 import com.moondroid.damoim.databinding.ActivityHomeBinding
 import com.moondroid.damoim.model.GroupInfo
@@ -71,15 +72,11 @@ class HomeActivity : BaseActivity(), GroupListAdapter.OnItemClickListener {
     }
 
     override fun onClick(groupInfo: GroupInfo) {
+        DMApplication.group = groupInfo
         val newIntent = Intent(this, GroupActivity::class.java)
         newIntent.putExtra(
             Constants.ACTIVITY_TY,
             Constants.ActivityTy.HOME
-        )
-
-        newIntent.putExtra(
-            Constants.currentGroup,
-            Gson().toJson(groupInfo)
         )
         startActivity(newIntent)
         overridePendingTransition(android.R.anim.fade_in, 0)

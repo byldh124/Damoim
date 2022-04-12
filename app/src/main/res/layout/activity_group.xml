@@ -17,10 +17,11 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/main_002"
+                android:background="@color/red_light01"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize">
 
@@ -31,15 +32,15 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@{GroupActivity.title}"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/SPx18" />
+                        android:textSize="@dimen/SPx36" />
                 </com.google.android.material.appbar.MaterialToolbar>
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:tabSelectedTextColor="@color/main_002"
-                    app:tabIndicatorColor="@color/main_002"/>
+                    app:tabSelectedTextColor="@color/red_light01"
+                    app:tabIndicatorColor="@color/red_light01"/>
 
             </com.google.android.material.appbar.AppBarLayout>
 

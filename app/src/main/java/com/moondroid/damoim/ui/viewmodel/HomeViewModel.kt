@@ -40,7 +40,7 @@ class HomeViewModel(private val repository: Repository) : BaseViewModel() {
 
                 is UseCaseResult.Error -> {
                     response.exception.message?.let {
-                        DMLog.e("loadGroup Error : $it")
+                        logException(it)
                     }
                 }
 

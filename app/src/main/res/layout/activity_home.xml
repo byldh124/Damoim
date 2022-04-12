@@ -24,7 +24,7 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/main_002"
+                android:background="@color/red_light01"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.appbar.MaterialToolbar
@@ -38,7 +38,7 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@{HomeActivity.title}"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/SPx18" />
+                        android:textSize="@dimen/SPx36" />
                 </com.google.android.material.appbar.MaterialToolbar>
 
             </com.google.android.material.appbar.AppBarLayout>

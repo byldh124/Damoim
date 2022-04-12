@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Damoim"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.view.activity.SignInActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.view.activity.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -24,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.view.activity.HomeActivity" />
-        <activity android:name=".ui.view.activity.GroupActivity"/>
+        <activity android:name=".ui.view.activity.GroupActivity" />
     </application>
 
 </manifest>
