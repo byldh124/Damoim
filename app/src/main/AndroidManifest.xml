@@ -16,7 +16,37 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.view.activity.SignInActivity"
-            android:exported="false" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
+                <data
+                    android:host="oauth"
+                    android:scheme="kakaob94b64ae0fb57aaa3cb89313edb5bd42" />
+            </intent-filter>
+
+        </activity>
+
+        <!-- Kakao Login Activity -->
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth"
+                    android:scheme="kakaof33663a89ab7e4f6ace89f2ebeade100" />
+            </intent-filter>
+        </activity>
+
+
         <activity
             android:name=".ui.view.activity.SplashActivity"
             android:exported="true">

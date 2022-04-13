@@ -24,7 +24,7 @@ class SplashActivity : BaseActivity(), Animation.AnimationListener {
             setContentView(R.layout.activity_splash)
             initView()
 
-            checkAutoLogin()
+            //checkAutoLogin()
         } catch (e: Exception) {
             logException(e)
         }
@@ -58,7 +58,7 @@ class SplashActivity : BaseActivity(), Animation.AnimationListener {
     }
 
     override fun onAnimationEnd(animation: Animation?) {
-
+        goToSgnnActivity(Constants.ActivityTy.SPLASH)
     }
 
     override fun onAnimationRepeat(animation: Animation?) {

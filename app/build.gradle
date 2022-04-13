@@ -131,4 +131,12 @@ dependencies {
     def nav_version = "2.4.1"
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    /** Kakao **/
+    implementation "com.kakao.sdk:v2-user:2.9.0" // 카카오 로그인
+    implementation "com.kakao.sdk:v2-talk:2.9.0" // 친구, 메시지(카카오톡)
+    implementation "com.kakao.sdk:v2-story:2.9.0" // 카카오스토리
+    implementation "com.kakao.sdk:v2-link:2.9.0" // 메시지(카카오링크)
+    implementation "com.kakao.sdk:v2-navi:2.9.0" // 카카오내비
+    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
 }

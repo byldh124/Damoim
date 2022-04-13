@@ -1,6 +1,7 @@
 package com.moondroid.damoim.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.moondroid.damoim.utils.DMLog
 import com.moondroid.damoim.utils.firebase.DMCrash
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,7 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
     fun logException(msg: String){
         DMCrash.getInstance()
             .log(msg)
+        DMLog.e(msg)
     }
 
 
