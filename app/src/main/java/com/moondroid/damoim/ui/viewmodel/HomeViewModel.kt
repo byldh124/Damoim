@@ -29,7 +29,6 @@ class HomeViewModel(private val repository: Repository) : BaseViewModel() {
                 is UseCaseResult.Success -> {
                     if (response.data.code == 1000) {
                         val result = response.data.body.asJsonArray
-                        DMLog.e(result.toString())
                         val gson = GsonBuilder().create()
                         val groups = gson.fromJson<ArrayList<GroupInfo>>(result, object : TypeToken<ArrayList<GroupInfo>>(){}.type)
                         groupsContent.value = groups

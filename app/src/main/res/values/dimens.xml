@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <dimen name="DPmx8">-8.0dp</dimen>
     <dimen name="DPmx10">-10.0dp</dimen>
     <dimen name="DPmx16">-16.0dp</dimen>

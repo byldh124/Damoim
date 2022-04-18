@@ -2,10 +2,7 @@ package com.moondroid.damoim.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.gson.Gson
-import com.moondroid.damoim.model.User
 import com.moondroid.damoim.utils.Constants.PREFS_NAME
-import com.moondroid.damoim.utils.Constants.USER
 
 
 class Preferences(context: Context) {

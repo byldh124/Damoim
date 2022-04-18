@@ -20,7 +20,7 @@ class SplashViewModel(private val repository: Repository) : BaseViewModel() {
         showLoading.value = true
         launch {
             val response = withContext(Dispatchers.IO) {
-                repository.login(userId)
+                repository.signIn(userId)
             }
             showLoading.value = false
 

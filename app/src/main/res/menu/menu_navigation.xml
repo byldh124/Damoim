@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group
+        android:id="@+id/navigation_menu_tab1">
+        <item
+            android:id="@+id/navigation_menu_interest"
+            android:title="@string/cmn_choice_interest"
+            android:icon="@drawable/ic_navigation_interest_check"
+            app:showAsAction="always"/>
+    </group>
+
+    <group
+        android:id="@+id/navigation_menu_tab2">
+        <item
+            android:id="@+id/navigation_menu_favorite_meet"
+            android:title="@string/cmn_my_favorite_group"
+            android:icon="@drawable/ic_navigation_pin"
+            app:showAsAction="always"/>
+        <item
+            android:id="@+id/navigation_menu_recent_meet"
+            android:title="@string/cmn_recent_view_group"
+            android:icon="@drawable/ic_navigation_recent"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/navigation_menu_premium_meet"
+            android:title="@string/cmn_premium_group"
+            android:icon="@drawable/ic_navigation_premium"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/navigation_menu_mk_charge_class"
+            android:title="@string/cmn_create_premium_group"
+            android:icon="@drawable/ic_navigation_mk_charge"
+            app:showAsAction="ifRoom"/>
+    </group>
+
+    <group
+        android:id="@+id/navigation_menu_tab3">
+        <item
+            android:id="@+id/navigation_menu_setting"
+            android:title="@string/cmn_setting"
+            android:icon="@drawable/ic_navigation_setting"
+            app:showAsAction="ifRoom"/>
+    </group>
+
+</menu>

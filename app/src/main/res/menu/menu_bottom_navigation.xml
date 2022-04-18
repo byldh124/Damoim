@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/bnv_tab1"
+        android:title="@string/cmn_group"
+        android:icon="@drawable/ic_bottom_tab1_meet"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/bnv_tab2"
+        android:title="@string/cmn_premium"
+        android:icon="@drawable/ic_bottom_tab2_charge"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/bnv_tab3"
+        android:title="@string/cmn_my_group"
+        android:icon="@drawable/ic_bottom_tab3_my_page"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/bnv_tab4"
+        android:title="@string/cmn_search_nearly_group"
+        android:icon="@drawable/ic_bottom_tab4_location"
+        app:showAsAction="ifRoom"/>
+</menu>

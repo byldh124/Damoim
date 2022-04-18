@@ -15,6 +15,7 @@ import com.moondroid.damoim.ui.view.adapter.MemberListAdapter
 import com.moondroid.damoim.ui.viewmodel.GroupViewModel
 import com.moondroid.damoim.utils.DMLog
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.fragment_group_info.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class InfoFragment : BaseFragment() {

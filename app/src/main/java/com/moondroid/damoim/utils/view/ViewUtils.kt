@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.moondroid.damoim.R
 import com.moondroid.damoim.ui.view.dialog.LoadingDialog
+import com.moondroid.damoim.utils.DMLog
 import java.lang.Exception
 
 var dialog: LoadingDialog? = null
@@ -19,24 +20,34 @@ fun Activity.logException(exception: Exception) {
     FirebaseCrashlytics
         .getInstance()
         .log(exception.message.toString())
+    DMLog.e("[${this.javaClass.name} logException]::$exception")
 }
 
 fun Activity.logException(t: Throwable) {
     FirebaseCrashlytics
         .getInstance()
         .log(t.message.toString())
+    DMLog.e("[${this.javaClass.name} logException]::$t")
+}
+
+fun Activity.exitApp(){
+    this.moveTaskToBack(true);
+    this.finish();
+    android.os.Process.killProcess(android.os.Process.myPid());
 }
 
 fun Fragment.logException(exception: Exception) {
     FirebaseCrashlytics
         .getInstance()
         .log(exception.message.toString())
+    DMLog.e("[${this.javaClass.name} logException]::$exception")
 }
 
 fun Fragment.logException(t: Throwable) {
     FirebaseCrashlytics
         .getInstance()
         .log(t.message.toString())
+    DMLog.e("[${this.javaClass.name} logException]::$t")
 }
 
 fun View.visible() {

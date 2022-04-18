@@ -32,7 +32,7 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@{GroupActivity.title}"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/SPx36" />
+                        android:textSize="@dimen/SPx24" />
                 </com.google.android.material.appbar.MaterialToolbar>
 
                 <com.google.android.material.tabs.TabLayout

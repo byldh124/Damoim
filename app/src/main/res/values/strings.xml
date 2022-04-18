@@ -2,4 +2,22 @@
     <string name="app_name">Damoim</string>
     <string name="home_find_group">모임찾기</string>
     <string name="cmn_login">로그인</string>
+    <string name="cmn_group">모임</string>
+    <string name="cmn_premium">유료클래스</string>
+    <string name="cmn_my_group">내모임</string>
+    <string name="cmn_search_nearly_group">주변검색</string>
+    <string name="cmn_choice_interest">관심사 선택</string>
+    <string name="cmn_my_favorite_group">내 관심 모임</string>
+    <string name="cmn_recent_view_group">최근 본 보임</string>
+    <string name="cmn_premium_group">프리미엄 모임</string>
+    <string name="cmn_create_premium_group">유료 클래스 만들기</string>
+    <string name="cmn_setting">설정</string>
+    <string name="profile_default_message">Hello.My name is Android</string>
+    <string name="profile_default_name">android</string>
+    <string name="profile_edit_my_profile">프로필 수정</string>
+    <string name="group_master">모임장</string>
+    <string name="splash_app_sub_title">우리들의 모임앱</string>
+    <string name="splash_app_title">다모임</string>
+    <string name="cmn_id">id</string>
+    <string name="toast_plz_input_id">아이디를 입력해주세요.</string>
 </resources>
