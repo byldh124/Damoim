@@ -30,6 +30,12 @@ fun Activity.logException(t: Throwable) {
     DMLog.e("[${this.javaClass.name} logException]::$t")
 }
 
+fun Activity.exitApp(){
+    this.moveTaskToBack(true);
+    this.finish();
+    android.os.Process.killProcess(android.os.Process.myPid());
+}
+
 fun Fragment.logException(exception: Exception) {
     FirebaseCrashlytics
         .getInstance()

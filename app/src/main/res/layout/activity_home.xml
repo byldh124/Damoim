@@ -7,6 +7,7 @@
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawer"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -28,6 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize">
 
@@ -38,25 +40,39 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@{HomeActivity.title}"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/SPx36" />
+                        android:textSize="@dimen/SPx24" />
                 </com.google.android.material.appbar.MaterialToolbar>
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler"
+            <FrameLayout
+                android:id="@+id/fragmentContainer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@id/header"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toTopOf="@id/bnv"/>
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bnv"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:itemIconTint="@color/selector_bottom_navigation_icon"
+                app:itemTextColor="@color/selector_bottom_navigation_icon"
+                app:menu="@menu/menu_bottom_navigation"
+                app:labelVisibilityMode="labeled"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.navigation.NavigationView
+            android:id="@+id/homeNav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="start" />
+            android:layout_gravity="start"
+            app:itemTextColor="#ff666666"
+            app:headerLayout="@layout/layout_navigation_header"
+            app:menu="@menu/menu_navigation"/>
 
 
     </androidx.drawerlayout.widget.DrawerLayout>

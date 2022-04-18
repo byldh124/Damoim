@@ -19,5 +19,6 @@ object Constants {
         const val HOME = 2
         const val GROUP = 3
         const val SIGN_IN = 4
+        const val CREATE_GROUP = 5
     }
 }

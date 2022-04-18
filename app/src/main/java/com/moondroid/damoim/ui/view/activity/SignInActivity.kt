@@ -30,7 +30,7 @@ class SignInActivity : BaseActivity() {
     fun signIn(vw: View) {
         val userId = userId.text.toString()
         if (userId.isEmpty()) {
-            toast("아이디를 입력해주세요.")
+            toast(getString(R.string.toast_plz_input_id))
         } else {
             vw.isEnabled = false
             viewModel.signIn(userId)
@@ -51,9 +51,10 @@ class SignInActivity : BaseActivity() {
     }
 
     fun getKakaoProfile(vw: View) {
-        UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
+        UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
             if (error != null) {
                 logException(error)
+                getKakaoProfile3(vw)
             }
             if (token != null) {
                 UserApiClient.instance.me { user, error ->
@@ -73,6 +74,57 @@ class SignInActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    fun getKakaoProfile2(vw: View) {
+        DMLog.e("login with kakao account")
+        UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
+            DMLog.e("login with kakao account2")
+            if (error != null) {
+                logException(error)
+            }
+            if (token != null) {
+                DMLog.e("token is exist")
+                UserApiClient.instance.me { user, error2 ->
+                    if (error2 != null) {
+                        logException(error2)
+                    }
+                    if (user != null) {
+                        DMLog.e("user is exist")
+                        val id = user.id.toString()
+                        val name = user.kakaoAccount?.profile?.nickname
+                        val profileThumb = user.kakaoAccount?.profile?.profileImageUrl
+                        if (name != null) {
+                            DMLog.e("name is exist")
+                            if (profileThumb != null) {
+                                DMLog.e("signInWithKakao")
+                                signInWithKakao(vw, id, name, profileThumb)
+                            } else {
+                                DMLog.e("profileThumb is null")
+                            }
+                        } else {
+                            DMLog.e("name is null")
+                        }
+                    } else {
+                        DMLog.e("user is null")
+                    }
+                }
+            } else {
+                DMLog.e("token is null")
+            }
+        }
+    }
+
+    fun getKakaoProfile3(vw: View) {
+        DMLog.e("login with kakao account")
+        UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
+            if (error != null) {
+                DMLog.e("로그인 실패 : $error")
+            } else if (token != null) {
+                DMLog.e("로그인 성공 ${token.accessToken}")
+            }
+        }
+
     }
 
     fun signInWithKakao(vw: View, id: String, name: String, profileThumb: String) {

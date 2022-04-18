@@ -4,7 +4,7 @@ import android.util.Log
 
 open class DMLog protected constructor() {
     companion object {
-        private val TAG = "Damoim"
+        private val TAG = "다모임"
 
         fun d(msg: String) {
             Log.d(TAG, msg)

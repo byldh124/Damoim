@@ -6,6 +6,7 @@ import com.moondroid.damoim.model.User
 import com.moondroid.damoim.network.Repository
 import com.moondroid.damoim.network.SingleLiveEvent
 import com.moondroid.damoim.network.UseCaseResult
+import com.moondroid.damoim.utils.DMLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -62,6 +63,7 @@ class SignInViewModel(private val repository: Repository) : BaseViewModel() {
 
                     if (response.data.code == 1000) {
                         val result = response.data.body.asJsonObject
+                        DMLog.e(result.toString())
                         userInfoKakao.value = Gson().fromJson(result, User::class.java)
                     } else {
                         userstatusKakao.value = code

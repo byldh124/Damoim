@@ -1,8 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.moondroid.damoim">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:requiresSmallestWidthDp="320"
+        android:resizeable="false"
+        android:smallScreens="false"
+        android:xlargeScreens="false" /> <!-- Media -->
+
+    <uses-permission android:name="android.permission.INTERNET" />                                  <!-- 인터넷 사용 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />                      <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />                     <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />                      <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />                    <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />                        <!-- FCM -->
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />                                                               <!-- 사진 읽기/쓰기 -->
 
     <application
         android:name=".application.DMApp"
@@ -15,8 +33,15 @@
         android:theme="@style/Theme.Damoim"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.view.activity.CreateGroupActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
             android:name=".ui.view.activity.SignInActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -28,11 +53,9 @@
                     android:host="oauth"
                     android:scheme="kakaob94b64ae0fb57aaa3cb89313edb5bd42" />
             </intent-filter>
-
-        </activity>
-
-        <!-- Kakao Login Activity -->
-        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+        </activity> <!-- Kakao Login Activity -->
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -45,19 +68,23 @@
                     android:scheme="kakaof33663a89ab7e4f6ace89f2ebeade100" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".ui.view.activity.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.view.activity.HomeActivity" />
-        <activity android:name=".ui.view.activity.GroupActivity" />
+        <activity android:name=".ui.view.activity.HomeActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".ui.view.activity.GroupActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
     </application>
 
 </manifest>

@@ -17,16 +17,15 @@
             android:id="@+id/ivMemberThumb"
             android:layout_width="@dimen/DPx60"
             android:layout_height="@dimen/DPx60"
-            android:src="@mipmap/ic_launcher"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/DPx8"/>
+            android:layout_marginStart="@dimen/DPx8"
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/ivMemberThumb"
-            android:text="유자바"
             android:layout_alignTop="@id/ivMemberThumb"
             android:layout_marginStart="@dimen/DPx166"
             android:textSize="@dimen/SPx16"
@@ -38,7 +37,7 @@
             android:id="@+id/tvMaster"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="모임장"
+            android:text="@string/group_master"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/DPx16"
             android:textColor="@color/pastel_5"
@@ -55,7 +54,6 @@
             android:layout_marginBottom="@dimen/DPx16"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="안녕하세요"
             android:textSize="@dimen/SPx16"
             android:textColor="#ff666666" />
     </RelativeLayout>

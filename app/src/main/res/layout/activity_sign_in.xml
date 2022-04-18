@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/DPx36"
         android:ems="8"
-        android:hint="id"
+        android:hint="@string/cmn_id"
         android:inputType="text"
         android:maxLines="1"
         android:paddingHorizontal="@dimen/DPx16"

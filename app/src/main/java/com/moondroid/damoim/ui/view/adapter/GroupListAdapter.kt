@@ -2,7 +2,6 @@ package com.moondroid.damoim.ui.view.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +10,11 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.card.MaterialCardView
-import com.google.gson.Gson
 import com.moondroid.damoim.R
 import com.moondroid.damoim.model.GroupInfo
-import com.moondroid.damoim.ui.view.activity.GroupActivity
-import com.moondroid.damoim.utils.Constants
 import com.moondroid.damoim.utils.DMLog
 import com.moondroid.damoim.utils.DMUtils
-import kotlinx.android.synthetic.main.item_group_info.view.*
+import kotlinx.android.synthetic.main.item_home_group_info.view.*
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")
@@ -29,14 +24,17 @@ class GroupListAdapter(
 ) :
     RecyclerView.Adapter<GroupListAdapter.ViewHolder>() {
 
+    lateinit var listContainer: List<GroupInfo>
+
     private var groupList: List<GroupInfo> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
+    private var currentCategory: String = CATEGORY_ALL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(ctx).inflate(R.layout.item_group_info, parent, false)
+            LayoutInflater.from(ctx).inflate(R.layout.item_home_group_info, parent, false)
         )
     }
 
@@ -54,7 +52,24 @@ class GroupListAdapter(
     }
 
     fun updateList(newGroupList: List<GroupInfo>) {
-        groupList = newGroupList
+        listContainer = newGroupList
+        setList()
+    }
+
+    fun updateList(category: String) {
+        currentCategory = category
+        setList()
+    }
+
+    private fun setList() {
+        val sampleList: MutableList<GroupInfo> = ArrayList()
+        listContainer.forEach() {
+            if (it.meetInterest == currentCategory
+                || currentCategory == CATEGORY_ALL) {
+                sampleList.add(it)
+            }
+        }
+        groupList = sampleList
     }
 
     inner class ViewHolder(
@@ -80,5 +95,9 @@ class GroupListAdapter(
 
     interface OnItemClickListener {
         fun onClick(groupInfo: GroupInfo)
+    }
+
+    companion object {
+        const val CATEGORY_ALL: String = "전체"
     }
 }
