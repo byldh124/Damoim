@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.moondroid.damoim.R
-import kotlinx.android.synthetic.main.item_home_category.view.*
+import com.moondroid.damoim.databinding.ItemHomeCategoryBinding
 
 @SuppressLint("NotifyDataSetChanged")
 class CategoryListAdapter(
@@ -21,12 +21,8 @@ class CategoryListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(ctx).inflate(R.layout.item_home_category, parent, false)
+            ItemHomeCategoryBinding.inflate(LayoutInflater.from(ctx))
         )
-    }
-
-    fun updatePosition(){
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -43,13 +39,13 @@ class CategoryListAdapter(
     }
 
     inner class ViewHolder(
-        itemView: View
-    ) : RecyclerView.ViewHolder(itemView) {
-        val container: ConstraintLayout = itemView.container
-        private val category: TextView = itemView.txtCategory
+        private val binding: ItemHomeCategoryBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        val container: ConstraintLayout = binding.container
 
         fun bind(categoryStr: String) {
-            category.text = categoryStr
+            binding.category = categoryStr
+            binding.executePendingBindings()
         }
     }
 

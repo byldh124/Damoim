@@ -1,77 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/DPx140"
-    android:layout_margin="4dp"
-    android:elevation="4dp"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="8dp"
-    app:strokeColor="#EFA9B0"
-    app:strokeWidth="1dp">
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
-        android:id="@+id/container"
+    <data>
+
+        <variable
+            name="groupDetail"
+            type="com.moondroid.damoim.model.GroupInfo" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <com.moondroid.damoim.ui.view.widget.DMRoundView
-            android:id="@+id/imgWrapper"
-            android:layout_width="@dimen/DPx100"
-            android:layout_height="@dimen/DPx100"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/DPx16"
-            app:bottomLeftCornerRadius="@dimen/DPx16"
-            app:bottomRightCornerRadius="@dimen/DPx16"
-            app:topLeftCornerRadius="@dimen/DPx16"
-            app:topRightCornerRadius="@dimen/DPx16">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DPx140"
+            android:layout_marginHorizontal="@dimen/DPx16"
+            android:layout_marginVertical="@dimen/DPx6"
+            android:elevation="4dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="8dp"
+            app:strokeColor="#EFA9B0"
+            app:strokeWidth="1dp">
 
-            <ImageView
-                android:id="@+id/titleImg"
+            <RelativeLayout
+                android:id="@+id/container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
+                android:layout_height="match_parent">
 
-        </com.moondroid.damoim.ui.view.widget.DMRoundView>
+                <com.moondroid.damoim.ui.view.widget.DMRoundView
+                    android:id="@+id/imgWrapper"
+                    android:layout_width="@dimen/DPx100"
+                    android:layout_height="@dimen/DPx100"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/DPx16"
+                    app:bottomLeftCornerRadius="@dimen/DPx16"
+                    app:bottomRightCornerRadius="@dimen/DPx16"
+                    app:topLeftCornerRadius="@dimen/DPx16"
+                    app:topRightCornerRadius="@dimen/DPx16">
 
-        <ImageView
-            android:id="@+id/interestIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignTop="@id/imgWrapper"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@id/imgWrapper"
-            android:src="@mipmap/ic_launcher" />
+                    <ImageView
+                        android:id="@+id/titleImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        bind:image="@{groupDetail.titleImgUrl}" />
 
-        <TextView
-            android:id="@+id/txtLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/imgWrapper"
-            android:layout_marginStart="4dp"
-            android:layout_toEndOf="@id/interestIcon" />
+                </com.moondroid.damoim.ui.view.widget.DMRoundView>
 
-        <TextView
-            android:id="@+id/txtGroupTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/interestIcon"
-            android:layout_alignStart="@id/interestIcon"
-            android:layout_marginTop="8dp"
-            android:textColor="#ff333333"
-            android:textSize="18sp" />
+                <ImageView
+                    android:id="@+id/interestIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignTop="@id/imgWrapper"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@id/imgWrapper"
+                    android:src="@mipmap/ic_launcher" />
 
-        <TextView
-            android:id="@+id/txtGroupPurpose"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/txtGroupTitle"
-            android:layout_alignStart="@id/interestIcon"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="24dp" />
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/txtLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/imgWrapper"
+                    android:layout_marginStart="4dp"
+                    android:layout_toEndOf="@id/interestIcon"
+                    android:text="@{groupDetail.meetLocation}" />
 
-</com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/txtGroupTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/interestIcon"
+                    android:layout_alignStart="@id/interestIcon"
+                    android:layout_marginTop="8dp"
+                    android:text="@{groupDetail.meetName}"
+                    android:textColor="#ff333333"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/txtGroupPurpose"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/txtGroupTitle"
+                    android:layout_alignStart="@id/interestIcon"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:text="@{groupDetail.purposeMessage}" />
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </FrameLayout>
+
+
+</layout>
+
+

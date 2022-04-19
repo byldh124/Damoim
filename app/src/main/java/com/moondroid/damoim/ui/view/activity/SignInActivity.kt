@@ -2,33 +2,36 @@ package com.moondroid.damoim.ui.view.activity
 
 import android.os.Bundle
 import android.view.View
+import androidx.databinding.DataBindingUtil
 import com.kakao.sdk.user.UserApiClient
 import com.moondroid.damoim.R
 import com.moondroid.damoim.application.DMApp
 import com.moondroid.damoim.base.BaseActivity
+import com.moondroid.damoim.databinding.ActivitySignInBinding
 import com.moondroid.damoim.ui.viewmodel.SignInViewModel
 import com.moondroid.damoim.utils.Constants
 import com.moondroid.damoim.utils.DMLog
 import com.moondroid.damoim.utils.view.hideKeyboard
 import com.moondroid.damoim.utils.view.logException
 import com.moondroid.damoim.utils.view.toast
-import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SignInActivity : BaseActivity() {
     private val viewModel: SignInViewModel by viewModel()
+    private lateinit var binding: ActivitySignInBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_in)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
+        binding.activity = this
     }
 
-    fun hideKeyBoard(vw: View) {
+    fun hideKeyBoard(@Suppress("UNUSED_PARAMETER")vw: View) {
         hideKeyboard()
     }
 
     fun signIn(vw: View) {
-        val userId = userId.text.toString()
+        val userId = binding.userId.text.toString()
         if (userId.isEmpty()) {
             toast(getString(R.string.toast_plz_input_id))
         } else {
@@ -60,9 +63,9 @@ class SignInActivity : BaseActivity() {
                 getKakaoProfile3(vw)
             }
             if (token != null) {
-                UserApiClient.instance.me { user, error ->
-                    if (error != null) {
-                        logException(error)
+                UserApiClient.instance.me { user, error2 ->
+                    if (error2 != null) {
+                        logException(error2)
                     }
                     if (user != null) {
                         val id = user.id.toString()
@@ -118,7 +121,7 @@ class SignInActivity : BaseActivity() {
         }
     }
 
-    private fun getKakaoProfile3(vw: View) {
+    private fun getKakaoProfile3(@Suppress("UNUSED_PARAMETER")vw: View) {
         DMLog.e("login with kakao account")
         UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
             if (error != null) {

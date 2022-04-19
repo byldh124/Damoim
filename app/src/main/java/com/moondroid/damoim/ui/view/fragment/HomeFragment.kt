@@ -12,13 +12,12 @@ import com.moondroid.damoim.R
 import com.moondroid.damoim.application.DMApp
 import com.moondroid.damoim.base.BaseFragment
 import com.moondroid.damoim.databinding.FragmentHomeGroupListBinding
+import com.moondroid.damoim.databinding.FragmentHomeMyGroupBinding
 import com.moondroid.damoim.model.GroupInfo
 import com.moondroid.damoim.ui.view.activity.HomeActivity
 import com.moondroid.damoim.ui.view.adapter.CategoryListAdapter
 import com.moondroid.damoim.ui.view.adapter.GroupListAdapter
 import com.moondroid.damoim.ui.viewmodel.HomeViewModel
-import kotlinx.android.synthetic.main.fragment_home_group_list.*
-import kotlinx.android.synthetic.main.fragment_home_my_group.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -43,7 +42,8 @@ class GroupListFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_group_list, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_home_group_list, container, false)
         binding.fragment = this
         return binding.root
     }
@@ -57,10 +57,10 @@ class GroupListFragment :
     private fun initView() {
         groupAdapter = GroupListAdapter(activity, this)
 
-        recGroup.layoutManager =
+        binding.recGroup.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
-        recGroup.adapter = groupAdapter
+        binding.recGroup.adapter = groupAdapter
 
         val categories = resources.getStringArray(R.array.category_for_interest_in_meet)
 
@@ -70,10 +70,10 @@ class GroupListFragment :
             this
         )
 
-        recCategory.layoutManager =
+        binding.recCategory.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 
-        recCategory.adapter = categoryAdapter
+        binding.recCategory.adapter = categoryAdapter
 
     }
 
@@ -98,7 +98,7 @@ class GroupListFragment :
         groupAdapter.updateList(category)
     }
 
-    fun goToCreateGroupActivity(vw: View) {
+    fun goToCreateGroupActivity(@Suppress("UNUSED_PARAMETER")vw: View) {
         activity.goToCreateGroupActivity()
     }
 }
@@ -126,6 +126,7 @@ class MyGroupFragment :
     BaseFragment(),
     GroupListAdapter.OnItemClickListener {
 
+    lateinit var binding: FragmentHomeMyGroupBinding
     lateinit var activity: HomeActivity
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var groupAdapter: GroupListAdapter
@@ -140,7 +141,10 @@ class MyGroupFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home_my_group, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_home_my_group, container, false)
+        binding.fragment = this
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -149,14 +153,14 @@ class MyGroupFragment :
         initViewModel()
     }
 
-    private fun initView(){
+    private fun initView() {
         groupAdapter = GroupListAdapter(activity, this)
-        recMyGroup.layoutManager =
+        binding.recMyGroup.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        recMyGroup.adapter = groupAdapter
+        binding.recMyGroup.adapter = groupAdapter
     }
 
-    private fun initViewModel(){
+    private fun initViewModel() {
         viewModel.loadMyGroup(DMApp.user.id)
 
         viewModel.myGroupsContent.observe(viewLifecycleOwner, Observer {

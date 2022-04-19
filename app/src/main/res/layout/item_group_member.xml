@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="userDetail"
+            type="com.moondroid.damoim.model.User" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DPx80"
+            android:layout_margin="@dimen/DPx4"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/DPx8"
+            app:strokeColor="@color/pastel_6"
+            app:strokeWidth="1dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivMemberThumb"
+                    android:layout_width="@dimen/DPx60"
+                    android:layout_height="@dimen/DPx60"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/DPx8"
+                    bind:image="@{userDetail.thumb}" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/ivMemberThumb"
+                    android:layout_marginStart="@dimen/DPx16"
+                    android:layout_marginTop="@dimen/DPx8"
+                    android:layout_toEndOf="@id/ivMemberThumb"
+                    android:text="@{userDetail.name}"
+                    android:textColor="#ff333333"
+                    android:textSize="@dimen/SPx16"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvMaster"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/tvName"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/DPx16"
+                    android:text="@string/group_master"
+                    android:textColor="@color/pastel_5"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/tvMsg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/tvName"
+                    android:layout_alignStart="@id/tvName"
+                    android:layout_marginTop="@dimen/DPx4"
+                    android:layout_marginBottom="@dimen/DPx16"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{userDetail.msg}"
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/SPx16" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+
+</layout>

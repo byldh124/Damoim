@@ -69,11 +69,11 @@ inline fun <reified T> createWebService(okHttpClient: OkHttpClient, baseUrl: Str
  */
 class NullOnEmptyConverterFactory : Converter.Factory() {
     override fun responseBodyConverter(
-        type: Type?,
-        annotations: Array<Annotation>?,
-        retrofit: Retrofit?
-    ): Converter<ResponseBody, *>? {
-        val delegate = retrofit!!.nextResponseBodyConverter<Any>(this, type!!, annotations!!)
+        type: Type,
+        annotations: Array<out Annotation>,
+        retrofit: Retrofit
+    ): Converter<ResponseBody, *> {
+        val delegate = retrofit.nextResponseBodyConverter<Any>(this, type, annotations)
         return Converter<ResponseBody, Any> {
             if (it.contentLength() == 0L) return@Converter EMPTY_RESPONSE
             delegate.convert(it)

@@ -12,14 +12,9 @@ import com.moondroid.damoim.R
 import com.moondroid.damoim.application.DMApp
 import com.moondroid.damoim.base.BaseFragment
 import com.moondroid.damoim.databinding.FragmentGroupInfoBinding
-import com.moondroid.damoim.model.GroupInfo
 import com.moondroid.damoim.ui.view.activity.GroupActivity
-import com.moondroid.damoim.ui.view.adapter.GroupListAdapter
 import com.moondroid.damoim.ui.view.adapter.MemberListAdapter
 import com.moondroid.damoim.ui.viewmodel.GroupViewModel
-import com.moondroid.damoim.utils.DMLog
-import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.fragment_group_info.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class InfoFragment : BaseFragment() {
@@ -51,17 +46,21 @@ class InfoFragment : BaseFragment() {
     }
 
     private fun initView() {
-        adapter = activity?.let { MemberListAdapter(it) }!!
-        recycler.layoutManager =
+        adapter = activity?.let {
+            MemberListAdapter(
+                it
+            )
+        }!!
+        binding.recycler.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        recycler.adapter = adapter
+        binding.recycler.adapter = adapter
     }
 
     private fun initViewModel() {
         activity?.groupInfo?.let { viewModel.loadMember(it.meetName) }
 
         viewModel.memberContent.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty()){
+            if (it.isNotEmpty()) {
                 adapter.updateList(it)
             }
         })

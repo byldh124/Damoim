@@ -12,7 +12,6 @@ import com.moondroid.damoim.databinding.ActivityGroupBinding
 import com.moondroid.damoim.model.GroupInfo
 import com.moondroid.damoim.ui.view.fragment.*
 import com.moondroid.damoim.utils.view.logException
-import kotlinx.android.synthetic.main.activity_group.*
 
 
 class GroupActivity : FragmentActivity() {
@@ -28,13 +27,13 @@ class GroupActivity : FragmentActivity() {
     )
 
     override fun onBackPressed() {
-        if (pager.currentItem == 0) {
+        if (binding.pager.currentItem == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed()
         } else {
             // Otherwise, select the previous step.
-            pager.currentItem = pager.currentItem - 1
+            binding.pager.currentItem = binding.pager.currentItem - 1
         }
     }
 
@@ -58,9 +57,9 @@ class GroupActivity : FragmentActivity() {
         title = groupInfo.meetName
 
         val pagerAdapter = PagerAdapter(this)
-        pager.adapter = pagerAdapter
+        binding.pager.adapter = pagerAdapter
 
-        TabLayoutMediator(tabLayout, pager) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.cmn_tab_group_info)
                 1 -> tab.text = getString(R.string.cmn_tab_board)

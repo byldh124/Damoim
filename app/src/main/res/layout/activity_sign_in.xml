@@ -1,72 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<layout>
+    <data>
+        <variable
+            name="activity"
+            type="com.moondroid.damoim.ui.view.activity.SignInActivity" />
+    </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:onClick="hideKeyBoard"
-    tools:context=".ui.view.activity.SignInActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:onClick="hideKeyBoard"
+        tools:context=".ui.view.activity.SignInActivity">
 
-    <TextView
-        android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/jalnan"
-        android:text="@string/app_name"
-        android:textColor="@color/red_dark01"
-        android:textSize="@dimen/SPx48"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4" />
+        <TextView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jalnan"
+            android:text="@string/app_name"
+            android:textColor="@color/red_dark01"
+            android:textSize="@dimen/SPx48"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4" />
 
-    <com.moondroid.damoim.ui.view.widget.DMEditText
-        android:id="@+id/userId"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/DPx36"
-        android:ems="8"
-        android:hint="@string/cmn_id"
-        android:inputType="text"
-        android:maxLines="1"
-        android:paddingHorizontal="@dimen/DPx16"
-        android:textSize="@dimen/SPx24"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo"
-        app:layout_constraintWidth_percent="0.4" />
+        <com.moondroid.damoim.ui.view.widget.DMEditText
+            android:id="@+id/userId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/DPx36"
+            android:ems="8"
+            android:hint="@string/cmn_id"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/DPx16"
+            android:textSize="@dimen/SPx24"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logo"
+            app:layout_constraintWidth_percent="0.4" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/userId"
-        android:layout_marginTop="@dimen/DPx36"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="@string/cmn_login"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_button_01"
-        android:textSize="@dimen/SPx24"
-        android:fontFamily="@font/jalnan"
-        android:paddingHorizontal="@dimen/DPx32"
-        android:paddingVertical="@dimen/DPx8"
-        android:onClick="signIn"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/userId"
+            android:layout_marginTop="@dimen/DPx36"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="@string/cmn_login"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_button_01"
+            android:textSize="@dimen/SPx24"
+            android:fontFamily="@font/jalnan"
+            android:paddingHorizontal="@dimen/DPx32"
+            android:paddingVertical="@dimen/DPx8"
+            android:onClick="signIn"/>
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="@dimen/DPx46"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/DPx32"
-        android:layout_marginHorizontal="@dimen/DPx32"
-        app:layout_constraintDimensionRatio="10.0"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:src="@drawable/kakao_login_large_wide"
-        android:onClick="getKakaoProfile"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/DPx46"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/DPx32"
+            android:layout_marginHorizontal="@dimen/DPx32"
+            app:layout_constraintDimensionRatio="10.0"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:src="@drawable/kakao_login_large_wide"
+            android:onClick="getKakaoProfile"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

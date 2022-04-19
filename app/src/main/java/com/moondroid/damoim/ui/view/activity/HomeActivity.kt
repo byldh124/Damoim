@@ -22,7 +22,6 @@ import com.moondroid.damoim.ui.view.fragment.MyGroupFragment
 import com.moondroid.damoim.utils.Constants
 import com.moondroid.damoim.utils.view.logException
 import com.moondroid.damoim.utils.view.startActivityWithAnim
-import kotlinx.android.synthetic.main.activity_home.*
 
 
 class HomeActivity : BaseActivity() {
@@ -56,17 +55,17 @@ class HomeActivity : BaseActivity() {
     private fun initView() {
         title = getString(R.string.home_find_group)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val drawerToggle =
-            ActionBarDrawerToggle(this, drawer, toolbar, R.string.app_name, R.string.app_name)
+            ActionBarDrawerToggle(this, binding.drawer, binding.toolbar, R.string.app_name, R.string.app_name)
 
         drawerToggle.syncState()
-        drawer.addDrawerListener(drawerToggle)
+        binding.drawer.addDrawerListener(drawerToggle)
 
-        bnv.run {
+        binding.bnv.run {
             setOnItemSelectedListener {
                 when (it.itemId) {
                     R.id.bnv_tab1 -> {
@@ -96,7 +95,7 @@ class HomeActivity : BaseActivity() {
 
     private fun initNavigation() {
         try {
-            homeNav.itemIconTintList = null
+            binding.homeNav.itemIconTintList = null
         } catch (e: Exception) {
             logException(e)
         }
@@ -110,7 +109,7 @@ class HomeActivity : BaseActivity() {
     private fun checkPermission() {
         try {
             val requestPermissionLauncher =
-                registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                registerForActivityResult(ActivityResultContracts.RequestPermission()) {
                     //DO NOTHING
                 }
             if (ActivityCompat.checkSelfPermission(
