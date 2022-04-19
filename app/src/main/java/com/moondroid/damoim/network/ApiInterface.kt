@@ -3,6 +3,7 @@ package com.moondroid.damoim.network
 import com.moondroid.damoim.model.BaseResponse
 import com.moondroid.damoim.network.URLManager.GET_GROUP
 import com.moondroid.damoim.network.URLManager.GET_MEMBER
+import com.moondroid.damoim.network.URLManager.GET_MY_GROUP
 import com.moondroid.damoim.network.URLManager.SIGN_IN
 import com.moondroid.damoim.network.URLManager.SIGN_IN_WITH_KAKAO
 import kotlinx.coroutines.Deferred
@@ -14,6 +15,9 @@ interface ApiInterface {
 
     @GET(GET_GROUP)
     fun getGroup(): Deferred<BaseResponse>
+
+    @GET(GET_MY_GROUP)
+    fun getMyGroup(@Query("userId") userId: String): Deferred<BaseResponse>
 
     @GET(GET_MEMBER)
     fun getMember(@Query("meetName") groupName: String):Deferred<BaseResponse>

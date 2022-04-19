@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.moondroid.damoim.R
+import com.moondroid.damoim.application.DMApp
 import com.moondroid.damoim.model.GroupInfo
 import com.moondroid.damoim.utils.DMLog
 import com.moondroid.damoim.utils.DMUtils
@@ -41,7 +42,17 @@ class GroupListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val group: GroupInfo = groupList[position]
         holder.container.setOnClickListener {
-            listener.onClick(group)
+            /* FIXME
+            * 권장하는 아이템 클릭 프로세스
+            * 모임의 이름만 파라미터로 넘겨준뒤 해당 이름을 인텐트 엑스트라를 통해 GroupActivity로 전달
+            * GroupActivity에서 해당 모임 이름값으로 api 호출로 detail group info 를 전달 받음
+            *
+            * 현재 구성된 클릭 이벤트 프로세스
+            * 아이템 클릭시 해당 모임의 정보를 글로벌로 올린뒤 GroupActivity에서
+            * 글로벌에 저장된 해당 정보를 조회하여 표현
+            * */
+            DMApp.group = group
+            listener.onClick()
         }
 
         holder.bind(group)
@@ -94,7 +105,7 @@ class GroupListAdapter(
     }
 
     interface OnItemClickListener {
-        fun onClick(groupInfo: GroupInfo)
+        fun onClick()
     }
 
     companion object {

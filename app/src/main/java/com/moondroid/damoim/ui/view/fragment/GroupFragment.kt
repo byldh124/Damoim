@@ -5,10 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moondroid.damoim.R
+import com.moondroid.damoim.application.DMApp
 import com.moondroid.damoim.base.BaseFragment
+import com.moondroid.damoim.databinding.FragmentGroupInfoBinding
+import com.moondroid.damoim.model.GroupInfo
 import com.moondroid.damoim.ui.view.activity.GroupActivity
 import com.moondroid.damoim.ui.view.adapter.GroupListAdapter
 import com.moondroid.damoim.ui.view.adapter.MemberListAdapter
@@ -20,6 +24,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class InfoFragment : BaseFragment() {
 
+    lateinit var binding: FragmentGroupInfoBinding
     private var activity: GroupActivity? = null
     private val viewModel: GroupViewModel by viewModel()
     private lateinit var adapter: MemberListAdapter
@@ -33,9 +38,10 @@ class InfoFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_group_info, container, false)
-        return view
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_group_info, container, false)
+        binding.activity = activity
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

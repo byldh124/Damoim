@@ -5,18 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moondroid.damoim.R
 import com.moondroid.damoim.application.DMApp
 import com.moondroid.damoim.base.BaseFragment
+import com.moondroid.damoim.databinding.FragmentHomeGroupListBinding
 import com.moondroid.damoim.model.GroupInfo
 import com.moondroid.damoim.ui.view.activity.HomeActivity
 import com.moondroid.damoim.ui.view.adapter.CategoryListAdapter
 import com.moondroid.damoim.ui.view.adapter.GroupListAdapter
 import com.moondroid.damoim.ui.viewmodel.HomeViewModel
-import kotlinx.android.synthetic.main.dialog_loading.*
 import kotlinx.android.synthetic.main.fragment_home_group_list.*
+import kotlinx.android.synthetic.main.fragment_home_my_group.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -25,6 +27,7 @@ class GroupListFragment :
     GroupListAdapter.OnItemClickListener,
     CategoryListAdapter.OnItemClickListener {
 
+    private lateinit var binding: FragmentHomeGroupListBinding
     lateinit var activity: HomeActivity
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var groupAdapter: GroupListAdapter
@@ -39,8 +42,10 @@ class GroupListFragment :
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home_group_list, container, false)
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_group_list, container, false)
+        binding.fragment = this
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,8 +90,7 @@ class GroupListFragment :
         })
     }
 
-    override fun onClick(groupInfo: GroupInfo) {
-        DMApp.group = groupInfo
+    override fun onClick() {
         activity.goToGroupActivity()
     }
 
@@ -118,10 +122,13 @@ class PremiumFragment : BaseFragment() {
     }
 }
 
-class SearchFragment : BaseFragment() {
+class MyGroupFragment :
+    BaseFragment(),
+    GroupListAdapter.OnItemClickListener {
 
     lateinit var activity: HomeActivity
     private val viewModel: HomeViewModel by viewModel()
+    private lateinit var groupAdapter: GroupListAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -133,14 +140,40 @@ class SearchFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home_search, container, false)
+        return inflater.inflate(R.layout.fragment_home_my_group, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initViewModel()
+    }
+
+    private fun initView(){
+        groupAdapter = GroupListAdapter(activity, this)
+        recMyGroup.layoutManager =
+            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        recMyGroup.adapter = groupAdapter
+    }
+
+    private fun initViewModel(){
+        viewModel.loadMyGroup(DMApp.user.id)
+
+        viewModel.myGroupsContent.observe(viewLifecycleOwner, Observer {
+            if (it.isNotEmpty()) {
+                groupAdapter.updateList(it)
+            }
+        })
+    }
+
+    override fun onClick() {
+        activity.goToGroupActivity()
     }
 }
 
 class LocationFragment : BaseFragment() {
 
     lateinit var activity: HomeActivity
-    private val viewModel: HomeViewModel by viewModel()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

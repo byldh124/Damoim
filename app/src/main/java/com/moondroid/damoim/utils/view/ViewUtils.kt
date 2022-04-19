@@ -2,6 +2,7 @@ package com.moondroid.damoim.utils.view
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -20,14 +21,14 @@ fun Activity.logException(exception: Exception) {
     FirebaseCrashlytics
         .getInstance()
         .log(exception.message.toString())
-    DMLog.e("[${this.javaClass.name} logException]::$exception")
+    DMLog.e("[${this.javaClass.simpleName} logException]::$exception")
 }
 
 fun Activity.logException(t: Throwable) {
     FirebaseCrashlytics
         .getInstance()
         .log(t.message.toString())
-    DMLog.e("[${this.javaClass.name} logException]::$t")
+    DMLog.e("[${this.javaClass.simpleName} logException]::$t")
 }
 
 fun Activity.exitApp(){
@@ -36,18 +37,23 @@ fun Activity.exitApp(){
     android.os.Process.killProcess(android.os.Process.myPid());
 }
 
+fun Activity.startActivityWithAnim(intent: Intent){
+    this.startActivity(intent)
+    overridePendingTransition(android.R.anim.fade_in, 0)
+}
+
 fun Fragment.logException(exception: Exception) {
     FirebaseCrashlytics
         .getInstance()
         .log(exception.message.toString())
-    DMLog.e("[${this.javaClass.name} logException]::$exception")
+    DMLog.e("[${this.javaClass.simpleName} logException]::$exception")
 }
 
 fun Fragment.logException(t: Throwable) {
     FirebaseCrashlytics
         .getInstance()
         .log(t.message.toString())
-    DMLog.e("[${this.javaClass.name} logException]::$t")
+    DMLog.e("[${this.javaClass.simpleName} logException]::$t")
 }
 
 fun View.visible() {

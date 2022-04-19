@@ -37,13 +37,16 @@ class SignInActivity : BaseActivity() {
 
             viewModel.userInfo.observe(this) {
                 DMApp.user = it
-                DMLog.e(it.toString())
-                goToHomActivity(Constants.ActivityTy.SIGN_IN)
+                DMApp.prefs.putString(Constants.PrefKey.USER_ID, it.id)
+                goToHomeActivity()
             }
 
             viewModel.userstatus.observe(this) {
+                if (it == 2000){
+                    toast(getString(R.string.sgnn_network_fail))
+                }
                 if (it == 2001) {
-
+                    toast(getString(R.string.sgnn_data_not_exist))
                 }
                 vw.isEnabled = true
             }
@@ -115,7 +118,7 @@ class SignInActivity : BaseActivity() {
         }
     }
 
-    fun getKakaoProfile3(vw: View) {
+    private fun getKakaoProfile3(vw: View) {
         DMLog.e("login with kakao account")
         UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
             if (error != null) {
@@ -127,7 +130,7 @@ class SignInActivity : BaseActivity() {
 
     }
 
-    fun signInWithKakao(vw: View, id: String, name: String, profileThumb: String) {
+    private fun signInWithKakao(vw: View, id: String, name: String, profileThumb: String) {
         viewModel.signInWidthKakao(id, name, profileThumb)
 
         vw.isEnabled = false
@@ -135,7 +138,7 @@ class SignInActivity : BaseActivity() {
         viewModel.userInfoKakao.observe(this) {
             DMApp.user = it
             DMLog.e(it.toString())
-            goToHomActivity(Constants.ActivityTy.SIGN_IN)
+            goToHomeActivity(Constants.ActivityTy.SIGN_IN)
         }
 
         viewModel.userstatusKakao.observe(this) {
@@ -146,5 +149,8 @@ class SignInActivity : BaseActivity() {
         }
     }
 
-
+    private fun goToHomeActivity(){
+        goToHomeActivity(Constants.ActivityTy.SIGN_IN)
+        finish()
+    }
 }

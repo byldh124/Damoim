@@ -39,7 +39,6 @@ class DMApp : Application() {
         prefs = Preferences(applicationContext)
 
         KakaoSdk.init(this, resources.getString(R.string.kakao_native_app_key))
-
     }
 
 

@@ -14,6 +14,7 @@ object URLManager {
     const val BASE_URL = "http://moondroid.dothome.co.kr/damoim-test/"
 
     const val GET_GROUP = "getItemBaseData.php"
+    const val GET_MY_GROUP = "loadUserMeetItem.php"
     const val GET_MEMBER = "loadMembers.php"
     const val SIGN_IN = "loadUserBaseDBOnIntro.php"
     const val SIGN_IN_WITH_KAKAO = "saveUserBaseDataToKakako.php"

@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import com.moondroid.damoim.R
 import com.moondroid.damoim.application.DMApp
 import com.moondroid.damoim.databinding.ActivityGroupBinding
@@ -42,11 +43,10 @@ class GroupActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         try {
             binding = DataBindingUtil.setContentView(this, R.layout.activity_group)
-            binding.groupActivity = this
+
             groupInfo = DMApp.group
 
-            title = groupInfo.meetName
-
+            binding.groupActivity = this
             initView()
         } catch (e: Exception) {
             logException(e)
@@ -54,9 +54,21 @@ class GroupActivity : FragmentActivity() {
     }
 
     private fun initView() {
-        //Action Ba
+        //Action Bar
+        title = groupInfo.meetName
+
         val pagerAdapter = PagerAdapter(this)
         pager.adapter = pagerAdapter
+
+        TabLayoutMediator(tabLayout, pager) { tab, position ->
+            when (position) {
+                0 -> tab.text = getString(R.string.cmn_tab_group_info)
+                1 -> tab.text = getString(R.string.cmn_tab_board)
+                2 -> tab.text = getString(R.string.cmn_tab_gallery)
+                3 -> tab.text = getString(R.string.cmn_tab_chat)
+                else -> tab.text = getString(R.string.cmn_tab_default)
+            }
+        }.attach()
     }
 
     private inner class PagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {

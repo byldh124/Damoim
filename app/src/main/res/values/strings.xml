@@ -20,4 +20,11 @@
     <string name="splash_app_title">다모임</string>
     <string name="cmn_id">id</string>
     <string name="toast_plz_input_id">아이디를 입력해주세요.</string>
+    <string name="sgnn_data_not_exist">일치하는 정보가 없습니다. 다시 확인해주세요.</string>
+    <string name="sgnn_network_fail">로그인이 실패했습니다.</string>
+    <string name="cmn_tab_default">탭</string>
+    <string name="cmn_tab_chat">채팅</string>
+    <string name="cmn_tab_gallery">사진첩</string>
+    <string name="cmn_tab_board">게시판</string>
+    <string name="cmn_tab_group_info">모임정보</string>
 </resources>

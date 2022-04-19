@@ -7,6 +7,7 @@ import java.lang.Exception
 interface Repository {
     /* 인증 */
     suspend fun loadGroup(): UseCaseResult<BaseResponse>
+    suspend fun loadMyGroup(userId: String): UseCaseResult<BaseResponse>
     suspend fun loadMember(meetName: String): UseCaseResult<BaseResponse>
     suspend fun signIn(userId: String): UseCaseResult<BaseResponse>
     suspend fun signInWithKakao(
@@ -22,6 +23,17 @@ class RepositoryImpl(private val api: ApiInterface) : Repository {
     override suspend fun loadGroup(): UseCaseResult<BaseResponse> {
         return try {
             val result = api.getGroup().await()
+            UseCaseResult.Success(result)
+        } catch (e: Exception) {
+            DMCrash.getInstance()
+                .log(e.toString())
+            UseCaseResult.Error(e)
+        }
+    }
+
+    override suspend fun loadMyGroup(userId: String): UseCaseResult<BaseResponse> {
+        return try {
+            val result = api.getMyGroup(userId).await()
             UseCaseResult.Success(result)
         } catch (e: Exception) {
             DMCrash.getInstance()
