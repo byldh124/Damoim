@@ -10,17 +10,15 @@
         android:resizeable="false"
         android:smallScreens="false"
         android:xlargeScreens="false" /> <!-- Media -->
-
-    <uses-permission android:name="android.permission.INTERNET" />                                  <!-- 인터넷 사용 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />                      <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />                     <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />                      <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />                    <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />                        <!-- FCM -->
-
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 인터넷 사용 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" /> <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- FCM -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />                                                               <!-- 사진 읽기/쓰기 -->
+        android:maxSdkVersion="28" />
 
     <application
         android:name=".application.DMApp"
@@ -32,6 +30,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.Damoim"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.view.activity.SignUpActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.view.activity.CreateGroupActivity"
             android:exported="false"
@@ -79,12 +80,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.view.activity.HomeActivity"
+        <activity
+            android:name=".ui.view.activity.HomeActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
-        <activity android:name=".ui.view.activity.GroupActivity"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.view.activity.GroupActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>

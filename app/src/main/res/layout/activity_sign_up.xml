@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="activity"
+            type="com.moondroid.damoim.ui.view.activity.SignUpActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.view.activity.SignUpActivity">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/red_light01"
+            android:theme="@style/ToolbarTheme_white"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/jalnan"
+                android:text="@string/cmn_sgnp"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/jalnan"
+                android:onClick="@{activity::sgnp}"
+                android:text="@string/cmn_save"
+                android:textColor="@color/white" />
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnAccountCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/etId"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:onClick="@{activity::checkId}"
+                    android:text="@string/cmn_sgnp_check_id" />
+
+                <com.moondroid.damoim.ui.view.widget.DMEditText
+                    android:id="@+id/etId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_toStartOf="@id/btnAccountCheck"
+                    android:hint="@string/cmn_sgnp_id"
+                    android:inputType="text"
+                    android:padding="8dp"
+                    android:privateImeOptions="defaultInputmode=english" />
+            </RelativeLayout>
+
+            <com.moondroid.damoim.ui.view.widget.DMEditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/cmn_name"
+                android:inputType="text"
+                android:padding="8dp"
+                android:privateImeOptions="defaultInputmode=korean" />
+
+            <TextView
+                android:id="@+id/tvBirth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_edit_01"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/cmn_sgnp_birth"
+                android:onClick="@{activity::showDateDialog}"
+                android:padding="8dp"
+                android:textSize="18sp" />
+
+            <RadioGroup
+                android:id="@+id/rgAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbAccountMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/radionbutton_male"
+                    android:button="@android:color/transparent"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="@string/cmn_male"
+                    android:textColor="@color/selector_text_color_radiobutton" />
+
+                <RadioButton
+                    android:id="@+id/rbAccountFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/radionbutton_female"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:text="@string/cmn_female"
+                    android:textColor="@color/selector_text_color_radiobutton"
+                    app:backgroundTint="@null" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_edit_01"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/cmn_sgnp_choice_location"
+                android:onClick="@{activity::goToLocationActivity}"
+                android:padding="8dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvInterest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_edit_01"
+                android:clickable="true"
+                android:hint="@string/cmn_sgnp_choice_interest"
+                android:onClick="@{activity::goToInterestActivity}"
+                android:padding="8dp"
+                android:textSize="18sp"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
