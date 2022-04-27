@@ -17,6 +17,8 @@ object URLManager {
     const val GET_MY_GROUP = "loadUserMeetItem.php"
     const val GET_MEMBER = "loadMembers.php"
     const val SIGN_IN = "loadUserBaseDBOnIntro.php"
+    const val SIGN_UP = "saveUserBaseDB.php"
+    const val CHECK_ID = "checkUserId.php"
     const val SIGN_IN_WITH_KAKAO = "saveUserBaseDataToKakako.php"
 
 }

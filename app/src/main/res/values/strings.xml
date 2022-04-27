@@ -37,4 +37,5 @@
     <string name="cmn_female">여자</string>
     <string name="cmn_sgnp_choice_location">지역 선택</string>
     <string name="cmn_sgnp_choice_interest">관심사 선택</string>
+    <string name="cmn_sign_up">회원가입</string>
 </resources>

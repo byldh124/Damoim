@@ -10,7 +10,7 @@
             type="com.moondroid.damoim.ui.view.activity.SignUpActivity" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.view.activity.SignUpActivity">

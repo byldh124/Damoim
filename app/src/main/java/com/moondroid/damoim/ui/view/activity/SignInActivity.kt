@@ -1,5 +1,6 @@
 package com.moondroid.damoim.ui.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -155,5 +156,11 @@ class SignInActivity : BaseActivity() {
     private fun goToHomeActivity(){
         goToHomeActivity(Constants.ActivityTy.SIGN_IN)
         finish()
+    }
+
+    fun goToSignUp(@Suppress("UNUSED_PARAMETER")view: View) {
+        val intent = Intent(this, SignUpActivity::class.java)
+        intent.putExtra(Constants.ACTIVITY_TY, Constants.ActivityTy.SIGN_IN)
+        startActivity(intent)
     }
 }

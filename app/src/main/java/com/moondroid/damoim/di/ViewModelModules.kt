@@ -1,9 +1,6 @@
 package com.moondroid.damoim.di
 
-import com.moondroid.damoim.ui.viewmodel.GroupViewModel
-import com.moondroid.damoim.ui.viewmodel.HomeViewModel
-import com.moondroid.damoim.ui.viewmodel.SignInViewModel
-import com.moondroid.damoim.ui.viewmodel.SplashViewModel
+import com.moondroid.damoim.ui.viewmodel.*
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -20,5 +17,8 @@ val viewModelModules = module {
 
     /*SignIn*/
     viewModel { SignInViewModel(repository = get()) }
+
+    /*SignIn*/
+    viewModel { SignUpViewModel(repository = get()) }
 
 }
