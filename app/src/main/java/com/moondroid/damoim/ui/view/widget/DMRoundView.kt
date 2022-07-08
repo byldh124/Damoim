@@ -21,7 +21,6 @@ class DMRoundView : FrameLayout {
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context!!, attrs) {
         init(context, attrs, 0)
-
     }
 
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -32,7 +31,11 @@ class DMRoundView : FrameLayout {
         init(context, attrs, defStyleAttr)
     }
 
-    private fun init(context: Context?, attrs: AttributeSet?, @Suppress("UNUSED_PARAMETER")defStyleAttr: Int) {
+    private fun init(
+        context: Context?,
+        attrs: AttributeSet?,
+        @Suppress("UNUSED_PARAMETER") defStyleAttr: Int
+    ) {
         val typeArray = context?.obtainStyledAttributes(attrs, R.styleable.DMRoundView, 0, 0)
         topLeftCornerRadius =
             typeArray?.getDimension(R.styleable.DMRoundView_topLeftCornerRadius, 0.0f) ?: 0.0f
@@ -91,7 +94,7 @@ class DMRoundView : FrameLayout {
         this.bottomLeftCornerRadius = bottomLeftCornerRadius
         invalidate()
     }
-    
+
     fun setBottomRightCornerRadius(bottomRightCornerRadius: Float) {
         this.bottomRightCornerRadius = bottomRightCornerRadius
         invalidate()
