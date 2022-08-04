@@ -6,7 +6,7 @@
     <data>
         <variable
             name="activity"
-            type="com.moondroid.damoim.ui.view.activity.GroupActivity" />
+            type="com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity" />
     </data>
 
     <FrameLayout
@@ -21,11 +21,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/DPx8">
+                android:layout_marginTop="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/DPx280"
+                    android:layout_height="280dp"
                     bind:layout_constraintTop_toTopOf="parent"
                     android:background="@color/pastel_1"
                     android:scaleType="centerCrop"

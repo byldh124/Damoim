@@ -9,11 +9,17 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/7f0a4390be13fcb45ecd65a81d96d2f3/transformed/jetified-play-services-measurement-sdk-api-20.1.1/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/da174fff92fe24895b39c095a133a568/transformed/jetified-play-services-measurement-sdk-api-20.1.1/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/3eb6e7fae3ae291e36dea974927114fc/transformed/jetified-play-services-measurement-sdk-api-20.1.1/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/3eb6e7fae3ae291e36dea974927114fc/transformed/jetified-play-services-measurement-sdk-api-20.1.1/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/3eb6e7fae3ae291e36dea974927114fc/transformed/jetified-play-services-measurement-sdk-api-20.1.1/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/814e91c721269dbff87e026c9c9733ad/transformed/jetified-play-services-measurement-sdk-api-20.1.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/814e91c721269dbff87e026c9c9733ad/transformed/jetified-play-services-measurement-sdk-api-20.1.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/814e91c721269dbff87e026c9c9733ad/transformed/jetified-play-services-measurement-sdk-api-20.1.1/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/814e91c721269dbff87e026c9c9733ad/transformed/jetified-play-services-measurement-sdk-api-20.1.1/res" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/ddbe3415799c3803c2d85a96add323c9/transformed/jetified-play-services-measurement-sdk-api-20.1.1/res" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/dcbb33674cb338c8e1d00f6911f71a5a/transformed/jetified-play-services-measurement-sdk-api-20.1.1/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/dcbb33674cb338c8e1d00f6911f71a5a/transformed/jetified-play-services-measurement-sdk-api-20.1.1/res" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/dcbb33674cb338c8e1d00f6911f71a5a/transformed/jetified-play-services-measurement-sdk-api-20.1.1/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.gms/play-services-measurement-sdk-api/20.1.1/ace98f39b262c59be4be4d52b871d1ba5dfff723/play-services-measurement-sdk-api-20.1.1-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/modules-2/files-2.1/com.google.android.gms/play-services-measurement-sdk-api/20.1.1/ace98f39b262c59be4be4d52b871d1ba5dfff723/play-services-measurement-sdk-api-20.1.1-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES />
   </library>

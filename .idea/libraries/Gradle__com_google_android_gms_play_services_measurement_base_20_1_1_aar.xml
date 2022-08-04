@@ -9,11 +9,17 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/9846074dfa3f6ddc1a15beb119e9ab0d/transformed/jetified-play-services-measurement-base-20.1.1/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/cd9ace9d71e7a07a471ca636f2e4ccc4/transformed/jetified-play-services-measurement-base-20.1.1/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/0a8e58422f74e21476739707e48636ac/transformed/jetified-play-services-measurement-base-20.1.1/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/0a8e58422f74e21476739707e48636ac/transformed/jetified-play-services-measurement-base-20.1.1/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/0a8e58422f74e21476739707e48636ac/transformed/jetified-play-services-measurement-base-20.1.1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/c281f63312619598db0cec2ca3ed2019/transformed/jetified-play-services-measurement-base-20.1.1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/c281f63312619598db0cec2ca3ed2019/transformed/jetified-play-services-measurement-base-20.1.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/c281f63312619598db0cec2ca3ed2019/transformed/jetified-play-services-measurement-base-20.1.1/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/c281f63312619598db0cec2ca3ed2019/transformed/jetified-play-services-measurement-base-20.1.1/res" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/e14e9772c00fca6cd57f198a91c20e8a/transformed/jetified-play-services-measurement-base-20.1.1/res" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/ad9154f3f51962b601c0ea6a2ba79db2/transformed/jetified-play-services-measurement-base-20.1.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/ad9154f3f51962b601c0ea6a2ba79db2/transformed/jetified-play-services-measurement-base-20.1.1/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/ad9154f3f51962b601c0ea6a2ba79db2/transformed/jetified-play-services-measurement-base-20.1.1/res" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.gms/play-services-measurement-base/20.1.1/ace98f39b262c59be4be4d52b871d1ba5dfff723/play-services-measurement-base-20.1.1-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/modules-2/files-2.1/com.google.android.gms/play-services-measurement-base/20.1.1/ace98f39b262c59be4be4d52b871d1ba5dfff723/play-services-measurement-base-20.1.1-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES />
   </library>

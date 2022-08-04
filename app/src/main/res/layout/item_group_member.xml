@@ -7,7 +7,7 @@
 
         <variable
             name="userDetail"
-            type="com.moondroid.damoim.model.User" />
+            type="com.moondroid.project01_meetingapp.model.User" />
     </data>
 
     <FrameLayout
@@ -16,10 +16,10 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/DPx80"
-            android:layout_margin="@dimen/DPx4"
+            android:layout_height="80dp"
+            android:layout_margin="4dp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="@dimen/DPx8"
+            app:cardCornerRadius="8dp"
             app:strokeColor="@color/pastel_6"
             app:strokeWidth="1dp">
 
@@ -29,10 +29,10 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/ivMemberThumb"
-                    android:layout_width="@dimen/DPx60"
-                    android:layout_height="@dimen/DPx60"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/DPx8"
+                    android:layout_marginStart="8dp"
                     bind:image="@{userDetail.thumb}" />
 
                 <TextView
@@ -40,12 +40,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/ivMemberThumb"
-                    android:layout_marginStart="@dimen/DPx16"
-                    android:layout_marginTop="@dimen/DPx8"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_toEndOf="@id/ivMemberThumb"
                     android:text="@{userDetail.name}"
                     android:textColor="#ff333333"
-                    android:textSize="@dimen/SPx16"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/tvName"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/DPx16"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/group_master"
                     android:textColor="@color/pastel_5"
                     android:visibility="invisible" />
@@ -65,13 +65,13 @@
                     android:layout_height="match_parent"
                     android:layout_below="@id/tvName"
                     android:layout_alignStart="@id/tvName"
-                    android:layout_marginTop="@dimen/DPx4"
-                    android:layout_marginBottom="@dimen/DPx16"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="16dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@{userDetail.msg}"
                     android:textColor="#ff666666"
-                    android:textSize="@dimen/SPx16" />
+                    android:textSize="16dp" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
     </FrameLayout>

@@ -3,7 +3,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.moondroid.damoim.ui.view.fragment.MyGroupFragment" />
+            type="com.moondroid.project01_meetingapp.ui.view.fragment.MyGroupFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

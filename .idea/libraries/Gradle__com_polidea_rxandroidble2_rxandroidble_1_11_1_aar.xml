@@ -2,7 +2,8 @@
   <library name="Gradle: com.polidea.rxandroidble2:rxandroidble:1.11.1@aar">
     <ANNOTATIONS>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/81c7fb8cccc9022097845dd015701993/transformed/jetified-rxandroidble-1.11.1/annotations.zip!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/512d8cf4bd18caac9d731e6005c4c168/transformed/jetified-rxandroidble-1.11.1/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/8687485dd95af71ed85229e92098ef0a/transformed/jetified-rxandroidble-1.11.1/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/5b34d51f23a9e9014149605555699cbe/transformed/jetified-rxandroidble-1.11.1/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a3a6266bb4e926240b6226be72a18730/transformed/jetified-rxandroidble-1.11.1/res" />
@@ -14,14 +15,20 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/d50d1d2380aa7c0b88e3e2ca01e6ebfe/transformed/jetified-rxandroidble-1.11.1/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/db9d88cd8172c7f01ed1cb91c396ea10/transformed/jetified-rxandroidble-1.11.1/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/512d8cf4bd18caac9d731e6005c4c168/transformed/jetified-rxandroidble-1.11.1/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/512d8cf4bd18caac9d731e6005c4c168/transformed/jetified-rxandroidble-1.11.1/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/512d8cf4bd18caac9d731e6005c4c168/transformed/jetified-rxandroidble-1.11.1/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/8687485dd95af71ed85229e92098ef0a/transformed/jetified-rxandroidble-1.11.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/8687485dd95af71ed85229e92098ef0a/transformed/jetified-rxandroidble-1.11.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/8687485dd95af71ed85229e92098ef0a/transformed/jetified-rxandroidble-1.11.1/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/8687485dd95af71ed85229e92098ef0a/transformed/jetified-rxandroidble-1.11.1/res" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/a80649179844a8a77719cf0de6aecbd2/transformed/jetified-rxandroidble-1.11.1/res" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/5b34d51f23a9e9014149605555699cbe/transformed/jetified-rxandroidble-1.11.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/5b34d51f23a9e9014149605555699cbe/transformed/jetified-rxandroidble-1.11.1/res" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/5b34d51f23a9e9014149605555699cbe/transformed/jetified-rxandroidble-1.11.1/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.polidea.rxandroidble2/rxandroidble/1.11.1/e1b06b497c178f7ca55b4ae97f149fc6f288a703/rxandroidble-1.11.1-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/modules-2/files-2.1/com.polidea.rxandroidble2/rxandroidble/1.11.1/e1b06b497c178f7ca55b4ae97f149fc6f288a703/rxandroidble-1.11.1-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.polidea.rxandroidble2/rxandroidble/1.11.1/f36a2dc9511ebf5f92ecfe93b40f39e0c831bf35/rxandroidble-1.11.1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/modules-2/files-2.1/com.polidea.rxandroidble2/rxandroidble/1.11.1/f36a2dc9511ebf5f92ecfe93b40f39e0c831bf35/rxandroidble-1.11.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

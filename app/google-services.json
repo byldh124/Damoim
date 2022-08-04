@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "14471483911",
-    "project_id": "damoim-43fd1",
-    "storage_bucket": "damoim-43fd1.appspot.com"
+    "project_number": "1025278143222",
+    "project_id": "project01meetingapp",
+    "storage_bucket": "project01meetingapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:14471483911:android:9a39de58db145de37d90a2",
+        "mobilesdk_app_id": "1:1025278143222:android:c2c6990dfe5793467c9ad7",
         "android_client_info": {
-          "package_name": "com.moondroid.damoim"
+          "package_name": "com.moondroid.project01_meetingapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "14471483911-da2apeve9trdd7ne49frctd8hp71rum2.apps.googleusercontent.com",
+          "client_id": "1025278143222-6jiup8ffv4hf72jc5pc45a4avdgf3hbu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAaiZ7HQS6G8anh4dTYHIgTTzq4XwBiXC4"
+          "current_key": "AIzaSyDDhuS6RwDuxEQ8Ohr7t4Ak_1wtCPPkKsc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "14471483911-da2apeve9trdd7ne49frctd8hp71rum2.apps.googleusercontent.com",
+              "client_id": "1025278143222-6jiup8ffv4hf72jc5pc45a4avdgf3hbu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

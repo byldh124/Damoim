@@ -55,7 +55,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.moondroid.damoim.model.*
+-keep class com.moondroid.project01_meetingapp.model.*
 
 # Prevent proguard from stripping interface information from TypeAdapterFactory,
 # JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)

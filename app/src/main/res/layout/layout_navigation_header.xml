@@ -6,7 +6,7 @@
     <data>
         <variable
             name="HomeActivity"
-            type="com.moondroid.damoim.ui.view.activity.HomeActivity" />
+            type="com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity" />
     </data>
 
     <RelativeLayout

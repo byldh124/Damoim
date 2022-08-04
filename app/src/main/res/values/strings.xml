@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Damoim</string>
+    <string name="app_name">모임대장</string>
     <string name="home_find_group">모임찾기</string>
     <string name="cmn_login">로그인</string>
     <string name="cmn_group">모임</string>
@@ -16,8 +16,8 @@
     <string name="profile_default_name">android</string>
     <string name="profile_edit_my_profile">프로필 수정</string>
     <string name="group_master">모임장</string>
-    <string name="splash_app_sub_title">우리들의 모임앱</string>
-    <string name="splash_app_title">다모임</string>
+    <string name="splash_app_sub_title">취미 활동 공유 플랫폼</string>
+    <string name="splash_app_title">모임대장</string>
     <string name="cmn_id">id</string>
     <string name="toast_plz_input_id">아이디를 입력해주세요.</string>
     <string name="sgnn_data_not_exist">일치하는 정보가 없습니다. 다시 확인해주세요.</string>
@@ -38,4 +38,7 @@
     <string name="cmn_sgnp_choice_location">지역 선택</string>
     <string name="cmn_sgnp_choice_interest">관심사 선택</string>
     <string name="cmn_sign_up">회원가입</string>
+    <string name="title_interest_choice">관심사 선택</string>
+    <string name="cmn_confirm">확인</string>
+    <string name="cmn_sgnn">로그인</string>
 </resources>
