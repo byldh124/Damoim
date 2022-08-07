@@ -3,6 +3,8 @@ package com.moondroid.project01_meetingapp.network
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.model.BaseResponse
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import kotlin.Exception
 
 interface Repository {
@@ -13,6 +15,10 @@ interface Repository {
     suspend fun signIn(body: JsonObject): UseCaseResult<BaseResponse>
     suspend fun getSalt(id: String): UseCaseResult<BaseResponse>
     suspend fun signInKakao(body: JsonObject): UseCaseResult<BaseResponse>
+    suspend fun updateProfile(
+        body: Map<String, RequestBody>,
+        file: MultipartBody.Part?
+    ): UseCaseResult<BaseResponse>
 
     suspend fun checkAppVersion(
         packageName: String,
@@ -78,10 +84,23 @@ class RepositoryImpl(private val api: ApiInterface) : Repository {
     }
 
     override suspend fun signInKakao(body: JsonObject): UseCaseResult<BaseResponse> {
-        return  try{
+        return try {
             val result = api.signInkakao(body).await()
             UseCaseResult.Success(result)
-        } catch (e: Exception){
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+            UseCaseResult.Error(e)
+        }
+    }
+
+    override suspend fun updateProfile(
+        body: Map<String, RequestBody>,
+        file: MultipartBody.Part?
+    ): UseCaseResult<BaseResponse> {
+        return try {
+            val result = api.updateProfile(body, file).await()
+            UseCaseResult.Success(result)
+        } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)
         }

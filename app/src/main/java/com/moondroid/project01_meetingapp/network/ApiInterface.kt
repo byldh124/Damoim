@@ -11,12 +11,12 @@ import com.moondroid.project01_meetingapp.network.URLManager.SIGN_IN
 import com.moondroid.project01_meetingapp.network.URLManager.SIGN_IN_KAKAO
 import com.moondroid.project01_meetingapp.network.URLManager.SIGN_IN_WITH_KAKAO
 import com.moondroid.project01_meetingapp.network.URLManager.SIGN_UP
+import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_PROFILE
 import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_TOKEN
 import kotlinx.coroutines.Deferred
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.http.*
 
 interface ApiInterface {
 
@@ -66,5 +66,13 @@ interface ApiInterface {
     @POST(SIGN_IN_KAKAO)
     fun signInkakao(
         @Body body: JsonObject
+    ) : Deferred<BaseResponse>
+
+    @JvmSuppressWildcards
+    @Multipart
+    @POST(UPDATE_PROFILE)
+    fun updateProfile(
+        @PartMap body: Map<String, RequestBody>,
+        @Part file: MultipartBody.Part?
     ) : Deferred<BaseResponse>
 }

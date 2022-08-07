@@ -10,15 +10,15 @@
         <item name="colorSecondaryVariant">@color/red_light01</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
 
     <style name="ToolbarTheme_white">
-        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlNormal">@color/red_dark01</item>
     </style>
 
     <style name="ToolbarTheme_Red">
-        <item name="colorControlNormal">@color/red_dark01</item>
+        <item name="colorControlNormal">@color/white</item>
     </style>
 </resources>

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/red_light01"
-            android:theme="@style/ToolbarTheme_white"
+            android:theme="@style/ToolbarTheme_Red"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
@@ -49,6 +49,7 @@
                 android:fontFamily="@font/nanum_square_round_b"
                 android:background="@drawable/bg_edit_white01"
                 android:textSize="14dp"
+                android:textColor="@color/gray_dark01"
                 android:padding="12dp"
                 android:inputType="text"
                 android:privateImeOptions="defaultInputmode=english" />
@@ -62,6 +63,7 @@
                 android:fontFamily="@font/nanum_square_round_b"
                 android:background="@drawable/bg_edit_white01"
                 android:textSize="14dp"
+                android:textColor="@color/gray_dark01"
                 android:padding="12dp"
                 android:inputType="textPassword"
                 android:privateImeOptions="defaultInputmode=english" />
@@ -74,6 +76,7 @@
                 android:fontFamily="@font/nanum_square_round_b"
                 android:background="@drawable/bg_edit_white01"
                 android:textSize="14dp"
+                android:textColor="@color/gray_dark01"
                 android:inputType="textPassword"
                 android:padding="12dp"
                 android:privateImeOptions="defaultInputmode=english" />
@@ -87,6 +90,7 @@
                 android:fontFamily="@font/nanum_square_round_b"
                 android:background="@drawable/bg_edit_white01"
                 android:hint="@string/cmn_name"
+                android:textColor="@color/gray_dark01"
                 android:textSize="14dp"
                 android:inputType="text"
                 android:padding="12dp"
@@ -98,8 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_edit_white01"
-                android:clickable="true"
-                android:focusable="true"
+                android:textColor="@color/gray_dark01"
                 android:hint="@string/cmn_sgnp_birth"
                 android:onClick="@{activity::showDateDialog}"
                 android:padding="12dp"
@@ -141,8 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_edit_white01"
-                android:clickable="true"
-                android:focusable="true"
+                android:textColor="@color/gray_dark01"
                 android:hint="@string/cmn_sgnp_choice_location"
                 android:onClick="@{activity::goToLocationActivity}"
                 android:padding="12dp"
@@ -154,8 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_edit_white01"
-                android:clickable="true"
-                android:focusable="true"
+                android:textColor="@color/gray_dark01"
                 android:hint="@string/cmn_sgnp_choice_interest"
                 android:onClick="@{activity::goToInterestActivity}"
                 android:padding="12dp"

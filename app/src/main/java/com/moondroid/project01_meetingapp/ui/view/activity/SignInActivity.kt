@@ -16,10 +16,7 @@ import com.moondroid.project01_meetingapp.ui.viewmodel.SignInViewModel
 import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.DMUtils
-import com.moondroid.project01_meetingapp.utils.view.hideKeyboard
-import com.moondroid.project01_meetingapp.utils.view.logException
-import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
-import com.moondroid.project01_meetingapp.utils.view.toast
+import com.moondroid.project01_meetingapp.utils.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignInActivity : BaseActivity() {
@@ -60,33 +57,13 @@ class SignInActivity : BaseActivity() {
         viewModel.getSalt(id)
 
         viewModel.saltResponse.observe(this) {
+
+            log("[SignInActivity::getSalt] Response = $it")
+
             when (it.code) {
                 Constants.ResponseCode.SUCCESS -> {
                     val salt = it.body.asString
                     val hashPw = DMUtils.hashingPw(pw, salt)
-                    signIn(hashPw)
-                }
-
-                Constants.ResponseCode.NOT_EXIST -> {
-                    showError("해당 아이디가 존재하지 않습니다.") {
-                        binding.etId.requestFocus()
-                    }
-                }
-                else -> {
-                    showError("로그인 실패 [E01]")
-                }
-            }
-        }
-    }
-
-    private fun getSalt(id: String) {
-        viewModel.getSalt(id)
-
-        viewModel.saltResponse.observe(this) {
-            when (it.code) {
-                Constants.ResponseCode.SUCCESS -> {
-                    val salt = it.body.asString
-                    val hashPw = DMUtils.hashingPw(id, salt)
                     signIn(hashPw)
                 }
 
@@ -110,6 +87,9 @@ class SignInActivity : BaseActivity() {
         viewModel.signIn(body)
 
         viewModel.signInResponse.observe(this) {
+
+            log("[SignInActivity::signIn] Response = $it")
+
             when (it.code) {
                 Constants.ResponseCode.SUCCESS -> {
                     val userInfo = it.body
@@ -128,7 +108,7 @@ class SignInActivity : BaseActivity() {
                 }
 
                 Constants.ResponseCode.INVALID_VALUE -> {
-                    showError("비밀번호가 틀렸습니다.") {
+                    showError("잘못된 비밀번호 입니다.") {
                         binding.etPw.requestFocus()
                     }
                 }
@@ -215,6 +195,9 @@ class SignInActivity : BaseActivity() {
         vw.isEnabled = false
 
         viewModel.kakaoSignInResponse.observe(this) {
+
+            DMLog.e("[SignInActivity::signInKakao] Response : $it")
+
             when (it.code) {
                 Constants.ResponseCode.SUCCESS -> {
                     val userInfo = it.body

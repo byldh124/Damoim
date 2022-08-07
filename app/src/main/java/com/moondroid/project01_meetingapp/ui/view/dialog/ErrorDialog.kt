@@ -22,14 +22,16 @@ class ErrorDialog(context: Context, var msg: String, var onClick: () -> Unit) :
             null,
             false
         )
-
-        binding.dialog = this
-
         setContentView(binding.root)
     }
 
     fun confirm(){
         cancel()
+    }
+
+    override fun show() {
+        super.show()
+        binding.dialog = this
     }
 
     override fun cancel() {

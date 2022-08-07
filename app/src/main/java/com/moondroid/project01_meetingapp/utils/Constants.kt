@@ -1,7 +1,7 @@
 package com.moondroid.project01_meetingapp.utils
 
 object Constants {
-    const val DEFAULT_PROFILE_IMG = "http://moondroid.dothome.co.kr/damoim/userProfileImg/IMG_20210302153242unnamed.jpg"
+    const val DEFAULT_PROFILE_IMG = "http://moondroid.dothome.co.kr/damoim-test/thumbs/IMG_20210302153242unnamed.jpg"
 
     const val PREFS_NAME = "pref"
 

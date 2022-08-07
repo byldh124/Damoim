@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
@@ -36,17 +37,19 @@ class HomeActivity : BaseActivity() {
             binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
             headerBinding = LayoutNavigationHeaderBinding.bind(binding.homeNav.getHeaderView(0))
 
-            user = DMApp.user
-
-            binding.homeActivity = this
-            headerBinding.homeActivity = this
-
             initView()
             checkPermission()
 
         } catch (e: Exception) {
             logException(e)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        user = DMApp.user
+        binding.homeActivity = this
+        headerBinding.homeActivity = this
     }
 
     /**
@@ -60,7 +63,13 @@ class HomeActivity : BaseActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val drawerToggle =
-            ActionBarDrawerToggle(this, binding.drawer, binding.toolbar, R.string.app_name, R.string.app_name)
+            ActionBarDrawerToggle(
+                this,
+                binding.drawer,
+                binding.toolbar,
+                R.string.app_name,
+                R.string.app_name
+            )
 
         drawerToggle.syncState()
         binding.drawer.addDrawerListener(drawerToggle)
@@ -160,6 +169,19 @@ class HomeActivity : BaseActivity() {
     fun goToCreateGroupActivity() {
         try {
             val intent = Intent(this, CreateGroupActivity::class.java)
+            intent.putExtra(Constants.ACTIVITY_TY, Constants.ActivityTy.HOME)
+            startActivityWithAnim(intent)
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
+
+    /**
+     * 프로필 세팅 액티비티 전환
+     **/
+    fun toProfileActivity(vw: View) {
+        try {
+            val intent = Intent(this, ProfileActivity::class.java)
             intent.putExtra(Constants.ACTIVITY_TY, Constants.ActivityTy.HOME)
             startActivityWithAnim(intent)
         } catch (e: Exception) {

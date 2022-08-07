@@ -20,6 +20,7 @@ import com.moondroid.project01_meetingapp.databinding.ActivitySignUpBinding
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.viewmodel.SignUpViewModel
 import com.moondroid.project01_meetingapp.utils.Constants
+import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
@@ -39,7 +40,7 @@ class SignUpActivity : BaseActivity() {
     private lateinit var gender: String
     private lateinit var thumb: String
     private var birth: String? = null
-    private var address: String? = null
+    private var location: String? = null
     private var interest: String? = null
     private var doSignUp = false
     private var fromKakao : Boolean = false
@@ -137,7 +138,7 @@ class SignUpActivity : BaseActivity() {
         } else if (birth.isNullOrEmpty()) {
             toast("생년월일을 선택해주세요.")
             reset()
-        } else if (address.isNullOrEmpty()) {
+        } else if (location.isNullOrEmpty()) {
             toast("관심지역을 선택해주세요.")
             reset()
         } else if (interest.isNullOrEmpty()) {
@@ -164,13 +165,18 @@ class SignUpActivity : BaseActivity() {
         jsonObject.addProperty("name", name);
         jsonObject.addProperty("birth", birth)
         jsonObject.addProperty("gender", gender)
-        jsonObject.addProperty("address", address)
+        jsonObject.addProperty("location", location)
         jsonObject.addProperty("interest", interest)
         jsonObject.addProperty("thumb", thumb)
+
+        DMLog.e("[SignUpActivity::requestSignUp] Request body => $jsonObject")
 
         viewModel.signUp(jsonObject)
 
         viewModel.signUpResponse.observe(this) {
+
+            DMLog.e("[SignUpActivity::requestSignUp] Response => $it")
+
             when (it.code) {
                 Constants.ResponseCode.SUCCESS -> {
                     toast("회원가입 성공")
@@ -201,6 +207,8 @@ class SignUpActivity : BaseActivity() {
             }
 
             val token = task.result
+
+            DMLog.e("[SignUpActivity::getMsgToken] token => $token")
             updateToken(token)
         })
     }
@@ -213,7 +221,7 @@ class SignUpActivity : BaseActivity() {
         viewModel.updateToken(body)
 
         viewModel.tokenResponse.observe(this@SignUpActivity) {
-            log("[SignUpActivity] , updateToken() RESPONSE MESSAGE : ${it.msg}")
+            log("[SignUpActivity::updateToken] Response: $it")
             hideLoading()
             goToHomeActivity(Constants.ActivityTy.SIGN_UP)
         }
@@ -235,8 +243,8 @@ class SignUpActivity : BaseActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result?.resultCode == RESULT_OK) {
                 result.data?.let {
-                    address = it.getStringExtra(Constants.IntentParam.LOCATION).toString()
-                    binding.tvLocation.text = address
+                    location = it.getStringExtra(Constants.IntentParam.LOCATION).toString()
+                    binding.tvLocation.text = location
                 }
             }
         }

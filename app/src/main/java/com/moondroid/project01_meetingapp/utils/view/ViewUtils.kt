@@ -18,6 +18,9 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.ui.view.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.ui.viewmodel.BaseViewModel
 import com.moondroid.project01_meetingapp.utils.DMLog
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.lang.Exception
 
 var dialog: LoadingDialog? = null
@@ -117,4 +120,8 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit){
     })
 }
 
+
+fun String.toReqBody(): RequestBody {
+    return toRequestBody("text-plain".toMediaTypeOrNull())
+}
 

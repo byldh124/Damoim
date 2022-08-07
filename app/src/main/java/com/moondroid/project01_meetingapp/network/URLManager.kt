@@ -23,6 +23,7 @@ object URLManager {
     const val ChECK_APP_VERSION = "app/checkVersion.php"
 
     const val UPDATE_TOKEN = "user/updateToken.php"
+    const val UPDATE_PROFILE = "user/updateProfile.php"
 
     const val GET_SALT = "user/getSalt.php"
 

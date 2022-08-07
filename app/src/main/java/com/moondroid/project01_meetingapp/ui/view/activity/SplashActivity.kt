@@ -24,6 +24,7 @@ import com.moondroid.project01_meetingapp.ui.view.dialog.ErrorDialog
 import com.moondroid.project01_meetingapp.ui.viewmodel.SplashViewModel
 import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.DMUtils
+import com.moondroid.project01_meetingapp.utils.view.exitApp
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -102,14 +103,14 @@ class SplashActivity : BaseActivity() {
                                 startActivity(intent)
                             } catch (e: Exception) {
                                 logException(e)
-                                DMUtils.exitApplication(this@SplashActivity)
+                                exitApp()
                             }
                         }
                     }
                 }
 
                 else -> {
-                    DMUtils.exitApplication(this@SplashActivity)
+                    exitApp()
                 }
             }
         }

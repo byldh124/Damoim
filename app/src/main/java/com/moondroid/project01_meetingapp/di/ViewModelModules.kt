@@ -21,4 +21,7 @@ val viewModelModules = module {
     /*SignIn*/
     viewModel { SignUpViewModel(repository = get()) }
 
+    /*Profile*/
+    viewModel {ProfileViewModel(repository = get())}
+
 }

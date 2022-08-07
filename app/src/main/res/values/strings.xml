@@ -41,4 +41,5 @@
     <string name="title_interest_choice">관심사 선택</string>
     <string name="cmn_confirm">확인</string>
     <string name="cmn_sgnn">로그인</string>
+    <string name="title_profile_setting">프로필 설정</string>
 </resources>

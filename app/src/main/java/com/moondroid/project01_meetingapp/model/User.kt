@@ -3,20 +3,24 @@ package com.moondroid.project01_meetingapp.model
 import com.google.gson.annotations.SerializedName
 
 data class User(
-    @SerializedName("userId")
+    @SerializedName("id")
     val id: String,
-    @SerializedName("userName")
+    @SerializedName("name")
     val name: String,
-    @SerializedName("userBirthDate")
+    @SerializedName("birth")
     val birth: String,
-    @SerializedName("userGender")
+    @SerializedName("gender")
     val gender: String,
-    @SerializedName("userLocation")
+    @SerializedName("location")
     val location: String,
-    @SerializedName("userInterest")
+    @SerializedName("interest")
     val interest: String,
-    @SerializedName("userProfileImgUrl")
+    @SerializedName("thumb")
     val thumb: String,
-    @SerializedName("userProfileMessage")
-    val msg: String
-)
+    @SerializedName("message")
+    val message: String
+) {
+    fun getProfileLocation() : String{
+        return location.split(" ")[0]
+    }
+}

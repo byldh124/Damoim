@@ -69,7 +69,7 @@
                     android:layout_marginBottom="16dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@{userDetail.msg}"
+                    android:text="@{userDetail.message}"
                     android:textColor="#ff666666"
                     android:textSize="16dp" />
             </RelativeLayout>
