@@ -66,5 +66,4 @@ class Preferences(context: Context) {
     fun remove(key: String) {
         prefs.edit().remove(key).apply()
     }
-
 }

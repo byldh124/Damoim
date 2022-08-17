@@ -22,6 +22,12 @@ val viewModelModules = module {
     viewModel { SignUpViewModel(repository = get()) }
 
     /*Profile*/
-    viewModel {ProfileViewModel(repository = get())}
+    viewModel { ProfileViewModel(repository = get()) }
+
+    /*GroupList*/
+    viewModel { GroupListViewModel(repository = get()) }
+
+    /*Create*/
+    viewModel { CreateViewModel(repository = get()) }
 
 }

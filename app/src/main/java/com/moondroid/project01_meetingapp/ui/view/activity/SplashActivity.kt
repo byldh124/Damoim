@@ -4,32 +4,32 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
-import com.bumptech.glide.util.Util
 import com.google.gson.Gson
-import com.kakao.sdk.common.util.Utility
 import com.moondroid.project01_meetingapp.BuildConfig
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
 import com.moondroid.project01_meetingapp.model.User
-import com.moondroid.project01_meetingapp.ui.view.dialog.ErrorDialog
 import com.moondroid.project01_meetingapp.ui.viewmodel.SplashViewModel
 import com.moondroid.project01_meetingapp.utils.Constants
-import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.view.exitApp
+import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
-import com.moondroid.project01_meetingapp.utils.view.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.Executor
 
+/**
+ * 스플래시 액티비티
+ *
+ * checkAppVersion -> checkAutoLogin
+ *   1) SignInActivity  (로그인 기록 x)
+ *   2) HomeActivity    (로그인 기록 o)
+ * */
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity() {
 
@@ -39,7 +39,7 @@ class SplashActivity : BaseActivity() {
 
     private var isReady = false
     private var animFinish = false
-    lateinit var action: () -> Unit
+    lateinit var action: () -> Unit         //애니메이션 이후 화면 전환
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,21 +51,56 @@ class SplashActivity : BaseActivity() {
             executor = ContextCompat.getMainExecutor(this)
             initView()
 
-            var keyHash = Utility.getKeyHash(this)
-
-            Log.e("KEY" , keyHash)
+            initViewModel()
 
         } catch (e: Exception) {
             logException(e)
         }
     }
 
-    /* Prefs 에 저장된 아이디 값 체크 */
+    private fun initViewModel() {
+        viewModel.appCheck.observe(this) {
+            try {
+                when (it) {
+                    Constants.ResponseCode.SUCCESS -> {
+                        checkAutoLogin()
+                    }
+
+                    Constants.ResponseCode.INACTIVE -> {
+                        showError(getString(R.string.error_request_update)) {
+                            try {
+                                val intent = Intent(Intent.ACTION_VIEW)
+                                intent.data = Uri.parse("market://details?id=$packageName")
+                                startActivity(intent)
+                            } catch (e: Exception) {
+                                logException(e)
+                                exitApp()
+                            }
+                        }
+                    }
+
+                    else -> {
+                        showError(getString(R.string.error_version_not_checked)) {
+                            exitApp()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                logException(e)
+            }
+        }
+    }
+
+    /**
+     * Prefs 에 저장된 아이디 값 체크
+     **/
     private fun checkAutoLogin() {
         try {
             val userInfo = DMApp.prefs.getString(Constants.PrefKey.USER_INFO)
             if (!userInfo.isNullOrEmpty()) {
                 DMApp.user = Gson().fromJson(userInfo, User::class.java)
+
+                log("[SplashActivity] , checkAutoLogin , User => ${DMApp.user}")
 
                 isReady = true
                 action = { goToHomeActivity() }
@@ -81,38 +116,20 @@ class SplashActivity : BaseActivity() {
         }
     }
 
+    /**
+     *  앱 버전 체크
+     **/
     private fun checkAppVersion() {
-        viewModel.checkAppVersion(
-            packageName,
-            BuildConfig.VERSION_CODE,
-            BuildConfig.VERSION_NAME
-        )
+        try {
 
-        viewModel.appCheck.observe(this) {
-            when (it) {
-                Constants.ResponseCode.SUCCESS -> {
-                    checkAutoLogin()
-                }
+            viewModel.checkAppVersion(
+                packageName,
+                BuildConfig.VERSION_CODE,
+                BuildConfig.VERSION_NAME
+            )
 
-                Constants.ResponseCode.INACTIVE -> {
-                    executor.execute {
-                        showError("새로운 버전으로 업데이트가 필요합니다.") {
-                            try {
-                                val intent = Intent(Intent.ACTION_VIEW)
-                                intent.data = Uri.parse("market://details?id=$packageName")
-                                startActivity(intent)
-                            } catch (e: Exception) {
-                                logException(e)
-                                exitApp()
-                            }
-                        }
-                    }
-                }
-
-                else -> {
-                    exitApp()
-                }
-            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
@@ -121,7 +138,7 @@ class SplashActivity : BaseActivity() {
         try {
             val animation = AnimationUtils.loadAnimation(this, R.anim.logo_anim)
 
-            animation.setAnimationListener(object : Animation.AnimationListener{
+            animation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(p0: Animation?) {
                 }
 
@@ -143,8 +160,8 @@ class SplashActivity : BaseActivity() {
         }
     }
 
-    private fun startAction(){
-        if (isReady && animFinish){
+    private fun startAction() {
+        if (isReady && animFinish) {
             action()
         }
     }

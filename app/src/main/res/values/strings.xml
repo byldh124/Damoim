@@ -1,45 +1,109 @@
 <resources>
     <string name="app_name">모임대장</string>
-    <string name="home_find_group">모임찾기</string>
-    <string name="cmn_login">로그인</string>
+    <string name="app_sub_name">취미 생활 공유 플랫폼</string>
+
+    <!-- Interest -->
+    <string name="interest_00">전체</string>
+    <string name="interest_01">아웃도어/여행</string>
+    <string name="interest_02">운동/스포츠</string>
+    <string name="interest_03">인문학/책/글</string>
+    <string name="interest_04">업종/직무</string>
+    <string name="interest_05">외국/언어</string>
+    <string name="interest_06">문화/공연/축제</string>
+    <string name="interest_07">음악/악기</string>
+    <string name="interest_08">공예/만들기</string>
+    <string name="interest_09">댄스/무용</string>
+    <string name="interest_10">봉사활동</string>
+    <string name="interest_11">사교/인맥</string>
+    <string name="interest_12">차/오토바이</string>
+    <string name="interest_13">사진/영상</string>
+    <string name="interest_14">야구관람</string>
+    <string name="interest_15">게임/오락</string>
+    <string name="interest_16">요리/제조</string>
+    <string name="interest_17">반려동물</string>
+    <string name="interest_18">가족/결혼</string>
+    <string name="interest_19">자유주제</string>
+
+    <!--ActionBar title-->
+    <string name="title_interest_choice">관심사 선택</string>
+    <string name="title_location_choice">관심 지역 선택</string>
+    <string name="title_profile_setting">프로필 설정</string>
+    <string name="title_group_list_favorite">관심 모임</string>
+    <string name="title_group_list_recent">최근 본 모임</string>
+    <string name="title_create_group">모임 만들기</string>
+
+    <!--일반 문자열-->
+    <string name="cmn_sign_in">로그인</string>
+    <string name="cmn_logout">로그아웃</string>
+    <string name="cmn_pw">비밀번호</string>
+    <string name="cmn_pw_check">비밀번호 확인</string>
+    <string name="cmn_auto_sign_in">로그인 상태 유지</string>
+    <string name="cmn_id">아이디</string>
+    <string name="cmn_name">이름</string>
+    <string name="cmn_birth">생년월일</string>
+    <string name="cmn_male">남자</string>
+    <string name="cmn_female">여자</string>
+    <string name="cmn_location">관심 지역</string>
+    <string name="cmn_interest">관심사</string>
+    <string name="cmn_sign_up">회원가입</string>
+    <string name="cmn_tab_default">탭</string>
+    <string name="cmn_tab_chat">채팅</string>
+    <string name="cmn_tab_gallery">사진첩</string>
+    <string name="cmn_tab_board">게시판</string>
+    <string name="cmn_tab_group_info">모임정보</string>
+    <string name="cmn_save">저장</string>
+    <string name="cmn_confirm">확인</string>
     <string name="cmn_group">모임</string>
     <string name="cmn_premium">유료클래스</string>
     <string name="cmn_my_group">내모임</string>
     <string name="cmn_search_nearly_group">주변검색</string>
     <string name="cmn_choice_interest">관심사 선택</string>
     <string name="cmn_my_favorite_group">내 관심 모임</string>
-    <string name="cmn_recent_view_group">최근 본 보임</string>
+    <string name="cmn_recent_view_group">최근 본 모임</string>
     <string name="cmn_premium_group">프리미엄 모임</string>
     <string name="cmn_create_premium_group">유료 클래스 만들기</string>
     <string name="cmn_setting">설정</string>
-    <string name="profile_default_message">Hello.My name is Android</string>
-    <string name="profile_default_name">android</string>
-    <string name="profile_edit_my_profile">프로필 수정</string>
-    <string name="group_master">모임장</string>
-    <string name="splash_app_sub_title">취미 활동 공유 플랫폼</string>
-    <string name="splash_app_title">모임대장</string>
-    <string name="cmn_id">id</string>
-    <string name="toast_plz_input_id">아이디를 입력해주세요.</string>
-    <string name="sgnn_data_not_exist">일치하는 정보가 없습니다. 다시 확인해주세요.</string>
-    <string name="sgnn_network_fail">로그인이 실패했습니다.</string>
-    <string name="cmn_tab_default">탭</string>
-    <string name="cmn_tab_chat">채팅</string>
-    <string name="cmn_tab_gallery">사진첩</string>
-    <string name="cmn_tab_board">게시판</string>
-    <string name="cmn_tab_group_info">모임정보</string>
-    <string name="cmn_sgnp">회원가입</string>
-    <string name="cmn_save">저장</string>
-    <string name="cmn_sgnp_check_id">중복확인</string>
-    <string name="cmn_sgnp_id">아이디</string>
-    <string name="cmn_name">이름</string>
-    <string name="cmn_sgnp_birth">생년월일</string>
-    <string name="cmn_male">남자</string>
-    <string name="cmn_female">여자</string>
-    <string name="cmn_sgnp_choice_location">지역 선택</string>
-    <string name="cmn_sgnp_choice_interest">관심사 선택</string>
-    <string name="cmn_sign_up">회원가입</string>
-    <string name="title_interest_choice">관심사 선택</string>
-    <string name="cmn_confirm">확인</string>
-    <string name="cmn_sgnn">로그인</string>
-    <string name="title_profile_setting">프로필 설정</string>
+    <string name="cmn_message">상태 메세지</string>
+    <string name="cmn_message_length">%d/50자</string>
+    <string name="cmn_find_group">모임찾기</string>
+    <string name="cmn_edit_profile">프로필 수정</string>
+    <string name="cmn_group_master">모임장</string>
+
+    <!-- 알림, 에러 메세지 -->
+    <string name="error_plz_input_id">아이디를 입력해주세요.</string>
+    <string name="error_id_mismatch">아이디는 5글자 이상 16글자 이하 영문, 숫자로 이루어져 있습니다.</string>
+    <string name="error_password_mismatch">비밀번호는 8글자 이상 영문, 숫자, 특수기호로 이루어져 있습니다.</string>
+    <string name="error_id_not_exist">해당 아이디가 존재하지 않습니다.</string>
+    <string name="error_wrong_password">잘못된 비밀번호 입니다.</string>
+    <string name="error_sign_in_fail">로그인 실패 [%s]</string>
+    <string name="error_request_update">새로운 버전으로 업데이트가 필요합니다.</string>
+    <string name="error_version_not_checked">해당 버전은 사용이 불가능합니다.</string>
+    <string name="error_password_unchecked">입력하실 비밀번호가 일치하지 않습니다.</string>
+    <string name="error_name_mismatch">이름은 2글자 이상 8글자 이하만 가능합니다.</string>
+    <string name="error_birth_empty">생년월일을 선택해주세요.</string>
+    <string name="error_location_empty">관심지역을 선택해주세요.</string>
+    <string name="error_interest_empty">관심사를 선택해주세요.</string>
+    <string name="error_thumb_empty">썸네일 이미지를 선택해주세요.</string>
+    <string name="error_id_already_exist">이미 존재하는 아이디입니다.</string>
+    <string name="error_sign_up_fail">회원가입 실패 [%s]</string>
+    <string name="error_profile_update_fail">프로필 업데이트 실패 [%s]</string>
+    <string name="error_update_interest_fail">관심사 변경에 실패했습니다.</string>
+    <string name="error_load_group_list_fail">데이터 로드에 실패했습니다. [%s]</string>
+    <string name="error_group_list_empty">모임이 존재하지 않습니다.</string>
+    <string name="error_already_exist_title">이미 존재하는 그룹명 입니다.</string>
+    <string name="error_create_group_fail">모임 생성 실패 [%s]</string>
+    <string name="error_title_mismatch">모임 이름은 2글자 이상이여야 합니다.</string>
+    <string name="error_purpose_empty">모임 목표를 설정해주세요.</string>
+
+    <string name="alm_profile_update_success">프로필 업데이트가 완료되었습니다.</string>
+    <string name="alm_sign_up_success">회원가입 성공</string>
+    <string name="alm_update_interest_success">관심사 변경에 성공했습니다.</string>
+    <string name="alm_sucess_create_group">그룹 만들기 성공</string>
+
+
+
+    <string name="hint_input_location">동 읍 면 을 입력해주세요.</string>
+
+    <string name="warning_private_project">이 어플은 실제 서비스 되는 앱이 아닌 개인용 프로젝트 입니다.</string>
+
 </resources>

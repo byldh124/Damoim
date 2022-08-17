@@ -3,11 +3,13 @@ package com.moondroid.project01_meetingapp.ui.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.moondroid.project01_meetingapp.model.BaseResponse
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
 import com.moondroid.project01_meetingapp.utils.DMLog
+import com.moondroid.project01_meetingapp.utils.view.log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -15,8 +17,9 @@ import kotlinx.coroutines.withContext
 class HomeViewModel(private val repository: Repository) : BaseViewModel() {
 
     val showLoading = MutableLiveData<Boolean>()
-    val groupsContent = SingleLiveEvent<ArrayList<GroupInfo>>()
-    val myGroupsContent = SingleLiveEvent<ArrayList<GroupInfo>>()
+    val groupsContent = SingleLiveEvent<BaseResponse>()
+    val myGroupsContent = SingleLiveEvent<BaseResponse>()
+    val interestResponse = SingleLiveEvent<BaseResponse>()
 
     fun loadGroup() {
         showLoading.value = true
@@ -24,24 +27,17 @@ class HomeViewModel(private val repository: Repository) : BaseViewModel() {
             val response = withContext(Dispatchers.IO) {
                 repository.loadGroup()
             }
-            showLoading.value = false
+
 
             when (response) {
                 is UseCaseResult.Success -> {
-                    if (response.data.code == 1000) {
-                        val result = response.data.body.asJsonArray
-                        val gson = GsonBuilder().create()
-                        val groups = gson.fromJson<ArrayList<GroupInfo>>(
-                            result,
-                            object : TypeToken<ArrayList<GroupInfo>>() {}.type
-                        )
-                        groupsContent.value = groups
-                    } else {
-                        DMLog.e("code : " + response.data.code)
-                    }
+                    log("[HomeActivity], loadGroup , Response => ${response.data}")
+                    showLoading.value = false
+                    groupsContent.value = response.data
                 }
 
                 is UseCaseResult.Error -> {
+                    showLoading.value = false
                     response.exception.message?.let {
                         logException(it)
                     }
@@ -51,35 +47,50 @@ class HomeViewModel(private val repository: Repository) : BaseViewModel() {
         }
     }
 
-    fun loadMyGroup(userId: String) {
+    fun getMyGroup(userId: String) {
         showLoading.value = true
         launch {
             val response = withContext(Dispatchers.IO) {
-                repository.loadMyGroup(userId)
+                repository.getMyGroup(userId)
             }
-            showLoading.value = false
 
             when (response) {
                 is UseCaseResult.Success -> {
-                    if (response.data.code == 1000) {
-                        val result = response.data.body.asJsonArray
-                        val gson = GsonBuilder().create()
-                        val groups = gson.fromJson<ArrayList<GroupInfo>>(
-                            result,
-                            object : TypeToken<ArrayList<GroupInfo>>() {}.type
-                        )
-                        myGroupsContent.value = groups
-                    } else {
-                        DMLog.e("code : " + response.data.code)
-                    }
+                    showLoading.value = false
+                    myGroupsContent.value = response.data
                 }
 
                 is UseCaseResult.Error -> {
+                    showLoading.value = false
                     response.exception.message?.let {
                         logException(it)
                     }
                 }
 
+            }
+        }
+    }
+
+    fun updateInterest(id: String, interest: String) {
+        showLoading.value = true
+        launch {
+            val response = withContext(Dispatchers.IO) {
+                repository.updateInterest(id, interest)
+            }
+
+            when (response) {
+                is UseCaseResult.Success -> {
+                    showLoading.value = false
+                    interestResponse.value = response.data
+                }
+
+                is UseCaseResult.Error -> {
+                    showLoading.value = false
+
+                    response.exception.message?.let {
+                        logException(it)
+                    }
+                }
             }
         }
     }

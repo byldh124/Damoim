@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+        <variable
+            name="activity"
+            type="com.moondroid.project01_meetingapp.ui.view.activity.CreateActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.view.activity.CreateActivity">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolbarRed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/TitleWhite"
+                android:text="@string/title_create_group" />
+        </com.google.android.material.appbar.MaterialToolbar>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contents"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView
+                android:id="@+id/thumbWrapper"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginTop="16dp"
+                android:onClick="@{activity::getImage}"
+                app:bottomLeftCornerRadius="16dp"
+                app:bottomRightCornerRadius="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:topLeftCornerRadius="16dp"
+                app:topRightCornerRadius="16dp">
+
+                <ImageView
+                    android:id="@+id/thumb"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/tvImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="썸네일 이미지를\n선택 해주세요."
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:lineSpacingExtra="8dp"
+                    android:background="@color/red_light02"
+                    android:textColor="@color/white"/>
+
+            </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
+
+            <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:translationX="8dp"
+                android:translationY="8dp"
+                app:bottomLeftCornerRadius="18dp"
+                app:bottomRightCornerRadius="18dp"
+                app:layout_constraintBottom_toBottomOf="@id/thumbWrapper"
+                app:layout_constraintRight_toRightOf="@id/thumbWrapper"
+                app:topLeftCornerRadius="18dp"
+                app:topRightCornerRadius="18dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/red_light01" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_camera01" />
+            </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
+
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/thumbWrapper"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintWidth_percent="0.8"
+                android:inputType="text"
+                app:layout_constraintHorizontal_bias="0"
+                android:layout_marginTop="36dp"
+                android:background="@drawable/bg_edit_gray01"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:hint="모임 이름"/>
+
+            <ImageView
+                android:id="@+id/icInterest"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:onClick="@{activity::toInterest}"
+                app:layout_constraintLeft_toRightOf="@id/etTitle"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toTopOf="@id/etTitle"
+                app:layout_constraintBottom_toBottomOf="@id/etTitle"
+                app:layout_constraintDimensionRatio="1"/>
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="@id/icInterest"
+                app:layout_constraintTop_toBottomOf="@id/etTitle"
+                android:layout_marginTop="16dp"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:background="@drawable/bg_edit_gray01"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:onClick="@{activity::toLocation}"
+                android:hint="모임 지역 설정"/>
+
+            <EditText
+                android:id="@+id/etPurpose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvLocation"
+                android:layout_marginTop="16dp"
+                android:hint="모임 목표를 설정해주세요."
+                android:fontFamily="@font/nanum_square_round_b"
+                android:gravity="top"
+                android:textSize="16dp"
+                android:background="@drawable/bg_edit_gray01"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:maxLength="50"
+                android:lineSpacingExtra="8dp"
+                android:padding="8dp"
+                android:privateImeOptions="defaultInputmode=korean" />
+
+            <TextView
+                android:id="@+id/tvMsgLength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:elevation="2dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:textColor="@color/gray_dark01"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="@id/etPurpose"
+                app:layout_constraintRight_toRightOf="@id/etPurpose" />
+
+            <TextView
+                style="@style/ButtonRed01"
+                android:layout_marginTop="32dp"
+                android:onClick="@{activity::checkField}"
+                android:text="@string/cmn_save"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etPurpose" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

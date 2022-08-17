@@ -7,6 +7,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityInterestBinding
 import com.moondroid.project01_meetingapp.ui.view.adapter.InterestAdapter
+import com.moondroid.project01_meetingapp.utils.view.logException
 
 class InterestActivity : BaseActivity() {
     private lateinit var binding: ActivityInterestBinding
@@ -18,20 +19,18 @@ class InterestActivity : BaseActivity() {
         intiView()
     }
 
-    private fun intiView(){
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-            it.setDisplayShowTitleEnabled(false)
+    private fun intiView() {
+        try {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.let {
+                it.setDisplayHomeAsUpEnabled(true)
+                it.setDisplayShowTitleEnabled(false)
+            }
+
+            val adapter = InterestAdapter(this)
+            binding.recycler.adapter = adapter
+        } catch (e: Exception) {
+            logException(e)
         }
-
-        val adapter = InterestAdapter(this)
-        binding.recycler.adapter = adapter
-
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) onBackPressed()
-        return super.onOptionsItemSelected(item)
     }
 }

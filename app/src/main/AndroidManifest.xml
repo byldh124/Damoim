@@ -31,33 +31,37 @@
         android:theme="@style/Theme.Project01_MeetingApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.view.activity.SettingActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red"/>
+        <activity
+            android:name=".ui.view.activity.GroupListActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red"/>
+        <activity
             android:name=".ui.view.activity.LocationActivity"
-            android:theme="@style/AppTheme.NoActionBar.Theme.White"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.White" />
         <activity
             android:name=".ui.view.activity.InterestActivity"
-            android:theme="@style/AppTheme.NoActionBar.Theme.White"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.White" />
         <activity
-            android:name=".ui.view.activity.ProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar.Theme.Red"
-            android:exported="false" />
-        <activity
-            android:name=".ui.view.activity.SignUpActivity"
-            android:theme="@style/AppTheme.NoActionBar.Theme.Red"
-            android:exported="false" />
-
-        <activity
-            android:name=".ui.view.activity.SignInActivity"
-            android:theme="@style/AppTheme.NoActionBar.Theme.Red"
-            android:exported="false" />
-
-        <activity
-            android:name=".ui.view.activity.CreateGroupActivity"
+            android:name=".ui.view.activity.MyInfoActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
-
-        <!-- Kakao Login Activity -->
+        <activity
+            android:name=".ui.view.activity.SignUpActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
+        <activity
+            android:name=".ui.view.activity.SignInActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
+        <activity
+            android:name=".ui.view.activity.CreateActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Kakao Login Activity -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -82,10 +86,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.view.activity.HomeActivity" />
-        <activity
-            android:name=".ui.view.activity.GroupActivity" />
+        <activity android:name=".ui.view.activity.HomeActivity" />
+        <activity android:name=".ui.view.activity.GroupActivity" />
     </application>
 
 </manifest>

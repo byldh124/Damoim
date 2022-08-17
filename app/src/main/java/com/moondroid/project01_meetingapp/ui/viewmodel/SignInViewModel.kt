@@ -15,8 +15,7 @@ import kotlinx.coroutines.withContext
 
 class SignInViewModel(private val repository: Repository) : BaseViewModel() {
 
-    val userstatusKakao = MutableLiveData<Int>()
-    val userInfoKakao = SingleLiveEvent<User>()
+    val showLoading = MutableLiveData<Boolean>()
 
     val signInResponse = SingleLiveEvent<BaseResponse>()
     val saltResponse = SingleLiveEvent<BaseResponse>()
@@ -24,16 +23,19 @@ class SignInViewModel(private val repository: Repository) : BaseViewModel() {
     val kakaoSignInResponse = SingleLiveEvent<BaseResponse>()
 
     fun getSalt(id: String) {
+        showLoading.value = true
         launch {
             val response = withContext(Dispatchers.IO) {
                 repository.getSalt(id)
             }
             when (response) {
                 is UseCaseResult.Success -> {
+                    showLoading.value = false
                     saltResponse.value = response.data
                 }
 
                 is UseCaseResult.Error -> {
+                    showLoading.value = false
                     response.exception.message?.let {
                         logException(it)
                     }
@@ -43,16 +45,19 @@ class SignInViewModel(private val repository: Repository) : BaseViewModel() {
     }
 
     fun signIn(body: JsonObject) {
+        showLoading.value = true
         launch {
             val response = withContext(Dispatchers.IO) {
                 repository.signIn(body)
             }
             when (response) {
                 is UseCaseResult.Success -> {
+                    showLoading.value = false
                     signInResponse.value = response.data
                 }
 
                 is UseCaseResult.Error -> {
+                    showLoading.value = false
                     response.exception.message?.let {
                         logException(it)
                     }
@@ -63,16 +68,19 @@ class SignInViewModel(private val repository: Repository) : BaseViewModel() {
     }
 
     fun signInkakao(body: JsonObject) {
+        showLoading.value = true
         launch {
-            val response = withContext(Dispatchers.IO){
+            val response = withContext(Dispatchers.IO) {
                 repository.signInKakao(body)
             }
             when (response) {
                 is UseCaseResult.Success -> {
+                    showLoading.value = false
                     kakaoSignInResponse.value = response.data
                 }
 
                 is UseCaseResult.Error -> {
+                    showLoading.value = false
                     response.exception.message?.let {
                         logException(it)
                     }

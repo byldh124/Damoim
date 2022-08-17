@@ -27,4 +27,63 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="ToolbarRed">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@color/red_light01</item>
+        <item name="android:theme">@style/ToolbarTheme_Red</item>
+    </style>
+
+
+    <style name="ToolbarWhite">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:theme">@style/ToolbarTheme_white</item>
+    </style>
+
+    <style name="TitleRed">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/red_dark01</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:fontFamily">@font/jalnan</item>
+    </style>
+
+    <style name="TitleWhite">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:fontFamily">@font/jalnan</item>
+    </style>
+
+    <style name="ButtonRed01">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/jalnan</item>
+        <item name="android:gravity">center</item>
+        <item name="android:elevation">2dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_button_red_01</item>
+    </style>
+
+    <style name="ButtonGray01">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/jalnan</item>
+        <item name="android:gravity">center</item>
+        <item name="android:elevation">2dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_button_gray_01</item>
+    </style>
+
 </resources>

@@ -3,11 +3,20 @@ package com.moondroid.project01_meetingapp.utils
 import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
+import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.view.View
+import android.view.ViewGroup
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import com.moondroid.project01_meetingapp.R
 import org.jetbrains.annotations.NotNull
 import java.security.MessageDigest
 
@@ -21,7 +30,7 @@ internal object DMUtils {
         }
     }
 
-    fun hashingPw(password: String, salt: String): String{
+    fun hashingPw(password: String, salt: String): String {
         val md: MessageDigest = MessageDigest.getInstance("SHA-256") // SHA-256 해시함수를 사용
         var output: ByteArray = password.toByteArray()
 
@@ -35,13 +44,56 @@ internal object DMUtils {
         return byteToString(output)
     }
 
-    fun byteToString(byteArray: ByteArray) : String{
+    fun byteToString(byteArray: ByteArray): String {
         val sb = StringBuilder()
         for (bt in byteArray) {
             sb.append(String.format("%02x", bt))
         }
 
         return sb.toString()
+    }
+
+    fun getStringId(context: Context, name: String): Int {
+        return try {
+            context.resources.getIdentifier(name, "string", context.packageName)
+        } catch (e: Exception) {
+            0
+        }
+    }
+
+    fun getDrawableId(context: Context, name: String): Int {
+        return try {
+            context.resources.getIdentifier(name, "drawable", context.packageName)
+        } catch (e: Exception) {
+            0
+        }
+
+    }
+
+    fun getEmptyView(container: ViewGroup){
+
+        val view: TextView = TextView(container.context)
+
+
+
+        when (container){
+            is ConstraintLayout -> {
+
+            }
+
+            is RelativeLayout -> {
+
+            }
+        }
+    }
+
+    fun getInterestNum(context: Context, interest: String): Int {
+        for (i: Int in 1..19) {
+            val query = context.getString(getStringId(context, String.format("interest_%02d", i)))
+
+            if (query == interest) { return i }
+        }
+        return 0;
     }
 
     fun getPathFromUri(context: Context, @NotNull uri: Uri): String? {

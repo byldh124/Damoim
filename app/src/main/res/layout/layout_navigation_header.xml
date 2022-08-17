@@ -12,7 +12,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="140dp"
         android:background="#9FE3D7"
         android:onClick="@{HomeActivity::toProfileActivity}"
         android:padding="16dp">
@@ -41,9 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/profile_edit_my_profile"
+            android:text="@string/cmn_edit_profile"
             android:textColor="@color/white"
             android:textSize="14sp" />
 

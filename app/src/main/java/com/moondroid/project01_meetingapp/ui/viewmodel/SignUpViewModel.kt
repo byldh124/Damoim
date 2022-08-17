@@ -1,5 +1,6 @@
 package com.moondroid.project01_meetingapp.ui.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.model.BaseResponse
 import com.moondroid.project01_meetingapp.network.Repository
@@ -10,20 +11,24 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SignUpViewModel(private val repository: Repository) : BaseViewModel() {
+    val showLoading = MutableLiveData<Boolean>()
     val signUpResponse = SingleLiveEvent<BaseResponse>()
     val tokenResponse = SingleLiveEvent<BaseResponse>()
 
     fun signUp(body: JsonObject) {
+        showLoading.value = true
         launch {
             val response = withContext(Dispatchers.IO) {
                 repository.signUp(body)
             }
             when (response) {
                 is UseCaseResult.Success -> {
+                    showLoading.value = false
                     signUpResponse.value = response.data
                 }
 
                 is UseCaseResult.Error -> {
+                    showLoading.value = false
                     response.exception.message?.let {
                         logException(it)
                     }
@@ -34,17 +39,20 @@ class SignUpViewModel(private val repository: Repository) : BaseViewModel() {
     }
 
     fun updateToken(body: JsonObject) {
+        showLoading.value = true
         launch {
-            val response = withContext(Dispatchers.IO){
+            val response = withContext(Dispatchers.IO) {
                 repository.updateToken(body)
             }
 
             when (response) {
                 is UseCaseResult.Success -> {
+                    showLoading.value = false
                     tokenResponse.value = response.data
                 }
 
                 is UseCaseResult.Error -> {
+                    showLoading.value = false
                     response.exception.message?.let {
                         logException(it)
                     }

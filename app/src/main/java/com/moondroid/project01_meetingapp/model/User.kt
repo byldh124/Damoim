@@ -19,8 +19,4 @@ data class User(
     val thumb: String,
     @SerializedName("message")
     val message: String
-) {
-    fun getProfileLocation() : String{
-        return location.split(" ")[0]
-    }
-}
+)

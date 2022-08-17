@@ -11,6 +11,7 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityLocationBinding
 import com.moondroid.project01_meetingapp.ui.view.adapter.LocationAdapter
 import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
+import com.moondroid.project01_meetingapp.utils.view.logException
 import kotlin.collections.ArrayList
 
 class LocationActivity : BaseActivity() {
@@ -22,39 +23,40 @@ class LocationActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_location)
         binding.activity = this
 
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-            it.setDisplayShowTitleEnabled(false)
-        }
 
-        adapter = LocationAdapter(this)
         initView()
     }
 
     private fun initView() {
-        binding.recycler.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-        binding.recycler.adapter = adapter
-
-        val locations = resources.getStringArray(R.array.location).toCollection(ArrayList())
-
-        adapter.updateList(locations)
-
-        binding.etLocation.afterTextChanged { edit ->
-            val newLocation = ArrayList<String>()
-            locations.forEach {
-                if (it.contains(edit)) {
-                    newLocation.add(it)
-                }
+        try {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.let {
+                it.setDisplayHomeAsUpEnabled(true)
+                it.setDisplayShowTitleEnabled(false)
             }
-            adapter.updateList(newLocation)
-        }
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) onBackPressed()
-        return super.onOptionsItemSelected(item)
+            adapter = LocationAdapter(this)
+
+            binding.recycler.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+            binding.recycler.adapter = adapter
+
+            val locations = resources.getStringArray(R.array.location).toCollection(ArrayList())
+
+            adapter.updateList(locations)
+
+            binding.etLocation.afterTextChanged { edit ->
+                val newLocation = ArrayList<String>()
+                locations.forEach {
+                    if (it.contains(edit)) {
+                        newLocation.add(it)
+                    }
+                }
+                adapter.updateList(newLocation)
+            }
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 }

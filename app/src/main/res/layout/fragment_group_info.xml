@@ -15,49 +15,97 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
+            android:background="@color/gray_light03"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginTop="8dp">
 
                 <ImageView
+                    android:id="@+id/ivIntro"
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
+                    android:layout_height="0dp"
                     bind:layout_constraintTop_toTopOf="parent"
-                    android:background="@color/pastel_1"
+                    bind:layout_constraintDimensionRatio="5:2"
                     android:scaleType="centerCrop"
-                    bind:image ="@{activity.groupInfo.introImgUrl}"/>
+                    bind:image ="@{activity.groupInfo.image}"/>
 
                 <TextView
-                    android:id="@+id/tv_page_modify_title"
+                    android:id="@+id/tvInfoTitle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="@{activity.groupInfo.meetName}"
-                    android:textColor="#ff333333"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:text="모임 소개"
+                    bind:layout_constraintTop_toBottomOf="@id/ivIntro"
+                    android:textColor="@color/gray_dark01"
+                    android:padding="8dp"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_square_round_eb"/>
 
                 <TextView
-                    android:id="@+id/tv_page_modify_message"
+                    android:id="@+id/tvInformation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@{activity.groupInfo.message}"
-                    android:textColor="#ff333333" />
+                    bind:layout_constraintTop_toBottomOf="@id/tvInfoTitle"
+                    android:layout_margin="8dp"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_square_round_b"
+                    android:text="@{activity.groupInfo.information}"
+                    android:textColor="@color/gray_dark01"/>
+
+                <TextView
+                    android:id="@+id/btnJoin"
+                    style="@style/ButtonRed01"
+                    bind:layout_constraintTop_toBottomOf="@id/tvInformation"
+                    bind:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="가입 하기"
+                    android:onClick="@{activity::join}"
+                    android:layout_marginTop="32dp"/>
+
+                <TextView
+                    android:id="@+id/tvCurrentMoim"
+                    bind:layout_constraintTop_toBottomOf="@id/btnJoin"
+                    bind:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="현재 예정 정보"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:textColor="@color/gray_dark01"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler"
+                    android:id="@+id/recMoim"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="wrap_content"
+                    bind:layout_constraintTop_toBottomOf="@id/tvCurrentMoim"
+                    android:layout_marginTop="8dp"/>
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/tvMember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="모임원"
+                    bind:layout_constraintTop_toBottomOf="@id/recMoim"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:textSize="14dp"
+                    android:textColor="@color/gray_dark01"
+                    bind:layout_constraintLeft_toLeftOf="parent"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recMember"
+                    android:layout_width="match_parent"
+                    bind:layout_constraintTop_toBottomOf="@id/tvMember"
+                    android:layout_marginTop="8dp"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
 

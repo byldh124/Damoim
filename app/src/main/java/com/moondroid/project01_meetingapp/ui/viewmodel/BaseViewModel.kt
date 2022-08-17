@@ -27,8 +27,4 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
             .log(msg)
         DMLog.e(msg)
     }
-
-
-
-
 }

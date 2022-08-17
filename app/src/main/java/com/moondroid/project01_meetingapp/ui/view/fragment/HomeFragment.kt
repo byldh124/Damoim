@@ -6,17 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseFragment
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeGroupListBinding
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeMyGroupBinding
+import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
 import com.moondroid.project01_meetingapp.ui.view.adapter.CategoryListAdapter
 import com.moondroid.project01_meetingapp.ui.view.adapter.GroupListAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.HomeViewModel
+import com.moondroid.project01_meetingapp.utils.Constants
+import com.moondroid.project01_meetingapp.utils.DMLog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -61,11 +65,8 @@ class GroupListFragment :
 
         binding.recGroup.adapter = groupAdapter
 
-        val categories = resources.getStringArray(R.array.category_for_interest_in_meet)
-
         categoryAdapter = CategoryListAdapter(
             activity,
-            categories.toCollection(ArrayList<String>()),
             this
         )
 
@@ -82,22 +83,35 @@ class GroupListFragment :
     private fun initViewModel() {
         viewModel.loadGroup()
 
-        viewModel.groupsContent.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty()) {
-                groupAdapter.updateList(it)
+        viewModel.showLoading.observe(viewLifecycleOwner) {
+            activity.showLoading(it)
+        }
+
+        viewModel.groupsContent.observe(viewLifecycleOwner) {
+            when (it.code) {
+                Constants.ResponseCode.SUCCESS -> {
+                    val result = it.body.asJsonArray
+                    val gson = GsonBuilder().create()
+                    val groups = gson.fromJson<ArrayList<GroupInfo>>(
+                        result,
+                        object : TypeToken<ArrayList<GroupInfo>>() {}.type
+                    )
+
+                    groupAdapter.updateList(groups)
+                }
             }
-        })
+        }
     }
 
     override fun onClick() {
-        activity.goToGroupActivity()
+        activity.goToGroupActivity(Constants.ActivityTy.HOME)
     }
 
     override fun onClick(category: String) {
         groupAdapter.updateList(category)
     }
 
-    fun goToCreateGroupActivity(@Suppress("UNUSED_PARAMETER")vw: View) {
+    fun goToCreateGroupActivity(@Suppress("UNUSED_PARAMETER") vw: View) {
         activity.goToCreateGroupActivity()
     }
 }
@@ -139,7 +153,7 @@ class MyGroupFragment :
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_home_my_group, container, false)
         binding.fragment = this
@@ -152,25 +166,50 @@ class MyGroupFragment :
         initViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getMyGroup(DMApp.user.id)
+    }
+
     private fun initView() {
         groupAdapter = GroupListAdapter(activity, this)
-        binding.recMyGroup.layoutManager =
+        binding.recycler.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        binding.recMyGroup.adapter = groupAdapter
+        binding.recycler.adapter = groupAdapter
     }
 
     private fun initViewModel() {
-        viewModel.loadMyGroup(DMApp.user.id)
+        viewModel.showLoading.observe(viewLifecycleOwner) {
+            activity.showLoading(it)
+        }
 
-        viewModel.myGroupsContent.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty()) {
-                groupAdapter.updateList(it)
+        viewModel.myGroupsContent.observe(viewLifecycleOwner) {
+            DMLog.e("[HomeFragment] , MyGroupFragment , getMyGroup() Response => $it")
+            when (it.code) {
+                Constants.ResponseCode.SUCCESS -> {
+                    val gson = GsonBuilder().create()
+                    val newList = gson.fromJson<ArrayList<GroupInfo>>(
+                        it.body,
+                        object : TypeToken<ArrayList<GroupInfo>>() {}.type
+                    )
+
+                    groupAdapter.update(newList)
+                }
+
+                else -> {
+                    activity.showError(
+                        String.format(
+                            getString(R.string.error_load_group_list_fail),
+                            "[E01 : ${it.code}]"
+                        )
+                    )
+                }
             }
-        })
+        }
     }
 
     override fun onClick() {
-        activity.goToGroupActivity()
+        activity.goToGroupActivity(Constants.ActivityTy.HOME)
     }
 }
 

@@ -2,6 +2,7 @@ package com.moondroid.project01_meetingapp.ui.view.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RelativeLayout
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.databinding.ItemHomeGroupInfoBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
+import com.moondroid.project01_meetingapp.utils.DMLog
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")
@@ -41,7 +43,7 @@ class GroupListAdapter(
             * 현재 구성된 클릭 이벤트 프로세스
             * 아이템 클릭시 해당 모임의 정보를 글로벌로 올린뒤 GroupActivity에서
             * 글로벌에 저장된 해당 정보를 조회하여 표현
-            * */
+            **/
             DMApp.group = group
             listener.onClick()
         }
@@ -51,6 +53,10 @@ class GroupListAdapter(
 
     override fun getItemCount(): Int {
         return groupList.size
+    }
+
+    fun update(newGroupList: List<GroupInfo>) {
+        groupList = newGroupList
     }
 
     fun updateList(newGroupList: List<GroupInfo>) {
@@ -66,8 +72,9 @@ class GroupListAdapter(
     private fun setList() {
         val sampleList: MutableList<GroupInfo> = ArrayList()
         listContainer.forEach() {
-            if (it.meetInterest == currentCategory
-                || currentCategory == CATEGORY_ALL) {
+            if (it.interest == currentCategory
+                || currentCategory == CATEGORY_ALL
+            ) {
                 sampleList.add(it)
             }
         }

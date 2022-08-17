@@ -4,87 +4,81 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.ProfileActivity" />
+            type="com.moondroid.project01_meetingapp.ui.view.activity.MyInfoActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.view.activity.ProfileActivity">
+        tools:context=".ui.view.activity.MyInfoActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_constraintTop_toTopOf="parent"
-            android:theme="@style/ToolbarTheme_Red"
-            android:background="@color/red_light01">
+            style="@style/ToolbarRed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_profile_setting"
-                android:fontFamily="@font/jalnan"
-                android:textSize="16dp"
-                android:textColor="@color/white"
-                android:theme="@style/AppTheme.NoActionBar.Theme.Red"/>
+                style="@style/TitleWhite"
+                android:text="@string/title_profile_setting" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:padding="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:padding="24dp">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView
                 android:id="@+id/thumbWrapper"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
-                app:topRightCornerRadius="16dp"
-                app:topLeftCornerRadius="16dp"
                 android:layout_marginTop="16dp"
-                app:bottomRightCornerRadius="16dp"
-                app:bottomLeftCornerRadius="16dp"
                 android:onClick="@{activity::getImage}"
-                app:layout_constraintTop_toTopOf="parent"
+                app:bottomLeftCornerRadius="16dp"
+                app:bottomRightCornerRadius="16dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:topLeftCornerRadius="16dp"
+                app:topRightCornerRadius="16dp">
 
                 <ImageView
                     android:id="@+id/thumb"
+                    image="@{activity.user.thumb}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    image="@{activity.user.thumb}"/>
+                    android:scaleType="centerCrop" />
 
             </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
 
             <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                app:topRightCornerRadius="18dp"
-                app:topLeftCornerRadius="18dp"
-                app:bottomLeftCornerRadius="18dp"
-                app:bottomRightCornerRadius="18dp"
                 android:translationX="8dp"
                 android:translationY="8dp"
+                app:bottomLeftCornerRadius="18dp"
+                app:bottomRightCornerRadius="18dp"
+                app:layout_constraintBottom_toBottomOf="@id/thumbWrapper"
                 app:layout_constraintRight_toRightOf="@id/thumbWrapper"
-                app:layout_constraintBottom_toBottomOf="@id/thumbWrapper">
+                app:topLeftCornerRadius="18dp"
+                app:topRightCornerRadius="18dp">
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/red_light01"/>
+                    android:background="@color/red_light01" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="6dp"
-                    android:src="@drawable/ic_camera01"/>
+                    android:src="@drawable/ic_camera01" />
             </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
 
 
@@ -95,62 +89,62 @@
                 android:layout_marginTop="32dp"
                 android:background="@drawable/bg_edit_gray01"
                 android:elevation="2dp"
-                android:textColor="@color/gray_dark01"
-                app:layout_constraintTop_toBottomOf="@id/thumbWrapper"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:ems="10"
+                android:fontFamily="@font/nanum_square_round_b"
                 android:hint="@string/cmn_name"
                 android:inputType="text"
-                android:textSize="16dp"
-                android:text="@{activity.user.name}"
-                android:fontFamily="@font/nanum_square_round_b"
                 android:padding="10dp"
-                android:privateImeOptions="defaultInputmode=korean" />
+                android:privateImeOptions="defaultInputmode=korean"
+                android:text="@{activity.user.name}"
+                android:textColor="@color/gray_dark01"
+                android:textSize="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/thumbWrapper" />
 
 
             <RadioGroup
                 android:id="@+id/rg"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintLeft_toRightOf="@id/etName"
-                android:elevation="2dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/etName"
-                app:layout_constraintBottom_toBottomOf="@id/etName"
-                android:orientation="horizontal"
                 android:layout_marginStart="16dp"
-                android:gravity="center">
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/etName"
+                app:layout_constraintLeft_toRightOf="@id/etName"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/etName">
 
                 <RadioButton
                     android:id="@+id/rbMale"
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="@string/cmn_male"
+                    android:layout_weight="1"
+                    android:background="@drawable/radionbutton_male"
+                    android:button="@android:color/transparent"
+                    android:checked="true"
+                    android:elevation="2dp"
                     android:ems="2"
                     android:fontFamily="@font/jalnan"
-                    android:padding="4dp"
-                    android:elevation="2dp"
-                    android:button="@android:color/transparent"
                     android:gravity="center"
-                    android:checked="true"
-                    android:textColor="@color/selector_text_color_radiobutton"
-                    android:background="@drawable/radionbutton_male"/>
+                    android:padding="4dp"
+                    android:text="@string/cmn_male"
+                    android:textColor="@color/selector_text_color_radiobutton" />
 
                 <RadioButton
                     android:id="@+id/rbFemale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/cmn_female"
-                    android:ems="2"
-                    android:elevation="2dp"
-                    android:fontFamily="@font/jalnan"
-                    android:padding="4dp"
-                    android:gravity="center"
+                    android:background="@drawable/radionbutton_female"
                     android:button="@android:color/transparent"
-                    android:textColor="@color/selector_text_color_radiobutton"
-                    android:background="@drawable/radionbutton_female"/>
+                    android:elevation="2dp"
+                    android:ems="2"
+                    android:fontFamily="@font/jalnan"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="@string/cmn_female"
+                    android:textColor="@color/selector_text_color_radiobutton" />
             </RadioGroup>
 
 
@@ -160,90 +154,81 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_edit_gray01"
+                android:elevation="2dp"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:gravity="center_vertical"
-                android:hint="@string/cmn_sgnp_birth"
+                android:hint="@string/cmn_birth"
                 android:onClick="@{activity::toBirth}"
-                android:textColor="@color/gray_dark01"
-                android:elevation="2dp"
                 android:padding="10dp"
-                android:textSize="16dp"
                 android:text="@{activity.user.birth}"
-                app:layout_constraintWidth_percent="0.45"
+                android:textColor="@color/gray_dark01"
+                android:textSize="16dp"
                 app:layout_constraintLeft_toLeftOf="@id/etName"
-                app:layout_constraintTop_toBottomOf="@id/etName" />
+                app:layout_constraintTop_toBottomOf="@id/etName"
+                app:layout_constraintWidth_percent="0.38" />
 
             <TextView
                 android:id="@+id/tvLocation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_edit_gray01"
-                app:layout_constraintTop_toTopOf="@id/tvBirth"
-                app:layout_constraintLeft_toRightOf="@id/tvBirth"
-                app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginStart="16dp"
+                android:background="@drawable/bg_edit_gray01"
                 android:elevation="2dp"
-                android:textColor="@color/gray_dark01"
-                android:onClick="@{activity::toLocation}"
-                android:text="@{activity.user.profileLocation}"
-                android:hint="@string/cmn_sgnp_choice_location"
-                android:textSize="16dp"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:gravity="center_vertical"
-                android:padding="10dp"/>
+                android:hint="@string/cmn_location"
+                android:onClick="@{activity::toLocation}"
+                android:padding="10dp"
+                android:text="@{activity.user.location}"
+                android:textColor="@color/gray_dark01"
+                android:textSize="16dp"
+                app:layout_constraintLeft_toRightOf="@id/tvBirth"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvBirth" />
 
             <EditText
                 android:id="@+id/etMsg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edit_gray01"
+                android:elevation="2dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:gravity="top"
+                android:hint="@string/cmn_message"
+                android:inputType="textMultiLine"
                 android:lines="4"
                 android:maxLength="50"
                 android:maxLines="4"
-                android:textSize="16dp"
-                android:elevation="2dp"
-                android:inputType="textMultiLine"
-                android:background="@drawable/bg_edit_gray01"
-                android:fontFamily="@font/nanum_square_round_b"
-                app:layout_constraintTop_toBottomOf="@id/tvBirth"
+                android:padding="10dp"
                 android:privateImeOptions="defaultInputmode=korean"
                 android:text="@{activity.user.message}"
-                android:layout_marginTop="16dp"
-                android:hint="상태 메세지"
-                android:gravity="top"
-                android:padding="10dp"/>
+                android:textSize="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tvBirth" />
 
             <TextView
                 android:id="@+id/tvMsgLength"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1/50자"
-                android:fontFamily="@font/nanum_square_round_b"
-                app:layout_constraintBottom_toBottomOf="@id/etMsg"
-                app:layout_constraintRight_toRightOf="@id/etMsg"
                 android:layout_margin="8dp"
                 android:elevation="2dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:textColor="@color/gray_dark01"
                 android:textSize="14dp"
-                android:textColor="@color/gray_dark01"/>
+                app:layout_constraintBottom_toBottomOf="@id/etMsg"
+                app:layout_constraintRight_toRightOf="@id/etMsg" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/etMsg"
+                android:id="@+id/confirm"
+                style="@style/ButtonRed01"
                 android:layout_marginTop="32dp"
-                android:text="@string/cmn_save"
-                android:gravity="center"
-                android:background="@drawable/bg_button_red_01"
-                android:elevation="2dp"
                 android:onClick="@{activity::saveProfile}"
-                android:fontFamily="@font/jalnan"
-                android:paddingVertical="12dp"
-                android:textColor="@color/white"
-                android:textSize="16dp"/>
+                android:text="@string/cmn_save"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etMsg" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

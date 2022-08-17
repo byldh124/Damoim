@@ -17,18 +17,19 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ToolbarTheme_white">
+            style="@style/ToolbarWhite">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/jalnan"
-                android:text="@string/title_interest_choice"
-                android:textColor="@color/red_dark01"
-                android:textSize="16sp" />
+                style="@style/TitleRed"
+                android:text="@string/title_interest_choice"/>
         </androidx.appcompat.widget.Toolbar>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/red_dark01"
+            android:layout_alignBottom="@id/toolbar"
+            android:layout_gravity="bottom"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"

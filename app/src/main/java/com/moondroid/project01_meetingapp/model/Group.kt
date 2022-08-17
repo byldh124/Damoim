@@ -1,5 +1,7 @@
 package com.moondroid.project01_meetingapp.model
 
+import com.moondroid.project01_meetingapp.utils.DMUtils
+
 data class Group(
     val groupInfo: GroupInfo,
     val groupMember: GroupMember,
@@ -7,13 +9,13 @@ data class Group(
 )
 
 data class GroupInfo(
-    val meetName: String,
-    val meetLocation: String,
-    val purposeMessage: String,
-    val titleImgUrl: String,
-    val meetInterest: String,
-    val introImgUrl: String,
-    val message: String,
+    val title: String,
+    val location: String,
+    val purpose: String,
+    val interest: String,
+    val thumb: String,
+    val image: String,
+    val information: String,
     val masterId: String
 )
 

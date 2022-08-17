@@ -3,7 +3,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="activity"
             type="com.moondroid.project01_meetingapp.ui.view.activity.SignInActivity" />
@@ -28,18 +30,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nanum_square_round_eb"
-                android:text="모임대장"
-                android:textSize="28dp"
-                android:textColor="@color/white"/>
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="28dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nanum_square_round_eb"
                 android:layout_marginTop="8dp"
-                android:text="취미 생활 공유 플랫폼"
-                android:textSize="16dp"
-                android:textColor="@color/white"/>
+                android:fontFamily="@font/nanum_square_round_eb"
+                android:text="@string/app_sub_name"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
 
         </LinearLayout>
 
@@ -59,14 +61,14 @@
                 android:layout_marginTop="32dp"
                 android:background="@drawable/bg_edit_white01"
                 android:fontFamily="@font/nanum_square_round_b"
-                android:hint="아이디"
+                android:hint="@string/cmn_id"
                 android:inputType="text"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="16dp"
+                android:privateImeOptions="defaultInputmode=english"
                 android:textColor="@color/gray_dark01"
                 android:textColorHint="@color/gray_light01"
-                android:textSize="14dp"
-                android:privateImeOptions="defaultInputmode=english"/>
+                android:textSize="14dp" />
 
             <EditText
                 android:id="@+id/etPw"
@@ -75,65 +77,49 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_edit_white01"
                 android:fontFamily="@font/nanum_square_round_b"
-                android:hint="비밀번호"
+                android:hint="@string/cmn_pw"
                 android:inputType="textPassword"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="16dp"
+                android:privateImeOptions="defaultInputmode=english"
                 android:textColor="@color/gray_dark01"
                 android:textColorHint="@color/gray_light01"
-                android:textSize="14dp"
-                android:privateImeOptions="defaultInputmode=english"/>
+                android:textSize="14dp" />
 
             <CheckBox
                 android:id="@+id/checkBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:checked="true"
                 android:buttonTint="@color/red_light01"
+                android:checked="true"
                 android:fontFamily="@font/nanum_square_round_b"
-                android:text="로그인 상태 유지"
+                android:text="@string/cmn_auto_sign_in"
                 android:textColor="@color/gray_dark02" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_button_red_01"
-                android:fontFamily="@font/jalnan"
-                android:gravity="center"
-                android:elevation="2dp"
+                android:id="@+id/tvSignIn"
+                style="@style/ButtonRed01"
                 android:layout_marginTop="32dp"
                 android:onClick="@{activity::checkField}"
-                android:paddingVertical="12dp"
-                android:text="로그인"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="16dp" />
+                android:text="@string/cmn_sign_in" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/tvSignUp"
+                style="@style/ButtonGray01"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/bg_button_gray_01"
-                android:fontFamily="@font/jalnan"
-                android:gravity="center"
-                android:elevation="2dp"
                 android:onClick="@{activity::goToSignUp}"
-                android:paddingVertical="12dp"
-                android:text="회원가입"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="16dp" />
+                android:text="@string/cmn_sign_up"/>
 
             <ImageView
+                android:id="@+id/ickakao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/btn_kakao_login"
                 android:layout_gravity="center"
-                android:elevation="2dp"
                 android:layout_marginTop="36dp"
-                android:onClick="@{activity::getKakaoProfile}"/>
-
+                android:elevation="2dp"
+                android:onClick="@{activity::getKakaoProfile}"
+                android:src="@drawable/btn_kakao_login" />
 
 
         </LinearLayout>
@@ -142,17 +128,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginBottom="8dp"
-            android:textAlignment="center"
             android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/nanum_square_round_b"
-            android:text="이 어플은 실제 서비스 되는 앱이 아닌 개인용 프로젝트 입니다."
+            android:gravity="center"
+            android:text="@string/warning_private_project"
+            android:textAlignment="center"
             android:textColor="@color/gray_dark01"
-            android:textSize="13dp" />
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -55,7 +55,7 @@
                     android:layout_alignTop="@id/tvName"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="16dp"
-                    android:text="@string/group_master"
+                    android:text="@string/cmn_group_master"
                     android:textColor="@color/pastel_5"
                     android:visibility="invisible" />
 

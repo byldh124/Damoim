@@ -17,19 +17,13 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/red_light01"
-            android:theme="@style/ToolbarTheme_Red"
-            app:layout_constraintTop_toTopOf="parent">
+            style="@style/ToolbarRed"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/jalnan"
-                android:text="@string/cmn_sgnp"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                style="@style/TitleWhite"
+                android:text="@string/cmn_sign_up"/>
         </com.google.android.material.appbar.MaterialToolbar>
 
         <LinearLayout
@@ -45,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="@string/cmn_sgnp_id"
+                android:hint="@string/cmn_id"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:background="@drawable/bg_edit_white01"
                 android:textSize="14dp"
@@ -59,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="비밀번호"
+                android:hint="@string/cmn_pw"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:background="@drawable/bg_edit_white01"
                 android:textSize="14dp"
@@ -72,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="비밀번호 확인"
+                android:hint="@string/cmn_pw_check"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:background="@drawable/bg_edit_white01"
                 android:textSize="14dp"
@@ -103,7 +97,7 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_edit_white01"
                 android:textColor="@color/gray_dark01"
-                android:hint="@string/cmn_sgnp_birth"
+                android:hint="@string/cmn_birth"
                 android:onClick="@{activity::showDateDialog}"
                 android:padding="12dp"
                 android:textSize="14sp" />
@@ -145,7 +139,7 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_edit_white01"
                 android:textColor="@color/gray_dark01"
-                android:hint="@string/cmn_sgnp_choice_location"
+                android:hint="@string/cmn_location"
                 android:onClick="@{activity::goToLocationActivity}"
                 android:padding="12dp"
                 android:textSize="14sp" />
@@ -157,24 +151,17 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_edit_white01"
                 android:textColor="@color/gray_dark01"
-                android:hint="@string/cmn_sgnp_choice_interest"
+                android:hint="@string/cmn_interest"
                 android:onClick="@{activity::goToInterestActivity}"
                 android:padding="12dp"
                 android:textSize="14sp" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/btnSave"
+                style="@style/ButtonRed01"
                 android:text="@string/cmn_save"
-                android:gravity="center"
-                android:textAlignment="center"
                 android:layout_marginTop="32dp"
-                android:background="@drawable/bg_button_01"
-                android:fontFamily="@font/jalnan"
-                android:textSize="16dp"
-                android:onClick="@{activity::signUp}"
-                android:textColor="@color/white"
-                android:paddingVertical="12dp"/>
+                android:onClick="@{activity::signUp}"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

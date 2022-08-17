@@ -24,23 +24,16 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/red_light01"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:theme="@style/ToolbarTheme_Red"
-                    android:layout_height="?attr/actionBarSize">
+                    style="@style/ToolbarRed">
 
                     <TextView
                         android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/jalnan"
                         android:text="@{HomeActivity.title}"
-                        android:textColor="@color/white"
-                        android:textSize="24dp" />
+                        style="@style/TitleWhite" />
                 </com.google.android.material.appbar.MaterialToolbar>
             </com.google.android.material.appbar.AppBarLayout>
 

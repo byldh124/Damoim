@@ -5,13 +5,16 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.SignInActivity
 import com.moondroid.project01_meetingapp.ui.view.dialog.ErrorDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.view.log
+import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 
 open class BaseActivity : AppCompatActivity() {
@@ -25,65 +28,121 @@ open class BaseActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
-    fun showError(msg: String, onClick: ()-> Unit){
+    fun showError(msg: String, onClick: () -> Unit) {
+        try {
+            log("showError , msg = $msg")
 
-        log("showError , msg = $msg")
+            if (errorDialog == null) {
+                errorDialog = ErrorDialog(this, msg, onClick)
+            } else {
+                errorDialog!!.msg = msg
+                errorDialog!!.onClick = onClick
+            }
 
-        if (errorDialog == null){
-            errorDialog = ErrorDialog(this, msg, onClick)
-        } else {
-            errorDialog!!.msg = msg
-            errorDialog!!.onClick = onClick
+            errorDialog!!.show()
+        } catch (e: Exception) {
+            logException(e)
         }
-
-        errorDialog!!.show()
     }
 
-    fun showError(msg: String){
+    fun showError(msg: String) {
+        try {
+            log("showError , msg = $msg")
 
-        log("showError , msg = $msg")
+            if (errorDialog == null) {
+                errorDialog = ErrorDialog(this, msg) {}
+            } else {
+                errorDialog!!.msg = msg
+                errorDialog!!.onClick = {}
+            }
 
-        if (errorDialog == null){
-            errorDialog = ErrorDialog(this, msg) {}
-        } else {
-            errorDialog!!.msg = msg
-            errorDialog!!.onClick = {}
+            errorDialog!!.show()
+        } catch (e: Exception) {
+            logException(e)
         }
 
-        errorDialog!!.show()
     }
 
-    fun showLoading(){
-        if (loadingDialog == null){
-            loadingDialog = LoadingDialog(this)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
         }
-        loadingDialog!!.show()
+        return super.onOptionsItemSelected(item)
     }
 
-    fun hideLoading(){
-        if (loadingDialog?.isShowing == true){
-            loadingDialog?.cancel()
-            loadingDialog = null
+    fun showLoading(b: Boolean) {
+        if (b) showLoading() else hideLoading()
+    }
+
+    fun showLoading() {
+        try {
+            if (loadingDialog == null) {
+                loadingDialog = LoadingDialog(this)
+            }
+            loadingDialog!!.show()
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
+
+    fun hideLoading() {
+        try {
+            if (loadingDialog?.isShowing == true) {
+                loadingDialog?.cancel()
+                loadingDialog = null
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
     fun goToHomeActivity(activityTy: Int) {
-        val intent = Intent(this, HomeActivity::class.java)
+        try {
+            val intent = Intent(this, HomeActivity::class.java)
 
-        intent.putExtra(Constants.ACTIVITY_TY, activityTy)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        startActivityWithAnim(intent)
-        finishAffinity()
+            intent.putExtra(Constants.ACTIVITY_TY, activityTy)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            startActivityWithAnim(intent)
+            finishAffinity()
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
     fun goToSgnnActivity(activityTy: Int) {
-        val intent = Intent(this, SignInActivity::class.java)
+        try {
+            val intent = Intent(this, SignInActivity::class.java)
 
-        intent.putExtra(Constants.ACTIVITY_TY, activityTy)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            intent.putExtra(Constants.ACTIVITY_TY, activityTy)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
-        startActivityWithAnim(intent)
+            startActivityWithAnim(intent)
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
+
+    /**
+     * GROUP_ITEM 클릭시 액티비티 전환
+     */
+    fun goToGroupActivity(activityType: Int) {
+        try {
+            val newIntent = Intent(this, GroupActivity::class.java)
+            newIntent.putExtra(
+                Constants.ACTIVITY_TY,
+                activityType
+            )
+            startActivityWithAnim(newIntent)
+
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(android.R.anim.fade_in, 0)
     }
 }
