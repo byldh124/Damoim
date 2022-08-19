@@ -204,6 +204,7 @@ class CreateActivity : BaseActivity() {
             toast(getString(R.string.error_location_empty))
         } else if (interest.isNullOrEmpty()) {
             toast(getString(R.string.error_interest_empty))
+            toInterest()
         } else if (path.isNullOrEmpty()) {
             toast(getString(R.string.error_thumb_empty))
         } else {

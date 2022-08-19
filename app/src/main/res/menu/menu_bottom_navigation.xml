@@ -8,13 +8,13 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/bnv_tab2"
-        android:title="@string/cmn_premium"
-        android:icon="@drawable/ic_bottom_tab2_charge"
+        android:title="@string/cmn_my_group"
+        android:icon="@drawable/ic_bottom_tab3_my_page"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/bnv_tab3"
-        android:title="@string/cmn_my_group"
-        android:icon="@drawable/ic_bottom_tab3_my_page"
+        android:title="@string/cmn_search"
+        android:icon="@drawable/ic_search"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/bnv_tab4"

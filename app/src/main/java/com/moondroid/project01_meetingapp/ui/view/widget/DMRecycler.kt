@@ -65,6 +65,7 @@ class DMRecycler : RecyclerView {
                 )
 
                 (parent as ViewGroup).addView(emptyView, layoutParams)
+                emptyView.gone(true)
             }
         }
     }

@@ -71,7 +71,7 @@ class GroupListAdapter(
 
     private fun setList() {
         val sampleList: MutableList<GroupInfo> = ArrayList()
-        listContainer.forEach() {
+        listContainer.forEach {
             if (it.interest == currentCategory
                 || currentCategory == CATEGORY_ALL
             ) {

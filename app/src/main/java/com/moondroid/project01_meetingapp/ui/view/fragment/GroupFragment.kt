@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
+import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseFragment
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupInfoBinding
 import com.moondroid.project01_meetingapp.model.User
@@ -18,6 +19,7 @@ import com.moondroid.project01_meetingapp.ui.view.adapter.MemberListAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.GroupViewModel
 import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.DMLog
+import com.moondroid.project01_meetingapp.utils.view.gone
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.log
 
@@ -72,6 +74,12 @@ class InfoFragment : BaseFragment() {
                     val gson = Gson()
                     val member = gson.fromJson<ArrayList<User>>(body, object : TypeToken<ArrayList<User>>(){}.type)
                     adapter.updateList(member)
+                    member.forEach { user ->
+                        if (user.id == DMApp.user.id) {
+                            binding.btnJoin.gone(true)
+                            return@forEach
+                        }
+                    }
                 }
                 else -> {
 

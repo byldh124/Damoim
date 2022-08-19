@@ -19,7 +19,7 @@ import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.view.fragment.GroupListFragment
 import com.moondroid.project01_meetingapp.ui.view.fragment.LocationFragment
-import com.moondroid.project01_meetingapp.ui.view.fragment.PremiumFragment
+import com.moondroid.project01_meetingapp.ui.view.fragment.SearchFragment
 import com.moondroid.project01_meetingapp.ui.view.fragment.MyGroupFragment
 import com.moondroid.project01_meetingapp.ui.viewmodel.HomeViewModel
 import com.moondroid.project01_meetingapp.utils.Constants
@@ -106,12 +106,12 @@ class HomeActivity : BaseActivity() {
                             title = getString(R.string.cmn_find_group)
                         }
                         R.id.bnv_tab2 -> {
-                            changeFragment(PremiumFragment())
-                            title = getString(R.string.cmn_premium)
-                        }
-                        R.id.bnv_tab3 -> {
                             changeFragment(MyGroupFragment())
                             title = getString(R.string.cmn_my_group)
+                        }
+                        R.id.bnv_tab3 -> {
+                            changeFragment(SearchFragment())
+                            title = getString(R.string.cmn_search)
                         }
                         R.id.bnv_tab4 -> {
                             changeFragment(LocationFragment())
