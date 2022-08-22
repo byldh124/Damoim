@@ -7,9 +7,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/dce6f48b7daa4586b97bc78c08e6f912/transformed/jetified-lifecycle-process-2.4.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/dce6f48b7daa4586b97bc78c08e6f912/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/dce6f48b7daa4586b97bc78c08e6f912/transformed/jetified-lifecycle-process-2.4.0/res" />
-      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/d16c8d88d4a582ebf8a96fcf40f9b451/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml" />
-      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/d16c8d88d4a582ebf8a96fcf40f9b451/transformed/jetified-lifecycle-process-2.4.0/res" />
-      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/d16c8d88d4a582ebf8a96fcf40f9b451/transformed/jetified-lifecycle-process-2.4.0/jars/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/c64f9816ffdddb0fae452d7681dfd8c6/transformed/jetified-lifecycle-process-2.4.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/c64f9816ffdddb0fae452d7681dfd8c6/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/c64f9816ffdddb0fae452d7681dfd8c6/transformed/jetified-lifecycle-process-2.4.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

@@ -61,7 +61,7 @@ android {
 
 dependencies {
     implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
@@ -73,7 +73,7 @@ dependencies {
     implementation 'androidx.security:security-crypto:1.1.0-alpha03'
 
     implementation 'androidx.activity:activity-ktx:1.5.1'
-    implementation "androidx.fragment:fragment-ktx:1.5.1"
+    implementation "androidx.fragment:fragment-ktx:1.5.2"
 
     //Lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
@@ -153,4 +153,9 @@ dependencies {
     implementation "com.kakao.sdk:v2-navi:2.11.0" // 카카오내비
     implementation "com.kakao.sdk:v2-friend:2.11.0" // 카카오톡 소셜 피커, 리소스 번들 파일 포함
     implementation group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
+
+    /** Naver**/
+    implementation("com.naver.maps:map-sdk:3.15.0")
+
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
 }

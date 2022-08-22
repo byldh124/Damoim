@@ -4,10 +4,11 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/'}
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
+        maven { url "https://naver.jfrog.io/artifactory/maven/"}
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.1'
+        classpath 'com.android.tools.build:gradle:7.2.2'
 
         //Firebase
         classpath 'com.google.gms:google-services:4.3.13'

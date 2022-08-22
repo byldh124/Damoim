@@ -94,6 +94,7 @@
     <string name="error_create_group_fail">모임 생성 실패 [%s]</string>
     <string name="error_title_mismatch">모임 이름은 2글자 이상이여야 합니다.</string>
     <string name="error_purpose_empty">모임 목표를 설정해주세요.</string>
+    <string name="error_load_moim_list_fail">"모임 정보를 불러올 수 없습니다. [%s]"</string>
 
     <string name="alm_profile_update_success">프로필 업데이트가 완료되었습니다.</string>
     <string name="alm_sign_up_success">회원가입 성공</string>

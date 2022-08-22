@@ -19,6 +19,7 @@ object URLManager {
     const val GET_MY_GROUP = "group/myGroup.php"
     const val GET_FAVORITE = "group/favorite.php"
     const val GET_RECENT = "group/recent.php"
+    const val GET_MOIM = "group/moim.php"
 
     /** 그룹 생성 수정 **/
     const val CREATE_GROUP = "group/create.php"

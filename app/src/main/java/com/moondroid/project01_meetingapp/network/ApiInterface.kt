@@ -7,6 +7,7 @@ import com.moondroid.project01_meetingapp.network.URLManager.ChECK_APP_VERSION
 import com.moondroid.project01_meetingapp.network.URLManager.GET_FAVORITE
 import com.moondroid.project01_meetingapp.network.URLManager.GET_GROUP
 import com.moondroid.project01_meetingapp.network.URLManager.GET_MEMBER
+import com.moondroid.project01_meetingapp.network.URLManager.GET_MOIM
 import com.moondroid.project01_meetingapp.network.URLManager.GET_MY_GROUP
 import com.moondroid.project01_meetingapp.network.URLManager.GET_RECENT
 import com.moondroid.project01_meetingapp.network.URLManager.SALT
@@ -58,6 +59,14 @@ interface ApiInterface {
     @POST(UPDATE_TOKEN)
     fun updateToken(
         @Body body: JsonObject
+    ): Deferred<BaseResponse>
+
+    @GET(GET_MOIM)
+    fun getMoim(): Deferred<BaseResponse>
+
+    @GET(GET_MOIM)
+    fun getMoim(
+        @Query("title") title: String
     ): Deferred<BaseResponse>
 
     @POST(SIGN_IN_KAKAO)

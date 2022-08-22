@@ -48,6 +48,8 @@ interface Repository {
         interest: String
     ): UseCaseResult<BaseResponse>
     suspend fun updateToken(body: JsonObject): UseCaseResult<BaseResponse>      // FCM 토큰 변경
+
+    suspend fun getMoim() : UseCaseResult<BaseResponse>
 }
 
 class RepositoryImpl(private val api: ApiInterface) : Repository {
@@ -182,6 +184,16 @@ class RepositoryImpl(private val api: ApiInterface) : Repository {
     override suspend fun updateToken(body: JsonObject): UseCaseResult<BaseResponse> {
         return try {
             val result = api.updateToken(body).await()
+            UseCaseResult.Success(result)
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+            UseCaseResult.Error(e)
+        }
+    }
+
+    override suspend fun getMoim(): UseCaseResult<BaseResponse> {
+        return try {
+            val result = api.getMoim().await()
             UseCaseResult.Success(result)
         } catch (e: Exception) {
             DMCrash.logException(e)

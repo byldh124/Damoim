@@ -20,6 +20,7 @@ class HomeViewModel(private val repository: Repository) : BaseViewModel() {
     val groupsContent = SingleLiveEvent<BaseResponse>()
     val myGroupsContent = SingleLiveEvent<BaseResponse>()
     val interestResponse = SingleLiveEvent<BaseResponse>()
+    val moimResponse = SingleLiveEvent<BaseResponse>()
 
     fun loadGroup() {
         showLoading.value = true
@@ -87,6 +88,29 @@ class HomeViewModel(private val repository: Repository) : BaseViewModel() {
                 is UseCaseResult.Error -> {
                     showLoading.value = false
 
+                    response.exception.message?.let {
+                        logException(it)
+                    }
+                }
+            }
+        }
+    }
+
+    fun getMoim() {
+        showLoading.value = true
+        launch {
+            val response = withContext(Dispatchers.IO) {
+                repository.getMoim()
+            }
+
+            when(response) {
+                is UseCaseResult.Success -> {
+                    showLoading.value = false
+                    moimResponse.value = response.data
+                }
+
+                is UseCaseResult.Error -> {
+                    showLoading.value = false
                     response.exception.message?.let {
                         logException(it)
                     }
