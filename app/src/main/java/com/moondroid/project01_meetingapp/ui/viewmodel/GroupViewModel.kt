@@ -43,9 +43,4 @@ class GroupViewModel(private val repository: Repository) : BaseViewModel() {
             }
         }
     }
-
-    fun checkMyGroup(title:String, id: String){
-
-
-    }
 }

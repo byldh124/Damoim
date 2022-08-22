@@ -246,7 +246,7 @@ class HomeActivity : BaseActivity() {
     /**
      * 프로필 세팅 액티비티 전환
      **/
-    fun toProfileActivity(vw: View) {
+    fun toProfileActivity(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val intent = Intent(this, MyInfoActivity::class.java)
             intent.putExtra(Constants.ACTIVITY_TY, Constants.ActivityTy.HOME)

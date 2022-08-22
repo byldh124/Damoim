@@ -67,25 +67,8 @@ internal object DMUtils {
         } catch (e: Exception) {
             0
         }
-
     }
 
-    fun getEmptyView(container: ViewGroup){
-
-        val view: TextView = TextView(container.context)
-
-
-
-        when (container){
-            is ConstraintLayout -> {
-
-            }
-
-            is RelativeLayout -> {
-
-            }
-        }
-    }
 
     fun getInterestNum(context: Context, interest: String): Int {
         for (i: Int in 1..19) {
@@ -93,7 +76,7 @@ internal object DMUtils {
 
             if (query == interest) { return i }
         }
-        return 0;
+        return 0
     }
 
     fun getPathFromUri(context: Context, @NotNull uri: Uri): String? {

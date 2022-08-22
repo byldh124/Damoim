@@ -255,7 +255,7 @@ class SignInActivity : BaseActivity() {
     /**
      * 카카오 계정 로그인 요청
      **/
-    private fun getKakaoProfile2(vw: View) {
+    private fun getKakaoProfile2(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
                 if (error != null) {
