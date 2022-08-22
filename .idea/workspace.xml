@@ -14,18 +14,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15b13e84-4a74-4e40-bea4-292749c04dfd" name="Default Changelist" comment="LocationFragment 지도 추가">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/xml/data_extraction_rules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_process_2_4_0_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_startup_startup_runtime_1_0_0_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/app/Damoim.app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Damoim.app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/HomeActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/HomeActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/SignInActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/SignInActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/viewmodel/GroupViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/viewmodel/GroupViewModel.kt" afterDir="false" />
+    <list default="true" id="15b13e84-4a74-4e40-bea4-292749c04dfd" name="Default Changelist" comment="Gradle Setting">
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/DMUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/DMUtils.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -355,7 +344,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661132729030</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Gradle Setting">
+      <created>1661133997019</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1661133997019</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -384,6 +380,7 @@
     <MESSAGE value="모임 만들기, 불러오기" />
     <MESSAGE value="검색 화면" />
     <MESSAGE value="LocationFragment 지도 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="LocationFragment 지도 추가" />
+    <MESSAGE value="Gradle Setting" />
+    <option name="LAST_COMMIT_MESSAGE" value="Gradle Setting" />
   </component>
 </project>

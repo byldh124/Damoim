@@ -3,20 +3,10 @@ package com.moondroid.project01_meetingapp.utils
 import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
-import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import android.view.View
-import android.view.ViewGroup
-import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import com.moondroid.project01_meetingapp.R
 import org.jetbrains.annotations.NotNull
 import java.security.MessageDigest
 
@@ -91,7 +81,7 @@ internal object DMUtils {
                     return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
                 }
 
-                // TODO handle non-primary volumes
+                // handle non-primary volumes
             } else if (isDownloadsDocument(uri)) {
                 val id = DocumentsContract.getDocumentId(uri)
                 val contentUri = ContentUris.withAppendedId(
@@ -102,8 +92,7 @@ internal object DMUtils {
             } else if (isMediaDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":").toTypedArray()
-                val type = split[0]
-                val contentUri: Uri = when (type) {
+                val contentUri: Uri = when (split[0]) {
                     "image" -> {
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                     }
