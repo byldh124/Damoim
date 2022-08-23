@@ -1,11 +1,6 @@
 package com.moondroid.project01_meetingapp.ui.view.fragment
 
 import android.content.Context
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -25,8 +20,6 @@ import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.view.gone
 import dagger.hilt.android.AndroidEntryPoint
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.math.log
 
 @AndroidEntryPoint
 class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_group_info) {
@@ -90,7 +83,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
 class BoardFragment : BaseFragment<FragmentGroupBoardBinding>(R.layout.fragment_group_board) {
 
     private var activity: GroupActivity? = null
-    private val viewModel: GroupViewModel by viewModel()
+    private val viewModel: GroupViewModel by viewModels()
     private lateinit var adapter: MemberListAdapter
 
     override fun onAttach(context: Context) {
@@ -106,7 +99,7 @@ class BoardFragment : BaseFragment<FragmentGroupBoardBinding>(R.layout.fragment_
 class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragment_group_gallery) {
 
     private var activity: GroupActivity? = null
-    private val viewModel: GroupViewModel by viewModel()
+    private val viewModel: GroupViewModel by viewModels()
     private lateinit var adapter: MemberListAdapter
 
     override fun onAttach(context: Context) {
@@ -123,7 +116,7 @@ class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragm
 class ChatFragment : BaseFragment<FragmentGroupChatBinding>(R.layout.fragment_group_chat) {
 
     private var activity: GroupActivity? = null
-    private val viewModel: GroupViewModel by viewModel()
+    private val viewModel: GroupViewModel by viewModels()
     private lateinit var adapter: MemberListAdapter
 
     override fun onAttach(context: Context) {

@@ -28,7 +28,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import org.koin.androidx.viewmodel.ext.android.viewModel
+
 import java.io.File
 
 @AndroidEntryPoint

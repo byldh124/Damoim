@@ -22,7 +22,7 @@ import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.visible
 import dagger.hilt.android.AndroidEntryPoint
-import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 @AndroidEntryPoint
 class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activity_group_list) {
