@@ -4,16 +4,15 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.kakao.sdk.common.KakaoSdk
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.di.appModules
-import com.moondroid.project01_meetingapp.di.fragmentModules
-import com.moondroid.project01_meetingapp.di.viewModelModules
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.utils.Preferences
+import dagger.hilt.android.HiltAndroidApp
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.fragment.koin.fragmentFactory
 import org.koin.core.context.startKoin
 
+@HiltAndroidApp
 class DMApp : Application() {
 
     companion object {
@@ -27,13 +26,15 @@ class DMApp : Application() {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)                      //다크모드 지원 X
 
-        startKoin {
+
+        //[2022.08.23] koin -> hilt migration
+        /*startKoin {
             androidContext(this@DMApp)
             fragmentFactory()
             modules(appModules)
             modules(fragmentModules)
             modules(viewModelModules)
-        }
+        }*/
 
         //set SharedPreference
         prefs = Preferences(applicationContext)

@@ -10,11 +10,14 @@ import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
 import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.view.log
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class HomeViewModel(private val repository: Repository) : BaseViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
 
     val showLoading = MutableLiveData<Boolean>()
     val groupsContent = SingleLiveEvent<BaseResponse>()

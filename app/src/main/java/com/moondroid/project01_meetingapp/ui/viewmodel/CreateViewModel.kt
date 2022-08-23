@@ -5,13 +5,16 @@ import com.moondroid.project01_meetingapp.model.BaseResponse
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import javax.inject.Inject
 
-class CreateViewModel(private val repository: Repository): BaseViewModel() {
+@HiltViewModel
+class CreateViewModel @Inject constructor(private val repository: Repository): BaseViewModel() {
     val showLoading = MutableLiveData<Boolean>()
     val createResponse = SingleLiveEvent<BaseResponse>()
 

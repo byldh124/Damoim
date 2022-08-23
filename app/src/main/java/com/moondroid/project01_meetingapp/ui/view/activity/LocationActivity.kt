@@ -12,6 +12,7 @@ import com.moondroid.project01_meetingapp.databinding.ActivityLocationBinding
 import com.moondroid.project01_meetingapp.ui.view.adapter.LocationAdapter
 import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.view.logException
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.collections.ArrayList
 
 class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity_location) {

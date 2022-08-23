@@ -3,11 +3,9 @@ package com.moondroid.project01_meetingapp.ui.view.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
+import androidx.activity.viewModels
 import com.google.gson.Gson
 import com.moondroid.project01_meetingapp.BuildConfig
 import com.moondroid.project01_meetingapp.R
@@ -20,8 +18,7 @@ import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.view.exitApp
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.concurrent.Executor
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * 스플래시 액티비티
@@ -31,9 +28,10 @@ import java.util.concurrent.Executor
  *   2) HomeActivity    (로그인 기록 o)
  * */
 @SuppressLint("CustomSplashScreen")
+@AndroidEntryPoint
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
-    private val viewModel: SplashViewModel by viewModel()
+    private val viewModel: SplashViewModel by viewModels()
 
     private var isReady = false
     private var animFinish = false

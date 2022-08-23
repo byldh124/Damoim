@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -23,13 +24,15 @@ import com.moondroid.project01_meetingapp.ui.viewmodel.GroupViewModel
 import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.view.gone
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.log
 
+@AndroidEntryPoint
 class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_group_info) {
 
     private var activity: GroupActivity? = null
-    private val viewModel: GroupViewModel by viewModel()
+    private val viewModel: GroupViewModel by viewModels()
     private lateinit var adapter: MemberListAdapter
 
     override fun onAttach(context: Context) {

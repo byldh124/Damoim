@@ -2,12 +2,11 @@ package com.moondroid.project01_meetingapp.ui.view.activity
 
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
 import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.databinding.DataBindingUtil
+import androidx.activity.viewModels
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
@@ -25,7 +24,7 @@ import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.toast
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.security.SecureRandom
 
 /**
@@ -35,9 +34,10 @@ import java.security.SecureRandom
  * 2. 해시 비밀번호 생성
  * 3. 회원가입
  **/
+@AndroidEntryPoint
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sign_up) {
 
-    private val viewModel: SignUpViewModel by viewModel()
+    private val viewModel: SignUpViewModel by viewModels()
 
     private lateinit var id: String                             // ID
     private lateinit var pw: String                             // PW - 유효성 확인 및 해시값 생성에만 사용

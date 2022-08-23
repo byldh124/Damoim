@@ -14,9 +14,11 @@
       <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/a210116e4f70da2fddd8398f0bd6b820/transformed/jetified-transport-runtime-3.1.2/res" />
       <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/48e6602c9d0f3431e72fd9fc7e26083f/transformed/jetified-transport-runtime-3.1.2/res" />
       <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/c98e74100eea75117a01e62bcdb16541/transformed/jetified-transport-runtime-3.1.2/res" />
-      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/af2465aa135933434afe3a2153dfb83e/transformed/jetified-transport-runtime-3.1.2/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/af2465aa135933434afe3a2153dfb83e/transformed/jetified-transport-runtime-3.1.2/res" />
-      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/af2465aa135933434afe3a2153dfb83e/transformed/jetified-transport-runtime-3.1.2/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/59ca663855a6cd55438325b505ab4866/transformed/jetified-transport-runtime-3.1.2/res" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/f1303ada56910a37716f238e6c2ebf5d/transformed/jetified-transport-runtime-3.1.2/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/f1303ada56910a37716f238e6c2ebf5d/transformed/jetified-transport-runtime-3.1.2/res" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/f1303ada56910a37716f238e6c2ebf5d/transformed/jetified-transport-runtime-3.1.2/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/modules-2/files-2.1/com.google.android.datatransport/transport-runtime/3.1.2/ea39b470283045e53420fee4d7205806bed8a3c9/transport-runtime-3.1.2-javadoc.jar!/" />

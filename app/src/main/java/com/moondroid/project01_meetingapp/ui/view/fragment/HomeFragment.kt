@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -32,17 +33,19 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class GroupListFragment :
     BaseFragment<FragmentHomeGroupListBinding>(R.layout.fragment_home_group_list),
     GroupListAdapter.OnItemClickListener,
     CategoryListAdapter.OnItemClickListener {
 
     lateinit var activity: HomeActivity
-    private val viewModel: HomeViewModel by viewModel()
+    private val viewModel: HomeViewModel by viewModels()
     private lateinit var groupAdapter: GroupListAdapter
     private lateinit var categoryAdapter: CategoryListAdapter
 
@@ -120,12 +123,13 @@ class GroupListFragment :
     }
 }
 
+@AndroidEntryPoint
 class MyGroupFragment :
     BaseFragment<FragmentHomeMyGroupBinding>(R.layout.fragment_home_my_group),
     GroupListAdapter.OnItemClickListener {
 
     lateinit var activity: HomeActivity
-    private val viewModel: HomeViewModel by viewModel()
+    private val viewModel: HomeViewModel by viewModels()
     private lateinit var groupAdapter: GroupListAdapter
 
     override fun onAttach(context: Context) {
@@ -236,12 +240,13 @@ class SearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.fragment
     }
 }
 
+@AndroidEntryPoint
 class LocationFragment : BaseFragment<FragmentHomeLocationBinding>(R.layout.fragment_home_location), OnMapReadyCallback {
 
     lateinit var activity: HomeActivity
     private lateinit var mNaverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
-    private val viewModel: HomeViewModel by viewModel()
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

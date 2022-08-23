@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'dagger.hilt.android.plugin'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -123,6 +125,10 @@ dependencies {
     implementation "org.koin:koin-android-viewmodel:2.1.5"
     implementation "org.koin:koin-android-scope:2.1.5"*/
 
+    //hilt
+    implementation 'com.google.dagger:hilt-android:2.43.2'
+    kapt 'com.google.dagger:hilt-compiler:2.43.2'
+
     // Coroutines for asynchronous calls (and Deferred’s adapter)
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
@@ -157,4 +163,8 @@ dependencies {
     implementation("com.naver.maps:map-sdk:3.15.0")
 
     implementation 'com.google.android.gms:play-services-location:20.0.0'
+}
+
+kapt {
+    correctErrorTypes = true
 }

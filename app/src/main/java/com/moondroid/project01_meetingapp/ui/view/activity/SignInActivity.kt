@@ -3,6 +3,7 @@ package com.moondroid.project01_meetingapp.ui.view.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
@@ -18,6 +19,7 @@ import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.view.*
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -37,8 +39,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  *   3-2) 기존 정보 없을 경우 : 아이디, 이름, 썸네일 체크 후 회원가입 화면으로 전환
  *
  **/
+
+@AndroidEntryPoint
 class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
-    private val viewModel: SignInViewModel by viewModel()
+    private val viewModel: SignInViewModel by viewModels()
 
     private lateinit var id: String                     // ID
     private lateinit var pw: String                     // 비밀번호

@@ -1,18 +1,20 @@
 package com.moondroid.project01_meetingapp.ui.viewmodel
 
-import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.model.BaseResponse
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
 import com.moondroid.project01_meetingapp.utils.DMLog
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import javax.inject.Inject
 
-class ProfileViewModel(private val repository: Repository) : BaseViewModel() {
+@HiltViewModel
+class ProfileViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
 
     val profileResponse = SingleLiveEvent<BaseResponse>()
 

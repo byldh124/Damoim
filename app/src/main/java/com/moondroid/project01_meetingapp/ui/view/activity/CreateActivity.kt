@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
@@ -19,6 +20,7 @@ import com.moondroid.project01_meetingapp.ui.viewmodel.CreateViewModel
 import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.view.*
+import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -26,8 +28,9 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
+@AndroidEntryPoint
 class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_create) {
-    private val viewModel: CreateViewModel by viewModel()
+    private val viewModel: CreateViewModel by viewModels()
     private var path: String? = null
     private var interest: String? = null
     private var location: String? = null

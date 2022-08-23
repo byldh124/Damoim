@@ -3,6 +3,7 @@ package com.moondroid.project01_meetingapp.ui.view.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,14 +21,16 @@ import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.visible
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activity_group_list) {
     private lateinit var type: TYPE
 
     private lateinit var adapter: GroupListAdapter
 
-    private val viewModel: GroupListViewModel by viewModel()
+    private val viewModel: GroupListViewModel by viewModels()
 
     enum class TYPE {
         FAVORITE,

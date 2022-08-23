@@ -17,12 +17,12 @@ import com.moondroid.project01_meetingapp.ui.view.fragment.*
 import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.logException
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class GroupActivity : FragmentActivity() {
     private val pageNum = 4
     private lateinit var binding: ActivityGroupBinding
-    private lateinit var animation: Animation
     lateinit var groupInfo: GroupInfo
     lateinit var title: String
     val fragments = arrayOf(

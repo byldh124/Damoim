@@ -6,6 +6,7 @@ import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import okhttp3.MultipartBody
 import okhttp3.Request
 import okhttp3.RequestBody
+import javax.inject.Inject
 import kotlin.Exception
 
 interface Repository {
@@ -43,16 +44,18 @@ interface Repository {
         body: Map<String, RequestBody>,
         file: MultipartBody.Part?
     ): UseCaseResult<BaseResponse>
+
     suspend fun updateInterest(                                                 // 관심사 변경
-        id:String,
+        id: String,
         interest: String
     ): UseCaseResult<BaseResponse>
+
     suspend fun updateToken(body: JsonObject): UseCaseResult<BaseResponse>      // FCM 토큰 변경
 
-    suspend fun getMoim() : UseCaseResult<BaseResponse>
+    suspend fun getMoim(): UseCaseResult<BaseResponse>
 }
 
-class RepositoryImpl(private val api: ApiInterface) : Repository {
+class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Repository {
 
     override suspend fun loadGroup(): UseCaseResult<BaseResponse> {
         return try {
@@ -91,7 +94,7 @@ class RepositoryImpl(private val api: ApiInterface) : Repository {
         return try {
             val result = api.createGroup(body, file).await()
             UseCaseResult.Success(result)
-        } catch (e: Exception){
+        } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)
         }
@@ -164,7 +167,7 @@ class RepositoryImpl(private val api: ApiInterface) : Repository {
         return try {
             val result = api.updateInterest(id, interest).await()
             UseCaseResult.Success(result)
-        } catch (e: Exception){
+        } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)
         }

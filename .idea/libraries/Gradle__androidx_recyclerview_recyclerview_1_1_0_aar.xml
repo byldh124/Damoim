@@ -3,7 +3,7 @@
     <ANNOTATIONS>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/c77423dcb78fe0b61c71a9c5049d6d56/transformed/recyclerview-1.1.0/annotations.zip!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/24ddc3fd24851ecf14269bd9b3873d24/transformed/recyclerview-1.1.0/annotations.zip!/" />
-      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/b7a8e87c4563cb92debdda8d14b4a60e/transformed/recyclerview-1.1.0/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/c963c76adf0295f52db22d04b9843662/transformed/recyclerview-1.1.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/c77423dcb78fe0b61c71a9c5049d6d56/transformed/recyclerview-1.1.0/AndroidManifest.xml" />
@@ -12,9 +12,9 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/24ddc3fd24851ecf14269bd9b3873d24/transformed/recyclerview-1.1.0/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/24ddc3fd24851ecf14269bd9b3873d24/transformed/recyclerview-1.1.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/24ddc3fd24851ecf14269bd9b3873d24/transformed/recyclerview-1.1.0/AndroidManifest.xml" />
-      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/b7a8e87c4563cb92debdda8d14b4a60e/transformed/recyclerview-1.1.0/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/b7a8e87c4563cb92debdda8d14b4a60e/transformed/recyclerview-1.1.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/b7a8e87c4563cb92debdda8d14b4a60e/transformed/recyclerview-1.1.0/res" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/c963c76adf0295f52db22d04b9843662/transformed/recyclerview-1.1.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/c963c76adf0295f52db22d04b9843662/transformed/recyclerview-1.1.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/c963c76adf0295f52db22d04b9843662/transformed/recyclerview-1.1.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

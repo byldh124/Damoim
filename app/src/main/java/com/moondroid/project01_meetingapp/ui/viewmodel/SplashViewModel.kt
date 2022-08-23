@@ -1,19 +1,18 @@
 package com.moondroid.project01_meetingapp.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
-import com.moondroid.project01_meetingapp.BuildConfig
-import com.moondroid.project01_meetingapp.model.BaseResponse
-import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
 import com.moondroid.project01_meetingapp.utils.DMLog
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class SplashViewModel(private val repository: Repository) : BaseViewModel() {
+@HiltViewModel
+class SplashViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
 
     val showLoading = MutableLiveData<Boolean>()
     val appCheck = SingleLiveEvent<Int>()
