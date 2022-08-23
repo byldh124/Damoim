@@ -29,21 +29,16 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
-class MyInfoActivity : BaseActivity() {
+class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_info) {
 
     private val viewModel: ProfileViewModel by viewModel()
-    private lateinit var binding: ActivityMyInfoBinding
     private var path: String? = null
     lateinit var user: User
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_my_info)
+    override fun init() {
         user = DMApp.user
         binding.activity = this
-
         initView()
-
         initViewModel()
     }
 

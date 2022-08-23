@@ -37,9 +37,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  *   3-2) 기존 정보 없을 경우 : 아이디, 이름, 썸네일 체크 후 회원가입 화면으로 전환
  *
  **/
-class SignInActivity : BaseActivity() {
+class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
     private val viewModel: SignInViewModel by viewModel()
-    private lateinit var binding: ActivitySignInBinding
 
     private lateinit var id: String                     // ID
     private lateinit var pw: String                     // 비밀번호
@@ -51,11 +50,8 @@ class SignInActivity : BaseActivity() {
     private val pwRegex =
         Regex("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]{8,}\$")          // 비밀번호 정규식 [영문, 숫자, 특수기혹 8글자 이상]
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
+    override fun init() {
         binding.activity = this
-
         initViewModel()
     }
 

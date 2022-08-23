@@ -28,9 +28,8 @@ import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class HomeActivity : BaseActivity() {
+class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
-    private lateinit var binding: ActivityHomeBinding
     private lateinit var headerBinding: LayoutNavigationHeaderBinding
     private val viewModel: HomeViewModel by viewModel()
     lateinit var user: User
@@ -53,19 +52,11 @@ class HomeActivity : BaseActivity() {
             }
         }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        try {
-            binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-            headerBinding = LayoutNavigationHeaderBinding.bind(binding.homeNav.getHeaderView(0))
-
-            initView()
-            initViewModel()
-            checkPermission()
-
-        } catch (e: Exception) {
-            logException(e)
-        }
+    override fun init() {
+        headerBinding = LayoutNavigationHeaderBinding.bind(binding.homeNav.getHeaderView(0))
+        initView()
+        initViewModel()
+        checkPermission()
     }
 
     override fun onResume() {

@@ -12,6 +12,9 @@ import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseFragment
+import com.moondroid.project01_meetingapp.databinding.FragmentGroupBoardBinding
+import com.moondroid.project01_meetingapp.databinding.FragmentGroupChatBinding
+import com.moondroid.project01_meetingapp.databinding.FragmentGroupGalleryBinding
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupInfoBinding
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
@@ -23,9 +26,8 @@ import com.moondroid.project01_meetingapp.utils.view.gone
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.log
 
-class InfoFragment : BaseFragment() {
+class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_group_info) {
 
-    lateinit var binding: FragmentGroupInfoBinding
     private var activity: GroupActivity? = null
     private val viewModel: GroupViewModel by viewModel()
     private lateinit var adapter: MemberListAdapter
@@ -35,18 +37,8 @@ class InfoFragment : BaseFragment() {
         activity = context as GroupActivity
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_group_info, container, false)
+    override fun init() {
         binding.activity = activity
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initView()
         initViewModel()
     }
@@ -72,7 +64,10 @@ class InfoFragment : BaseFragment() {
                 Constants.ResponseCode.SUCCESS -> {
                     val body = it.body.asJsonArray
                     val gson = Gson()
-                    val member = gson.fromJson<ArrayList<User>>(body, object : TypeToken<ArrayList<User>>(){}.type)
+                    val member = gson.fromJson<ArrayList<User>>(
+                        body,
+                        object : TypeToken<ArrayList<User>>() {}.type
+                    )
                     adapter.updateList(member)
                     member.forEach { user ->
                         if (user.id == DMApp.user.id) {
@@ -89,7 +84,7 @@ class InfoFragment : BaseFragment() {
     }
 }
 
-class BoardFragment : BaseFragment() {
+class BoardFragment : BaseFragment<FragmentGroupBoardBinding>(R.layout.fragment_group_board) {
 
     private var activity: GroupActivity? = null
     private val viewModel: GroupViewModel by viewModel()
@@ -100,31 +95,12 @@ class BoardFragment : BaseFragment() {
         activity = context as GroupActivity
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_group_board, container, false)
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-        initViewModel()
-    }
-
-    private fun initView() {
-
-    }
-
-    private fun initViewModel() {
+    override fun init() {
 
     }
 }
 
-class GalleryFragment : BaseFragment() {
+class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragment_group_gallery) {
 
     private var activity: GroupActivity? = null
     private val viewModel: GroupViewModel by viewModel()
@@ -135,30 +111,13 @@ class GalleryFragment : BaseFragment() {
         activity = context as GroupActivity
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_group_gallery, container, false)
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-        initViewModel()
-    }
-
-    private fun initView() {
-
-    }
-
-    private fun initViewModel() {
-
+    override fun init() {
     }
 }
 
-class ChatFragment : BaseFragment() {
+
+class ChatFragment : BaseFragment<FragmentGroupChatBinding>(R.layout.fragment_group_chat) {
 
     private var activity: GroupActivity? = null
     private val viewModel: GroupViewModel by viewModel()
@@ -169,26 +128,6 @@ class ChatFragment : BaseFragment() {
         activity = context as GroupActivity
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_group_chat, container, false)
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-        initViewModel()
-    }
-
-    private fun initView() {
-
-    }
-
-    private fun initViewModel() {
-
+    override fun init() {
     }
 }

@@ -31,31 +31,18 @@ import java.util.concurrent.Executor
  *   2) HomeActivity    (로그인 기록 o)
  * */
 @SuppressLint("CustomSplashScreen")
-class SplashActivity : BaseActivity() {
+class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
     private val viewModel: SplashViewModel by viewModel()
-    private lateinit var binding: ActivitySplashBinding
-    private lateinit var executor: Executor
 
     private var isReady = false
     private var animFinish = false
     lateinit var action: () -> Unit         //애니메이션 이후 화면 전환
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        try {
-            binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
-            binding.activity = this
-
-            executor = ContextCompat.getMainExecutor(this)
-            initView()
-
-            initViewModel()
-
-        } catch (e: Exception) {
-            logException(e)
-        }
+    override fun init() {
+        binding.activity = this
+        initView()
+        initViewModel()
     }
 
     private fun initViewModel() {

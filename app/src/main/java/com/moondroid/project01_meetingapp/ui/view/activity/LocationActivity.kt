@@ -14,16 +14,11 @@ import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.view.logException
 import kotlin.collections.ArrayList
 
-class LocationActivity : BaseActivity() {
-    private lateinit var binding: ActivityLocationBinding
+class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity_location) {
     private lateinit var adapter: LocationAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_location)
+    override fun init() {
         binding.activity = this
-
-
         initView()
     }
 

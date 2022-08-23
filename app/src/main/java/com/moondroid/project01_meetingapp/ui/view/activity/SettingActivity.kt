@@ -11,12 +11,9 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySettingBinding
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 
-class SettingActivity : BaseActivity() {
-    private lateinit var binding: ActivitySettingBinding
+class SettingActivity : BaseActivity<ActivitySettingBinding>(R.layout.activity_setting) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_setting)
+    override fun init() {
         binding.activity = this
     }
 

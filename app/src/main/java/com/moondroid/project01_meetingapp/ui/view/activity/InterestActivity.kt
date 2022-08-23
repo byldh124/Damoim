@@ -9,13 +9,10 @@ import com.moondroid.project01_meetingapp.databinding.ActivityInterestBinding
 import com.moondroid.project01_meetingapp.ui.view.adapter.InterestAdapter
 import com.moondroid.project01_meetingapp.utils.view.logException
 
-class InterestActivity : BaseActivity() {
-    private lateinit var binding: ActivityInterestBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_interest)
-        binding.activity = this
+class InterestActivity : BaseActivity<ActivityInterestBinding>(R.layout.activity_interest) {
 
+    override fun init() {
+        binding.activity = this
         intiView()
     }
 

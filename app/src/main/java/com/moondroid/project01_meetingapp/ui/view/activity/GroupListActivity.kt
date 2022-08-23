@@ -22,9 +22,7 @@ import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class GroupListActivity : BaseActivity() {
-    private lateinit var binding: ActivityGroupListBinding
-
+class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activity_group_list) {
     private lateinit var type: TYPE
 
     private lateinit var adapter: GroupListAdapter
@@ -36,9 +34,20 @@ class GroupListActivity : BaseActivity() {
         RECENT
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_group_list)
+    override fun init() {
+        binding.activity = this
+        initView()
+        initViewModel()
+    }
+
+    private fun initView() {
+
+        setSupportActionBar(binding.toolbar)
+
+        supportActionBar?.let {
+            it.setDisplayShowTitleEnabled(false)
+            it.setDisplayHomeAsUpEnabled(true)
+        }
 
         when (intent.getIntExtra(Constants.IntentParam.TYPE, 0)) {
             Constants.GroupListType.FAVORITE -> {
@@ -52,21 +61,6 @@ class GroupListActivity : BaseActivity() {
             else -> finish()
         }
 
-        binding.activity = this
-
-        initView()
-        initViewModel()
-
-    }
-
-    private fun initView() {
-
-        setSupportActionBar(binding.toolbar)
-
-        supportActionBar?.let {
-            it.setDisplayShowTitleEnabled(false)
-            it.setDisplayHomeAsUpEnabled(true)
-        }
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         binding.recycler.layoutManager = layoutManager
 

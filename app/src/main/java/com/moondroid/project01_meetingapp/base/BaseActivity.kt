@@ -6,7 +6,10 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.MenuItem
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.SignInActivity
@@ -17,16 +20,24 @@ import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 
-open class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int) :
+    AppCompatActivity() {
+
+    protected lateinit var binding: T
 
     var errorDialog: ErrorDialog? = null
     var loadingDialog: LoadingDialog? = null
 
+
     @SuppressLint("SourceLockedOrientationActivity")
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, layoutResId)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        init()
     }
+
+    abstract fun init()
 
     fun showError(msg: String, onClick: () -> Unit) {
         try {

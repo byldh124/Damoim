@@ -3,7 +3,6 @@ package com.moondroid.project01_meetingapp.ui.view.activity
 import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -18,11 +17,10 @@ import com.moondroid.project01_meetingapp.ui.view.fragment.*
 import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.logException
-import com.moondroid.project01_meetingapp.utils.view.visible
 
 
 class GroupActivity : FragmentActivity() {
-    private val NUM_PAGES = 4
+    private val pageNum = 4
     private lateinit var binding: ActivityGroupBinding
     private lateinit var animation: Animation
     lateinit var groupInfo: GroupInfo
@@ -89,7 +87,7 @@ class GroupActivity : FragmentActivity() {
     }
 
     private inner class PagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
-        override fun getItemCount(): Int = NUM_PAGES
+        override fun getItemCount(): Int = pageNum
 
         override fun createFragment(position: Int): Fragment {
             return fragments[position]

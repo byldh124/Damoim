@@ -26,8 +26,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
-class CreateActivity : BaseActivity() {
-    lateinit var binding: ActivityCreateBinding
+class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_create) {
     private val viewModel: CreateViewModel by viewModel()
     private var path: String? = null
     private var interest: String? = null
@@ -61,17 +60,11 @@ class CreateActivity : BaseActivity() {
             }
         }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_create)
+    override fun init() {
         binding.activity = this
-
         initView()
         initViewModel()
-
         Handler(Looper.getMainLooper()).postDelayed(this::toInterest, 500)
-
     }
 
     private fun initView() {

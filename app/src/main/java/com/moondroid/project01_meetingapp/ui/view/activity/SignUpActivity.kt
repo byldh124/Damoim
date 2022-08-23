@@ -35,9 +35,8 @@ import java.security.SecureRandom
  * 2. 해시 비밀번호 생성
  * 3. 회원가입
  **/
-class SignUpActivity : BaseActivity() {
+class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sign_up) {
 
-    private lateinit var binding: ActivitySignUpBinding
     private val viewModel: SignUpViewModel by viewModel()
 
     private lateinit var id: String                             // ID
@@ -87,35 +86,10 @@ class SignUpActivity : BaseActivity() {
             }
         }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        try {
-            binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
-            binding.activity = this
-
-
-            //카카오 미등록 시 회원가입 처리
-            fromKakao =
-                intent.hasExtra(Constants.RequestParam.ID) && intent.hasExtra(Constants.RequestParam.NAME) && intent.hasExtra(
-                    Constants.RequestParam.THUMB
-                )
-
-            if (fromKakao) {
-                binding.etId.gone(true)
-                binding.etPw.gone(true)
-                binding.etPw2.gone(true)
-                binding.etName.gone(true)
-            }
-
-            gender = binding.rbAccountMale.text.toString()
-
-            initView()
-
-            initViewModel()
-
-        } catch (e: Exception) {
-            logException(e)
-        }
+    override fun init() {
+        binding.activity = this
+        initView()
+        initViewModel()
     }
 
     private fun initView() {
@@ -134,6 +108,22 @@ class SignUpActivity : BaseActivity() {
                     logException(e)
                 }
             }
+
+            //카카오 미등록 시 회원가입 처리
+            fromKakao =
+                intent.hasExtra(Constants.RequestParam.ID) && intent.hasExtra(Constants.RequestParam.NAME) && intent.hasExtra(
+                    Constants.RequestParam.THUMB
+                )
+
+            if (fromKakao) {
+                binding.etId.gone(true)
+                binding.etPw.gone(true)
+                binding.etPw2.gone(true)
+                binding.etName.gone(true)
+            }
+
+            gender = binding.rbAccountMale.text.toString()
+
         } catch (e: Exception) {
             logException(e)
         }
@@ -287,7 +277,7 @@ class SignUpActivity : BaseActivity() {
             jsonObject.addProperty(Constants.RequestParam.ID, id)
             jsonObject.addProperty(Constants.RequestParam.HASH_PW, hashPw)
             jsonObject.addProperty(Constants.RequestParam.SALT, salt)
-            jsonObject.addProperty(Constants.RequestParam.NAME, name);
+            jsonObject.addProperty(Constants.RequestParam.NAME, name)
             jsonObject.addProperty(Constants.RequestParam.BIRTH, birth)
             jsonObject.addProperty(Constants.RequestParam.GENDER, gender)
             jsonObject.addProperty(Constants.RequestParam.LOCATION, location)

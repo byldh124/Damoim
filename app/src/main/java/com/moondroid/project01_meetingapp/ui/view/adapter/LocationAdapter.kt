@@ -12,13 +12,14 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ItemGroupMemberBinding
 import com.moondroid.project01_meetingapp.databinding.ItemLocationBinding
 import com.moondroid.project01_meetingapp.model.User
+import com.moondroid.project01_meetingapp.ui.view.activity.LocationActivity
 import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.visible
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")
-class LocationAdapter(private val activity: BaseActivity) :
+class LocationAdapter(private val activity: LocationActivity) :
     RecyclerView.Adapter<LocationAdapter.ViewHolder>() {
 
     private var list: List<String> by Delegates.observable(emptyList()) { _, _, _ ->

@@ -13,10 +13,7 @@ import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseFragment
-import com.moondroid.project01_meetingapp.databinding.FragmentHomeGroupListBinding
-import com.moondroid.project01_meetingapp.databinding.FragmentHomeLocationBinding
-import com.moondroid.project01_meetingapp.databinding.FragmentHomeMyGroupBinding
-import com.moondroid.project01_meetingapp.databinding.FragmentHomeSearchBinding
+import com.moondroid.project01_meetingapp.databinding.*
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.model.Moim
 import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
@@ -40,11 +37,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class GroupListFragment :
-    BaseFragment(),
+    BaseFragment<FragmentHomeGroupListBinding>(R.layout.fragment_home_group_list),
     GroupListAdapter.OnItemClickListener,
     CategoryListAdapter.OnItemClickListener {
 
-    private lateinit var binding: FragmentHomeGroupListBinding
     lateinit var activity: HomeActivity
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var groupAdapter: GroupListAdapter
@@ -54,20 +50,8 @@ class GroupListFragment :
         super.onAttach(context)
         activity = context as HomeActivity
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_home_group_list, container, false)
+    override fun init() {
         binding.fragment = this
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initView()
         initViewModel()
     }
@@ -137,10 +121,9 @@ class GroupListFragment :
 }
 
 class MyGroupFragment :
-    BaseFragment(),
+    BaseFragment<FragmentHomeMyGroupBinding>(R.layout.fragment_home_my_group),
     GroupListAdapter.OnItemClickListener {
 
-    lateinit var binding: FragmentHomeMyGroupBinding
     lateinit var activity: HomeActivity
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var groupAdapter: GroupListAdapter
@@ -149,20 +132,8 @@ class MyGroupFragment :
         super.onAttach(context)
         activity = context as HomeActivity
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_home_my_group, container, false)
+    override fun init() {
         binding.fragment = this
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initView()
         initViewModel()
     }
@@ -214,10 +185,9 @@ class MyGroupFragment :
     }
 }
 
-class SearchFragment : BaseFragment(), GroupListAdapter.OnItemClickListener {
+class SearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.fragment_home_search), GroupListAdapter.OnItemClickListener {
 
     lateinit var activity: HomeActivity
-    private lateinit var binding: FragmentHomeSearchBinding
     private val groups = ArrayList<GroupInfo>()
     private lateinit var groupAdapter: GroupListAdapter
 
@@ -226,19 +196,8 @@ class SearchFragment : BaseFragment(), GroupListAdapter.OnItemClickListener {
         activity = context as HomeActivity
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_home_search, container, false)
+    override fun init() {
         binding.fragment = this
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initView()
     }
 
@@ -277,12 +236,11 @@ class SearchFragment : BaseFragment(), GroupListAdapter.OnItemClickListener {
     }
 }
 
-class LocationFragment : BaseFragment(), OnMapReadyCallback {
+class LocationFragment : BaseFragment<FragmentHomeLocationBinding>(R.layout.fragment_home_location), OnMapReadyCallback {
 
     lateinit var activity: HomeActivity
-    lateinit var binding: FragmentHomeLocationBinding
-    lateinit var mNaverMap: NaverMap
-    lateinit var locationSource: FusedLocationSource
+    private lateinit var mNaverMap: NaverMap
+    private lateinit var locationSource: FusedLocationSource
     private val viewModel: HomeViewModel by viewModel()
 
     override fun onAttach(context: Context) {
@@ -290,20 +248,13 @@ class LocationFragment : BaseFragment(), OnMapReadyCallback {
         activity = context as HomeActivity
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_home_location, container, false)
-        binding.fragment = this
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView(savedInstanceState)
+    }
+
+    override fun init() {
+        binding.fragment = this
         initViewModel()
     }
 
