@@ -21,7 +21,10 @@ import com.moondroid.project01_meetingapp.ui.view.fragment.LocationFragment
 import com.moondroid.project01_meetingapp.ui.view.fragment.SearchFragment
 import com.moondroid.project01_meetingapp.ui.view.fragment.MyGroupFragment
 import com.moondroid.project01_meetingapp.ui.viewmodel.HomeViewModel
-import com.moondroid.project01_meetingapp.utils.Constants
+import com.moondroid.project01_meetingapp.utils.ActivityTy
+import com.moondroid.project01_meetingapp.utils.GroupListType
+import com.moondroid.project01_meetingapp.utils.IntentParam
+import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +46,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                     result.data?.let {
                         viewModel.updateInterest(
                             DMApp.user.id,
-                            getString(it.getIntExtra(Constants.IntentParam.INTEREST, 0))
+                            getString(it.getIntExtra(IntentParam.INTEREST, 0))
                         )
                     }
                 }
@@ -125,13 +128,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             showLoading(it)
         }
 
+        viewModel.showError.observe(this) {
+            showNetworkError(it)
+        }
+
         viewModel.interestResponse.observe(this) {
             when (it.code) {
-                Constants.ResponseCode.SUCCESS -> {
+                ResponseCode.SUCCESS -> {
                     showError(getString(R.string.alm_update_interest_success))
                 }
 
-                Constants.ResponseCode.FAIL -> {
+                ResponseCode.FAIL -> {
                     showError(getString(R.string.error_update_interest_fail))
                 }
             }
@@ -152,16 +159,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                     }
 
                     R.id.navFavorite -> {
-                        goToGroupListActivity(Constants.GroupListType.FAVORITE)
+                        goToGroupListActivity(GroupListType.FAVORITE)
                     }
 
                     R.id.navRecent -> {
-                        goToGroupListActivity(Constants.GroupListType.RECENT)
+                        goToGroupListActivity(GroupListType.RECENT)
                     }
 
                     R.id.navSetting -> {
                         val intent = Intent(this, SettingActivity::class.java)
-                        intent.putExtra(Constants.ACTIVITY_TY, Constants.ActivityTy.HOME)
+                        intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
                         startActivityWithAnim(intent)
                     }
                 }
@@ -182,7 +189,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
      * */
     private fun goToGroupListActivity(type: Int) {
         val intent = Intent(this, GroupListActivity::class.java)
-        intent.putExtra(Constants.IntentParam.TYPE, type)
+        intent.putExtra(IntentParam.TYPE, type)
         startActivityWithAnim(intent)
     }
 
@@ -227,7 +234,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     fun goToCreateGroupActivity() {
         try {
             val intent = Intent(this, CreateActivity::class.java)
-            intent.putExtra(Constants.ACTIVITY_TY, Constants.ActivityTy.HOME)
+            intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
             startActivityWithAnim(intent)
         } catch (e: Exception) {
             logException(e)
@@ -240,7 +247,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     fun toProfileActivity(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val intent = Intent(this, MyInfoActivity::class.java)
-            intent.putExtra(Constants.ACTIVITY_TY, Constants.ActivityTy.HOME)
+            intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
             startActivityWithAnim(intent)
         } catch (e: Exception) {
             logException(e)

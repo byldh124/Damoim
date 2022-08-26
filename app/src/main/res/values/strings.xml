@@ -70,6 +70,7 @@
     <string name="cmn_group_master">모임장</string>
 
     <!-- 알림, 에러 메세지 -->
+    <string name="error_network_fail">네트워트 연결에 실패했습니다.\n[에러코드 : %d]</string>
     <string name="error_plz_input_id">아이디를 입력해주세요.</string>
     <string name="error_id_mismatch">아이디는 5글자 이상 16글자 이하 영문, 숫자로 이루어져 있습니다.</string>
     <string name="error_password_mismatch">비밀번호는 8글자 이상 영문, 숫자, 특수기호로 이루어져 있습니다.</string>

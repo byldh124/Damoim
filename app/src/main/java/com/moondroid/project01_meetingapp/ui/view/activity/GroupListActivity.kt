@@ -1,13 +1,8 @@
 package com.moondroid.project01_meetingapp.ui.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
@@ -17,10 +12,11 @@ import com.moondroid.project01_meetingapp.databinding.ActivityGroupListBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.ui.view.adapter.GroupListAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.GroupListViewModel
-import com.moondroid.project01_meetingapp.utils.Constants
-import com.moondroid.project01_meetingapp.utils.view.gone
+import com.moondroid.project01_meetingapp.utils.ActivityTy
+import com.moondroid.project01_meetingapp.utils.GroupListType
+import com.moondroid.project01_meetingapp.utils.IntentParam
+import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.log
-import com.moondroid.project01_meetingapp.utils.view.visible
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -52,12 +48,12 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
             it.setDisplayHomeAsUpEnabled(true)
         }
 
-        when (intent.getIntExtra(Constants.IntentParam.TYPE, 0)) {
-            Constants.GroupListType.FAVORITE -> {
+        when (intent.getIntExtra(IntentParam.TYPE, 0)) {
+            GroupListType.FAVORITE -> {
                 type = TYPE.FAVORITE
                 title = getString(R.string.title_group_list_favorite)
             }
-            Constants.GroupListType.RECENT -> {
+            GroupListType.RECENT -> {
                 type = TYPE.RECENT
                 title = getString(R.string.title_group_list_recent)
             }
@@ -69,7 +65,7 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
 
         adapter = GroupListAdapter(this, object : GroupListAdapter.OnItemClickListener {
             override fun onClick() {
-                goToGroupActivity(Constants.ActivityTy.GROUP_LIST)
+                goToGroupActivity(ActivityTy.GROUP_LIST)
             }
         })
 
@@ -82,13 +78,17 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
             showLoading(it)
         }
 
+        viewModel.showError.observe(this) {
+            showNetworkError(it)
+        }
+
         if (type == TYPE.FAVORITE) {
             viewModel.getFavorite(DMApp.user.id)
 
             viewModel.favoriteResponse.observe(this) {
                 log("[GroupListActivity] , favoriteResponse : $it")
                 when (it.code) {
-                    Constants.ResponseCode.SUCCESS -> {
+                    ResponseCode.SUCCESS -> {
                         val gson = GsonBuilder().create()
                         val newList = gson.fromJson<ArrayList<GroupInfo>>(
                             it.body,
@@ -114,7 +114,7 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
             viewModel.recentResponse.observe(this) {
                 log("[GroupListActivity] , recentResponse : $it")
                 when (it.code) {
-                    Constants.ResponseCode.SUCCESS -> {
+                    ResponseCode.SUCCESS -> {
                         val gson = GsonBuilder().create()
                         val newList = gson.fromJson<ArrayList<GroupInfo>>(
                             it.body,

@@ -16,8 +16,8 @@ import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.adapter.MemberListAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.GroupViewModel
-import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.DMLog
+import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.gone
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,7 +57,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
         viewModel.memberResponse.observe(viewLifecycleOwner) {
             DMLog.e("[GroupFragment] , GroupInfoFragment , getMember() Response => $it")
             when (it.code) {
-                Constants.ResponseCode.SUCCESS -> {
+                ResponseCode.SUCCESS -> {
                     val body = it.body.asJsonArray
                     val gson = Gson()
                     val member = gson.fromJson<ArrayList<User>>(

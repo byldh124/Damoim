@@ -15,8 +15,7 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySignInBinding
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.viewmodel.SignInViewModel
-import com.moondroid.project01_meetingapp.utils.Constants
-import com.moondroid.project01_meetingapp.utils.DMLog
+import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.view.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,15 +66,23 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
             binding.tvSignUp.isEnabled = !it
         }
 
+        viewModel.showError.observe(this) {
+            showNetworkError(it) {
+                binding.ickakao.isEnabled = true
+                binding.tvSignIn.isEnabled = true
+                binding.tvSignUp.isEnabled = true
+            }
+        }
+
         viewModel.saltResponse.observe(this) {
             when (it.code) {
-                Constants.ResponseCode.SUCCESS -> {
+                ResponseCode.SUCCESS -> {
                     val salt = it.body.asString
                     val hashPw = DMUtils.hashingPw(pw, salt)
                     signIn(hashPw)
                 }
 
-                Constants.ResponseCode.NOT_EXIST -> {
+                ResponseCode.NOT_EXIST -> {
                     showError(getString(R.string.error_id_not_exist)) {
                         binding.etId.requestFocus()
                     }
@@ -96,23 +103,23 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
             log("[SignInActivity::signIn] Response = $it")
 
             when (it.code) {
-                Constants.ResponseCode.SUCCESS -> {
+                ResponseCode.SUCCESS -> {
                     val userInfo = it.body
                     DMApp.user = Gson().fromJson(userInfo, User::class.java)
                     if (binding.checkBox.isChecked) {
-                        DMApp.prefs.putString(Constants.PrefKey.USER_INFO, userInfo.toString())
+                        DMApp.prefs.putString(PrefKey.USER_INFO, userInfo.toString())
                     }
 
                     goToHomeActivity()
                 }
 
-                Constants.ResponseCode.NOT_EXIST -> {
+                ResponseCode.NOT_EXIST -> {
                     showError(getString(R.string.error_id_not_exist)) {
                         binding.etId.requestFocus()
                     }
                 }
 
-                Constants.ResponseCode.INVALID_VALUE -> {
+                ResponseCode.INVALID_VALUE -> {
                     showError(getString(R.string.error_wrong_password)) {
                         binding.etPw.requestFocus()
                     }
@@ -136,20 +143,20 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
             DMLog.e("[SignInActivity::signInKakao] Response : $it")
 
             when (it.code) {
-                Constants.ResponseCode.SUCCESS -> {
+                ResponseCode.SUCCESS -> {
                     val userInfo = it.body
                     DMApp.user = Gson().fromJson(userInfo, User::class.java)
                     if (binding.checkBox.isChecked) {
-                        DMApp.prefs.putString(Constants.PrefKey.USER_INFO, userInfo.toString())
+                        DMApp.prefs.putString(PrefKey.USER_INFO, userInfo.toString())
                     }
                     goToHomeActivity()
                 }
 
-                Constants.ResponseCode.NOT_EXIST -> {
+                ResponseCode.NOT_EXIST -> {
                     val intent = Intent(this@SignInActivity, SignUpActivity::class.java)
-                    intent.putExtra(Constants.RequestParam.ID, id)
-                    intent.putExtra(Constants.RequestParam.NAME, name)
-                    intent.putExtra(Constants.RequestParam.THUMB, thumb)
+                    intent.putExtra(RequestParam.ID, id)
+                    intent.putExtra(RequestParam.NAME, name)
+                    intent.putExtra(RequestParam.THUMB, thumb)
 
                     startActivityWithAnim(intent)
                 }
@@ -210,8 +217,8 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         try {
 
             val body = JsonObject()
-            body.addProperty(Constants.RequestParam.ID, id)
-            body.addProperty(Constants.RequestParam.HASH_PW, hashPw)
+            body.addProperty(RequestParam.ID, id)
+            body.addProperty(RequestParam.HASH_PW, hashPw)
 
             viewModel.signIn(body)
         } catch (e: Exception) {
@@ -293,7 +300,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         try {
             val body = JsonObject()
 
-            body.addProperty(Constants.RequestParam.ID, id)
+            body.addProperty(RequestParam.ID, id)
 
             viewModel.signInkakao(body)
 
@@ -303,7 +310,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     }
 
     private fun goToHomeActivity() {
-        goToHomeActivity(Constants.ActivityTy.SIGN_IN)
+        goToHomeActivity(ActivityTy.SIGN_IN)
     }
 
     /**
@@ -312,7 +319,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     fun goToSignUp(@Suppress("UNUSED_PARAMETER") view: View) {
         try {
             val intent = Intent(this, SignUpActivity::class.java)
-            intent.putExtra(Constants.ACTIVITY_TY, Constants.ActivityTy.SIGN_IN)
+            intent.putExtra(IntentParam.ACTIVITY, ActivityTy.SIGN_IN)
             startActivityWithAnim(intent)
         } catch (e: Exception) {
             logException(e)

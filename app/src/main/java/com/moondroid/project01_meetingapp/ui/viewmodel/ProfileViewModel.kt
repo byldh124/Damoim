@@ -1,5 +1,7 @@
 package com.moondroid.project01_meetingapp.ui.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.moondroid.project01_meetingapp.model.BaseResponse
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
@@ -16,9 +18,18 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
 
-    val profileResponse = SingleLiveEvent<BaseResponse>()
+    private val _showLoading = MutableLiveData<Boolean>()
+    val showLoading : LiveData<Boolean> get() = _showLoading
+
+    private val _showError = MutableLiveData<Int>()
+    val showError : LiveData<Int> get() = _showError
+
+    private val _profileResponse = SingleLiveEvent<BaseResponse>()
+    val profileResponse: LiveData<BaseResponse> get() = _profileResponse
+
 
     fun updateProfile(body: Map<String, RequestBody>, file: MultipartBody.Part?) {
+        _showLoading.postValue(true)
         launch {
             val response = withContext(Dispatchers.IO){
                 repository.updateProfile(body, file)
@@ -26,12 +37,17 @@ class ProfileViewModel @Inject constructor(private val repository: Repository) :
 
             when (response){
                 is UseCaseResult.Success -> {
-                    profileResponse.value = response.data
+                    _showLoading.postValue(false)
+                    _profileResponse.postValue(response.data)
+                }
 
-                    DMLog.e("updateProfile Response ${response.data}")
+                is UseCaseResult.Fail -> {
+                    _showLoading.postValue(false)
+                    _showError.postValue(response.errCode)
                 }
 
                 is UseCaseResult.Error -> {
+                    _showLoading.postValue(false)
                     response.exception.message?.let {
                         logException(it)
                     }

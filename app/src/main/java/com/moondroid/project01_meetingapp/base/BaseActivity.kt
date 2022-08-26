@@ -10,18 +10,21 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.FragmentActivity
+import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.SignInActivity
 import com.moondroid.project01_meetingapp.ui.view.dialog.ErrorDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.LoadingDialog
-import com.moondroid.project01_meetingapp.utils.Constants
+import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
+import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 
 abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int) :
-    AppCompatActivity() {
+    AppCompatActivity(){
 
     protected lateinit var binding: T
 
@@ -38,6 +41,20 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     }
 
     abstract fun init()
+
+    fun showNetworkError(code: Int) {
+        showNetworkError(code, onClick = {})
+    }
+
+    fun showNetworkError(code: Int, onClick: () -> Unit) {
+        try {
+            if (code != 0) {
+                showError(String.format(getString(R.string.error_network_fail), code), onClick)
+            }
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
 
     fun showError(msg: String, onClick: () -> Unit) {
         try {
@@ -111,7 +128,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         try {
             val intent = Intent(this, HomeActivity::class.java)
 
-            intent.putExtra(Constants.ACTIVITY_TY, activityTy)
+            intent.putExtra(IntentParam.ACTIVITY, activityTy)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivityWithAnim(intent)
@@ -125,7 +142,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         try {
             val intent = Intent(this, SignInActivity::class.java)
 
-            intent.putExtra(Constants.ACTIVITY_TY, activityTy)
+            intent.putExtra(IntentParam.ACTIVITY, activityTy)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
@@ -142,7 +159,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         try {
             val newIntent = Intent(this, GroupActivity::class.java)
             newIntent.putExtra(
-                Constants.ACTIVITY_TY,
+                IntentParam.ACTIVITY,
                 activityType
             )
             startActivityWithAnim(newIntent)

@@ -1,5 +1,6 @@
 package com.moondroid.project01_meetingapp.ui.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -19,14 +20,27 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
 
-    val showLoading = MutableLiveData<Boolean>()
-    val groupsContent = SingleLiveEvent<BaseResponse>()
-    val myGroupsContent = SingleLiveEvent<BaseResponse>()
-    val interestResponse = SingleLiveEvent<BaseResponse>()
-    val moimResponse = SingleLiveEvent<BaseResponse>()
+    private val _showLoading = MutableLiveData<Boolean>()
+    val showLoading: LiveData<Boolean> get() = _showLoading
+
+    private val _showError = MutableLiveData<Int>()
+    val showError: LiveData<Int> get() = _showError
+
+    private val _groupsContent = SingleLiveEvent<BaseResponse>()
+    val groupsContent: LiveData<BaseResponse> get() = _groupsContent
+
+    private val _myGroupsContent = SingleLiveEvent<BaseResponse>()
+    val myGroupsContent: LiveData<BaseResponse> get() = _myGroupsContent
+
+    private val _interestResponse = SingleLiveEvent<BaseResponse>()
+    val interestResponse: LiveData<BaseResponse> get() = _interestResponse
+
+    private val _moimResponse = SingleLiveEvent<BaseResponse>()
+    val moimResponse: LiveData<BaseResponse> get() = _moimResponse
+
 
     fun loadGroup() {
-        showLoading.value = true
+        _showLoading.postValue(true)
         launch {
             val response = withContext(Dispatchers.IO) {
                 repository.loadGroup()
@@ -36,12 +50,17 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Ba
             when (response) {
                 is UseCaseResult.Success -> {
                     log("[HomeActivity], loadGroup , Response => ${response.data}")
-                    showLoading.value = false
-                    groupsContent.value = response.data
+                    _showLoading.postValue(false)
+                    _groupsContent.postValue(response.data)
+                }
+
+                is UseCaseResult.Fail -> {
+                    _showLoading.postValue(false)
+                    _showError.postValue(response.errCode)
                 }
 
                 is UseCaseResult.Error -> {
-                    showLoading.value = false
+                    _showLoading.postValue(false)
                     response.exception.message?.let {
                         logException(it)
                     }
@@ -52,7 +71,7 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Ba
     }
 
     fun getMyGroup(userId: String) {
-        showLoading.value = true
+        _showLoading.postValue(true)
         launch {
             val response = withContext(Dispatchers.IO) {
                 repository.getMyGroup(userId)
@@ -60,12 +79,17 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Ba
 
             when (response) {
                 is UseCaseResult.Success -> {
-                    showLoading.value = false
-                    myGroupsContent.value = response.data
+                    _showLoading.postValue(false)
+                    _myGroupsContent.postValue(response.data)
+                }
+
+                is UseCaseResult.Fail -> {
+                    _showLoading.postValue(false)
+                    _showError.postValue(response.errCode)
                 }
 
                 is UseCaseResult.Error -> {
-                    showLoading.value = false
+                    _showLoading.postValue(false)
                     response.exception.message?.let {
                         logException(it)
                     }
@@ -76,7 +100,7 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Ba
     }
 
     fun updateInterest(id: String, interest: String) {
-        showLoading.value = true
+        _showLoading.postValue(true)
         launch {
             val response = withContext(Dispatchers.IO) {
                 repository.updateInterest(id, interest)
@@ -84,13 +108,17 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Ba
 
             when (response) {
                 is UseCaseResult.Success -> {
-                    showLoading.value = false
-                    interestResponse.value = response.data
+                    _showLoading.postValue(false)
+                    _interestResponse.postValue(response.data)
+                }
+
+                is UseCaseResult.Fail -> {
+                    _showLoading.postValue(false)
+                    _showError.postValue(response.errCode)
                 }
 
                 is UseCaseResult.Error -> {
-                    showLoading.value = false
-
+                    _showLoading.postValue(false)
                     response.exception.message?.let {
                         logException(it)
                     }
@@ -100,20 +128,25 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Ba
     }
 
     fun getMoim() {
-        showLoading.value = true
+        _showLoading.postValue(true)
         launch {
             val response = withContext(Dispatchers.IO) {
                 repository.getMoim()
             }
 
-            when(response) {
+            when (response) {
                 is UseCaseResult.Success -> {
-                    showLoading.value = false
-                    moimResponse.value = response.data
+                    _showLoading.postValue(false)
+                    _moimResponse.postValue(response.data)
+                }
+
+                is UseCaseResult.Fail -> {
+                    _showLoading.postValue(false)
+                    _showError.postValue(response.errCode)
                 }
 
                 is UseCaseResult.Error -> {
-                    showLoading.value = false
+                    _showLoading.postValue(false)
                     response.exception.message?.let {
                         logException(it)
                     }

@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.moondroid.project01_meetingapp.R
@@ -18,7 +16,7 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityMyInfoBinding
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.viewmodel.ProfileViewModel
-import com.moondroid.project01_meetingapp.utils.Constants
+import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.view.logException
@@ -70,14 +68,22 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
     }
 
     private fun initViewModel() {
+        viewModel.showLoading.observe(this) {
+            showLoading(it)
+        }
+
+        viewModel.showError.observe(this) {
+            showNetworkError(it)
+        }
+
         viewModel.profileResponse.observe(this) {
             try {
                 when (it.code) {
-                    Constants.ResponseCode.SUCCESS -> {
+                    ResponseCode.SUCCESS -> {
                         showError(getString(R.string.alm_profile_update_success)) {
                             DMApp.user = Gson().fromJson(it.body.asJsonObject, User::class.java)
                             DMApp.prefs.putString(
-                                Constants.PrefKey.USER_INFO,
+                                PrefKey.USER_INFO,
                                 it.body.toString()
                             )
                             finish()
@@ -109,7 +115,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
                 if (result?.resultCode == RESULT_OK) {
                     result.data?.let {
                         binding.tvLocation.text =
-                            it.getStringExtra(Constants.IntentParam.LOCATION).toString()
+                            it.getStringExtra(IntentParam.LOCATION).toString()
                     }
                 }
             } catch (e: Exception) {
@@ -191,13 +197,13 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
             val message = binding.etMsg.text.toString()
 
             val body = HashMap<String, RequestBody>()
-            body[Constants.RequestParam.ID] = id.toReqBody()
-            body[Constants.RequestParam.NAME] = name.toReqBody()
-            body[Constants.RequestParam.BIRTH] = birth.toReqBody()
-            body[Constants.RequestParam.GENDER] = gender.toReqBody()
-            body[Constants.RequestParam.LOCATION] = location.toReqBody()
-            body[Constants.RequestParam.THUMB] = thumb.toReqBody()
-            body[Constants.RequestParam.MESSAGE] = message.toReqBody()
+            body[RequestParam.ID] = id.toReqBody()
+            body[RequestParam.NAME] = name.toReqBody()
+            body[RequestParam.BIRTH] = birth.toReqBody()
+            body[RequestParam.GENDER] = gender.toReqBody()
+            body[RequestParam.LOCATION] = location.toReqBody()
+            body[RequestParam.THUMB] = thumb.toReqBody()
+            body[RequestParam.MESSAGE] = message.toReqBody()
 
             var filePart: MultipartBody.Part? = null
             if (!path.isNullOrEmpty()) {

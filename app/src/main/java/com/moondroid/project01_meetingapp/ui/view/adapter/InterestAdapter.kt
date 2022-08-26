@@ -15,8 +15,8 @@ import com.moondroid.project01_meetingapp.databinding.ItemHomeGroupInfoBinding
 import com.moondroid.project01_meetingapp.databinding.ItemInterestBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.ui.view.activity.InterestActivity
-import com.moondroid.project01_meetingapp.utils.Constants
 import com.moondroid.project01_meetingapp.utils.DMUtils
+import com.moondroid.project01_meetingapp.utils.IntentParam
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -35,8 +35,8 @@ class InterestAdapter(
 
         holder.itemView.setOnClickListener {
             val intent = Intent()
-            intent.putExtra(Constants.IntentParam.INTEREST, DMUtils.getStringId(activity, String.format("interest_%02d", position + 1 )))
-            intent.putExtra(Constants.IntentParam.INTEREST_ICON, DMUtils.getDrawableId(activity, String.format("ic_interest_%02d", position + 1)))
+            intent.putExtra(IntentParam.INTEREST, DMUtils.getStringId(activity, String.format("interest_%02d", position + 1 )))
+            intent.putExtra(IntentParam.INTEREST_ICON, DMUtils.getDrawableId(activity, String.format("ic_interest_%02d", position + 1)))
             activity.setResult(Activity.RESULT_OK, intent)
             activity.finish()
         }

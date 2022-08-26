@@ -1,5 +1,6 @@
 package com.moondroid.project01_meetingapp.ui.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.moondroid.project01_meetingapp.model.BaseResponse
 import com.moondroid.project01_meetingapp.network.Repository
@@ -15,15 +16,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateViewModel @Inject constructor(private val repository: Repository): BaseViewModel() {
-    val showLoading = MutableLiveData<Boolean>()
-    val createResponse = SingleLiveEvent<BaseResponse>()
+
+    private val _showLoading = MutableLiveData<Boolean>()
+    val showLoading : LiveData<Boolean> get() = _showLoading
+
+    private val _showError = MutableLiveData<Int>()
+    val showError : LiveData<Int> get() = _showError
+
+    private val _createResponse = SingleLiveEvent<BaseResponse>()
+    val createResponse : LiveData<BaseResponse> get() = _createResponse
 
 
     fun createGroup(
         body: Map<String, RequestBody>,
         file: MultipartBody.Part?
     ) {
-        showLoading.value = true
+        _showLoading.postValue(true)
         launch {
             val response = withContext(Dispatchers.IO){
                 repository.createGroup(body, file)
@@ -31,12 +39,17 @@ class CreateViewModel @Inject constructor(private val repository: Repository): B
 
             when (response) {
                 is UseCaseResult.Success -> {
-                    showLoading.value = false
-                    createResponse.value = response.data
+                    _showLoading.postValue(false)
+                    _createResponse.postValue(response.data)
+                }
+
+                is UseCaseResult.Fail -> {
+                    _showLoading.postValue(false)
+                    _showError.postValue(response.errCode)
                 }
 
                 is UseCaseResult.Error -> {
-                    showLoading.value = false
+                    _showLoading.postValue(false)
                     response.exception.message?.let {
                         logException(it)
                     }

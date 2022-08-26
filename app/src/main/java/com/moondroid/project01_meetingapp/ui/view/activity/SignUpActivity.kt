@@ -17,8 +17,7 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySignUpBinding
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.viewmodel.SignUpViewModel
-import com.moondroid.project01_meetingapp.utils.Constants
-import com.moondroid.project01_meetingapp.utils.DMLog
+import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
@@ -62,7 +61,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
             try {
                 if (result?.resultCode == RESULT_OK) {
                     result.data?.let {
-                        location = it.getStringExtra(Constants.IntentParam.LOCATION).toString()
+                        location = it.getStringExtra(IntentParam.LOCATION).toString()
                         binding.tvLocation.text = location
                     }
                 }
@@ -77,7 +76,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
             try {
                 if (result?.resultCode == RESULT_OK) {
                     result.data?.let {
-                        interest = getString(it.getIntExtra(Constants.IntentParam.INTEREST, 0))
+                        interest = getString(it.getIntExtra(IntentParam.INTEREST, 0))
                         binding.tvInterest.text = interest
                     }
                 }
@@ -110,10 +109,9 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
             }
 
             //카카오 미등록 시 회원가입 처리
-            fromKakao =
-                intent.hasExtra(Constants.RequestParam.ID) && intent.hasExtra(Constants.RequestParam.NAME) && intent.hasExtra(
-                    Constants.RequestParam.THUMB
-                )
+            fromKakao = intent.hasExtra(RequestParam.ID) &&
+                    intent.hasExtra(RequestParam.NAME) &&
+                    intent.hasExtra(RequestParam.THUMB)
 
             if (fromKakao) {
                 binding.etId.gone(true)
@@ -132,32 +130,28 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
     private fun initViewModel() {
 
         viewModel.showLoading.observe(this) {
-            try {
-                if (it) {
-                    showLoading()
-                    binding.btnSave.isEnabled = false
-                } else {
-                    hideLoading()
-                    binding.btnSave.isEnabled = true
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
+            showLoading(it)
+            binding.btnSave.isEnabled = !it
         }
 
+        viewModel.showError.observe(this) {
+            showNetworkError(it) {
+                binding.btnSave.isEnabled = true
+            }
+        }
 
         viewModel.signUpResponse.observe(this) {
 
             DMLog.e("[SignUpActivity::requestSignUp] Response => $it")
 
             when (it.code) {
-                Constants.ResponseCode.SUCCESS -> {
+                ResponseCode.SUCCESS -> {
                     toast(getString(R.string.alm_sign_up_success))
                     DMApp.user = Gson().fromJson(it.body, User::class.java)
                     getMsgToken()
                 }
 
-                Constants.ResponseCode.ALREADY_EXIST -> {
+                ResponseCode.ALREADY_EXIST -> {
                     toast(getString(R.string.error_id_already_exist))
                     binding.etId.requestFocus()
                 }
@@ -177,7 +171,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
             try {
                 log("[SignUpActivity::updateToken] Response: $it")
                 hideLoading()
-                goToHomeActivity(Constants.ActivityTy.SIGN_UP)
+                goToHomeActivity(ActivityTy.SIGN_UP)
             } catch (e: Exception) {
                 logException(e)
             }
@@ -192,26 +186,26 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
     fun signUp(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             id = if (fromKakao) {
-                intent.getStringExtra(Constants.RequestParam.ID).toString()
+                intent.getStringExtra(RequestParam.ID).toString()
             } else {
                 binding.etId.text.toString()
             }
             pw = if (fromKakao) {
-                intent.getStringExtra(Constants.RequestParam.ID).toString()
+                intent.getStringExtra(RequestParam.ID).toString()
             } else {
                 binding.etPw.text.toString()
             }
             name = if (fromKakao) {
-                intent.getStringExtra(Constants.RequestParam.NAME).toString()
+                intent.getStringExtra(RequestParam.NAME).toString()
             } else {
                 binding.etName.text.toString()
             }
             birth = binding.tvBirth.text.toString()
 
             thumb = if (fromKakao) {
-                intent.getStringExtra(Constants.RequestParam.THUMB).toString()
+                intent.getStringExtra(RequestParam.THUMB).toString()
             } else {
-                Constants.DEFAULT_PROFILE_IMG
+                DEFAULT_PROFILE_IMG
             }
 
             checkField()
@@ -252,8 +246,6 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
      **/
     private fun encryptPw() {
         try {
-            viewModel.showLoading.value = true
-
             val salt = getSalt()
 
             salt?.let {
@@ -274,15 +266,15 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         try {
 
             val jsonObject = JsonObject()
-            jsonObject.addProperty(Constants.RequestParam.ID, id)
-            jsonObject.addProperty(Constants.RequestParam.HASH_PW, hashPw)
-            jsonObject.addProperty(Constants.RequestParam.SALT, salt)
-            jsonObject.addProperty(Constants.RequestParam.NAME, name)
-            jsonObject.addProperty(Constants.RequestParam.BIRTH, birth)
-            jsonObject.addProperty(Constants.RequestParam.GENDER, gender)
-            jsonObject.addProperty(Constants.RequestParam.LOCATION, location)
-            jsonObject.addProperty(Constants.RequestParam.INTEREST, interest)
-            jsonObject.addProperty(Constants.RequestParam.THUMB, thumb)
+            jsonObject.addProperty(RequestParam.ID, id)
+            jsonObject.addProperty(RequestParam.HASH_PW, hashPw)
+            jsonObject.addProperty(RequestParam.SALT, salt)
+            jsonObject.addProperty(RequestParam.NAME, name)
+            jsonObject.addProperty(RequestParam.BIRTH, birth)
+            jsonObject.addProperty(RequestParam.GENDER, gender)
+            jsonObject.addProperty(RequestParam.LOCATION, location)
+            jsonObject.addProperty(RequestParam.INTEREST, interest)
+            jsonObject.addProperty(RequestParam.THUMB, thumb)
 
             viewModel.signUp(jsonObject)
         } catch (e: Exception) {
@@ -299,7 +291,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
             FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
                     hideLoading()
-                    goToHomeActivity(Constants.ActivityTy.SIGN_UP)
+                    goToHomeActivity(ActivityTy.SIGN_UP)
                     return@OnCompleteListener
                 }
 
@@ -322,8 +314,8 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         try {
             val body = JsonObject()
 
-            body.addProperty(Constants.RequestParam.ID, id)
-            body.addProperty(Constants.RequestParam.TOKEN, token)
+            body.addProperty(RequestParam.ID, id)
+            body.addProperty(RequestParam.TOKEN, token)
             viewModel.updateToken(body)
         } catch (e: Exception) {
             logException(e)

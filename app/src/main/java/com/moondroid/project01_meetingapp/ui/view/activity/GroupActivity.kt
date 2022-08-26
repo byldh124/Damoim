@@ -2,7 +2,7 @@ package com.moondroid.project01_meetingapp.ui.view.activity
 
 import android.os.Bundle
 import android.view.View
-import android.view.animation.Animation
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -14,7 +14,9 @@ import com.moondroid.project01_meetingapp.databinding.ActivityGroupBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.ui.view.dialog.TutorialDialog
 import com.moondroid.project01_meetingapp.ui.view.fragment.*
-import com.moondroid.project01_meetingapp.utils.Constants
+import com.moondroid.project01_meetingapp.ui.viewmodel.GroupViewModel
+import com.moondroid.project01_meetingapp.utils.ActivityTy
+import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.logException
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class GroupActivity : FragmentActivity() {
     private val pageNum = 4
     private lateinit var binding: ActivityGroupBinding
+    private val viewModel : GroupViewModel by viewModels()
     lateinit var groupInfo: GroupInfo
     lateinit var title: String
     val fragments = arrayOf(
@@ -53,6 +56,7 @@ class GroupActivity : FragmentActivity() {
 
             binding.groupActivity = this
             initView()
+            initViewModel()
         } catch (e: Exception) {
             logException(e)
         }
@@ -76,7 +80,7 @@ class GroupActivity : FragmentActivity() {
                 }
             }.attach()
 
-            if (intent.getIntExtra(Constants.ACTIVITY_TY, 0) ==Constants.ActivityTy.CREATE)
+            if (intent.getIntExtra(IntentParam.ACTIVITY, 0) == ActivityTy.CREATE)
                 TutorialDialog(this).show()
 
             binding.icSetting.gone(groupInfo.masterId != DMApp.user.id)
@@ -84,6 +88,10 @@ class GroupActivity : FragmentActivity() {
         } catch (e: Exception) {
             logException(e)
         }
+    }
+
+    private fun initViewModel() {
+
     }
 
     private inner class PagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
@@ -100,7 +108,7 @@ class GroupActivity : FragmentActivity() {
     }
 
 
-    fun join(@Suppress("UNUSED_PARAMETER")vw: View){
+    fun join(@Suppress("UNUSED_PARAMETER") vw: View) {
 
     }
 }

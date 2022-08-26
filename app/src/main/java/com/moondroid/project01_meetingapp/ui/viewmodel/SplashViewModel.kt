@@ -1,6 +1,8 @@
 package com.moondroid.project01_meetingapp.ui.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.moondroid.project01_meetingapp.model.BaseResponse
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
@@ -14,8 +16,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
 
-    val showLoading = MutableLiveData<Boolean>()
-    val appCheck = SingleLiveEvent<Int>()
+    private val _showError = MutableLiveData<Int>()
+    val showError :LiveData<Int> get() = _showError
+
+    private val _appCheckResponse = SingleLiveEvent<BaseResponse>()
+    val appCheckResponse: LiveData<BaseResponse> get() = _appCheckResponse
 
     fun checkAppVersion(
         packageName :String,
@@ -31,8 +36,11 @@ class SplashViewModel @Inject constructor(private val repository: Repository) : 
 
             when (response) {
                 is UseCaseResult.Success -> {
-                    appCheck.value = response.data.code
-                    DMLog.e("[SplashViewModel] , checkAppVersion Response Message = ${response.data.msg}")
+                    _appCheckResponse.postValue(response.data)
+                }
+
+                is UseCaseResult.Fail -> {
+                    _showError.postValue(response.errCode)
                 }
 
                 is UseCaseResult.Error -> {

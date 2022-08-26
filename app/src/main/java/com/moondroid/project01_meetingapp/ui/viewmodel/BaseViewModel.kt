@@ -1,6 +1,8 @@
 package com.moondroid.project01_meetingapp.ui.viewmodel
 
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import kotlinx.coroutines.CoroutineScope
@@ -27,4 +29,9 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
             .log(msg)
         DMLog.e(msg)
     }
+
+    protected fun showErrorToast() {
+
+    }
+
 }

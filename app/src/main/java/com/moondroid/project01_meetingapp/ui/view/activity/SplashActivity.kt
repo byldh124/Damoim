@@ -14,7 +14,9 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.viewmodel.SplashViewModel
-import com.moondroid.project01_meetingapp.utils.Constants
+import com.moondroid.project01_meetingapp.utils.ActivityTy
+import com.moondroid.project01_meetingapp.utils.PrefKey
+import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.exitApp
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
@@ -44,14 +46,19 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     }
 
     private fun initViewModel() {
-        viewModel.appCheck.observe(this) {
+        viewModel.showError.observe(this) {
+            showNetworkError(it) { exitApp() }
+        }
+
+        viewModel.appCheckResponse.observe(this) {
             try {
-                when (it) {
-                    Constants.ResponseCode.SUCCESS -> {
+                log("[SplashActivity] , appCheckResponse , observe , response => $it")
+                when (it.code) {
+                    ResponseCode.SUCCESS -> {
                         checkAutoLogin()
                     }
 
-                    Constants.ResponseCode.INACTIVE -> {
+                    ResponseCode.INACTIVE -> {
                         showError(getString(R.string.error_request_update)) {
                             try {
                                 val intent = Intent(Intent.ACTION_VIEW)
@@ -81,7 +88,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
      **/
     private fun checkAutoLogin() {
         try {
-            val userInfo = DMApp.prefs.getString(Constants.PrefKey.USER_INFO)
+            val userInfo = DMApp.prefs.getString(PrefKey.USER_INFO)
             if (!userInfo.isNullOrEmpty()) {
                 DMApp.user = Gson().fromJson(userInfo, User::class.java)
 
@@ -152,11 +159,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     }
 
     private fun goToHomeActivity() {
-        goToHomeActivity(Constants.ActivityTy.SPLASH)
+        goToHomeActivity(ActivityTy.SPLASH)
     }
 
     private fun goToSgnnActivity() {
-        goToSgnnActivity(Constants.ActivityTy.SPLASH)
+        goToSgnnActivity(ActivityTy.SPLASH)
         finish()
     }
 

@@ -6,6 +6,7 @@ import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import okhttp3.MultipartBody
 import okhttp3.Request
 import okhttp3.RequestBody
+import retrofit2.Response
 import javax.inject.Inject
 import kotlin.Exception
 
@@ -58,150 +59,66 @@ interface Repository {
 class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Repository {
 
     override suspend fun loadGroup(): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.getGroup().await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.getGroup())
     }
 
     override suspend fun getMyGroup(userId: String): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.getMyGroup(userId).await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.getMyGroup(userId))
     }
 
     override suspend fun loadMember(meetName: String): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.getMember(meetName).await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.getMember(meetName))
     }
 
     override suspend fun createGroup(
         body: Map<String, RequestBody>,
         file: MultipartBody.Part?
     ): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.createGroup(body, file).await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.createGroup(body, file))
     }
 
     override suspend fun signIn(body: JsonObject): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.signIn(body).await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.signIn(body))
     }
 
     override suspend fun getSalt(id: String): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.getSalt(id).await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.getSalt(id))
     }
 
     override suspend fun signInKakao(body: JsonObject): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.signInkakao(body).await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.signInkakao(body))
     }
 
     override suspend fun updateProfile(
         body: Map<String, RequestBody>,
         file: MultipartBody.Part?
     ): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.updateProfile(body, file).await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.updateProfile(body, file))
     }
 
     override suspend fun getFavorite(id: String): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.getFavortite(id).await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.getFavortite(id))
     }
 
     override suspend fun getRecent(id: String): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.getRecent(id).await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.getRecent(id))
     }
 
     override suspend fun updateInterest(id: String, interest: String): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.updateInterest(id, interest).await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.updateInterest(id, interest))
     }
 
 
     override suspend fun signUp(body: JsonObject): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.signUp(body).await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.signUp(body))
     }
 
     override suspend fun updateToken(body: JsonObject): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.updateToken(body).await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.updateToken(body))
     }
 
     override suspend fun getMoim(): UseCaseResult<BaseResponse> {
-        return try {
-            val result = api.getMoim().await()
-            UseCaseResult.Success(result)
-        } catch (e: Exception) {
-            DMCrash.logException(e)
-            UseCaseResult.Error(e)
-        }
+        return handleResult(api.getMoim())
     }
 
     override suspend fun checkAppVersion(
@@ -209,14 +126,19 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
         versionCode: Int,
         versionName: String
     ): UseCaseResult<BaseResponse> {
+        return handleResult(api.checkAppVersion(packageName, versionCode, versionName))
+    }
+
+    private fun handleResult(response: Response<BaseResponse>): UseCaseResult<BaseResponse> {
         return try {
-            val result = api.checkAppVersion(packageName, versionCode, versionName).await()
-            UseCaseResult.Success(result)
+            if (response.isSuccessful) {
+                UseCaseResult.Success(response.body()!!)
+            } else {
+                UseCaseResult.Fail(response.code())
+            }
         } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)
         }
     }
-
-
 }

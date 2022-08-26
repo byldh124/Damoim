@@ -17,92 +17,93 @@ import com.moondroid.project01_meetingapp.network.URLManager.SIGN_UP
 import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_INTEREST
 import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_PROFILE
 import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_TOKEN
-import com.moondroid.project01_meetingapp.utils.Constants
+import com.moondroid.project01_meetingapp.utils.RequestParam
 import kotlinx.coroutines.Deferred
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiInterface {
 
     @GET(GET_GROUP)
-    fun getGroup(): Deferred<BaseResponse>
+    suspend fun getGroup(): Response<BaseResponse>
 
     @GET(GET_MY_GROUP)
-    fun getMyGroup(@Query("id") userId: String): Deferred<BaseResponse>
+    suspend fun getMyGroup(@Query("id") userId: String): Response<BaseResponse>
 
     @GET(GET_MEMBER)
-    fun getMember(@Query("title") groupName: String): Deferred<BaseResponse>
+    suspend fun getMember(@Query("title") groupName: String): Response<BaseResponse>
 
     @POST(SIGN_IN)
-    fun signIn(
+    suspend fun signIn(
         @Body body: JsonObject
-    ): Deferred<BaseResponse>
+    ): Response<BaseResponse>
 
     @GET(SALT)
-    fun getSalt(
-        @Query(Constants.RequestParam.ID) id: String
-    ): Deferred<BaseResponse>
+    suspend fun getSalt(
+        @Query(RequestParam.ID) id: String
+    ): Response<BaseResponse>
 
     @POST(SIGN_UP)
-    fun signUp(
+    suspend fun signUp(
         @Body body: JsonObject
-    ): Deferred<BaseResponse>
+    ): Response<BaseResponse>
 
     @GET(ChECK_APP_VERSION)
-    fun checkAppVersion(
+    suspend fun checkAppVersion(
         @Query("packageName") packageName: String,
         @Query("versionCode") versionCode: Int,
         @Query("versionName") versionName: String
-    ): Deferred<BaseResponse>
+    ): Response<BaseResponse>
 
     @POST(UPDATE_TOKEN)
-    fun updateToken(
+    suspend fun updateToken(
         @Body body: JsonObject
-    ): Deferred<BaseResponse>
+    ): Response<BaseResponse>
 
     @GET(GET_MOIM)
-    fun getMoim(): Deferred<BaseResponse>
+    suspend fun getMoim(): Response<BaseResponse>
 
     @GET(GET_MOIM)
-    fun getMoim(
+    suspend fun getMoim(
         @Query("title") title: String
-    ): Deferred<BaseResponse>
+    ): Response<BaseResponse>
 
     @POST(SIGN_IN_KAKAO)
-    fun signInkakao(
+    suspend fun signInkakao(
         @Body body: JsonObject
-    ): Deferred<BaseResponse>
+    ): Response<BaseResponse>
 
     @JvmSuppressWildcards
     @Multipart
     @POST(UPDATE_PROFILE)
-    fun updateProfile(
+    suspend fun updateProfile(
         @PartMap body: Map<String, RequestBody>,
         @Part file: MultipartBody.Part?
-    ): Deferred<BaseResponse>
+    ): Response<BaseResponse>
 
     @GET(UPDATE_INTEREST)
-    fun updateInterest(
-        @Query(Constants.RequestParam.ID) id: String,
-        @Query(Constants.RequestParam.INTEREST) interest: String
-    ): Deferred<BaseResponse>
+    suspend fun updateInterest(
+        @Query(RequestParam.ID) id: String,
+        @Query(RequestParam.INTEREST) interest: String
+    ): Response<BaseResponse>
 
     @GET(GET_FAVORITE)
-    fun getFavortite(
-        @Query(Constants.RequestParam.ID) id: String
-    ): Deferred<BaseResponse>
+    suspend fun getFavortite(
+        @Query(RequestParam.ID) id: String
+    ): Response<BaseResponse>
 
     @GET(GET_RECENT)
-    fun getRecent(
-        @Query(Constants.RequestParam.ID) id: String
-    ): Deferred<BaseResponse>
+    suspend fun getRecent(
+        @Query(RequestParam.ID) id: String
+    ): Response<BaseResponse>
 
     @JvmSuppressWildcards
     @Multipart
     @POST(CREATE_GROUP)
-    fun createGroup(
+    suspend fun createGroup(
         @PartMap body: Map<String, RequestBody>,
         @Part file: MultipartBody.Part?
-    ) : Deferred<BaseResponse>
+    ) : Response<BaseResponse>
 }

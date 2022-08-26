@@ -1,10 +1,8 @@
 package com.moondroid.project01_meetingapp.ui.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.model.BaseResponse
-import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
@@ -16,29 +14,36 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GroupViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
-    val showLoading = MutableLiveData<Boolean>()
-    val memberResponse = SingleLiveEvent<BaseResponse>()
+
+    private val _showLoading = MutableLiveData<Boolean>()
+    val showLoading: LiveData<Boolean> get() = _showLoading
+
+    private val _showError = MutableLiveData<Int>()
+    val showError : LiveData<Int> get() =  _showError
+
+    private val _memberResponse = SingleLiveEvent<BaseResponse>()
+    val memberResponse: LiveData<BaseResponse> get() = _memberResponse
 
     fun loadMember(title: String) {
-        showLoading.value = true
+        _showLoading.postValue(true)
 
         launch {
             val response = withContext(Dispatchers.IO) {
                 repository.loadMember(title)
             }
-            showLoading.value = false
 
             when (response) {
                 is UseCaseResult.Success -> {
-                    memberResponse.value = response.data
-                    /*if (response.data.code == 1000) {
-                        val body = response.data.body.asJsonArray
-                        val gson = Gson()
-                        val member = gson.fromJson<ArrayList<User>>(body, object : TypeToken<ArrayList<User>>(){}.type)
-                        memberResponse.value = member
-                    }*/
+                    _showLoading.postValue(false)
+                    _memberResponse.postValue(response.data)
+                }
+
+                is UseCaseResult.Fail -> {
+                    _showLoading.postValue(false)
+                    _showError.postValue(response.errCode)
                 }
                 is UseCaseResult.Error -> {
+                    _showLoading.postValue(false)
                     response.exception.message?.let {
                         logException(it)
                     }

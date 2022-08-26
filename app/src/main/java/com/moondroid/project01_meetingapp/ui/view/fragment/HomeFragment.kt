@@ -21,8 +21,9 @@ import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
 import com.moondroid.project01_meetingapp.ui.view.adapter.CategoryListAdapter
 import com.moondroid.project01_meetingapp.ui.view.adapter.GroupListAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.HomeViewModel
-import com.moondroid.project01_meetingapp.utils.Constants
+import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.DMLog
+import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.naver.maps.geometry.LatLng
@@ -88,14 +89,9 @@ class GroupListFragment :
      * ViewModel 초기화
      */
     private fun initViewModel() {
-
-        viewModel.showLoading.observe(viewLifecycleOwner) {
-            activity.showLoading(it)
-        }
-
         viewModel.groupsContent.observe(viewLifecycleOwner) {
             when (it.code) {
-                Constants.ResponseCode.SUCCESS -> {
+                ResponseCode.SUCCESS -> {
                     val result = it.body.asJsonArray
                     val gson = GsonBuilder().create()
                     val groups = gson.fromJson<ArrayList<GroupInfo>>(
@@ -111,7 +107,7 @@ class GroupListFragment :
     }
 
     override fun onClick() {
-        activity.goToGroupActivity(Constants.ActivityTy.HOME)
+        activity.goToGroupActivity(ActivityTy.HOME)
     }
 
     override fun onClick(category: String) {
@@ -155,14 +151,11 @@ class MyGroupFragment :
     }
 
     private fun initViewModel() {
-        viewModel.showLoading.observe(viewLifecycleOwner) {
-            activity.showLoading(it)
-        }
 
         viewModel.myGroupsContent.observe(viewLifecycleOwner) {
             DMLog.e("[HomeFragment] , MyGroupFragment , getMyGroup() Response => $it")
             when (it.code) {
-                Constants.ResponseCode.SUCCESS -> {
+                ResponseCode.SUCCESS -> {
                     val gson = GsonBuilder().create()
                     val newList = gson.fromJson<ArrayList<GroupInfo>>(
                         it.body,
@@ -185,7 +178,7 @@ class MyGroupFragment :
     }
 
     override fun onClick() {
-        activity.goToGroupActivity(Constants.ActivityTy.HOME)
+        activity.goToGroupActivity(ActivityTy.HOME)
     }
 }
 
@@ -236,7 +229,7 @@ class SearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.fragment
     }
 
     override fun onClick() {
-        activity.goToGroupActivity(Constants.ActivityTy.HOME)
+        activity.goToGroupActivity(ActivityTy.HOME)
     }
 }
 
@@ -271,16 +264,12 @@ class LocationFragment : BaseFragment<FragmentHomeLocationBinding>(R.layout.frag
 
     @SuppressLint("SimpleDateFormat")
     private fun initViewModel() {
-        viewModel.showLoading.observe(viewLifecycleOwner) {
-            activity.showLoading(it)
-        }
-
         viewModel.moimResponse.observe(viewLifecycleOwner) {
 
             DMLog.e("[LocationFragment] , moimResponse , Response => $it")
 
             when (it.code) {
-                Constants.ResponseCode.SUCCESS -> {
+                ResponseCode.SUCCESS -> {
                     val gson = GsonBuilder().create()
                     val newList = gson.fromJson<ArrayList<Moim>>(
                         it.body,

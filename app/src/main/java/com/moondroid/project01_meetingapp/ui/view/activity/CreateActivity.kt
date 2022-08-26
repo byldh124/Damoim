@@ -17,7 +17,7 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityCreateBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.ui.viewmodel.CreateViewModel
-import com.moondroid.project01_meetingapp.utils.Constants
+import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.view.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,9 +46,9 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
                 if (result?.resultCode == RESULT_OK) {
                     result.data?.let {
 
-                        interest = getString(it.getIntExtra(Constants.IntentParam.INTEREST, 0))
+                        interest = getString(it.getIntExtra(IntentParam.INTEREST, 0))
 
-                        val resId = it.getIntExtra(Constants.IntentParam.INTEREST_ICON, 0)
+                        val resId = it.getIntExtra(IntentParam.INTEREST_ICON, 0)
 
                         log("[CreateActivity] , getInterest => interest : $interest , resId : $resId")
 
@@ -96,20 +96,24 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
             showLoading(it)
         }
 
+        viewModel.showError.observe(this) {
+            showNetworkError(it)
+        }
+
         viewModel.createResponse.observe(this) {
 
             log("[CreateActivity], createResponse : $it")
 
             when (it.code) {
-                Constants.ResponseCode.SUCCESS -> {
+                ResponseCode.SUCCESS -> {
                     DMApp.group = Gson().fromJson(it.body, GroupInfo::class.java)
                     val intent = Intent(this@CreateActivity, GroupActivity::class.java)
-                    intent.putExtra(Constants.ACTIVITY_TY, Constants.ActivityTy.CREATE)
+                    intent.putExtra(IntentParam.ACTIVITY, ActivityTy.CREATE)
                     startActivityWithAnim(intent)
                     finish()
                 }
 
-                Constants.ResponseCode.ALREADY_EXIST -> {
+                ResponseCode.ALREADY_EXIST -> {
                     showError(getString(R.string.error_already_exist_title)) {
                         binding.etTitle.requestFocus()
                     }
@@ -168,7 +172,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
             try {
                 if (result?.resultCode == RESULT_OK) {
                     result.data?.let {
-                        location = it.getStringExtra(Constants.IntentParam.LOCATION).toString()
+                        location = it.getStringExtra(IntentParam.LOCATION).toString()
                         binding.tvLocation.text = location
                     }
                 }
@@ -211,11 +215,11 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
     private fun createGroup() {
         try {
             val body = HashMap<String, RequestBody>()
-            body[Constants.RequestParam.ID] = DMApp.user.id.toReqBody()
-            body[Constants.RequestParam.TITLE] = title.toReqBody()
-            body[Constants.RequestParam.PURPOSE] = purpose.toReqBody()
-            body[Constants.RequestParam.INTEREST] = interest!!.toReqBody()
-            body[Constants.RequestParam.LOCATION] = location!!.toReqBody()
+            body[RequestParam.ID] = DMApp.user.id.toReqBody()
+            body[RequestParam.TITLE] = title.toReqBody()
+            body[RequestParam.PURPOSE] = purpose.toReqBody()
+            body[RequestParam.INTEREST] = interest!!.toReqBody()
+            body[RequestParam.LOCATION] = location!!.toReqBody()
 
             var filePart: MultipartBody.Part? = null
             if (!path.isNullOrEmpty()) {
