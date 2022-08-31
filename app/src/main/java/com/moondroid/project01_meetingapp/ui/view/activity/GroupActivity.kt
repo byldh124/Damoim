@@ -1,5 +1,6 @@
 package com.moondroid.project01_meetingapp.ui.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -18,10 +19,12 @@ import com.moondroid.project01_meetingapp.ui.view.fragment.*
 import com.moondroid.project01_meetingapp.ui.viewmodel.GroupViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.IntentParam
+import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
+import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
 
@@ -75,7 +78,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
                 }
             }.attach()
 
-            if (intent.getIntExtra(IntentParam.ACTIVITY, 0) == ActivityTy.CREATE)
+            if (intent.getIntExtra(ACTIVITY, 0) == ActivityTy.CREATE)
                 TutorialDialog(this).show()
 
             binding.icSetting.gone(groupInfo.masterId != DMApp.user.id)
@@ -142,7 +145,6 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
                     showError(String.format("관심목록 변경에 실패했습니다. [%s]", "E01 : ${it.code}"))
                 }
             }
-
         }
     }
 
@@ -162,5 +164,11 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
 
     fun favor(@Suppress("UNUSED_PARAMETER") vw: View) {
         viewModel.saveFavor(DMApp.user.id, groupInfo.title, !isFavor)
+    }
+
+    fun toGroupInfo(@Suppress("UNUSED_PARAMETER") vw: View) {
+        val intent = Intent(this, GroupInfoActivity::class.java)
+        intent.putExtra(ACTIVITY, ActivityTy.GROUP)
+        startActivityWithAnim(intent)
     }
 }

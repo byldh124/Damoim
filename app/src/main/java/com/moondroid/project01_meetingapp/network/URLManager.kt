@@ -29,6 +29,7 @@ object URLManager {
 
     /** 그룹 생성 수정 **/
     const val CREATE_GROUP = "group/create.php"
+    const val UPDATE_GROUP = "group/update.php"
 
     /** 회원가입 로그인 관련 **/
     const val SIGN_IN = "sign/signIn.php"

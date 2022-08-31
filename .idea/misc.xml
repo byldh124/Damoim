@@ -13,6 +13,7 @@
         <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/drawable/bg_edit_03.xml" value="0.247" />
         <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/drawable/bg_edit_gray01.xml" value="0.263" />
         <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/drawable/bg_edit_red01.xml" value="0.263" />
+        <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/drawable/bg_edit_white01.xml" value="0.321" />
         <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/drawable/bg_loading.xml" value="0.263" />
         <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/drawable/bg_text_fill_gray01.xml" value="0.263" />
         <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/drawable/bg_text_fill_red01.xml" value="0.263" />
@@ -28,6 +29,7 @@
         <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/layout/activity_create.xml" value="0.3619791666666667" />
         <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/layout/activity_create_group.xml" value="0.18489583333333334" />
         <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/layout/activity_group.xml" value="0.22" />
+        <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/layout/activity_group_info.xml" value="0.3619791666666667" />
         <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/layout/activity_group_list.xml" value="0.25" />
         <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/layout/activity_home.xml" value="0.3619791666666667" />
         <entry key="..\:/02.SampleApp/Damoim/app/src/main/res/layout/activity_interest.xml" value="0.34739583333333335" />

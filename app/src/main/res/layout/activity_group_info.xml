@@ -6,6 +6,10 @@
         <variable
             name="activity"
             type="com.moondroid.project01_meetingapp.ui.view.activity.GroupInfoActivity" />
+
+        <variable
+            name="groupInfo"
+            type="com.moondroid.project01_meetingapp.model.GroupInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,17 +30,143 @@
                 style="@style/TitleWhite"
                 android:text="@{activity.title}"/>
 
-            <ImageView
-                android:visibility="gone"
-                android:id="@+id/icSetting"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="4dp"
-                android:layout_marginEnd="8dp"
-                android:layout_gravity="end"
-                android:src="@drawable/ic_setting"/>
-
         </com.google.android.material.appbar.MaterialToolbar>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintDimensionRatio="5:2"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                android:onClick="@{activity::getImage}"
+                image ="@{groupInfo.image}"/>
+
+            <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView
+                android:id="@+id/imgWrapper"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:layout_constraintTop_toBottomOf="@id/ivImage"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                app:bottomLeftCornerRadius="16dp"
+                app:bottomRightCornerRadius="16dp"
+                app:topLeftCornerRadius="16dp"
+                app:topRightCornerRadius="16dp">
+
+                <ImageView
+                    android:id="@+id/thumb"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:onClick="@{activity::getThumb}"
+                    image="@{groupInfo.thumb}" />
+
+            </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
+
+            <EditText
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:inputType="text"
+                android:maxLength="20"
+                android:hint="@string/cmn_group_title"
+                app:layout_constraintLeft_toRightOf="@id/imgWrapper"
+                app:layout_constraintTop_toTopOf="@id/imgWrapper"
+                android:layout_marginStart="16dp"
+                android:background="@null"
+                android:fontFamily="@font/nanum_square_round_eb"
+                android:textColor="@color/gray_dark01"
+                android:textSize="16dp"
+                android:gravity="center_vertical"
+                android:text="@{groupInfo.title}"/>
+
+            <ImageView
+                android:id="@+id/icInterest"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:layout_constraintLeft_toRightOf="@id/tvTitle"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toTopOf="@id/tvTitle"
+                interest="@{groupInfo.interest}"
+                android:onClick="@{activity::toInterest}"/>
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                android:textSize="14dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                app:layout_constraintLeft_toLeftOf="@id/tvTitle"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="8dp"
+                android:text="@{groupInfo.location}"
+                android:onClick="@{activity::toLocation}"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/gray_dark01"/>
+
+
+            <EditText
+                android:id="@+id/tvPurpose"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/tvLocation"
+                app:layout_constraintBottom_toBottomOf="@id/imgWrapper"
+                app:layout_constraintLeft_toLeftOf="@id/tvTitle"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="8dp"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:background="@drawable/bg_edit_white01"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:textColor="@color/gray_dark01"
+                android:padding="8dp"
+                android:hint="@string/cmn_group_purpose"
+                android:text="@{groupInfo.purpose}"
+                android:maxLength="50"
+                android:textSize="14dp"/>
+
+            <EditText
+                android:id="@+id/tvInformation"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:inputType="textMultiLine"
+                app:layout_constraintTop_toBottomOf="@id/imgWrapper"
+                app:layout_constraintBottom_toTopOf="@id/btnSave"
+                android:gravity="top"
+                android:background="@drawable/bg_edit_white01"
+                android:layout_margin="16dp"
+                android:hint="@string/cmn_group_information"
+                android:padding="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:text="@{groupInfo.information}"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:textColor="@color/gray_dark01"
+                android:textSize="14dp"/>
+
+            <TextView
+                android:id="@+id/btnSave"
+                style="@style/ButtonRed01"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_margin="16dp"
+                android:text="@string/cmn_save"
+                android:onClick="@{activity::save}"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

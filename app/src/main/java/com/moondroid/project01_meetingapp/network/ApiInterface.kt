@@ -18,6 +18,7 @@ import com.moondroid.project01_meetingapp.network.URLManager.SAVE_RECENT
 import com.moondroid.project01_meetingapp.network.URLManager.SIGN_IN
 import com.moondroid.project01_meetingapp.network.URLManager.SIGN_IN_KAKAO
 import com.moondroid.project01_meetingapp.network.URLManager.SIGN_UP
+import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_GROUP
 import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_INTEREST
 import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_PROFILE
 import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_TOKEN
@@ -110,6 +111,15 @@ interface ApiInterface {
     suspend fun createGroup(
         @PartMap body: Map<String, RequestBody>,
         @Part file: MultipartBody.Part?
+    ): Response<BaseResponse>
+
+    @JvmSuppressWildcards
+    @Multipart
+    @POST(UPDATE_GROUP)
+    suspend fun updateGroup(
+        @PartMap body: Map<String, RequestBody>,
+        @Part thumb: MultipartBody.Part?,
+        @Part image: MultipartBody.Part?
     ): Response<BaseResponse>
 
     @GET(SAVE_RECENT)

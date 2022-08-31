@@ -44,6 +44,11 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
         initViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        groupInfo = DMApp.group
+    }
+
     private fun initView() {
         adapter = activity?.let {
             MemberListAdapter(it)

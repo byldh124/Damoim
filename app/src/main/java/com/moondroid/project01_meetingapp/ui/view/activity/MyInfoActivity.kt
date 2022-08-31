@@ -156,11 +156,8 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
             1
         }
 
-        val datePicker = DatePickerDialog(this, object : DatePickerDialog.OnDateSetListener {
-            override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-                binding.tvBirth.text = String.format("%d.%d.%d", p1, p2 + 1, p3)
-            }
-        }, year, month, date)
+        val datePicker = DatePickerDialog(this,
+            { _, p1, p2, p3 -> binding.tvBirth.text = String.format("%d.%d.%d", p1, p2 + 1, p3) }, year, month, date)
 
         datePicker.show()
     }

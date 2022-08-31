@@ -39,6 +39,12 @@ interface Repository {
         file: MultipartBody.Part?
     ): UseCaseResult<BaseResponse>
 
+    suspend fun updateGroup(                // 그룹 생성
+        body: Map<String, RequestBody>,
+        thumb: MultipartBody.Part?,
+        image: MultipartBody.Part?
+    ): UseCaseResult<BaseResponse>
+
 
     /** 회원가입, 로그인 **/
     suspend fun signUp(body: JsonObject): UseCaseResult<BaseResponse>           // 회원가입
@@ -144,6 +150,19 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
     ): UseCaseResult<BaseResponse> {
         return try {
             handleResult(api.createGroup(body, file))
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+            UseCaseResult.Error(e)
+        }
+    }
+
+    override suspend fun updateGroup(
+        body: Map<String, RequestBody>,
+        thumb: MultipartBody.Part?,
+        image: MultipartBody.Part?
+    ): UseCaseResult<BaseResponse> {
+        return try {
+            handleResult(api.updateGroup(body, thumb, image))
         } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)

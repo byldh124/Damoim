@@ -38,7 +38,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
     private lateinit var purpose: String
 
     private val titleRegex =
-        Regex("^(.{2,8})$")                                             // 이름 정규식     [2 글자 이상]
+        Regex("^(.{2,20})$")                                             // 이름 정규식     [2 글자 이상]
 
     private val getInterest =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -56,6 +56,20 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
                             .with(this@CreateActivity)
                             .load(resId)
                             .into(binding.icInterest)
+                    }
+                }
+            } catch (e: Exception) {
+                logException(e)
+            }
+        }
+
+    private val getLocation =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            try {
+                if (result?.resultCode == RESULT_OK) {
+                    result.data?.let {
+                        location = it.getStringExtra(IntentParam.LOCATION).toString()
+                        binding.tvLocation.text = location
                     }
                 }
             } catch (e: Exception) {
@@ -166,20 +180,6 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
         getLocation.launch(Intent(this, LocationActivity::class.java))
     }
-
-    private val getLocation =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        location = it.getStringExtra(IntentParam.LOCATION).toString()
-                        binding.tvLocation.text = location
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
 
     /**
      * 관심사 선택 화면 전환
