@@ -19,6 +19,7 @@ import com.moondroid.project01_meetingapp.ui.viewmodel.ProfileViewModel
 import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
+import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.toReqBody
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +36,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
     private val viewModel: ProfileViewModel by viewModels()
     private var path: String? = null
     lateinit var user: User
+    private lateinit var gender: String
 
     override fun init() {
         user = DMApp.user
@@ -59,8 +61,19 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
                     String.format(getString(R.string.cmn_message_length), it.length)
             }
 
-            if (DMApp.user.gender == getString(R.string.cmn_female)) {
-                binding.rg.check(R.id.rbFemale)
+            binding.rg.setOnCheckedChangeListener { _, id ->
+                log("[MyInfoActivity] , radio button checked changed ${id == R.id.rbMale}")
+                gender = if (id == R.id.rbMale) {
+                    this@MyInfoActivity.getString(R.string.cmn_male)
+                } else {
+                    this@MyInfoActivity.getString(R.string.cmn_female)
+                }
+            }
+
+            log("[MyInfoActivity] , User => ${DMApp.user}")
+            gender = DMApp.user.gender
+            if (gender == getString(R.string.cmn_female)) {
+                binding.rbFemale.isChecked = true
             }
         } catch (e: Exception) {
             logException(e)
@@ -78,6 +91,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
 
         viewModel.profileResponse.observe(this) {
             try {
+                log("[MyInfoActivity] , updateProfile , observe() , Response => $it")
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
                         showError(getString(R.string.alm_profile_update_success)) {
@@ -187,12 +201,8 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
             val id = DMApp.user.id
             val name = binding.etName.text.toString()
             val birth = binding.tvBirth.text.toString()
-            val gender = if (binding.rbMale.isChecked) {
-                getString(R.string.cmn_male)
-            } else {
-                getString(R.string.cmn_female)
-            }
             val location = binding.tvLocation.text.toString()
+            log("[MyInfoActivity] , gender = $gender")
             val thumb = DMApp.user.thumb
             val message = binding.etMsg.text.toString()
 

@@ -55,8 +55,6 @@ class DMRecycler : RecyclerView {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        DMLog.e("[DMRecycler] , init() api call")
-
         parent?.let {
             if (parent is ViewGroup) {
                 val layoutParams = ViewGroup.LayoutParams(

@@ -32,7 +32,7 @@
                 android:layout_marginBottom="24dp"
                 android:fontFamily="@font/nanum_square_round_eb"
                 android:gravity="center"
-                android:lineSpacingExtra="4dp"
+                android:lineSpacingExtra="8dp"
                 android:text="@{dialog.msg}"
                 android:textAlignment="center"
                 android:textColor="@color/gray_dark02"

@@ -7,10 +7,13 @@ import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
 import com.moondroid.project01_meetingapp.utils.DMLog
+import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
+import com.moondroid.project01_meetingapp.utils.view.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,9 +47,7 @@ class SplashViewModel @Inject constructor(private val repository: Repository) : 
                 }
 
                 is UseCaseResult.Error -> {
-                    response.exception.message?.let {
-                        logException(it)
-                    }
+                   _showError.postValue(handleException(response.exception))
                 }
             }
 

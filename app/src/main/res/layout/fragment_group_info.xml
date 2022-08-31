@@ -5,8 +5,8 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity" />
+            name="fragment"
+            type="com.moondroid.project01_meetingapp.ui.view.fragment.InfoFragment" />
     </data>
 
     <FrameLayout
@@ -30,14 +30,14 @@
                     bind:layout_constraintTop_toTopOf="parent"
                     bind:layout_constraintDimensionRatio="5:2"
                     android:scaleType="centerCrop"
-                    bind:image ="@{activity.groupInfo.image}"/>
+                    bind:image ="@{fragment.groupInfo.image}"/>
 
                 <TextView
                     android:id="@+id/tvInfoTitle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="모임 소개"
+                    android:text="@string/cmn_group_information"
                     bind:layout_constraintTop_toBottomOf="@id/ivIntro"
                     android:textColor="@color/gray_dark01"
                     android:padding="8dp"
@@ -52,7 +52,7 @@
                     android:layout_margin="8dp"
                     android:textSize="14dp"
                     android:fontFamily="@font/nanum_square_round_b"
-                    android:text="@{activity.groupInfo.information}"
+                    android:text="@{fragment.groupInfo.information}"
                     android:textColor="@color/gray_dark01"/>
 
                 <TextView
@@ -61,8 +61,8 @@
                     bind:layout_constraintTop_toBottomOf="@id/tvInformation"
                     bind:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginHorizontal="16dp"
-                    android:text="가입 하기"
-                    android:onClick="@{activity::join}"
+                    android:text="@string/cmn_join"
+                    android:onClick="@{fragment::join}"
                     android:layout_marginTop="32dp"/>
 
                 <TextView
@@ -71,11 +71,11 @@
                     bind:layout_constraintLeft_toLeftOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="현재 예정 정보"
+                    android:text="@string/cmn_current_moim"
                     android:textSize="14dp"
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:textColor="@color/gray_dark01"/>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -89,10 +89,10 @@
                     android:id="@+id/tvMember"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="모임원"
+                    android:text="@string/cmn_members"
                     bind:layout_constraintTop_toBottomOf="@id/recMoim"
                     android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:textSize="14dp"
                     android:textColor="@color/gray_dark01"

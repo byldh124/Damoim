@@ -19,6 +19,7 @@ import com.moondroid.project01_meetingapp.ui.view.dialog.ErrorDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.utils.IntentParam
+import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
@@ -49,7 +50,11 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     fun showNetworkError(code: Int, onClick: () -> Unit) {
         try {
             if (code != 0) {
-                showError(String.format(getString(R.string.error_network_fail), code), onClick)
+                if (code == NETWORK_NOT_CONNECTED) {
+                    showError(String.format(getString(R.string.error_network_not_connected), code), onClick)
+                } else {
+                    showError(String.format(getString(R.string.error_network_fail), code), onClick)
+                }
             }
         } catch (e: Exception) {
             logException(e)
@@ -128,7 +133,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         try {
             val intent = Intent(this, HomeActivity::class.java)
 
-            intent.putExtra(IntentParam.ACTIVITY, activityTy)
+            intent.putExtra(ACTIVITY, activityTy)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivityWithAnim(intent)
@@ -142,7 +147,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         try {
             val intent = Intent(this, SignInActivity::class.java)
 
-            intent.putExtra(IntentParam.ACTIVITY, activityTy)
+            intent.putExtra(ACTIVITY, activityTy)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
@@ -159,7 +164,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         try {
             val newIntent = Intent(this, GroupActivity::class.java)
             newIntent.putExtra(
-                IntentParam.ACTIVITY,
+                ACTIVITY,
                 activityType
             )
             startActivityWithAnim(newIntent)

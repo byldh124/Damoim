@@ -71,6 +71,7 @@
 
     <!-- 알림, 에러 메세지 -->
     <string name="error_network_fail">네트워트 연결에 실패했습니다.\n[에러코드 : %d]</string>
+    <string name="error_network_not_connected">네트워크가 불안정합니다.\n연결상태를 확인해주세요.</string>
     <string name="error_plz_input_id">아이디를 입력해주세요.</string>
     <string name="error_id_mismatch">아이디는 5글자 이상 16글자 이하 영문, 숫자로 이루어져 있습니다.</string>
     <string name="error_password_mismatch">비밀번호는 8글자 이상 영문, 숫자, 특수기호로 이루어져 있습니다.</string>
@@ -103,9 +104,12 @@
     <string name="alm_sucess_create_group">그룹 만들기 성공</string>
 
 
-
     <string name="hint_input_location">동 읍 면 을 입력해주세요.</string>
 
     <string name="warning_private_project">이 어플은 실제 서비스 되는 앱이 아닌 개인용 프로젝트 입니다.</string>
+    <string name="cmn_group_information">모임 소개</string>
+    <string name="cmn_join">가입 하기</string>
+    <string name="cmn_current_moim">현재 예정 정보</string>
+    <string name="cmn_members">모임원</string>
 
 </resources>

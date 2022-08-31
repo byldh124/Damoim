@@ -6,6 +6,8 @@ const val DEFAULT_PROFILE_IMG =
 
 const val PREFS_NAME = "pref"
 
+const val NETWORK_NOT_CONNECTED = -200
+
 object PrefKey {
     const val USER_INFO = "USER_INFO"
 }
@@ -56,6 +58,9 @@ object RequestParam {
     const val INFORMATION = "information"
     const val MASTER_ID = "materId"
 
+    /** 일반 **/
+    const val LAST_TIME = "lastTime"
+    const val ACTIVE = "active"
 }
 
 object IntentParam {

@@ -6,6 +6,7 @@ import com.moondroid.project01_meetingapp.model.BaseResponse
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
+import com.moondroid.project01_meetingapp.utils.view.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,9 +51,7 @@ class CreateViewModel @Inject constructor(private val repository: Repository): B
 
                 is UseCaseResult.Error -> {
                     _showLoading.postValue(false)
-                    response.exception.message?.let {
-                        logException(it)
-                    }
+                    _showError.postValue(handleException(response.exception))
                 }
             }
         }

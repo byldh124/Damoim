@@ -44,14 +44,19 @@ fun Activity.log(msg:String){
     DMLog.e("[${this.javaClass.simpleName}] , $msg ")
 }
 
+fun Fragment.log(msg:String){
+    DMLog.e("[${this.javaClass.simpleName}] , $msg ")
+}
+
+
 fun BaseViewModel.log(msg: String){
     DMLog.e("[${this.javaClass.simpleName}] , $msg ")
 }
 
 fun Activity.exitApp(){
-    this.moveTaskToBack(true);
-    this.finish();
-    android.os.Process.killProcess(android.os.Process.myPid());
+    this.moveTaskToBack(true)
+    this.finish()
+    android.os.Process.killProcess(android.os.Process.myPid())
 }
 
 fun Activity.startActivityWithAnim(intent: Intent){

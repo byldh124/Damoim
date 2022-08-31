@@ -46,9 +46,7 @@ class GroupListViewModel @Inject constructor(private val repository: Repository)
 
                 is UseCaseResult.Error -> {
                     _showLoading.postValue(false)
-                    response.exception.message?.let {
-                        logException(it)
-                    }
+                    _showError.postValue(handleException(response.exception))
                 }
             }
         }
@@ -74,9 +72,7 @@ class GroupListViewModel @Inject constructor(private val repository: Repository)
 
                 is UseCaseResult.Error -> {
                     _showLoading.postValue(false)
-                    response.exception.message?.let {
-                        logException(it)
-                    }
+                    _showError.postValue(handleException(response.exception))
                 }
             }
         }

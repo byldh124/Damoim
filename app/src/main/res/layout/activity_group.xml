@@ -5,8 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="GroupActivity"
+            name="activity"
             type="com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity" />
+
+        <import type="android.view.View"/>
     </data>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,7 +28,7 @@
                     <TextView
                         android:id="@+id/title"
                         style="@style/TitleWhite"
-                        android:text="@{GroupActivity.title}"/>
+                        android:text="@{activity.title}"/>
 
                     <ImageView
                         android:visibility="gone"
@@ -43,15 +45,17 @@
                         android:layout_height="36dp"
                         android:layout_gravity="end"
                         android:padding="4dp"
+                        android:onClick="@{activity::favor}"
                         android:layout_marginEnd="8dp">
 
                         <ImageView
+                            android:visibility="@{activity.isFavor ? View.VISIBLE : View.GONE}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/ic_favorite"/>
 
                         <ImageView
-                            android:visibility="gone"
+                            android:visibility="@{activity.isFavor ? View.GONE : View.VISIBLE}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/ic_favorite_not"/>
