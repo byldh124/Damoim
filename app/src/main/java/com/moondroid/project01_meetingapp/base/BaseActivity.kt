@@ -4,32 +4,29 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.MenuItem
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.FragmentActivity
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.SignInActivity
-import com.moondroid.project01_meetingapp.ui.view.dialog.ErrorDialog
+import com.moondroid.project01_meetingapp.ui.view.dialog.OneButtonDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
-import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 
 abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int) :
-    AppCompatActivity(){
+    AppCompatActivity() {
 
     protected lateinit var binding: T
 
-    var errorDialog: ErrorDialog? = null
+    var oneButtonDialog: OneButtonDialog? = null
     var loadingDialog: LoadingDialog? = null
 
 
@@ -51,7 +48,10 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         try {
             if (code != 0) {
                 if (code == NETWORK_NOT_CONNECTED) {
-                    showError(String.format(getString(R.string.error_network_not_connected), code), onClick)
+                    showError(
+                        String.format(getString(R.string.error_network_not_connected), code),
+                        onClick
+                    )
                 } else {
                     showError(String.format(getString(R.string.error_network_fail), code), onClick)
                 }
@@ -65,14 +65,14 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         try {
             log("showError , msg = $msg")
 
-            if (errorDialog == null) {
-                errorDialog = ErrorDialog(this, msg, onClick)
+            if (oneButtonDialog == null) {
+                oneButtonDialog = OneButtonDialog(this, msg, onClick)
             } else {
-                errorDialog!!.msg = msg
-                errorDialog!!.onClick = onClick
+                oneButtonDialog!!.msg = msg
+                oneButtonDialog!!.onClick = onClick
             }
 
-            errorDialog!!.show()
+            oneButtonDialog!!.show()
         } catch (e: Exception) {
             logException(e)
         }
@@ -82,14 +82,14 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         try {
             log("showError , msg = $msg")
 
-            if (errorDialog == null) {
-                errorDialog = ErrorDialog(this, msg) {}
+            if (oneButtonDialog == null) {
+                oneButtonDialog = OneButtonDialog(this, msg) {}
             } else {
-                errorDialog!!.msg = msg
-                errorDialog!!.onClick = {}
+                oneButtonDialog!!.msg = msg
+                oneButtonDialog!!.onClick = {}
             }
 
-            errorDialog!!.show()
+            oneButtonDialog!!.show()
         } catch (e: Exception) {
             logException(e)
         }

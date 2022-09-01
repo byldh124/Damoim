@@ -18,6 +18,7 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
 
     // Coroutine's background job
     private val job = Job()
+
     // Define default thread for Coroutine as Main and add job
     override val coroutineContext: CoroutineContext = job + Dispatchers.Main
 
@@ -27,19 +28,19 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
         job.cancel()
     }
 
-    fun logException(msg: String){
+    fun logException(msg: String) {
         DMCrash.getInstance()
             .log(msg)
         DMLog.e(msg)
     }
 
-    protected fun handleException(e: Throwable) : Int {
+    protected fun handleException(e: Throwable): Int {
         e.message?.let {
             logException(it)
         }
         return if (e is UnknownHostException) {
             NETWORK_NOT_CONNECTED
-        }  else {
+        } else {
             0
         }
     }

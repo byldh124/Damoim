@@ -6,26 +6,26 @@ import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseDialog
-import com.moondroid.project01_meetingapp.databinding.DialogErrorBinding
+import com.moondroid.project01_meetingapp.databinding.DialogOneButtonBinding
 
-class ErrorDialog(context: Context, var msg: String, var onClick: () -> Unit) :
+class OneButtonDialog(context: Context, var msg: String, var onClick: () -> Unit) :
     BaseDialog(context) {
 
-    lateinit var binding: DialogErrorBinding
+    lateinit var binding: DialogOneButtonBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
-            R.layout.dialog_error,
+            R.layout.dialog_one_button,
             null,
             false
         )
         setContentView(binding.root)
     }
 
-    fun confirm(){
+    fun confirm() {
         cancel()
     }
 

@@ -34,11 +34,11 @@ class GroupInfoViewModel @Inject constructor(private val repository: Repository)
     ) {
         _showLoading.postValue(true)
         viewModelScope.launch {
-            val response = withContext(Dispatchers.IO){
+            val response = withContext(Dispatchers.IO) {
                 repository.updateGroup(body, thumb, image)
             }
 
-            when(response) {
+            when (response) {
                 is UseCaseResult.Success -> {
                     _showLoading.postValue(false)
                     _groupInfoResponse.postValue(response.data)

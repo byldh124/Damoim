@@ -26,9 +26,11 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.Response
 import java.io.File
 
+/**
+ * 모임 정보 수정
+ **/
 @AndroidEntryPoint
 class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activity_group_info) {
 
@@ -45,9 +47,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
     private var thumbPath: String? = null
     private var imagePath: String? = null
 
-    private val titleRegex =
-        Regex("^(.{2,20})$")                                             // 이름 정규식     [2 글자 이상]
-
+    private val titleRegex = Regex("^(.{2,20})$")                                           // 이름 정규식     [2 글자 이상]
 
     private val getInterest =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -126,6 +126,9 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
             }
         }
 
+    /**
+     * View initialize
+     **/
     override fun init() {
         try {
             binding.activity = this
@@ -146,6 +149,9 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
         }
     }
 
+    /**
+     * Observe ViewModel
+     **/
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
@@ -186,6 +192,9 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
         }
     }
 
+    /**
+     * 필드값 생성, 정규식 확인
+     **/
     fun save(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             title = binding.tvTitle.text.toString()
@@ -210,9 +219,11 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
         }
     }
 
+    /**
+     * 모임정보 수정 요청
+     **/
     private fun updateGroupInfo() {
         try {
-
             val body = HashMap<String, RequestBody>()
             body["originTitle"] = originTitle.toReqBody()
             body[RequestParam.TITLE] = title.toReqBody()
@@ -250,14 +261,23 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
 
     }
 
+    /**
+     * 관심사 선택
+     **/
     fun toInterest(@Suppress("UNUSED_PARAMETER") vw: View) {
         getInterest.launch(Intent(this, InterestActivity::class.java))
     }
 
+    /**
+     * 지역 선택
+     **/
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
         getLocation.launch(Intent(this, LocationActivity::class.java))
     }
 
+    /**
+     * 썸네일 이미지 선택
+     **/
     fun getThumb(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val intent = Intent(Intent.ACTION_PICK)
@@ -268,6 +288,9 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
         }
     }
 
+    /**
+     * 배경 이미지 선택
+     **/
     fun getImage(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val intent = Intent(Intent.ACTION_PICK)

@@ -61,6 +61,7 @@ object RequestParam {
     /** 일반 **/
     const val LAST_TIME = "lastTime"
     const val ACTIVE = "active"
+    const val FAVOR = "favor"
 }
 
 object IntentParam {

@@ -110,7 +110,7 @@
                 android:textSize="16dp"
                 android:padding="10dp"
                 android:fontFamily="@font/nanum_square_round_b"
-                android:hint="모임 이름"/>
+                android:hint="@string/cmn_group_title"/>
 
             <ImageView
                 android:id="@+id/icInterest"
@@ -136,7 +136,7 @@
                 android:background="@drawable/bg_edit_gray01"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:onClick="@{activity::toLocation}"
-                android:hint="모임 지역 설정"/>
+                android:hint="@string/cmn_group_location"/>
 
             <EditText
                 android:id="@+id/etPurpose"
@@ -144,7 +144,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tvLocation"
                 android:layout_marginTop="16dp"
-                android:hint="모임 목표를 설정해주세요."
+                android:hint="@string/cmn_group_purpose"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:gravity="top"
                 android:textSize="16dp"

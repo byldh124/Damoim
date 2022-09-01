@@ -27,7 +27,7 @@ class SignInViewModel @Inject constructor(private val repository: Repository) : 
     val signInResponse: LiveData<BaseResponse> get() = _signInResponse
 
     private val _saltResponse = SingleLiveEvent<BaseResponse>()
-    val saltResponse : LiveData<BaseResponse> get() = _saltResponse
+    val saltResponse: LiveData<BaseResponse> get() = _saltResponse
 
     private val _kakaoSignInResponse = SingleLiveEvent<BaseResponse>()
     val kakaoSignInResponse: LiveData<BaseResponse> get() = _kakaoSignInResponse

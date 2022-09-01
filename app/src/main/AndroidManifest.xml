@@ -35,8 +35,8 @@
         tools:targetApi="s">
         <activity
             android:name=".ui.view.activity.GroupInfoActivity"
-            android:exported="false" />
-
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red"/>
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="csit8ak1h9" />
@@ -93,12 +93,16 @@
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.view.activity.HomeActivity" />
-        <activity android:name=".ui.view.activity.GroupActivity" />
+        <activity android:name=".ui.view.activity.HomeActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red"/>
+        <activity android:name=".ui.view.activity.GroupActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red"/>
+
     </application>
 
 </manifest>

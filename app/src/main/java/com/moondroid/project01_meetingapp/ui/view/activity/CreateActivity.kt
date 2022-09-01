@@ -2,13 +2,11 @@ package com.moondroid.project01_meetingapp.ui.view.activity
 
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.moondroid.project01_meetingapp.R
@@ -25,8 +23,8 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-
 import java.io.File
+
 
 @AndroidEntryPoint
 class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_create) {
@@ -77,6 +75,27 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
             }
         }
 
+    private val getImage =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            try {
+                if (result?.resultCode == RESULT_OK) {
+                    result.data?.let {
+                        val uri = it.data
+                        uri?.let { u ->
+                            path = DMUtils.getPathFromUri(this, u)
+                            if (!path.isNullOrEmpty()) {
+                                val bitmap = BitmapFactory.decodeFile(path)
+                                Glide.with(this).load(bitmap).into(binding.thumb)
+                                binding.tvImage.gone(true)
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                logException(e)
+            }
+        }
+
     override fun init() {
         binding.activity = this
         initView()
@@ -84,6 +103,9 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
         Handler(Looper.getMainLooper()).postDelayed(this::toInterest, 500)
     }
 
+    /**
+     * View 초기화
+     **/
     private fun initView() {
         try {
             setSupportActionBar(binding.toolbar)
@@ -105,6 +127,9 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
         }
     }
 
+    /**
+     * Observe ViewModel
+     **/
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
@@ -146,27 +171,9 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
         }
     }
 
-    private val getImage =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        val uri = it.data
-                        uri?.let { u ->
-                            path = DMUtils.getPathFromUri(this, u)
-                            if (!path.isNullOrEmpty()) {
-                                val bitmap = BitmapFactory.decodeFile(path)
-                                Glide.with(this).load(bitmap).into(binding.thumb)
-                                binding.tvImage.gone(true)
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
+    /**
+     * 썸네일 이미지 선택
+     **/
     fun getImage(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val intent = Intent(Intent.ACTION_PICK)
@@ -177,12 +184,15 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
         }
     }
 
+    /**
+     * 모임 지역 선택
+     **/
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
         getLocation.launch(Intent(this, LocationActivity::class.java))
     }
 
     /**
-     * 관심사 선택 화면 전환
+     * 관심사 선택
      **/
     fun toInterest() {
         getInterest.launch(Intent(this, InterestActivity::class.java))
@@ -192,26 +202,36 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
         toInterest()
     }
 
+    /**
+     * 데이터 유효성 체크
+     **/
     fun checkField(@Suppress("UNUSED_PARAMETER") vw: View) {
-        title = binding.etTitle.text.toString()
-        purpose = binding.etPurpose.text.toString()
+        try {
+            title = binding.etTitle.text.toString()
+            purpose = binding.etPurpose.text.toString()
 
-        if (!title.matches(titleRegex)) {
-            toast(getString(R.string.error_title_mismatch))
-        } else if (purpose.isEmpty()) {
-            toast(getString(R.string.error_purpose_empty))
-        } else if (location.isNullOrEmpty()) {
-            toast(getString(R.string.error_location_empty))
-        } else if (interest.isNullOrEmpty()) {
-            toast(getString(R.string.error_interest_empty))
-            toInterest()
-        } else if (path.isNullOrEmpty()) {
-            toast(getString(R.string.error_thumb_empty))
-        } else {
-            createGroup()
+            if (!title.matches(titleRegex)) {
+                toast(getString(R.string.error_title_mismatch))
+            } else if (purpose.isEmpty()) {
+                toast(getString(R.string.error_purpose_empty))
+            } else if (location.isNullOrEmpty()) {
+                toast(getString(R.string.error_location_empty))
+            } else if (interest.isNullOrEmpty()) {
+                toast(getString(R.string.error_interest_empty))
+                toInterest()
+            } else if (path.isNullOrEmpty()) {
+                toast(getString(R.string.error_thumb_empty))
+            } else {
+                createGroup()
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
+    /**
+     * 모임 생성 요청
+     **/
     private fun createGroup() {
         try {
             val body = HashMap<String, RequestBody>()

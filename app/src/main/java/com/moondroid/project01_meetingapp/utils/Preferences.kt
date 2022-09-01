@@ -7,8 +7,6 @@ import androidx.security.crypto.MasterKey
 
 
 class Preferences(context: Context) {
-
-
     private var prefs: SharedPreferences
 
     init {

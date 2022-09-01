@@ -20,20 +20,20 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
 
     private val _showError = MutableLiveData<Int>()
-    val showError :LiveData<Int> get() = _showError
+    val showError: LiveData<Int> get() = _showError
 
     private val _appCheckResponse = SingleLiveEvent<BaseResponse>()
     val appCheckResponse: LiveData<BaseResponse> get() = _appCheckResponse
 
     fun checkAppVersion(
-        packageName :String,
+        packageName: String,
         versionCode: Int,
         versionName: String
     ) {
         launch {
             val response = withContext(Dispatchers.IO) {
                 repository.checkAppVersion(
-                    packageName,versionCode, versionName
+                    packageName, versionCode, versionName
                 )
             }
 
@@ -47,7 +47,7 @@ class SplashViewModel @Inject constructor(private val repository: Repository) : 
                 }
 
                 is UseCaseResult.Error -> {
-                   _showError.postValue(handleException(response.exception))
+                    _showError.postValue(handleException(response.exception))
                 }
             }
 

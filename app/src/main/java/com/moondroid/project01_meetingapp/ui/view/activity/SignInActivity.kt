@@ -1,11 +1,8 @@
 package com.moondroid.project01_meetingapp.ui.view.activity
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.kakao.sdk.user.UserApiClient
@@ -38,7 +35,6 @@ import dagger.hilt.android.AndroidEntryPoint
  *   3-2) 기존 정보 없을 경우 : 아이디, 이름, 썸네일 체크 후 회원가입 화면으로 전환
  *
  **/
-
 @AndroidEntryPoint
 class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
     private val viewModel: SignInViewModel by viewModels()
@@ -61,17 +57,10 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
-            binding.ickakao.isEnabled = !it
-            binding.tvSignIn.isEnabled = !it
-            binding.tvSignUp.isEnabled = !it
         }
 
         viewModel.showError.observe(this) {
-            showNetworkError(it) {
-                binding.ickakao.isEnabled = true
-                binding.tvSignIn.isEnabled = true
-                binding.tvSignUp.isEnabled = true
-            }
+            showNetworkError(it)
         }
 
         viewModel.saltResponse.observe(this) {
@@ -172,11 +161,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         }
 
     }
-
-    fun hideKeyBoard(@Suppress("UNUSED_PARAMETER") vw: View) {
-        hideKeyboard()
-    }
-
 
     /**
      * 입력값 유효성 확인

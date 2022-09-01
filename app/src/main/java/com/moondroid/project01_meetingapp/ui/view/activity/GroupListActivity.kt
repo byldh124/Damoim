@@ -19,7 +19,11 @@ import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.log
 import dagger.hilt.android.AndroidEntryPoint
 
-
+/**
+ * 모임 리스트
+ *  - 최근 본 모임
+ *  - 관심 모임
+ **/
 @AndroidEntryPoint
 class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activity_group_list) {
     private lateinit var type: TYPE
@@ -39,6 +43,9 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
         initViewModel()
     }
 
+    /**
+     * View initialize
+     **/
     private fun initView() {
 
         setSupportActionBar(binding.toolbar)
@@ -52,10 +59,12 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
             GroupListType.FAVORITE -> {
                 type = TYPE.FAVORITE
                 title = getString(R.string.title_group_list_favorite)
+                binding.recycler.setEmptyText(getString(R.string.alm_favor_group_empty))
             }
             GroupListType.RECENT -> {
                 type = TYPE.RECENT
                 title = getString(R.string.title_group_list_recent)
+                binding.recycler.setEmptyText(getString(R.string.alm_recent_group_empty))
             }
             else -> finish()
         }
@@ -73,6 +82,9 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
         binding.recycler.adapter = adapter
     }
 
+    /**
+     * Observe ViewModel
+     **/
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)

@@ -54,6 +54,7 @@ class GroupListFragment :
         super.onAttach(context)
         activity = context as HomeActivity
     }
+
     override fun init() {
         binding.fragment = this
         initView()
@@ -132,6 +133,7 @@ class MyGroupFragment :
         super.onAttach(context)
         activity = context as HomeActivity
     }
+
     override fun init() {
         binding.fragment = this
         initView()
@@ -148,6 +150,7 @@ class MyGroupFragment :
         binding.recycler.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.recycler.adapter = groupAdapter
+        binding.recycler.setEmptyText(getString(R.string.alm_my_group_empty))
     }
 
     private fun initViewModel() {
@@ -182,7 +185,8 @@ class MyGroupFragment :
     }
 }
 
-class SearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.fragment_home_search), GroupListAdapter.OnItemClickListener {
+class SearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.fragment_home_search),
+    GroupListAdapter.OnItemClickListener {
 
     lateinit var activity: HomeActivity
     private val groups = ArrayList<GroupInfo>()
@@ -217,6 +221,7 @@ class SearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.fragment
                         it.interest.contains(query)
                     ) {
                         groups.add(it)
+                        binding.recycler.setEmptyText(String.format(getString(R.string.alm_search_data_empty), query))
                     }
                 }
 
@@ -234,7 +239,8 @@ class SearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.fragment
 }
 
 @AndroidEntryPoint
-class LocationFragment : BaseFragment<FragmentHomeLocationBinding>(R.layout.fragment_home_location), OnMapReadyCallback {
+class LocationFragment : BaseFragment<FragmentHomeLocationBinding>(R.layout.fragment_home_location),
+    OnMapReadyCallback {
 
     lateinit var activity: HomeActivity
     private lateinit var mNaverMap: NaverMap
@@ -356,7 +362,6 @@ class LocationFragment : BaseFragment<FragmentHomeLocationBinding>(R.layout.frag
     }
 
     //MapView 사용시 프레그먼트, 액티비티의 생명주기에 따른 MapView 생명주기를 호출해 줘야 함.
-    //fragment 사용하는 걸 권장하지만, fragment 사용시 마커가 잘 생성되지 않는 버그가 있음.
     override fun onStart() {
         super.onStart()
         binding.mapView.onStart()

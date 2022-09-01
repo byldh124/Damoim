@@ -15,7 +15,7 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
     @MainThread
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
         if (hasActiveObservers()) {
-           // XLog.d("하나의 옵저버만 변경사항을 알림받아야 하는데 다수의 옵저버가 등록되었음")
+           // DMLog.d("하나의 옵저버만 변경사항을 알림받아야 하는데 다수의 옵저버가 등록되었음")
         }
 
         // 내부 MutableLiveData Observe

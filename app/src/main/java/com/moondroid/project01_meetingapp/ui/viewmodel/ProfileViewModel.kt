@@ -19,10 +19,10 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
 
     private val _showLoading = MutableLiveData<Boolean>()
-    val showLoading : LiveData<Boolean> get() = _showLoading
+    val showLoading: LiveData<Boolean> get() = _showLoading
 
     private val _showError = MutableLiveData<Int>()
-    val showError : LiveData<Int> get() = _showError
+    val showError: LiveData<Int> get() = _showError
 
     private val _profileResponse = SingleLiveEvent<BaseResponse>()
     val profileResponse: LiveData<BaseResponse> get() = _profileResponse
@@ -31,11 +31,11 @@ class ProfileViewModel @Inject constructor(private val repository: Repository) :
     fun updateProfile(body: Map<String, RequestBody>, file: MultipartBody.Part?) {
         _showLoading.postValue(true)
         launch {
-            val response = withContext(Dispatchers.IO){
+            val response = withContext(Dispatchers.IO) {
                 repository.updateProfile(body, file)
             }
 
-            when (response){
+            when (response) {
                 is UseCaseResult.Success -> {
                     _showLoading.postValue(false)
                     _profileResponse.postValue(response.data)

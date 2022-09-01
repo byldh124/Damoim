@@ -1,14 +1,16 @@
 package com.moondroid.project01_meetingapp.ui.view.activity
 
-import android.os.Bundle
-import android.view.MenuItem
-import androidx.databinding.DataBindingUtil
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityInterestBinding
 import com.moondroid.project01_meetingapp.ui.view.adapter.InterestAdapter
 import com.moondroid.project01_meetingapp.utils.view.logException
 
+
+/**
+ * 관심사 선택
+ *  -> 선택된 관심사를 Intent Extra 로 전달
+ **/
 class InterestActivity : BaseActivity<ActivityInterestBinding>(R.layout.activity_interest) {
 
     override fun init() {

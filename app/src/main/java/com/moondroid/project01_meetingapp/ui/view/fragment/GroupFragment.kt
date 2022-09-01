@@ -40,6 +40,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     override fun init() {
         binding.fragment = this
         groupInfo = DMApp.group
+        binding.groupInfo = groupInfo
         initView()
         initViewModel()
     }
@@ -47,12 +48,15 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     override fun onResume() {
         super.onResume()
         groupInfo = DMApp.group
+        binding.groupInfo = groupInfo
     }
 
     private fun initView() {
         adapter = activity?.let {
             MemberListAdapter(it)
         }!!
+
+        binding.recMoim.setEmptyText("현재 예정된 정모가 없습니다.")
 
         binding.recMember.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

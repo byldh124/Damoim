@@ -5,18 +5,18 @@ import com.google.gson.annotations.SerializedName
 
 data class BaseResponse(
     @SerializedName("result")
-    val body:JsonElement,
+    val body: JsonElement,
     @SerializedName("message")
-    val msg:String,
+    val msg: String,
     @SerializedName("code")
-    val code:Int
+    val code: Int
 )
 
 data class BoolResponse(
     @SerializedName("result")
     val body: Boolean,
     @SerializedName("message")
-    val msg:String,
+    val msg: String,
     @SerializedName("code")
-    val code:Int
+    val code: Int
 )

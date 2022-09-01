@@ -18,8 +18,6 @@ class RepositoryModule {
     fun provideMainRepository(
         api: ApiInterface
     ): Repository {
-        return RepositoryImpl(
-            api
-        )
+        return RepositoryImpl(api)
     }
 }

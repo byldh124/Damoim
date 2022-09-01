@@ -27,9 +27,27 @@ import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
+import com.moondroid.project01_meetingapp.utils.view.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 
+/**
+ * 메인 화면 (HOME)
+ * 1. Bottom Navigation
+ *  - 모임 리스트
+ *  - 내 모임 찾기
+ *  - 모임 검색
+ *  - 현재 정모가 있는 화면(맵)
+ *
+ * 2. Navigation
+ *  - 프로필 수정
+ *  - 관심 모임 확인
+ *  - 최근 본 모임 확인
+ *  - 설정
+ *
+ * 3. OptionMenu
+ *  - 카카오 공유
+ **/
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
@@ -38,6 +56,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     lateinit var user: User
 
     lateinit var groupsList: ArrayList<GroupInfo>
+
+    private var mBackWait = 0L
 
     private val getInterest =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -62,6 +82,20 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
         checkPermission()
     }
 
+    override fun onBackPressed() {
+        if (binding.homeNav.visibility == View.VISIBLE){
+            binding.drawer.closeDrawers()
+        } else if (title != getString(R.string.cmn_find_group)) {
+            changeFragment(GroupListFragment())
+            title = getString(R.string.cmn_find_group)
+        } else if(System.currentTimeMillis() - mBackWait >=2000 ) {
+            mBackWait = System.currentTimeMillis()
+            toast(getString(R.string.alm_two_click_exit))
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         user = DMApp.user
@@ -70,7 +104,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     }
 
     /**
-     * View 초기화
+     * View, Fragment 초기화
      */
     private fun initView() {
         try {
@@ -123,6 +157,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
         }
     }
 
+    /**
+     * Observe ViewModel
+     **/
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)

@@ -28,7 +28,7 @@
             <TextView
                 android:id="@+id/title"
                 style="@style/TitleWhite"
-                android:text="@{activity.title}"/>
+                android:text="@string/title_group_info"/>
 
         </com.google.android.material.appbar.MaterialToolbar>
 

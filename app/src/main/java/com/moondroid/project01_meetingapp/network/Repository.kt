@@ -20,6 +20,7 @@ interface Repository {
         versionName: String
     ): UseCaseResult<BaseResponse>
 
+
     /** 그룹 정보 관련 **/
     suspend fun loadGroup(): UseCaseResult<BaseResponse>                        // 전체 그룹
     suspend fun getMyGroup(userId: String): UseCaseResult<BaseResponse>         // 특정 유저가 가입한 그룹
@@ -27,11 +28,30 @@ interface Repository {
     suspend fun getRecent(id: String): UseCaseResult<BaseResponse>              // 특정 유저가 최근 본 그룹
     suspend fun loadMember(meetName: String): UseCaseResult<BaseResponse>       // 특정 그룹에 가입된 유저
 
+
     /** 유저 그룹 **/
-    suspend fun saveRecent(id: String, title: String, lastTime: String): UseCaseResult<BaseResponse> // 최근 모임 저장
-    suspend fun saveFavor(id: String, title: String, active: Boolean): UseCaseResult<BaseResponse>   // 관심 모임 저장
-    suspend fun join(id: String, title: String): UseCaseResult<BaseResponse>                         // 모입 가입
-    suspend fun getFavor(id: String, title: String): UseCaseResult<BaseResponse>
+    suspend fun saveRecent(
+        id: String,
+        title: String,
+        lastTime: String
+    ): UseCaseResult<BaseResponse> // 최근 모임 저장
+
+    suspend fun saveFavor(
+        id: String,
+        title: String,
+        active: Boolean
+    ): UseCaseResult<BaseResponse>   // 관심 모임 저장
+
+    suspend fun join(
+        id: String,
+        title: String
+    ): UseCaseResult<BaseResponse>                         // 모입 가입
+
+    suspend fun getFavor(
+        id: String,
+        title: String
+    ): UseCaseResult<BaseResponse>                     // 관심 모임 확인
+
 
     /** 그룹 생성, 수정 **/
     suspend fun createGroup(                // 그룹 생성
@@ -51,6 +71,7 @@ interface Repository {
     suspend fun signIn(body: JsonObject): UseCaseResult<BaseResponse>           // 로그인
     suspend fun getSalt(id: String): UseCaseResult<BaseResponse>                // 로그인 관련
     suspend fun signInKakao(body: JsonObject): UseCaseResult<BaseResponse>      // 카카오 로그인
+
 
     /** 유저 정보 수정 **/
     suspend fun updateProfile(                                                  // 회원 정보 수정
@@ -135,9 +156,9 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
     }
 
     override suspend fun getFavor(id: String, title: String): UseCaseResult<BaseResponse> {
-        return try{
+        return try {
             handleResult(api.getFavor(id, title))
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)
         }

@@ -9,12 +9,17 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseDialog
 import com.moondroid.project01_meetingapp.databinding.DialogLoadingBinding
 
-class LoadingDialog(context: Context): BaseDialog(context) {
+class LoadingDialog(context: Context) : BaseDialog(context) {
     lateinit var binding: DialogLoadingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_loading, null, false)
+        binding = DataBindingUtil.inflate(
+            LayoutInflater.from(context),
+            R.layout.dialog_loading,
+            null,
+            false
+        )
         binding.dialog = this
         setContentView(binding.root)
         setCanceledOnTouchOutside(false)

@@ -13,21 +13,21 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class GroupListViewModel @Inject constructor(private val repository: Repository) : BaseViewModel(){
+class GroupListViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
     private val _showLoading = MutableLiveData<Boolean>()
-    val showLoading : LiveData<Boolean> get() = _showLoading
+    val showLoading: LiveData<Boolean> get() = _showLoading
 
     private val _showError = MutableLiveData<Int>()
-    val showError : LiveData<Int> get() = _showError
+    val showError: LiveData<Int> get() = _showError
 
     private val _favoriteResponse = SingleLiveEvent<BaseResponse>()
-    val favoriteResponse : LiveData<BaseResponse> get() = _favoriteResponse
+    val favoriteResponse: LiveData<BaseResponse> get() = _favoriteResponse
 
     private val _recentResponse = SingleLiveEvent<BaseResponse>()
     val recentResponse: LiveData<BaseResponse> get() = _recentResponse
 
 
-    fun getFavorite(id: String){
+    fun getFavorite(id: String) {
         _showLoading.postValue(true)
         launch {
             val response = withContext(Dispatchers.IO) {
@@ -52,7 +52,7 @@ class GroupListViewModel @Inject constructor(private val repository: Repository)
         }
     }
 
-    fun getRecent(id: String){
+    fun getRecent(id: String) {
         _showLoading.postValue(true)
         launch {
             val response = withContext(Dispatchers.IO) {

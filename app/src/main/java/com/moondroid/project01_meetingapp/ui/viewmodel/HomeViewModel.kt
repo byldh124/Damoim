@@ -19,7 +19,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
-
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading: LiveData<Boolean> get() = _showLoading
 
@@ -45,7 +44,6 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Ba
             val response = withContext(Dispatchers.IO) {
                 repository.loadGroup()
             }
-
 
             when (response) {
                 is UseCaseResult.Success -> {

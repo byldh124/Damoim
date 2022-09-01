@@ -64,7 +64,9 @@ internal object DMUtils {
         for (i: Int in 1..19) {
             val query = context.getString(getStringId(context, String.format("interest_%02d", i)))
 
-            if (query == interest) { return i }
+            if (query == interest) {
+                return i
+            }
         }
         return 0
     }

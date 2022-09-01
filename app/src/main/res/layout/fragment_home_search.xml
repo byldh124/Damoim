@@ -20,6 +20,7 @@
             android:layout_margin="16dp"
             android:background="@drawable/bg_edit_gray01"
             android:drawableLeft="@drawable/ic_search"
+            android:inputType="text"
             android:fontFamily="@font/nanum_square_round_b"
             android:hint="검색어 입력"
             android:paddingHorizontal="12dp"

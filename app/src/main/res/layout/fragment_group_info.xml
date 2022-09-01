@@ -7,6 +7,10 @@
         <variable
             name="fragment"
             type="com.moondroid.project01_meetingapp.ui.view.fragment.InfoFragment" />
+
+        <variable
+            name="groupInfo"
+            type="com.moondroid.project01_meetingapp.model.GroupInfo" />
     </data>
 
     <FrameLayout
@@ -30,7 +34,7 @@
                     bind:layout_constraintTop_toTopOf="parent"
                     bind:layout_constraintDimensionRatio="5:2"
                     android:scaleType="centerCrop"
-                    bind:image ="@{fragment.groupInfo.image}"/>
+                    bind:image ="@{groupInfo.image}"/>
 
                 <TextView
                     android:id="@+id/tvInfoTitle"
@@ -52,7 +56,7 @@
                     android:layout_margin="8dp"
                     android:textSize="14dp"
                     android:fontFamily="@font/nanum_square_round_b"
-                    android:text="@{fragment.groupInfo.information}"
+                    android:text="@{groupInfo.information}"
                     android:textColor="@color/gray_dark01"/>
 
                 <TextView
@@ -65,45 +69,52 @@
                     android:onClick="@{fragment::join}"
                     android:layout_marginTop="32dp"/>
 
-                <TextView
-                    android:id="@+id/tvCurrentMoim"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     bind:layout_constraintTop_toBottomOf="@id/btnJoin"
-                    bind:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cmn_current_moim"
-                    android:textSize="14dp"
-                    android:fontFamily="@font/nanum_square_round_eb"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
-                    android:textColor="@color/gray_dark01"/>
+                    bind:layout_constraintBottom_toBottomOf="parent">
+                    <TextView
+                        android:id="@+id/tvCurrentMoim"
+                        bind:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cmn_current_moim"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/nanum_square_round_eb"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"
+                        android:textColor="@color/gray_dark01"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recMoim"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    bind:layout_constraintTop_toBottomOf="@id/tvCurrentMoim"
-                    android:layout_marginTop="8dp"/>
+                    <com.moondroid.project01_meetingapp.ui.view.widget.DMRecycler
+                        android:id="@+id/recMoim"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvCurrentMoim"
+                        android:layout_marginTop="8dp" />
 
-                <TextView
-                    android:id="@+id/tvMember"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cmn_members"
-                    bind:layout_constraintTop_toBottomOf="@id/recMoim"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/nanum_square_round_eb"
-                    android:textSize="14dp"
-                    android:textColor="@color/gray_dark01"
-                    bind:layout_constraintLeft_toLeftOf="parent"/>
+                    <TextView
+                        android:id="@+id/tvMember"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cmn_members"
+                        android:layout_below="@id/recMoim"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/nanum_square_round_eb"
+                        android:textSize="14dp"
+                        android:textColor="@color/gray_dark01"
+                        bind:layout_constraintLeft_toLeftOf="parent"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recMember"
-                    android:layout_width="match_parent"
-                    bind:layout_constraintTop_toBottomOf="@id/tvMember"
-                    android:layout_marginTop="8dp"
-                    android:layout_height="wrap_content"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recMember"
+                        android:layout_width="match_parent"
+                        android:layout_below="@id/tvMember"
+                        android:layout_marginTop="8dp"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

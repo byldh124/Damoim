@@ -1,10 +1,8 @@
 package com.moondroid.project01_meetingapp.ui.view.activity
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -18,16 +16,24 @@ import com.moondroid.project01_meetingapp.ui.view.dialog.TutorialDialog
 import com.moondroid.project01_meetingapp.ui.view.fragment.*
 import com.moondroid.project01_meetingapp.ui.viewmodel.GroupViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
-import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
+import com.moondroid.project01_meetingapp.utils.RequestParam
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import dagger.hilt.android.AndroidEntryPoint
-import org.json.JSONObject
 
+
+/**
+ * 2. 모임 상세 화면
+ *  TabLayout - ViewPager
+ *   - 모임 상세
+ *   - 게시판
+ *   - 사진첩
+ *   - 채팅
+ **/
 @AndroidEntryPoint
 class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group) {
     private val pageNum = 4
@@ -60,6 +66,9 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
         initViewModel()
     }
 
+    /**
+     * View, Fragment 초기화
+     **/
     private fun initView() {
         try {
             //Action Bar
@@ -88,6 +97,9 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
         }
     }
 
+    /**
+     * Observe ViewModel
+     **/
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
@@ -112,7 +124,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
             isFavor = when (it.code) {
                 ResponseCode.SUCCESS -> {
                     val body = it.body.asJsonObject
-                    body.get("favor").asBoolean
+                    body.get(RequestParam.FAVOR).asBoolean
                 }
                 else -> {
                     false
@@ -129,10 +141,10 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
                 ResponseCode.SUCCESS -> {
                     val message: String
                     if (!isFavor) {
-                        message = "관심목록에 추가되었습니다."
+                        message = getString(R.string.alm_favorite_add)
                         isFavor = true
                     } else {
-                        message = "관심목록에서 삭제했습니다."
+                        message = getString(R.string.alm_delete_favorite)
                         isFavor = false
                     }
 
@@ -142,7 +154,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
                 }
 
                 else -> {
-                    showError(String.format("관심목록 변경에 실패했습니다. [%s]", "E01 : ${it.code}"))
+                    showError(String.format(getString(R.string.error_change_favorite_fail), "E01 : ${it.code}"))
                 }
             }
         }

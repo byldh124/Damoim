@@ -21,6 +21,7 @@ import com.moondroid.project01_meetingapp.utils.view.visible
 class DMRecycler : RecyclerView {
 
     lateinit var emptyView: TextView
+    private var once = false
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -44,7 +45,7 @@ class DMRecycler : RecyclerView {
 
     private fun init(context: Context) {
         emptyView = TextView(context).apply {
-            text = "데이터가 존재하지 않습니다."
+            text = context.getString(R.string.alm_data_empty)
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16.0f)
             setTextColor(ContextCompat.getColor(context, R.color.gray_dark01))
             gravity = Gravity.CENTER
@@ -61,8 +62,11 @@ class DMRecycler : RecyclerView {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
+                if (!once) {
+                    (parent as ViewGroup).addView(emptyView, layoutParams)
+                    once = true
+                }
 
-                (parent as ViewGroup).addView(emptyView, layoutParams)
                 emptyView.gone(true)
             }
         }

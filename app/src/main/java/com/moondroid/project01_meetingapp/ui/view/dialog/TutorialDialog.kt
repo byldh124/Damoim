@@ -12,14 +12,19 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseDialog
 import com.moondroid.project01_meetingapp.databinding.DialogTutorialBinding
 
-class TutorialDialog(context: Context): BaseDialog(context) {
+class TutorialDialog(context: Context) : BaseDialog(context) {
 
 
     lateinit var binding: DialogTutorialBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_tutorial, null, false)
+        binding = DataBindingUtil.inflate(
+            LayoutInflater.from(context),
+            R.layout.dialog_tutorial,
+            null,
+            false
+        )
         binding.dialog = this
         setContentView(binding.root)
 
@@ -35,7 +40,7 @@ class TutorialDialog(context: Context): BaseDialog(context) {
         layoutParams.topMargin = getStatusBarHeight()
     }
 
-    private fun getStatusBarHeight():Int {
+    private fun getStatusBarHeight(): Int {
         var result = 0;
         val id = context.resources.getIdentifier("status_bar_height", "dimen", "android");
         if (id > 0) {
@@ -45,7 +50,7 @@ class TutorialDialog(context: Context): BaseDialog(context) {
         return result
     }
 
-    fun userClick(@Suppress("UNUSED_PARAMETER")vw: View){
+    fun userClick(@Suppress("UNUSED_PARAMETER") vw: View) {
         cancel()
     }
 }

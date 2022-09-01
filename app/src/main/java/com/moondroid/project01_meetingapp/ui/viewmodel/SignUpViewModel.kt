@@ -18,16 +18,16 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
 
     private val _showLoading = MutableLiveData<Boolean>()
-    val showLoading : LiveData<Boolean> get() = _showLoading
+    val showLoading: LiveData<Boolean> get() = _showLoading
 
     private val _showError = MutableLiveData<Int>()
     val showError: LiveData<Int> get() = _showError
 
     private val _signUpResponse = SingleLiveEvent<BaseResponse>()
-    val signUpResponse : LiveData<BaseResponse> get() = _signUpResponse
+    val signUpResponse: LiveData<BaseResponse> get() = _signUpResponse
 
     private val _tokenResponse = SingleLiveEvent<BaseResponse>()
-    val tokenResponse : LiveData<BaseResponse> get() = _tokenResponse
+    val tokenResponse: LiveData<BaseResponse> get() = _tokenResponse
 
     fun signUp(body: JsonObject) {
         _showLoading.postValue(true)

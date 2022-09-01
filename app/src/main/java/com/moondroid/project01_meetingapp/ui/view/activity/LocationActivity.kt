@@ -1,10 +1,5 @@
 package com.moondroid.project01_meetingapp.ui.view.activity
 
-import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.MenuItem
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseActivity
@@ -12,9 +7,13 @@ import com.moondroid.project01_meetingapp.databinding.ActivityLocationBinding
 import com.moondroid.project01_meetingapp.ui.view.adapter.LocationAdapter
 import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.view.logException
-import dagger.hilt.android.AndroidEntryPoint
 import kotlin.collections.ArrayList
 
+
+/**
+ * 지역 선택
+ *  -> 선택된 지역을 Intent Extra 로 전달
+ **/
 class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity_location) {
     private lateinit var adapter: LocationAdapter
 

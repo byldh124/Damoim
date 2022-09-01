@@ -16,16 +16,16 @@ import okhttp3.RequestBody
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateViewModel @Inject constructor(private val repository: Repository): BaseViewModel() {
+class CreateViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
 
     private val _showLoading = MutableLiveData<Boolean>()
-    val showLoading : LiveData<Boolean> get() = _showLoading
+    val showLoading: LiveData<Boolean> get() = _showLoading
 
     private val _showError = MutableLiveData<Int>()
-    val showError : LiveData<Int> get() = _showError
+    val showError: LiveData<Int> get() = _showError
 
     private val _createResponse = SingleLiveEvent<BaseResponse>()
-    val createResponse : LiveData<BaseResponse> get() = _createResponse
+    val createResponse: LiveData<BaseResponse> get() = _createResponse
 
 
     fun createGroup(
@@ -34,7 +34,7 @@ class CreateViewModel @Inject constructor(private val repository: Repository): B
     ) {
         _showLoading.postValue(true)
         launch {
-            val response = withContext(Dispatchers.IO){
+            val response = withContext(Dispatchers.IO) {
                 repository.createGroup(body, file)
             }
 

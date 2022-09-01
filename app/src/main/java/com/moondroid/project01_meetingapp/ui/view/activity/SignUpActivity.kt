@@ -3,7 +3,6 @@ package com.moondroid.project01_meetingapp.ui.view.activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.view.View
-import android.widget.DatePicker
 import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -131,13 +130,10 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
         viewModel.showLoading.observe(this) {
             showLoading(it)
-            binding.btnSave.isEnabled = !it
         }
 
         viewModel.showError.observe(this) {
-            showNetworkError(it) {
-                binding.btnSave.isEnabled = true
-            }
+            showNetworkError(it)
         }
 
         viewModel.signUpResponse.observe(this) {
@@ -343,12 +339,11 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
      **/
     fun showDateDialog(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
-            val datePicker = DatePickerDialog(this, object : DatePickerDialog.OnDateSetListener {
-                override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+            val datePicker = DatePickerDialog(this,
+                { _, p1, p2, p3 ->
                     binding.tvBirth.text = String.format("%d.%d.%d", p1, p2 + 1, p3)
-                }
-            }, 1990, 0, 1)
-
+                }, 1990, 0, 1
+            )
             datePicker.show()
         } catch (e: Exception) {
             logException(e)

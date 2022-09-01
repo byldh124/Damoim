@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.View
-import android.widget.DatePicker
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
@@ -18,10 +17,7 @@ import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.viewmodel.ProfileViewModel
 import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.DMUtils
-import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
-import com.moondroid.project01_meetingapp.utils.view.log
-import com.moondroid.project01_meetingapp.utils.view.logException
-import com.moondroid.project01_meetingapp.utils.view.toReqBody
+import com.moondroid.project01_meetingapp.utils.view.*
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -30,6 +26,9 @@ import okhttp3.RequestBody.Companion.asRequestBody
 
 import java.io.File
 
+/**
+ * 회원 프로필 수정
+ **/
 @AndroidEntryPoint
 class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_info) {
 
@@ -38,6 +37,23 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
     lateinit var user: User
     private lateinit var gender: String
 
+    private val nameRegex =
+        Regex("^(.{2,8})$")                                             // 이름 정규식     [2 - 8 글자]
+
+    private val getLocation =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            try {
+                if (result?.resultCode == RESULT_OK) {
+                    result.data?.let {
+                        binding.tvLocation.text =
+                            it.getStringExtra(IntentParam.LOCATION).toString()
+                    }
+                }
+            } catch (e: Exception) {
+                logException(e)
+            }
+        }
+
     override fun init() {
         user = DMApp.user
         binding.activity = this
@@ -45,6 +61,9 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
         initViewModel()
     }
 
+    /**
+     * View initialize
+     **/
     @SuppressLint("SetTextI18n")
     private fun initView() {
         try {
@@ -62,7 +81,6 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
             }
 
             binding.rg.setOnCheckedChangeListener { _, id ->
-                log("[MyInfoActivity] , radio button checked changed ${id == R.id.rbMale}")
                 gender = if (id == R.id.rbMale) {
                     this@MyInfoActivity.getString(R.string.cmn_male)
                 } else {
@@ -70,7 +88,6 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
                 }
             }
 
-            log("[MyInfoActivity] , User => ${DMApp.user}")
             gender = DMApp.user.gender
             if (gender == getString(R.string.cmn_female)) {
                 binding.rbFemale.isChecked = true
@@ -80,6 +97,9 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
         }
     }
 
+    /**
+     * Observe ViewModel
+     **/
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
@@ -119,47 +139,47 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
         }
     }
 
+    /**
+     * 지역 선택
+     **/
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
         getLocation.launch(Intent(this, LocationActivity::class.java))
     }
 
-    private val getLocation =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        binding.tvLocation.text =
-                            it.getStringExtra(IntentParam.LOCATION).toString()
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
+    /**
+     * 생년월일 선택
+     **/
     fun toBirth(@Suppress("UNUSED_PARAMETER") vw: View) {
-        val array = user.birth.split(".")
-        val year: Int = try {
-            array[0].toInt()
-        } catch (e: Exception) {
-            1990
-        }
-        val month: Int = try {
-            array[1].toInt() - 1
-        } catch (e: Exception) {
-            0
-        }
+        try {
+            val array = user.birth.split(".")
+            val year: Int = try {
+                array[0].toInt()
+            } catch (e: Exception) {
+                1990
+            }
+            val month: Int = try {
+                array[1].toInt() - 1
+            } catch (e: Exception) {
+                0
+            }
 
-        val date: Int = try {
-            array[2].toInt()
+            val date: Int = try {
+                array[2].toInt()
+            } catch (e: Exception) {
+                1
+            }
+
+            val datePicker = DatePickerDialog(
+                this,
+                { _, p1, p2, p3 ->
+                    binding.tvBirth.text = String.format("%d.%d.%d", p1, p2 + 1, p3)
+                }, year, month, date
+            )
+
+            datePicker.show()
         } catch (e: Exception) {
-            1
+            logException(e)
         }
-
-        val datePicker = DatePickerDialog(this,
-            { _, p1, p2, p3 -> binding.tvBirth.text = String.format("%d.%d.%d", p1, p2 + 1, p3) }, year, month, date)
-
-        datePicker.show()
     }
 
     private val getImage =
@@ -182,6 +202,9 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
             }
         }
 
+    /**
+     * 프로필 이미지 선택
+     **/
     fun getImage(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val intent = Intent(Intent.ACTION_PICK)
@@ -193,15 +216,25 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
     }
 
 
+    /**
+     * 데이터 유효성 체크, 프로필 수정 요청
+     **/
     fun saveProfile(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val id = DMApp.user.id
             val name = binding.etName.text.toString()
             val birth = binding.tvBirth.text.toString()
             val location = binding.tvLocation.text.toString()
-            log("[MyInfoActivity] , gender = $gender")
             val thumb = DMApp.user.thumb
             val message = binding.etMsg.text.toString()
+
+            if (!name.matches(nameRegex)) {
+                toast(getString(R.string.error_name_mismatch))
+                return
+            } else if (message.isEmpty()) {
+                toast(getString(R.string.error_message_empty))
+                return
+            }
 
             val body = HashMap<String, RequestBody>()
             body[RequestParam.ID] = id.toReqBody()

@@ -27,7 +27,7 @@ class DMApp : Application() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)                      //다크모드 지원 X
 
 
-        //[2022.08.23] koin -> hilt migration
+        //koin -> hilt migration
         /*startKoin {
             androidContext(this@DMApp)
             fragmentFactory()

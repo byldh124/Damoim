@@ -21,7 +21,7 @@ class GroupViewModel @Inject constructor(private val repository: Repository) : B
     val showLoading: LiveData<Boolean> get() = _showLoading
 
     private val _showError = MutableLiveData<Int>()
-    val showError : LiveData<Int> get() =  _showError
+    val showError: LiveData<Int> get() = _showError
 
     private val _memberResponse = SingleLiveEvent<BaseResponse>()
     val memberResponse: LiveData<BaseResponse> get() = _memberResponse
@@ -36,7 +36,7 @@ class GroupViewModel @Inject constructor(private val repository: Repository) : B
     val favorResponse: LiveData<BaseResponse> get() = _favorResponse
 
     private val _saveFavorResponse = SingleLiveEvent<BaseResponse>()
-    val saveFavorResponse : LiveData<BaseResponse> get() = _saveFavorResponse
+    val saveFavorResponse: LiveData<BaseResponse> get() = _saveFavorResponse
 
     fun loadMember(title: String) {
         _showLoading.postValue(true)
@@ -64,7 +64,7 @@ class GroupViewModel @Inject constructor(private val repository: Repository) : B
         }
     }
 
-    fun saveRecent(id: String, title: String, lastTime: String){
+    fun saveRecent(id: String, title: String, lastTime: String) {
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
                 repository.saveRecent(id, title, lastTime)
@@ -84,7 +84,7 @@ class GroupViewModel @Inject constructor(private val repository: Repository) : B
         }
     }
 
-    fun join(id: String, title: String){
+    fun join(id: String, title: String) {
         _showLoading.postValue(true)
 
         viewModelScope.launch {
@@ -110,7 +110,7 @@ class GroupViewModel @Inject constructor(private val repository: Repository) : B
         }
     }
 
-    fun getFavor(id: String, title: String){
+    fun getFavor(id: String, title: String) {
         _showLoading.postValue(true)
 
         viewModelScope.launch {
@@ -136,11 +136,11 @@ class GroupViewModel @Inject constructor(private val repository: Repository) : B
         }
     }
 
-    fun saveFavor(id: String, title: String, active: Boolean){
+    fun saveFavor(id: String, title: String, active: Boolean) {
         _showLoading.postValue(true)
 
         viewModelScope.launch {
-            val response = withContext(Dispatchers.IO){
+            val response = withContext(Dispatchers.IO) {
                 repository.saveFavor(id, title, active)
             }
 
