@@ -1,5 +1,7 @@
 package com.moondroid.project01_meetingapp.utils
 
+import com.naver.maps.geometry.LatLng
+
 
 const val DEFAULT_PROFILE_IMG =
     "http://moondroid.dothome.co.kr/damoim-test/thumbs/IMG_20210302153242unnamed.jpg"
@@ -11,10 +13,6 @@ const val NETWORK_NOT_CONNECTED = -200
 object PrefKey {
     const val USER_INFO = "USER_INFO"
 }
-
-const val GROUP = "GROUP"
-
-const val currentGroup = "currentGroup"
 
 object ResponseCode {
     const val SUCCESS = 1000
@@ -32,9 +30,14 @@ object ActivityTy {
     const val SIGN_UP = 3
     const val HOME = 4
     const val GROUP = 5
-    const val CREATE_GROUP = 6
+    const val CREATE = 6
     const val GROUP_LIST = 7
-    const val CREATE = 8
+    const val GROUP_INFO = 8
+    const val MOIM = 9
+    const val INTEREST = 10
+    const val LOCATION = 11
+    const val MY_INFO = 12
+    const val SETTING = 13
 }
 
 object RequestParam {
@@ -56,21 +59,39 @@ object RequestParam {
     const val PURPOSE = "purpose"
     const val IMAGE = "image"
     const val INFORMATION = "information"
-    const val MASTER_ID = "materId"
+    const val MASTER_ID = "masterId"
+    const val MEMBER = "member"
+    const val IS_MEMBER = "isMember"
+
+    /** 정모 관련 **/
+    const val ADDRESS = "address"
+    const val DATE = "date"
+    const val PAY = "pay"
+    const val LAT = "lat"
+    const val LNG = "lng"
+    const val JOIN_MEMBER = "joinMember"
+    const val TIME = "time"
+    const val LatLng = "latLng"
+
+    /** 채팅 관련 **/
+    const val OTHER = "other"
 
     /** 일반 **/
     const val LAST_TIME = "lastTime"
     const val ACTIVE = "active"
     const val FAVOR = "favor"
+
+    /** Response **/
+    const val CODE = "code"
+    const val RESULT = "result"
 }
 
 object IntentParam {
     const val ACTIVITY = "ACTIVITY"
-    const val SEND_ACTIVITY = "SEND_ACTIVITY"
     const val INTEREST = "INTEREST"
     const val INTEREST_ICON = "INTEREST_ICON"
-    const val ICON_URL = " ICON_URL"
     const val LOCATION = "LOCATION"
+    const val ADDRESS = "ADDRESS"
     const val TYPE = "TYPE"
 }
 

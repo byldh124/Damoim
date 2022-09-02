@@ -30,17 +30,35 @@
             android:layout_height="1dp"
             android:background="@color/red_dark01" />
 
-        <EditText
-            android:id="@+id/etLocation"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/bg_edit_gray01"
-            android:hint="@string/hint_input_location"
-            android:padding="8dp"
-            android:privateImeOptions="defaultInputmode=korean" />
+            android:orientation="horizontal">
 
-        <androidx.recyclerview.widget.RecyclerView
+            <EditText
+                android:id="@+id/etLocation"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/TextBgGray"
+                android:layout_margin="16dp"
+                android:hint="@string/hint_input_location"
+                android:inputType="text"
+                android:privateImeOptions="defaultInputmode=korean" />
+
+            <ImageView
+                android:id="@+id/icSearch"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:visibility="gone"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_search"
+                android:layout_marginEnd="16dp"/>
+
+        </LinearLayout>
+
+
+
+        <com.moondroid.project01_meetingapp.ui.view.widget.DMRecycler
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -2,7 +2,9 @@ package com.moondroid.project01_meetingapp.network
 
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.model.BaseResponse
+import com.moondroid.project01_meetingapp.model.Moim
 import com.moondroid.project01_meetingapp.network.URLManager.CREATE_GROUP
+import com.moondroid.project01_meetingapp.network.URLManager.CREATE_MOIM
 import com.moondroid.project01_meetingapp.network.URLManager.ChECK_APP_VERSION
 import com.moondroid.project01_meetingapp.network.URLManager.GET_FAVOR
 import com.moondroid.project01_meetingapp.network.URLManager.GET_FAVORITE
@@ -36,10 +38,10 @@ interface ApiInterface {
     suspend fun getGroup(): Response<BaseResponse>
 
     @GET(GET_MY_GROUP)
-    suspend fun getMyGroup(@Query("id") userId: String): Response<BaseResponse>
+    suspend fun getMyGroup(@Query(RequestParam.ID) userId: String): Response<BaseResponse>
 
     @GET(GET_MEMBER)
-    suspend fun getMember(@Query("title") groupName: String): Response<BaseResponse>
+    suspend fun getMember(@Query(RequestParam.TITLE) title: String): Response<BaseResponse>
 
     @POST(SIGN_IN)
     suspend fun signIn(
@@ -71,9 +73,12 @@ interface ApiInterface {
     @GET(GET_MOIM)
     suspend fun getMoim(): Response<BaseResponse>
 
+    @POST(CREATE_MOIM)
+    suspend fun createMoim(@Body body: JsonObject): Response<BaseResponse>
+
     @GET(GET_MOIM)
     suspend fun getMoim(
-        @Query("title") title: String
+        @Query(RequestParam.TITLE) title: String
     ): Response<BaseResponse>
 
     @POST(SIGN_IN_KAKAO)

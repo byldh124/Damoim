@@ -1,5 +1,6 @@
 package com.moondroid.project01_meetingapp.utils.firebase
 
+import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 class DMCrash private constructor() {
@@ -19,6 +20,7 @@ class DMCrash private constructor() {
             if (instance == null) {
                 getInstance()
             }
+            Log.e("[logException]", exception.message.toString())
             instance?.log(exception.message.toString())
         }
     }

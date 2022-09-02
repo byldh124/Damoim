@@ -29,15 +29,16 @@ import java.io.File
 @AndroidEntryPoint
 class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_create) {
     private val viewModel: CreateViewModel by viewModels()
-    private var path: String? = null
-    private var interest: String? = null
-    private var location: String? = null
-    private lateinit var title: String
-    private lateinit var purpose: String
+    private var path: String? = null                                // 썸네일 이미지 Real path
+    private var interest: String? = null                            // 관심사
+    private var location: String? = null                            // 모임 지역
+    private lateinit var title: String                              // 모임명
+    private lateinit var purpose: String                            // 모임 목적
 
     private val titleRegex =
-        Regex("^(.{2,20})$")                                             // 이름 정규식     [2 글자 이상]
+        Regex("^(.{2,20})$")                                 // 이름 정규식 [2-20]
 
+    /* 관심사 ActivityResult */
     private val getInterest =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             try {
@@ -48,7 +49,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
 
                         val resId = it.getIntExtra(IntentParam.INTEREST_ICON, 0)
 
-                        log("[CreateActivity] , getInterest => interest : $interest , resId : $resId")
+                        log("getInterest => interest : $interest , resId : $resId")
 
                         Glide
                             .with(this@CreateActivity)
@@ -61,6 +62,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
             }
         }
 
+    /* 모임지역 ActivityResult */
     private val getLocation =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             try {
@@ -75,6 +77,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
             }
         }
 
+    /* 썸네일 ActivityResult */
     private val getImage =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             try {
@@ -105,7 +108,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
 
     /**
      * View 초기화
-     **/
+     */
     private fun initView() {
         try {
             setSupportActionBar(binding.toolbar)
@@ -129,7 +132,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
 
     /**
      * Observe ViewModel
-     **/
+     */
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
@@ -141,7 +144,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
 
         viewModel.createResponse.observe(this) {
 
-            log("[CreateActivity], createResponse : $it")
+            log("createResponse : $it")
 
             when (it.code) {
                 ResponseCode.SUCCESS -> {
@@ -153,14 +156,14 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
                 }
 
                 ResponseCode.ALREADY_EXIST -> {
-                    showError(getString(R.string.error_already_exist_title)) {
+                    showMessage(getString(R.string.error_already_exist_title)) {
                         binding.etTitle.requestFocus()
                     }
 
                 }
 
                 else -> {
-                    showError(
+                    showMessage(
                         String.format(
                             getString(R.string.error_create_group_fail),
                             "E01 : ${it.code}"
@@ -173,7 +176,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
 
     /**
      * 썸네일 이미지 선택
-     **/
+     */
     fun getImage(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val intent = Intent(Intent.ACTION_PICK)
@@ -186,14 +189,17 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
 
     /**
      * 모임 지역 선택
-     **/
+     */
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
-        getLocation.launch(Intent(this, LocationActivity::class.java))
+        getLocation.launch(
+            Intent(this, LocationActivity::class.java)
+                .putExtra(IntentParam.ACTIVITY, ActivityTy.CREATE)
+        )
     }
 
     /**
      * 관심사 선택
-     **/
+     */
     fun toInterest() {
         getInterest.launch(Intent(this, InterestActivity::class.java))
     }
@@ -204,7 +210,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
 
     /**
      * 데이터 유효성 체크
-     **/
+     */
     fun checkField(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             title = binding.etTitle.text.toString()
@@ -231,7 +237,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
 
     /**
      * 모임 생성 요청
-     **/
+     */
     private fun createGroup() {
         try {
             val body = HashMap<String, RequestBody>()
@@ -254,7 +260,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
             viewModel.createGroup(body, filePart)
         } catch (e: Exception) {
             logException(e)
-            showError(String.format(getString(R.string.error_create_group_fail), "E02"))
+            showMessage(String.format(getString(R.string.error_create_group_fail), "E02"))
         }
     }
 }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="activity"
+            type="com.moondroid.project01_meetingapp.ui.view.activity.MoimActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.view.activity.MoimActivity">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            style="@style/ToolbarRed">
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/TitleWhite"
+                android:text="@string/title_moim"/>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDate"
+                style="@style/TextBgGray"
+                android:hint="모임 날짜"
+                android:onClick="@{activity::showDate}"/>
+
+            <TextView
+                android:id="@+id/tvTime"
+                style="@style/TextBgGray"
+                android:layout_marginTop="16dp"
+                android:hint="모임 시간"
+                android:onClick="@{activity::showTime}"/>
+
+            <EditText
+                android:id="@+id/tvPay"
+                style="@style/TextBgGray"
+                android:layout_marginTop="16dp"
+                android:inputType="number"
+                android:hint="참가비"/>
+
+            <TextView
+                android:id="@+id/tvLocation"
+                style="@style/TextBgGray"
+                android:layout_marginTop="16dp"
+                android:hint="모임 장소"
+                android:onClick="@{activity::toLocation}"/>
+
+            <com.naver.maps.map.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                style="@style/ButtonRed01"
+                android:layout_marginTop="16dp"
+                android:text="@string/cmn_save"
+                android:onClick="@{activity::save}"/>
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+

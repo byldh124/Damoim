@@ -34,7 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
  *   3-1) 기존 정보 있을 경우 : 로그인
  *   3-2) 기존 정보 없을 경우 : 아이디, 이름, 썸네일 체크 후 회원가입 화면으로 전환
  *
- **/
+ */
 @AndroidEntryPoint
 class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
     private val viewModel: SignInViewModel by viewModels()
@@ -54,6 +54,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         initViewModel()
     }
 
+    /**
+     * Observe ViewModel
+     */
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
@@ -72,12 +75,12 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 }
 
                 ResponseCode.NOT_EXIST -> {
-                    showError(getString(R.string.error_id_not_exist)) {
+                    showMessage(getString(R.string.error_id_not_exist)) {
                         binding.etId.requestFocus()
                     }
                 }
                 else -> {
-                    showError(
+                    showMessage(
                         String.format(
                             getString(R.string.error_sign_in_fail),
                             "E01 : ${it.code}"
@@ -89,7 +92,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
         viewModel.signInResponse.observe(this) {
 
-            log("[SignInActivity::signIn] Response = $it")
+            log("signIn() , Response = $it")
 
             when (it.code) {
                 ResponseCode.SUCCESS -> {
@@ -103,19 +106,19 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 }
 
                 ResponseCode.NOT_EXIST -> {
-                    showError(getString(R.string.error_id_not_exist)) {
+                    showMessage(getString(R.string.error_id_not_exist)) {
                         binding.etId.requestFocus()
                     }
                 }
 
                 ResponseCode.INVALID_VALUE -> {
-                    showError(getString(R.string.error_wrong_password)) {
+                    showMessage(getString(R.string.error_wrong_password)) {
                         binding.etPw.requestFocus()
                     }
                 }
 
                 else -> {
-                    showError(
+                    showMessage(
                         String.format(
                             getString(
                                 R.string.error_sign_in_fail,
@@ -151,7 +154,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 }
 
                 else -> {
-                    showError(
+                    showMessage(
                         String.format(
                             getString(R.string.error_sign_in_fail, "E03 : ${it.code}")
                         )
@@ -164,7 +167,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     /**
      * 입력값 유효성 확인
-     **/
+     */
     fun checkField(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             id = binding.etId.text.toString()
@@ -185,7 +188,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     /**
      * Salt 값 요청 [회원가입에서 사용했던 값]
-     **/
+     */
     private fun getSalt() {
         try {
             viewModel.getSalt(id)
@@ -196,7 +199,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     /**
      * 로그인
-     **/
+     */
     private fun signIn(hashPw: String) {
         try {
 
@@ -212,7 +215,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     /**
      * 카카오톡 로그인 요청 [에러발생할 경우 -> 카카오 계정 로그인 요청]
-     **/
+     */
     fun getKakaoProfile(vw: View) {
         try {
             UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
@@ -245,7 +248,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     /**
      * 카카오 계정 로그인 요청
-     **/
+     */
     private fun getKakaoProfile2(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
@@ -279,7 +282,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
      * 카카오 로그인
      * [a] 기존 데이터 o : 회원 정보 요청
      * [b] 기존 데이터 x : 회원가입 화면 전환
-     **/
+     */
     private fun signInWithKakao() {
         try {
             val body = JsonObject()
@@ -299,7 +302,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     /**
      * 회원가입 화면 전환
-     **/
+     */
     fun goToSignUp(@Suppress("UNUSED_PARAMETER") view: View) {
         try {
             val intent = Intent(this, SignUpActivity::class.java)

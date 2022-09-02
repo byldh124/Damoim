@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="썸네일 이미지를\n선택 해주세요."
+                    android:text="@string/alm_input_thumb"
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:lineSpacingExtra="8dp"
                     android:background="@color/red_light02"
@@ -97,8 +97,8 @@
 
             <EditText
                 android:id="@+id/etTitle"
+                style="@style/TextBgGray"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/thumbWrapper"
                 app:layout_constraintRight_toRightOf="parent"
@@ -106,10 +106,6 @@
                 android:inputType="text"
                 app:layout_constraintHorizontal_bias="0"
                 android:layout_marginTop="36dp"
-                android:background="@drawable/bg_edit_gray01"
-                android:textSize="16dp"
-                android:padding="10dp"
-                android:fontFamily="@font/nanum_square_round_b"
                 android:hint="@string/cmn_group_title"/>
 
             <ImageView
@@ -125,35 +121,27 @@
 
             <TextView
                 android:id="@+id/tvLocation"
+                style="@style/TextBgGray"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="@id/icInterest"
                 app:layout_constraintTop_toBottomOf="@id/etTitle"
                 android:layout_marginTop="16dp"
-                android:textSize="16dp"
-                android:padding="10dp"
-                android:background="@drawable/bg_edit_gray01"
-                android:fontFamily="@font/nanum_square_round_b"
                 android:onClick="@{activity::toLocation}"
                 android:hint="@string/cmn_group_location"/>
 
             <EditText
                 android:id="@+id/etPurpose"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/TextBgGray"
                 app:layout_constraintTop_toBottomOf="@id/tvLocation"
+                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginTop="16dp"
                 android:hint="@string/cmn_group_purpose"
-                android:fontFamily="@font/nanum_square_round_b"
                 android:gravity="top"
-                android:textSize="16dp"
-                android:background="@drawable/bg_edit_gray01"
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:maxLength="50"
                 android:lineSpacingExtra="8dp"
-                android:padding="8dp"
                 android:privateImeOptions="defaultInputmode=korean" />
 
             <TextView

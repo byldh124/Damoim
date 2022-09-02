@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="moim"
+            type="com.moondroid.project01_meetingapp.model.Moim" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="8dp"
+            app:strokeColor="@color/pastel_6"
+            app:strokeWidth="1dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:text="@{moim.date}"
+                    android:textColor="@color/gray_dark01"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/tvDate"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_toEndOf="@id/tvDate"
+                    android:fontFamily="@font/nanum_square_round_b"
+                    android:text="@{moim.time}"
+                    android:textColor="@color/gray_dark01" />
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvTime"
+                    android:layout_alignStart="@id/tvDate"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/nanum_square_round_b"
+                    android:text="@{moim.address}"
+                    android:textColor="@color/gray_dark01" />
+
+                <TextView
+                    android:id="@+id/tvPay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvAddress"
+                    android:layout_alignStart="@id/tvDate"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/nanum_square_round_b"
+                    android:text="@{moim.pay}"
+                    android:textColor="@color/gray_dark01" />
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+
+</layout>

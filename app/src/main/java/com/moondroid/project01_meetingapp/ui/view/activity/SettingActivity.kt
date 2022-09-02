@@ -18,7 +18,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(R.layout.activity_s
 
     /**
      * 로그아웃
-     **/
+     */
     fun logout(@Suppress("UNUSED_PARAMETER") vw: View) {
         DMApp.prefs.clear()
 

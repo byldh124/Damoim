@@ -31,7 +31,7 @@ import java.security.SecureRandom
  * 1. 기입 정보 유효성 체크
  * 2. 해시 비밀번호 생성
  * 3. 회원가입
- **/
+ */
 @AndroidEntryPoint
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sign_up) {
 
@@ -48,11 +48,11 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
     private var fromKakao: Boolean = false                      // 카카오 로그인 여부
 
     private val idRegex =
-        Regex("^[a-zA-Z0-9]{5,16}$")                                      // ID 정규식       [영문, 숫자 5-16글자]
+        Regex("^[a-zA-Z0-9]{5,16}$")                                                        // ID 정규식 [영문, 숫자 5-16글자]
     private val pwRegex =
-        Regex("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]{8,}\$")          // 비밀번호 정규식  [영문, 숫자, 특수기호 포함 8글자 이상]
+        Regex("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]{8,}\$")          // 비밀번호 정규식 [영문, 숫자, 특수기호 포함 8글자 이상]
     private val nameRegex =
-        Regex("^(.{2,8})$")                                             // 이름 정규식     [2 - 8 글자]
+        Regex("^(.{2,8})$")                                                                 // 이름 정규식 [2 - 8 글자]
 
     /* 관심지역 ActivityResult */
     private val getLocation =
@@ -90,6 +90,9 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         initViewModel()
     }
 
+    /**
+     * Initialize View
+     */
     private fun initView() {
         try {
             setSupportActionBar(binding.toolbar)
@@ -126,6 +129,9 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         }
     }
 
+    /**
+     * Observe ViewModel
+     */
     private fun initViewModel() {
 
         viewModel.showLoading.observe(this) {
@@ -153,7 +159,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                 }
 
                 else -> {
-                    showError(
+                    showMessage(
                         String.format(
                             getString(R.string.error_sign_up_fail),
                             "[E01 : ${it.code}]"
@@ -165,7 +171,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
         viewModel.tokenResponse.observe(this@SignUpActivity) {
             try {
-                log("[SignUpActivity::updateToken] Response: $it")
+                log("updateToken() , Response: $it")
                 hideLoading()
                 goToHomeActivity(ActivityTy.SIGN_UP)
             } catch (e: Exception) {
@@ -178,7 +184,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
     /**
      * 회원가입 정보 초기화
-     **/
+     */
     fun signUp(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             id = if (fromKakao) {
@@ -212,7 +218,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
     /**
      * 회원가입 정보 유효성 체크
-     **/
+     */
     private fun checkField() {
         try {
             if (!fromKakao && !id.matches(idRegex)) {
@@ -239,7 +245,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
     /**
      * 비밀번호 해시값 생성
-     **/
+     */
     private fun encryptPw() {
         try {
             val salt = getSalt()
@@ -257,7 +263,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
     /**
      * 회원가입
-     **/
+     */
     private fun requestSignUp(hashPw: String, salt: String) {
         try {
 
@@ -281,7 +287,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
     /**
      * FCM 토큰 생성
      * [토큰 생성되지 않은 경우에도 정상처리]
-     **/
+     */
     private fun getMsgToken() {
         try {
             FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -305,7 +311,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
     /**
      * 토큰 등록
      * [토큰 미등록시에도 정상처리]
-     **/
+     */
     private fun updateToken(token: String) {
         try {
             val body = JsonObject()
@@ -320,7 +326,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
     /**
      * Salt 랜덤 변수 생성
-     **/
+     */
     private fun getSalt(): String? {
         return try {
             val rnd = SecureRandom()
@@ -336,7 +342,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
     /**
      * Android 달력 다이얼로그 호출
-     **/
+     */
     fun showDateDialog(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val datePicker = DatePickerDialog(this,
@@ -352,14 +358,14 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
     /**
      * 관심지역 선택 화면 전환
-     **/
+     */
     fun goToLocationActivity(@Suppress("UNUSED_PARAMETER") vw: View) {
         getLocation.launch(Intent(this, LocationActivity::class.java))
     }
 
     /**
      * 관심사 선택 화면 전환
-     **/
+     */
     fun goToInterestActivity(@Suppress("UNUSED_PARAMETER") vw: View) {
         getInterest.launch(Intent(this, InterestActivity::class.java))
     }

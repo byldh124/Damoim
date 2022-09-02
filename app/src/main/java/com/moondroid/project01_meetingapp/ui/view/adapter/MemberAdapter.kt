@@ -13,8 +13,8 @@ import com.moondroid.project01_meetingapp.utils.view.visible
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")
-class MemberListAdapter(private val ctx: Context) :
-    RecyclerView.Adapter<MemberListAdapter.ViewHolder>() {
+class MemberAdapter(private val ctx: Context) :
+    RecyclerView.Adapter<MemberAdapter.ViewHolder>() {
 
     private var userList: List<User> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()

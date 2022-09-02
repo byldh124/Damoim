@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.marginBottom
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.utils.DMLog

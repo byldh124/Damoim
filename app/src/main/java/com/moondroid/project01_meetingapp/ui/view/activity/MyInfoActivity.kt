@@ -28,7 +28,7 @@ import java.io.File
 
 /**
  * 회원 프로필 수정
- **/
+ */
 @AndroidEntryPoint
 class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_info) {
 
@@ -40,6 +40,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
     private val nameRegex =
         Regex("^(.{2,8})$")                                             // 이름 정규식     [2 - 8 글자]
 
+    /* 관심지역 ActivityResult */
     private val getLocation =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             try {
@@ -47,6 +48,27 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
                     result.data?.let {
                         binding.tvLocation.text =
                             it.getStringExtra(IntentParam.LOCATION).toString()
+                    }
+                }
+            } catch (e: Exception) {
+                logException(e)
+            }
+        }
+
+    /* 프로필 이미지 ActivityResult */
+    private val getImage =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            try {
+                if (result?.resultCode == RESULT_OK) {
+                    result.data?.let {
+                        val uri = it.data
+                        uri?.let { u ->
+                            path = DMUtils.getPathFromUri(this, u)
+                            if (!path.isNullOrEmpty()) {
+                                val bitmap = BitmapFactory.decodeFile(path)
+                                Glide.with(this).load(bitmap).into(binding.thumb)
+                            }
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -63,7 +85,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
 
     /**
      * View initialize
-     **/
+     */
     @SuppressLint("SetTextI18n")
     private fun initView() {
         try {
@@ -99,7 +121,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
 
     /**
      * Observe ViewModel
-     **/
+     */
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
@@ -111,10 +133,10 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
 
         viewModel.profileResponse.observe(this) {
             try {
-                log("[MyInfoActivity] , updateProfile , observe() , Response => $it")
+                log("updateProfile , observe() , Response => $it")
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
-                        showError(getString(R.string.alm_profile_update_success)) {
+                        showMessage(getString(R.string.alm_profile_update_success)) {
                             DMApp.user = Gson().fromJson(it.body.asJsonObject, User::class.java)
                             DMApp.prefs.putString(
                                 PrefKey.USER_INFO,
@@ -125,7 +147,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
                     }
 
                     else -> {
-                        showError(
+                        showMessage(
                             String.format(
                                 getString(R.string.error_profile_update_fail),
                                 "E01 [${it.code}]"
@@ -141,14 +163,14 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
 
     /**
      * 지역 선택
-     **/
+     */
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
         getLocation.launch(Intent(this, LocationActivity::class.java))
     }
 
     /**
      * 생년월일 선택
-     **/
+     */
     fun toBirth(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val array = user.birth.split(".")
@@ -182,29 +204,9 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
         }
     }
 
-    private val getImage =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        val uri = it.data
-                        uri?.let { u ->
-                            path = DMUtils.getPathFromUri(this, u)
-                            if (!path.isNullOrEmpty()) {
-                                val bitmap = BitmapFactory.decodeFile(path)
-                                Glide.with(this).load(bitmap).into(binding.thumb)
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
     /**
      * 프로필 이미지 선택
-     **/
+     */
     fun getImage(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val intent = Intent(Intent.ACTION_PICK)
@@ -218,7 +220,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
 
     /**
      * 데이터 유효성 체크, 프로필 수정 요청
-     **/
+     */
     fun saveProfile(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val id = DMApp.user.id

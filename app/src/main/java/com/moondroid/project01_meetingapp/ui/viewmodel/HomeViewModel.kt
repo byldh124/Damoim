@@ -47,7 +47,7 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Ba
 
             when (response) {
                 is UseCaseResult.Success -> {
-                    log("[HomeActivity], loadGroup , Response => ${response.data}")
+                    log("loadGroup , Response => ${response.data}")
                     _showLoading.postValue(false)
                     _groupsContent.postValue(response.data)
                 }

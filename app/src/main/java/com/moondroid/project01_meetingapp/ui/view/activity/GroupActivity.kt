@@ -33,7 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
  *   - 게시판
  *   - 사진첩
  *   - 채팅
- **/
+ */
 @AndroidEntryPoint
 class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group) {
     private val pageNum = 4
@@ -68,7 +68,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
 
     /**
      * View, Fragment 초기화
-     **/
+     */
     private fun initView() {
         try {
             //Action Bar
@@ -90,6 +90,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
             if (intent.getIntExtra(ACTIVITY, 0) == ActivityTy.CREATE)
                 TutorialDialog(this).show()
 
+            log("masterID : ${groupInfo.masterId} , userId : ${DMApp.user.id}")
             binding.icSetting.gone(groupInfo.masterId != DMApp.user.id)
 
         } catch (e: Exception) {
@@ -99,7 +100,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
 
     /**
      * Observe ViewModel
-     **/
+     */
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
@@ -112,14 +113,14 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
         viewModel.saveRecent(DMApp.user.id, groupInfo.title, System.currentTimeMillis().toString())
 
         viewModel.recentResponse.observe(this) {
-            log("[GroupActivity] , saveRecent , observe() , Response => $it")
+            log("saveRecent , observe() , Response => $it")
         }
 
         viewModel.getFavor(DMApp.user.id, groupInfo.title)
 
         viewModel.favorResponse.observe(this) {
 
-            log("[GroupActivity] , getFavor() , observe() , Response => $it")
+            log("getFavor() , observe() , Response => $it")
 
             isFavor = when (it.code) {
                 ResponseCode.SUCCESS -> {
@@ -135,7 +136,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
 
         viewModel.saveFavorResponse.observe(this) {
 
-            log("[GroupActivity] , saveFavor() , observe() , Response => $it")
+            log("saveFavor() , observe() , Response => $it")
 
             when (it.code) {
                 ResponseCode.SUCCESS -> {
@@ -148,13 +149,13 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
                         isFavor = false
                     }
 
-                    showError(message) {
+                    showMessage(message) {
                         binding.activity = this@GroupActivity
                     }
                 }
 
                 else -> {
-                    showError(String.format(getString(R.string.error_change_favorite_fail), "E01 : ${it.code}"))
+                    showMessage(String.format(getString(R.string.error_change_favorite_fail), "E01 : ${it.code}"))
                 }
             }
         }
@@ -180,6 +181,12 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
 
     fun toGroupInfo(@Suppress("UNUSED_PARAMETER") vw: View) {
         val intent = Intent(this, GroupInfoActivity::class.java)
+        intent.putExtra(ACTIVITY, ActivityTy.GROUP)
+        startActivityWithAnim(intent)
+    }
+
+    fun toMoimActivity(){
+        val intent = Intent(this, MoimActivity::class.java)
         intent.putExtra(ACTIVITY, ActivityTy.GROUP)
         startActivityWithAnim(intent)
     }

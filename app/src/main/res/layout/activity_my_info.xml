@@ -84,20 +84,15 @@
 
             <EditText
                 android:id="@+id/etName"
+                style="@style/TextBgGray"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:background="@drawable/bg_edit_gray01"
                 android:elevation="2dp"
                 android:ems="10"
-                android:fontFamily="@font/nanum_square_round_b"
                 android:hint="@string/cmn_name"
                 android:inputType="text"
-                android:padding="10dp"
                 android:privateImeOptions="defaultInputmode=korean"
                 android:text="@{activity.user.name}"
-                android:textColor="@color/gray_dark01"
-                android:textSize="16dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/thumbWrapper" />
 
@@ -150,60 +145,46 @@
 
             <TextView
                 android:id="@+id/tvBirth"
+                style="@style/TextBgGray"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/bg_edit_gray01"
                 android:elevation="2dp"
-                android:fontFamily="@font/nanum_square_round_b"
                 android:gravity="center_vertical"
                 android:hint="@string/cmn_birth"
                 android:onClick="@{activity::toBirth}"
-                android:padding="10dp"
                 android:text="@{activity.user.birth}"
-                android:textColor="@color/gray_dark01"
-                android:textSize="16dp"
                 app:layout_constraintLeft_toLeftOf="@id/etName"
                 app:layout_constraintTop_toBottomOf="@id/etName"
                 app:layout_constraintWidth_percent="0.38" />
 
             <TextView
                 android:id="@+id/tvLocation"
+                style="@style/TextBgGray"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:background="@drawable/bg_edit_gray01"
                 android:elevation="2dp"
-                android:fontFamily="@font/nanum_square_round_b"
                 android:gravity="center_vertical"
                 android:hint="@string/cmn_location"
                 android:onClick="@{activity::toLocation}"
-                android:padding="10dp"
                 android:text="@{activity.user.location}"
-                android:textColor="@color/gray_dark01"
-                android:textSize="16dp"
                 app:layout_constraintLeft_toRightOf="@id/tvBirth"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvBirth" />
 
             <EditText
                 android:id="@+id/etMsg"
+                style="@style/TextBgGray"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/bg_edit_gray01"
                 android:elevation="2dp"
-                android:fontFamily="@font/nanum_square_round_b"
                 android:gravity="top"
                 android:hint="@string/cmn_message"
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:maxLength="50"
                 android:maxLines="4"
-                android:padding="10dp"
                 android:privateImeOptions="defaultInputmode=korean"
                 android:text="@{activity.user.message}"
-                android:textSize="16dp"
                 app:layout_constraintTop_toBottomOf="@id/tvBirth" />
 
             <TextView

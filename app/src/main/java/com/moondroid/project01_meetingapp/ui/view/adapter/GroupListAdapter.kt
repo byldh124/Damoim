@@ -17,8 +17,7 @@ import kotlin.properties.Delegates
 class GroupListAdapter(
     private val ctx: Context,
     private val listener: OnItemClickListener
-) :
-    RecyclerView.Adapter<GroupListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<GroupListAdapter.ViewHolder>() {
 
     private lateinit var listContainer: List<GroupInfo>
 
@@ -43,7 +42,7 @@ class GroupListAdapter(
             * 현재 구성된 클릭 이벤트 프로세스
             * 아이템 클릭시 해당 모임의 정보를 글로벌로 올린뒤 GroupActivity에서
             * 글로벌에 저장된 해당 정보를 조회하여 표현
-            **/
+            */
             DMApp.group = group
             listener.onClick()
         }

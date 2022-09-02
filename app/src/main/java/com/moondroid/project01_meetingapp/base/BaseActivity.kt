@@ -48,12 +48,12 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         try {
             if (code != 0) {
                 if (code == NETWORK_NOT_CONNECTED) {
-                    showError(
+                    showMessage(
                         String.format(getString(R.string.error_network_not_connected), code),
                         onClick
                     )
                 } else {
-                    showError(String.format(getString(R.string.error_network_fail), code), onClick)
+                    showMessage(String.format(getString(R.string.error_network_fail), code), onClick)
                 }
             }
         } catch (e: Exception) {
@@ -61,7 +61,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         }
     }
 
-    fun showError(msg: String, onClick: () -> Unit) {
+    fun showMessage(msg: String, onClick: () -> Unit) {
         try {
             log("showError , msg = $msg")
 
@@ -78,7 +78,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         }
     }
 
-    fun showError(msg: String) {
+    fun showMessage(msg: String) {
         try {
             log("showError , msg = $msg")
 

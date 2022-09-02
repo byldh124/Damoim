@@ -10,7 +10,7 @@ import com.moondroid.project01_meetingapp.utils.view.logException
 /**
  * 관심사 선택
  *  -> 선택된 관심사를 Intent Extra 로 전달
- **/
+ */
 class InterestActivity : BaseActivity<ActivityInterestBinding>(R.layout.activity_interest) {
 
     override fun init() {
@@ -18,6 +18,9 @@ class InterestActivity : BaseActivity<ActivityInterestBinding>(R.layout.activity
         intiView()
     }
 
+    /**
+     * Initialize View
+     */
     private fun intiView() {
         try {
             setSupportActionBar(binding.toolbar)

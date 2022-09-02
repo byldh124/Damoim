@@ -47,7 +47,7 @@ import dagger.hilt.android.AndroidEntryPoint
  *
  * 3. OptionMenu
  *  - 카카오 공유
- **/
+ */
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
@@ -57,8 +57,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
     lateinit var groupsList: ArrayList<GroupInfo>
 
-    private var mBackWait = 0L
+    private var mBackWait = 0L       //Back 2번 클릭
 
+    /*관심사 ActivityResult*/
     private val getInterest =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             try {
@@ -86,7 +87,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
         if (binding.homeNav.visibility == View.VISIBLE){
             binding.drawer.closeDrawers()
         } else if (title != getString(R.string.cmn_find_group)) {
-            changeFragment(GroupListFragment())
+            //changeFragment(GroupListFragment())
+            binding.bnv.selectedItemId = R.id.bnv_tab1
             title = getString(R.string.cmn_find_group)
         } else if(System.currentTimeMillis() - mBackWait >=2000 ) {
             mBackWait = System.currentTimeMillis()
@@ -114,6 +116,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowTitleEnabled(false)
 
+            // connect drawer - navigation
             val drawerToggle =
                 ActionBarDrawerToggle(
                     this,
@@ -126,6 +129,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             drawerToggle.syncState()
             binding.drawer.addDrawerListener(drawerToggle)
 
+            //initialize bottom navigation
             binding.bnv.run {
                 setOnItemSelectedListener {
                     when (it.itemId) {
@@ -159,7 +163,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
     /**
      * Observe ViewModel
-     **/
+     */
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
@@ -172,11 +176,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
         viewModel.interestResponse.observe(this) {
             when (it.code) {
                 ResponseCode.SUCCESS -> {
-                    showError(getString(R.string.alm_update_interest_success))
+                    showMessage(getString(R.string.alm_update_interest_success))
                 }
 
                 ResponseCode.FAIL -> {
-                    showError(getString(R.string.error_update_interest_fail))
+                    showMessage(getString(R.string.error_update_interest_fail))
                 }
             }
         }
@@ -184,7 +188,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
     /**
      *  네비게이션 클릭 이벤트 처리
-     **/
+     */
     private fun initNavigation() {
         try {
             binding.homeNav.itemIconTintList = null
@@ -280,7 +284,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
     /**
      * 프로필 세팅 액티비티 전환
-     **/
+     */
     fun toProfileActivity(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val intent = Intent(this, MyInfoActivity::class.java)

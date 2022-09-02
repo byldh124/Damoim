@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="chat"
+            type="com.moondroid.project01_meetingapp.model.Chat" />
+        <import type="android.view.View"/>
+    </data>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/mWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{chat.other ? View.GONE: View.VISIBLE}">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/mThumb"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentEnd="true"
+                bind:image="@{chat.thumb}"
+                android:layout_margin="8dp"/>
+
+            <TextView
+                android:id="@+id/mName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/mThumb"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@id/mThumb"
+                android:text="@{chat.name}"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/mMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mName"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_toStartOf="@id/mThumb"
+                android:background="@drawable/bg_chat_box_my"
+                android:maxEms="12"
+                android:padding="8dp"
+                android:text="@{chat.message}"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/mTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/mMessage"
+                android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@id/mMessage"
+                android:text="@{chat.time}"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/oWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{chat.other ? View.VISIBLE: View.GONE}">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/oThumb"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                bind:image="@{chat.thumb}"
+                android:layout_margin="8dp"/>
+
+            <TextView
+                android:id="@+id/oName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{chat.name}"
+                android:layout_alignTop="@id/oThumb"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/oThumb"
+                android:textSize="14sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/oMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chat_box_your"
+                android:layout_toEndOf="@id/oThumb"
+                android:layout_below="@id/oName"
+                android:padding="8dp"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/black"
+                android:maxEms="12"
+                android:text="@{chat.message}"
+                android:layout_marginTop="8dp"/>
+            <TextView
+                android:id="@+id/oTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{chat.time}"
+                android:layout_alignBottom="@id/oMessage"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/oMessage"
+                android:textSize="12sp"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

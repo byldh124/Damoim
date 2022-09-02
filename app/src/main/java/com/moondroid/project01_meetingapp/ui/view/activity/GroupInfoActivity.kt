@@ -30,25 +30,26 @@ import java.io.File
 
 /**
  * 모임 정보 수정
- **/
+ */
 @AndroidEntryPoint
 class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activity_group_info) {
 
     val viewModel: GroupInfoViewModel by viewModels()
-    private lateinit var originTitle: String
-    private lateinit var title: String
-    private lateinit var location: String
-    private lateinit var purpose: String
-    private lateinit var interest: String
-    private lateinit var thumb: String
-    private lateinit var image: String
-    private lateinit var information: String
+    private lateinit var originTitle: String                            // 초기 그룹명
+    private lateinit var title: String                                  // 변경된 그룹명
+    private lateinit var location: String                               // 모임지역
+    private lateinit var purpose: String                                // 모임 목적
+    private lateinit var interest: String                               // 관심사
+    private lateinit var thumb: String                                  // 모임 썸네일
+    private lateinit var image: String                                  // 모임 배경 이미지
+    private lateinit var information: String                            // 모임 설명
 
-    private var thumbPath: String? = null
-    private var imagePath: String? = null
+    private var thumbPath: String? = null                               // 썸네일 Real Path
+    private var imagePath: String? = null                               // 배경이미지 Real Path
 
-    private val titleRegex = Regex("^(.{2,20})$")                                           // 이름 정규식     [2 글자 이상]
+    private val titleRegex = Regex("^(.{2,20})$")                // 이름 정규식 [2-20]
 
+    /* 관심사 ActivityResult */
     private val getInterest =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             try {
@@ -59,7 +60,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
 
                         val resId = it.getIntExtra(IntentParam.INTEREST_ICON, 0)
 
-                        log("[CreateActivity] , getInterest => interest : $interest , resId : $resId")
+                        log("getInterest => interest : $interest , resId : $resId")
 
                         Glide
                             .with(this@GroupInfoActivity)
@@ -72,6 +73,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
             }
         }
 
+    /* 모임지역 ActivityResult */
     private val getLocation =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             try {
@@ -86,6 +88,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
             }
         }
 
+    /* 썸네일 ActivityResult */
     private val getThumb =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             try {
@@ -106,6 +109,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
             }
         }
 
+    /* 배경이미지 ActivityResult */
     private val getImage =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             try {
@@ -128,7 +132,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
 
     /**
      * View initialize
-     **/
+     */
     override fun init() {
         try {
             binding.activity = this
@@ -151,7 +155,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
 
     /**
      * Observe ViewModel
-     **/
+     */
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
@@ -163,7 +167,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
 
         viewModel.groupInfoResponse.observe(this) {
             try {
-                log("[GroupInfoActivity] , updateGroup() , Response => $it")
+                log("updateGroup() , Response => $it")
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
                         val json = it.body.asJsonObject
@@ -172,13 +176,13 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
                     }
 
                     ResponseCode.ALREADY_EXIST -> {
-                        showError(this@GroupInfoActivity.getString(R.string.error_already_exist_title)) {
+                        showMessage(this@GroupInfoActivity.getString(R.string.error_already_exist_title)) {
                             binding.title.requestFocus()
                         }
                     }
 
                     else -> {
-                        showError(
+                        showMessage(
                             String.format(
                                 this@GroupInfoActivity.getString(R.string.error_update_group_info),
                                 "E1 : ${it.code}"
@@ -194,7 +198,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
 
     /**
      * 필드값 생성, 정규식 확인
-     **/
+     */
     fun save(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             title = binding.tvTitle.text.toString()
@@ -221,7 +225,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
 
     /**
      * 모임정보 수정 요청
-     **/
+     */
     private fun updateGroupInfo() {
         try {
             val body = HashMap<String, RequestBody>()
@@ -251,7 +255,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
                 }
             }
 
-            log("[GroupInforActivity] , updateGroupInfo() , requestBody = $body")
+            log("updateGroupInfo() , requestBody = $body")
 
             viewModel.updateGroup(body, thumbPart, imagePart)
 
@@ -263,21 +267,21 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
 
     /**
      * 관심사 선택
-     **/
+     */
     fun toInterest(@Suppress("UNUSED_PARAMETER") vw: View) {
         getInterest.launch(Intent(this, InterestActivity::class.java))
     }
 
     /**
      * 지역 선택
-     **/
+     */
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
         getLocation.launch(Intent(this, LocationActivity::class.java))
     }
 
     /**
      * 썸네일 이미지 선택
-     **/
+     */
     fun getThumb(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val intent = Intent(Intent.ACTION_PICK)
@@ -290,7 +294,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
 
     /**
      * 배경 이미지 선택
-     **/
+     */
     fun getImage(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val intent = Intent(Intent.ACTION_PICK)

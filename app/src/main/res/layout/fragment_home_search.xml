@@ -15,18 +15,13 @@
 
         <EditText
             android:id="@+id/etQuery"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/TextBgGray"
             android:layout_margin="16dp"
-            android:background="@drawable/bg_edit_gray01"
-            android:drawableLeft="@drawable/ic_search"
+            android:drawableStart="@drawable/ic_search"
             android:inputType="text"
-            android:fontFamily="@font/nanum_square_round_b"
-            android:hint="검색어 입력"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="12dp"
-            android:textColor="@color/gray_dark01"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:hint="@string/alm_input_query"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

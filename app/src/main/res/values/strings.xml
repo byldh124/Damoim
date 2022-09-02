@@ -126,8 +126,14 @@
     <string name="alm_favor_group_empty">관심 등록된 모임이 없습니다.</string>
     <string name="alm_recent_group_empty">최근 본 모임이 없습니다.</string>
     <string name="alm_my_group_empty">현재 가입된 모임이 없습니다.</string>
-    <string name="alm_search_data_empty">\'%s\'로 검색된 결과가 없습니다</string>
+    <string name="alm_search_data_empty">\'%s\'(으)로 검색된 결과가 없습니다</string>
     <string name="alm_two_click_exit">뒤로가기를 한번 더 누르시면 종료됩니다.</string>
+    <string name="cmn_send">send</string>
+    <string name="alrm_chat_invisible">모임에 가입하고\n다른 사람들과 채팅해보세요</string>
+    <string name="title_moim">정모 만들기</string>
+    <string name="alm_input_query">검색어 입력</string>
+    <string name="alm_input_thumb">썸네일 이미지를\n선택 해주세요.</string>
+    <string name="cmn_create_moim">정모 만들기</string>
 
 
 </resources>

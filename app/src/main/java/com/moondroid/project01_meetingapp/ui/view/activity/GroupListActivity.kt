@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * 모임 리스트
  *  - 최근 본 모임
  *  - 관심 모임
- **/
+ */
 @AndroidEntryPoint
 class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activity_group_list) {
     private lateinit var type: TYPE
@@ -45,7 +45,7 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
 
     /**
      * View initialize
-     **/
+     */
     private fun initView() {
 
         setSupportActionBar(binding.toolbar)
@@ -57,14 +57,14 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
 
         when (intent.getIntExtra(IntentParam.TYPE, 0)) {
             GroupListType.FAVORITE -> {
-                type = TYPE.FAVORITE
-                title = getString(R.string.title_group_list_favorite)
-                binding.recycler.setEmptyText(getString(R.string.alm_favor_group_empty))
+                type = TYPE.FAVORITE                                            // 타입 설정
+                title = getString(R.string.title_group_list_favorite)                                              // 타이틀 설정
+                binding.recycler.setEmptyText(getString(R.string.alm_favor_group_empty))      // Recycler EmptyMessage 설정
             }
             GroupListType.RECENT -> {
-                type = TYPE.RECENT
-                title = getString(R.string.title_group_list_recent)
-                binding.recycler.setEmptyText(getString(R.string.alm_recent_group_empty))
+                type = TYPE.RECENT                                              // 타입 설정
+                title = getString(R.string.title_group_list_recent)                                           // 타이틀 설정
+                binding.recycler.setEmptyText(getString(R.string.alm_recent_group_empty))         // Recycler EmptyMessage 설정
             }
             else -> finish()
         }
@@ -77,14 +77,12 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
                 goToGroupActivity(ActivityTy.GROUP_LIST)
             }
         })
-
-        //binding.recycler.emptyView = binding.emptyMsg
         binding.recycler.adapter = adapter
     }
 
     /**
      * Observe ViewModel
-     **/
+     */
     private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
@@ -94,11 +92,12 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
             showNetworkError(it)
         }
 
+        // Extra 타입 체크 [FAVORITE, RECENT]
         if (type == TYPE.FAVORITE) {
             viewModel.getFavorite(DMApp.user.id)
 
             viewModel.favoriteResponse.observe(this) {
-                log("[GroupListActivity] , favoriteResponse : $it")
+                log("favoriteResponse : $it")
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
                         val gson = GsonBuilder().create()
@@ -111,7 +110,7 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
                     }
 
                     else -> {
-                        showError(
+                        showMessage(
                             String.format(
                                 getString(R.string.error_load_group_list_fail),
                                 "[E01 : ${it.code}]"
@@ -124,7 +123,7 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
             viewModel.getRecent(DMApp.user.id)
 
             viewModel.recentResponse.observe(this) {
-                log("[GroupListActivity] , recentResponse : $it")
+                log("recentResponse : $it")
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
                         val gson = GsonBuilder().create()
@@ -137,7 +136,7 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
                     }
 
                     else -> {
-                        showError(
+                        showMessage(
                             String.format(
                                 getString(R.string.error_load_group_list_fail),
                                 "[E02 : ${it.code}]"

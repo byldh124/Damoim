@@ -23,6 +23,9 @@ class GroupViewModel @Inject constructor(private val repository: Repository) : B
     private val _showError = MutableLiveData<Int>()
     val showError: LiveData<Int> get() = _showError
 
+    private val _moimResponse = SingleLiveEvent<BaseResponse>()
+    val moimResponse: LiveData<BaseResponse> get() = _moimResponse
+
     private val _memberResponse = SingleLiveEvent<BaseResponse>()
     val memberResponse: LiveData<BaseResponse> get() = _memberResponse
 
@@ -37,6 +40,29 @@ class GroupViewModel @Inject constructor(private val repository: Repository) : B
 
     private val _saveFavorResponse = SingleLiveEvent<BaseResponse>()
     val saveFavorResponse: LiveData<BaseResponse> get() = _saveFavorResponse
+
+    fun getMoim(title: String) {
+        _showLoading.postValue(false)
+
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO){
+                repository.getMoim(title)
+            }
+            _showLoading.postValue(false)
+
+            when (response) {
+                is UseCaseResult.Success -> {
+                    _moimResponse.postValue(response.data)
+                }
+                is UseCaseResult.Fail -> {
+                    _showError.postValue(response.errCode)
+                }
+                is UseCaseResult.Error -> {
+                    _showError.postValue(handleException(response.exception))
+                }
+            }
+        }
+    }
 
     fun loadMember(title: String) {
         _showLoading.postValue(true)

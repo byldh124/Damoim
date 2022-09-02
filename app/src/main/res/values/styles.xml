@@ -86,4 +86,15 @@
         <item name="android:background">@drawable/bg_button_gray_01</item>
     </style>
 
+    <style name="TextBgGray">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_edit_gray01</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:textColor">@color/gray_dark01</item>
+        <item name="android:textColorHint">@color/gray_light01</item>
+    </style>
+
 </resources>

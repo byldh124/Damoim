@@ -2,9 +2,9 @@ package com.moondroid.project01_meetingapp.network
 
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.model.BaseResponse
+import com.moondroid.project01_meetingapp.model.Moim
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import okhttp3.MultipartBody
-import okhttp3.Request
 import okhttp3.RequestBody
 import org.jetbrains.annotations.NotNull
 import retrofit2.Response
@@ -26,7 +26,7 @@ interface Repository {
     suspend fun getMyGroup(userId: String): UseCaseResult<BaseResponse>         // 특정 유저가 가입한 그룹
     suspend fun getFavorite(id: String): UseCaseResult<BaseResponse>            // 특정 유저가 관심목록 표시한 그룹
     suspend fun getRecent(id: String): UseCaseResult<BaseResponse>              // 특정 유저가 최근 본 그룹
-    suspend fun loadMember(meetName: String): UseCaseResult<BaseResponse>       // 특정 그룹에 가입된 유저
+    suspend fun loadMember(title: String): UseCaseResult<BaseResponse>       // 특정 그룹에 가입된 유저
 
 
     /** 유저 그룹 **/
@@ -86,7 +86,10 @@ interface Repository {
 
     suspend fun updateToken(body: JsonObject): UseCaseResult<BaseResponse>      // FCM 토큰 변경
 
-    suspend fun getMoim(): UseCaseResult<BaseResponse>
+    /** 모임 관련 **/
+    suspend fun getMoim(): UseCaseResult<BaseResponse>                          // 모임 정보 로드
+    suspend fun getMoim(title: String): UseCaseResult<BaseResponse>             // 모임 정보 로드
+    suspend fun createMoim(body: JsonObject): UseCaseResult<BaseResponse>             // 모임 만들기
 }
 
 class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Repository {
@@ -110,9 +113,9 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
         }
     }
 
-    override suspend fun loadMember(meetName: String): UseCaseResult<BaseResponse> {
+    override suspend fun loadMember(title: String): UseCaseResult<BaseResponse> {
         return try {
-            handleResult(api.getMember(meetName))
+            handleResult(api.getMember(title))
         } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)
@@ -278,6 +281,24 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
     override suspend fun getMoim(): UseCaseResult<BaseResponse> {
         return try {
             handleResult(api.getMoim())
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+            UseCaseResult.Error(e)
+        }
+    }
+
+    override suspend fun getMoim(title: String): UseCaseResult<BaseResponse> {
+        return try {
+            handleResult(api.getMoim(title))
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+            UseCaseResult.Error(e)
+        }
+    }
+
+    override suspend fun createMoim(body: JsonObject): UseCaseResult<BaseResponse> {
+        return try {
+            handleResult(api.createMoim(body))
         } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)

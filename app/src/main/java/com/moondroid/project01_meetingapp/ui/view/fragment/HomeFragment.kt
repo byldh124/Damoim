@@ -3,10 +3,7 @@ package com.moondroid.project01_meetingapp.ui.view.fragment
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
@@ -169,7 +166,7 @@ class MyGroupFragment :
                 }
 
                 else -> {
-                    activity.showError(
+                    activity.showMessage(
                         String.format(
                             getString(R.string.error_load_group_list_fail),
                             "[E01 : ${it.code}]"
@@ -211,9 +208,9 @@ class SearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.fragment
 
             binding.etQuery.afterTextChanged { query ->
                 groups.clear()
+                binding.recycler.setEmptyText(String.format(getString(R.string.alm_search_data_empty), query))
                 activity.groupsList.forEach {
                     if (query.isEmpty()) return@forEach
-
                     if (
                         it.title.contains(query) ||
                         it.purpose.contains(query) ||
@@ -221,7 +218,6 @@ class SearchFragment : BaseFragment<FragmentHomeSearchBinding>(R.layout.fragment
                         it.interest.contains(query)
                     ) {
                         groups.add(it)
-                        binding.recycler.setEmptyText(String.format(getString(R.string.alm_search_data_empty), query))
                     }
                 }
 
@@ -318,7 +314,7 @@ class LocationFragment : BaseFragment<FragmentHomeLocationBinding>(R.layout.frag
                 }
 
                 else -> {
-                    activity.showError(
+                    activity.showMessage(
                         String.format(
                             activity.getString(R.string.error_load_moim_list_fail),
                             "[E01 : ${it.code}]"

@@ -45,6 +45,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         initViewModel()
     }
 
+    /**
+     *  Observe ViewModel
+     */
     private fun initViewModel() {
         viewModel.showError.observe(this) {
             showNetworkError(it) { exitApp() }
@@ -52,14 +55,14 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
         viewModel.appCheckResponse.observe(this) {
             try {
-                log("[SplashActivity] , appCheckResponse , observe , response => $it")
+                log("appCheckResponse , observe , response => $it")
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
                         checkAutoLogin()
                     }
 
                     ResponseCode.INACTIVE -> {
-                        showError(getString(R.string.error_request_update)) {
+                        showMessage(getString(R.string.error_request_update)) {
                             try {
                                 val intent = Intent(Intent.ACTION_VIEW)
                                 intent.data = Uri.parse("market://details?id=$packageName")
@@ -72,7 +75,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                     }
 
                     else -> {
-                        showError(getString(R.string.error_version_not_checked)) {
+                        showMessage(getString(R.string.error_version_not_checked)) {
                             exitApp()
                         }
                     }
@@ -85,14 +88,14 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
     /**
      * Prefs 에 저장된 아이디 값 체크
-     **/
+     */
     private fun checkAutoLogin() {
         try {
             val userInfo = DMApp.prefs.getString(PrefKey.USER_INFO)
             if (!userInfo.isNullOrEmpty()) {
                 DMApp.user = Gson().fromJson(userInfo, User::class.java)
 
-                log("[SplashActivity] , checkAutoLogin , User => ${DMApp.user}")
+                log("checkAutoLogin , User => ${DMApp.user}")
 
                 isReady = true
                 action = { goToHomeActivity() }
@@ -110,7 +113,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
     /**
      *  앱 버전 체크
-     **/
+     */
     private fun checkAppVersion() {
         try {
 
@@ -125,7 +128,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         }
     }
 
-
+    /**
+     * Initialize View
+     */
     private fun initView() {
         try {
             val animation = AnimationUtils.loadAnimation(this, R.anim.logo_anim)

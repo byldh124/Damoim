@@ -2,12 +2,14 @@ package com.moondroid.project01_meetingapp.application
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.startup.AppInitializer
 import com.kakao.sdk.common.KakaoSdk
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.utils.Preferences
 import dagger.hilt.android.HiltAndroidApp
+import net.danlew.android.joda.JodaTimeInitializer
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.fragment.koin.fragmentFactory
 import org.koin.core.context.startKoin
@@ -40,6 +42,8 @@ class DMApp : Application() {
         prefs = Preferences(applicationContext)
 
         KakaoSdk.init(this, resources.getString(R.string.kakao_native_app_key))
+
+        AppInitializer.getInstance(applicationContext).initializeComponent(JodaTimeInitializer::class.java)
     }
 
 
