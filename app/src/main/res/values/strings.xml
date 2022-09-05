@@ -134,6 +134,19 @@
     <string name="alm_input_query">검색어 입력</string>
     <string name="alm_input_thumb">썸네일 이미지를\n선택 해주세요.</string>
     <string name="cmn_create_moim">정모 만들기</string>
+    <string name="cmn_group_block">모임에 가입하고 다양한 활동을 진행하세요.</string>
+    <string name="cmn_use_terms">서비스 이용약관</string>
+    <string name="cmn_privacy">개인정보 처리방침</string>
+    <string name="alm_agree_to_use_terms_and_privacy_policy">이용약관 및 개인정보 처리방침에 동의해주세요.</string>
+    <string name="title_profile">프로필</string>
+    <string name="cmn_join_group">가입한 모임</string>
+    <string name="alm_empty_data_for_query">\'%s\'로 검색한 결과가 없습니다.</string>
+    <string name="alm_input_location">장소를 입력해주세요.</string>
+    <string name="titl_address">모임 장소 선택</string>
+    <string name="cmn_share_button">바로가기</string>
+    <string name="cmn_use_term_short">이용약관</string>
+    <string name="cmn_agree_to">에 동의합니다.</string>
+    <string name="cmn_divider">|</string>
 
 
 </resources>

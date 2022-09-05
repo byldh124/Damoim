@@ -121,6 +121,39 @@
                 android:onClick="@{activity::getKakaoProfile}"
                 android:src="@drawable/btn_kakao_login" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cmn_use_terms"
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:textColor="@color/gray_dark01"
+                    android:onClick="@{activity::showUseTerm}"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cmn_divider"
+                    android:layout_marginHorizontal="8dp"
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:textColor="@color/gray_dark01"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cmn_privacy"
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:onClick="@{activity::showPrivacy}"
+                    android:textColor="@color/gray_dark01"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

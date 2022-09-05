@@ -54,7 +54,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
             val activityType = intent.getIntExtra(IntentParam.ACTIVITY, 0)
 
             if (activityType == ActivityTy.MOIM) {
-                title = "모임 장소 선택"
+                title = getString(R.string.titl_address)
                 type = TYPE.ADDRESS
             } else {
                 title = getString(R.string.title_location_choice)
@@ -78,7 +78,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
                     locationAdapter.updateList(locations)
 
                     binding.etLocation.afterTextChanged { edit ->
-                        binding.recycler.setEmptyText(String.format("%s로 검색한 결과가 없습니다.", edit))
+                        binding.recycler.setEmptyText(String.format(getString(R.string.alm_empty_data_for_query), edit))
                         val newLocation = ArrayList<String>()
                         locations.forEach {
                             if (it.contains(edit)) {
@@ -90,14 +90,14 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
                 }
 
                 TYPE.ADDRESS -> {
-                    binding.etLocation.hint = "장소를 입력해주세요."
+                    binding.etLocation.hint = getString(R.string.alm_input_location)
                     binding.icSearch.visible()
                     binding.recycler.adapter = addressAdapter
 
                     binding.icSearch.setOnClickListener {
                         try {
                             val query = binding.etLocation.text.toString()
-                            binding.recycler.setEmptyText(String.format("%s로 검색한 결과가 없습니다.", query))
+                            binding.recycler.setEmptyText(String.format(getString(R.string.alm_empty_data_for_query), query))
 
                             if (query.isNotEmpty()) {
                                 address.clear()

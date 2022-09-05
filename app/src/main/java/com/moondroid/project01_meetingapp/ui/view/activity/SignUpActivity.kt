@@ -235,7 +235,9 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                 toast(getString(R.string.error_location_empty))
             } else if (interest.isNullOrEmpty()) {
                 toast(getString(R.string.error_interest_empty))
-            } else {
+            } else if(!binding.checkBox.isChecked){
+                toast(getString(R.string.alm_agree_to_use_terms_and_privacy_policy))
+            } else{
                 encryptPw()
             }
         } catch (e: Exception) {

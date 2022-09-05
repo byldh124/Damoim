@@ -1,29 +1,21 @@
 package com.moondroid.project01_meetingapp.ui.view.widget
 
-import android.app.ActionBar
 import android.content.Context
-import android.graphics.Typeface
-import android.text.Editable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.marginBottom
-import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.view.gone
-import com.moondroid.project01_meetingapp.utils.view.visible
 
 class DMRecycler : RecyclerView {
 
     lateinit var emptyView: TextView
-    private var once = false
+    private var initialized = false
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -57,19 +49,18 @@ class DMRecycler : RecyclerView {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-
-        parent?.let {
-            if (parent is ViewGroup) {
-                val layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                if (!once) {
+        if (!initialized) {
+            parent?.let {
+                if (parent is ViewGroup) {
+                    val layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
                     (parent as ViewGroup).addView(emptyView, layoutParams)
-                    once = true
-                }
+                    initialized = true
 
-                emptyView.gone(true)
+                    emptyView.gone(true)
+                }
             }
         }
     }

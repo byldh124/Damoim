@@ -20,6 +20,10 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
 
+    <queries>
+        <package android:name="com.kakao.talk" />
+    </queries>
+
     <application
         android:name=".application.DMApp"
         android:allowBackup="false"
@@ -34,9 +38,12 @@
         tools:ignore="DataExtractionRules"
         tools:targetApi="s">
         <activity
+            android:name=".ui.view.activity.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.view.activity.MoimActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar.Theme.Red"/>
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
             android:name=".ui.view.activity.GroupInfoActivity"
             android:exported="false"
@@ -100,6 +107,10 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <data android:host="kakaolink"
+                    android:scheme="kakaof33663a89ab7e4f6ace89f2ebeade100" />
+
             </intent-filter>
         </activity>
         <activity

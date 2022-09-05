@@ -2,39 +2,49 @@ package com.moondroid.project01_meetingapp.ui.view.fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseFragment
-import com.moondroid.project01_meetingapp.databinding.FragmentGroupBoardBinding
-import com.moondroid.project01_meetingapp.databinding.FragmentGroupChatBinding
-import com.moondroid.project01_meetingapp.databinding.FragmentGroupGalleryBinding
-import com.moondroid.project01_meetingapp.databinding.FragmentGroupInfoBinding
+import com.moondroid.project01_meetingapp.databinding.*
 import com.moondroid.project01_meetingapp.model.Chat
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.model.Moim
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.adapter.ChatAdapter
+import com.moondroid.project01_meetingapp.ui.view.adapter.GalleryAdapter
 import com.moondroid.project01_meetingapp.ui.view.adapter.MemberAdapter
 import com.moondroid.project01_meetingapp.ui.view.adapter.MoimAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.GroupViewModel
 import com.moondroid.project01_meetingapp.utils.DMLog
+import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
+import com.moondroid.project01_meetingapp.utils.view.logException
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 
 @AndroidEntryPoint
 class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_group_info) {
 
-    private var activity: GroupActivity? = null
+    private lateinit var activity: GroupActivity
     private val viewModel: GroupViewModel by viewModels()
     lateinit var groupInfo: GroupInfo
     private lateinit var memberAdapter: MemberAdapter
@@ -62,7 +72,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     }
 
     private fun initView() {
-        activity?.let {
+        activity.let {
             memberAdapter = MemberAdapter(it)
             moimAdapter = MoimAdapter(it)
         }
@@ -80,14 +90,14 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     }
 
     private fun initViewModel() {
-        activity?.groupInfo?.let {
+        activity.groupInfo.let {
             viewModel.loadMember(it.title)
         }
 
         viewModel.moimResponse.observe(viewLifecycleOwner) {
             log("getMoim() , observe() , Response => $it")
 
-            when (it.code){
+            when (it.code) {
                 ResponseCode.SUCCESS -> {
                     val body = it.body.asJsonArray
                     val moim = Gson().fromJson<ArrayList<Moim>>(
@@ -135,19 +145,20 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
 
             when (it.code) {
                 ResponseCode.SUCCESS -> {
-                    activity?.showMessage("모임 가입에 성공했습니다.") {
+                    activity.showMessage("모임 가입에 성공했습니다.") {
                         viewModel.loadMember(groupInfo.title)
                     }
+                    activity.restart()
                 }
 
                 ResponseCode.ALREADY_EXIST -> {
-                    activity?.showMessage("이미 가입된 모임입니다.") {
+                    activity.showMessage("이미 가입된 모임입니다.") {
                         viewModel.loadMember(groupInfo.title)
                     }
                 }
 
                 else -> {
-                    activity?.showMessage(String.format("모임 가입 실패 [%s]", "E01 : ${it.code}"))
+                    activity.showMessage(String.format("모임 가입 실패 [%s]", "E01 : ${it.code}"))
                 }
             }
         }
@@ -158,7 +169,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     }
 
     fun create(@Suppress("UNUSED_PARAMETER") vw: View) {
-        activity?.toMoimActivity()
+        activity.toMoimActivity()
     }
 
 }
@@ -181,9 +192,46 @@ class BoardFragment : BaseFragment<FragmentGroupBoardBinding>(R.layout.fragment_
 
 class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragment_group_gallery) {
 
-    private var activity: GroupActivity? = null
+    private lateinit var activity: GroupActivity
     private val viewModel: GroupViewModel by viewModels()
-    private lateinit var adapter: MemberAdapter
+    private lateinit var adapter: GalleryAdapter
+    private lateinit var imgRef: StorageReference
+    private var imgUri: Uri? = null
+    private lateinit var firebaseDB: FirebaseDatabase
+    private lateinit var galleryRef: DatabaseReference
+    private val urlList = ArrayList<String>()
+
+    @SuppressLint("SimpleDateFormat")
+    private val getImage =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            try {
+                if (result?.resultCode == AppCompatActivity.RESULT_OK) {
+                    result.data?.let {
+                        val time =
+                            SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis())
+
+                        imgRef =
+                            FirebaseStorage.getInstance().getReference("GalleryImgs").child(time)
+                        imgUri = it.data
+                        imgUri?.let { uri ->
+                            imgRef.putFile(uri).addOnSuccessListener { task ->
+                                imgRef.downloadUrl.addOnSuccessListener { uri2 ->
+                                    val fdb = FirebaseDatabase.getInstance()
+                                    val dbRef = fdb.getReference("GalleryImgs/${DMApp.group.title}")
+                                    dbRef.child(time).setValue(uri2.toString())
+                                        .addOnSuccessListener { _ ->
+                                            getImage()
+                                            log("getImage , ActivityResult() => Success")
+                                        }
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                logException(e)
+            }
+        }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -192,13 +240,45 @@ class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragm
 
 
     override fun init() {
+        binding.fragment = this
+        initView()
+
+    }
+
+    private fun initView() {
+        binding.recycler.layoutManager =
+            GridLayoutManager(activity, 3, RecyclerView.VERTICAL, false)
+        adapter = GalleryAdapter(activity)
+        binding.recycler.adapter = adapter
+
+        binding.icAdd.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            getImage.launch(intent)
+        }
+
+        getImage()
+    }
+
+    private fun getImage() {
+        firebaseDB = FirebaseDatabase.getInstance()
+        galleryRef = firebaseDB.getReference("GalleryImgs/${DMApp.group.title}")
+        galleryRef.get().addOnSuccessListener {
+            urlList.clear()
+            it.children.forEach { ds ->
+                log("[GalleryFragment] , called")
+                urlList.add(ds.getValue(String::class.java)!!)
+            }
+
+            adapter.update(urlList)
+        }
     }
 }
 
 
 class ChatFragment : BaseFragment<FragmentGroupChatBinding>(R.layout.fragment_group_chat) {
 
-    private var activity: GroupActivity? = null
+    private lateinit var activity: GroupActivity
     private val viewModel: GroupViewModel by viewModels()
     private lateinit var firebaseDB: FirebaseDatabase
     private lateinit var chatRef: DatabaseReference
@@ -274,5 +354,11 @@ class ChatFragment : BaseFragment<FragmentGroupChatBinding>(R.layout.fragment_gr
 
             }
         })
+    }
+}
+
+class BlockFragment : BaseFragment<FragmentGroupBlockBinding>(R.layout.fragment_group_block) {
+    override fun init() {
+
     }
 }

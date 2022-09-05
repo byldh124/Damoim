@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="activity"
+            type="com.moondroid.project01_meetingapp.ui.view.activity.ProfileActivity" />
+
+        <variable
+            name="user"
+            type="com.moondroid.project01_meetingapp.model.User" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.view.activity.ProfileActivity">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            bind:layout_constraintTop_toTopOf="parent"
+            bind:layout_constraintLeft_toLeftOf="parent"
+            style="@style/ToolbarRed">
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/TitleWhite"
+                android:text="@string/title_profile"/>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            bind:layout_constraintTop_toBottomOf="@id/toolbar"
+            bind:layout_constraintBottom_toBottomOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/thumb"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                bind:image="@{user.thumb}" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/thumb"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/thumb"
+                android:text="@{user.name}"
+                android:textColor="@color/gray_dark01"
+                android:layout_marginTop="16dp"
+                android:textSize="16dp"
+                android:fontFamily="@font/nanum_square_round_eb"/>
+
+            <TextView
+                android:id="@+id/tvBirth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tvName"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:textColor="@color/gray_dark01"
+                android:textSize="14dp"
+                android:layout_toEndOf="@id/tvName"
+                android:text="@{user.birth}" />
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvName"
+                android:layout_alignStart="@id/tvName"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:text="@{user.location}"
+                android:textColor="@color/gray_dark01"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvBirth"
+                android:layout_alignStart="@id/tvName"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/gray_dark01"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:textSize="14dp"
+                android:text="@{user.message}"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivInterest"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_below="@id/tvMessage"
+                android:layout_alignStart="@id/tvName"
+                android:layout_marginTop="8dp"
+                bind:interest="@{user.interest}" />
+
+            <TextView
+                android:id="@+id/tvUserGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/thumb"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/nanum_square_round_eb"
+                android:text="@string/cmn_join_group"
+                android:textColor="@color/gray_dark01"
+                android:textSize="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tvUserGroup"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                bind:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </RelativeLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

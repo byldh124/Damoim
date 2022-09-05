@@ -14,7 +14,7 @@ import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityMyInfoBinding
 import com.moondroid.project01_meetingapp.model.User
-import com.moondroid.project01_meetingapp.ui.viewmodel.ProfileViewModel
+import com.moondroid.project01_meetingapp.ui.viewmodel.ProfileSetViewModel
 import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.view.*
@@ -32,7 +32,7 @@ import java.io.File
 @AndroidEntryPoint
 class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_info) {
 
-    private val viewModel: ProfileViewModel by viewModels()
+    private val viewModel: ProfileSetViewModel by viewModels()
     private var path: String? = null
     lateinit var user: User
     private lateinit var gender: String

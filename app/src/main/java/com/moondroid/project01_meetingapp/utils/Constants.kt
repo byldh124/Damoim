@@ -38,6 +38,7 @@ object ActivityTy {
     const val LOCATION = 11
     const val MY_INFO = 12
     const val SETTING = 13
+    const val PROFILE = 14
 }
 
 object RequestParam {
@@ -93,6 +94,7 @@ object IntentParam {
     const val LOCATION = "LOCATION"
     const val ADDRESS = "ADDRESS"
     const val TYPE = "TYPE"
+    const val USER = "USER"
 }
 
 

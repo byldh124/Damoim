@@ -1,5 +1,6 @@
 package com.moondroid.project01_meetingapp.utils.view
 
+import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -40,4 +41,9 @@ fun TextView.interestText(position: Int) {
     val name = String.format("interest_%02d", position)
 
     this.text = context.getString(DMUtils.getStringId(context, name));
+}
+
+@BindingAdapter("loadUrl")
+fun WebView.webLoad(url: String) {
+    this.loadUrl(url)
 }

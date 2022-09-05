@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -15,6 +16,7 @@ import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.SignInActivity
 import com.moondroid.project01_meetingapp.ui.view.dialog.OneButtonDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.LoadingDialog
+import com.moondroid.project01_meetingapp.ui.view.dialog.WebViewDialog
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
 import com.moondroid.project01_meetingapp.utils.view.log
@@ -28,6 +30,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
 
     var oneButtonDialog: OneButtonDialog? = null
     var loadingDialog: LoadingDialog? = null
+    var webViewDialog: WebViewDialog? = null
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -53,7 +56,10 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
                         onClick
                     )
                 } else {
-                    showMessage(String.format(getString(R.string.error_network_fail), code), onClick)
+                    showMessage(
+                        String.format(getString(R.string.error_network_fail), code),
+                        onClick
+                    )
                 }
             }
         } catch (e: Exception) {
@@ -63,8 +69,6 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
 
     fun showMessage(msg: String, onClick: () -> Unit) {
         try {
-            log("showError , msg = $msg")
-
             if (oneButtonDialog == null) {
                 oneButtonDialog = OneButtonDialog(this, msg, onClick)
             } else {
@@ -80,8 +84,6 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
 
     fun showMessage(msg: String) {
         try {
-            log("showError , msg = $msg")
-
             if (oneButtonDialog == null) {
                 oneButtonDialog = OneButtonDialog(this, msg) {}
             } else {
@@ -132,10 +134,11 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     fun goToHomeActivity(activityTy: Int) {
         try {
             val intent = Intent(this, HomeActivity::class.java)
-
-            intent.putExtra(ACTIVITY, activityTy)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                .apply {
+                    putExtra(ACTIVITY, activityTy)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                }
             startActivityWithAnim(intent)
             finishAffinity()
         } catch (e: Exception) {
@@ -146,11 +149,11 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     fun goToSgnnActivity(activityTy: Int) {
         try {
             val intent = Intent(this, SignInActivity::class.java)
-
-            intent.putExtra(ACTIVITY, activityTy)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-
+                .apply {
+                    putExtra(ACTIVITY, activityTy)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                }
             startActivityWithAnim(intent)
         } catch (e: Exception) {
             logException(e)
@@ -162,13 +165,47 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
      */
     fun goToGroupActivity(activityType: Int) {
         try {
-            val newIntent = Intent(this, GroupActivity::class.java)
-            newIntent.putExtra(
-                ACTIVITY,
-                activityType
-            )
-            startActivityWithAnim(newIntent)
+            val intent = Intent(this, GroupActivity::class.java)
+                .apply {
+                    putExtra(ACTIVITY, activityType)
+                    addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                }
+            startActivityWithAnim(intent)
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
 
+    fun showUseTerm(@Suppress("UNUSED_PARAMETER")vw: View) {
+        showUseTerm()
+    }
+
+    fun showPrivacy(@Suppress("UNUSED_PARAMETER")vw: View) {
+        showPrivacy()
+    }
+
+    fun showUseTerm() {
+        try {
+            if (webViewDialog == null) {
+                webViewDialog = WebViewDialog(this, WebViewDialog.TYPE.USE_TERM)
+            } else {
+                webViewDialog!!.setType(WebViewDialog.TYPE.USE_TERM)
+            }
+            webViewDialog!!.show()
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
+
+    fun showPrivacy(){
+        try {
+            if (webViewDialog == null) {
+                webViewDialog = WebViewDialog(this, WebViewDialog.TYPE.PRIVACY)
+            } else {
+                webViewDialog!!.setType(WebViewDialog.TYPE.PRIVACY)
+            }
+            webViewDialog!!.show()
         } catch (e: Exception) {
             logException(e)
         }
@@ -177,5 +214,10 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     override fun finish() {
         super.finish()
         overridePendingTransition(android.R.anim.fade_in, 0)
+    }
+
+    fun restart() {
+        startActivityWithAnim(intent)
+        finish()
     }
 }

@@ -110,6 +110,7 @@ class GroupListFragment :
 
     override fun onClick(category: String) {
         groupAdapter.updateList(category)
+        binding.recGroup.setEmptyText(String.format(getString(R.string.alm_empty_data_for_query), category))
     }
 
     fun goToCreateGroupActivity(@Suppress("UNUSED_PARAMETER") vw: View) {

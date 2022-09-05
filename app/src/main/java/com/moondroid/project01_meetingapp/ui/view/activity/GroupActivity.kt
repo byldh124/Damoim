@@ -41,12 +41,14 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
     lateinit var groupInfo: GroupInfo
     lateinit var title: String
     var isFavor = false
-    val fragments = arrayOf(
-        InfoFragment(),
-        BoardFragment(),
-        GalleryFragment(),
-        ChatFragment()
-    )
+    val fragments =
+        arrayOf(
+            InfoFragment(),
+            BoardFragment(),
+            GalleryFragment(),
+            ChatFragment()
+        )
+
 
     override fun onBackPressed() {
         if (binding.pager.currentItem == 0) {
@@ -155,7 +157,12 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
                 }
 
                 else -> {
-                    showMessage(String.format(getString(R.string.error_change_favorite_fail), "E01 : ${it.code}"))
+                    showMessage(
+                        String.format(
+                            getString(R.string.error_change_favorite_fail),
+                            "E01 : ${it.code}"
+                        )
+                    )
                 }
             }
         }
@@ -185,7 +192,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
         startActivityWithAnim(intent)
     }
 
-    fun toMoimActivity(){
+    fun toMoimActivity() {
         val intent = Intent(this, MoimActivity::class.java)
         intent.putExtra(ACTIVITY, ActivityTy.GROUP)
         startActivityWithAnim(intent)

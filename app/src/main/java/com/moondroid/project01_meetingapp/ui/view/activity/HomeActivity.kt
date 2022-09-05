@@ -1,6 +1,7 @@
 package com.moondroid.project01_meetingapp.ui.view.activity
 
 import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.view.View
@@ -9,6 +10,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.kakao.sdk.common.util.KakaoCustomTabsClient
+import com.kakao.sdk.share.ShareClient
+import com.kakao.sdk.share.WebSharerClient
+import com.kakao.sdk.template.model.Button
+import com.kakao.sdk.template.model.Content
+import com.kakao.sdk.template.model.FeedTemplate
+import com.kakao.sdk.template.model.Link
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
@@ -25,6 +33,7 @@ import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.GroupListType
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.ResponseCode
+import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import com.moondroid.project01_meetingapp.utils.view.toast
@@ -50,6 +59,8 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
+
+    private val linkUrl = "https://moondroid.page.link/Zi7X"
 
     private lateinit var headerBinding: LayoutNavigationHeaderBinding
     private val viewModel: HomeViewModel by viewModels()
@@ -84,13 +95,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     }
 
     override fun onBackPressed() {
-        if (binding.homeNav.visibility == View.VISIBLE){
+        if (binding.homeNav.visibility == View.VISIBLE) {
             binding.drawer.closeDrawers()
         } else if (title != getString(R.string.cmn_find_group)) {
             //changeFragment(GroupListFragment())
             binding.bnv.selectedItemId = R.id.bnv_tab1
             title = getString(R.string.cmn_find_group)
-        } else if(System.currentTimeMillis() - mBackWait >=2000 ) {
+        } else if (System.currentTimeMillis() - mBackWait >= 2000) {
             mBackWait = System.currentTimeMillis()
             toast(getString(R.string.alm_two_click_exit))
         } else {
@@ -101,7 +112,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     override fun onResume() {
         super.onResume()
         user = DMApp.user
-        binding.homeActivity = this
+        binding.activity = this
         headerBinding.homeActivity = this
     }
 
@@ -150,7 +161,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                             title = getString(R.string.cmn_search_nearly_group)
                         }
                     }
-                    binding.homeActivity = this@HomeActivity
+                    binding.activity = this@HomeActivity
                     true
                 }
                 selectedItemId = R.id.bnv_tab1
@@ -308,4 +319,67 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             logException(e)
         }
     }
+
+    fun share(@Suppress("UNUSED_PARAMETER") vw: View) {
+        val params = FeedTemplate(
+            content = Content(
+                title = getString(R.string.app_name),
+                imageUrl = "https://firebasestorage.googleapis.com/v0/b/project01meetingapp.appspot.com/o/logo.png?alt=media&token=029dbc61-ab40-4c21-8da9-7dd8f56fd117",
+                link = Link(
+                    webUrl = linkUrl,
+                    mobileWebUrl = linkUrl
+                )
+            ),
+            buttons = listOf(
+                Button(
+                    getString(R.string.cmn_share_button),
+                    Link(
+                        webUrl = linkUrl,
+                        mobileWebUrl = linkUrl
+                    )
+                )
+            )
+        )
+
+        // 카카오톡 설치여부 확인
+        if (ShareClient.instance.isKakaoTalkSharingAvailable(this)) {
+            // 카카오톡으로 카카오톡 공유 가능
+            ShareClient.instance.shareDefault(this, params) { sharingResult, error ->
+                if (error != null) {
+                    log("카카오톡 공유 실패 : $error")
+                }
+                else if (sharingResult != null) {
+                    log("카카오톡 공유 성공 ${sharingResult.intent}")
+                    startActivity(sharingResult.intent)
+
+                    // 카카오톡 공유에 성공했지만 아래 경고 메시지가 존재할 경우 일부 컨텐츠가 정상 동작하지 않을 수 있습니다.
+                    log("Warning Msg: ${sharingResult.warningMsg}")
+                    log("Argument Msg: ${sharingResult.argumentMsg}")
+                }
+            }
+        } else {
+            // 카카오톡 미설치: 웹 공유 사용 권장
+            // 웹 공유 예시 코드
+            val sharerUrl = WebSharerClient.instance.makeDefaultUrl(params)
+
+            // CustomTabs으로 웹 브라우저 열기
+
+            // 1. CustomTabsServiceConnection 지원 브라우저 열기
+            // ex) Chrome, 삼성 인터넷, FireFox, 웨일 등
+            try {
+                KakaoCustomTabsClient.openWithDefault(this, sharerUrl)
+            } catch(e: UnsupportedOperationException) {
+                // CustomTabsServiceConnection 지원 브라우저가 없을 때 예외처리
+            }
+
+            // 2. CustomTabsServiceConnection 미지원 브라우저 열기
+            // ex) 다음, 네이버 등
+            try {
+                KakaoCustomTabsClient.open(this, sharerUrl)
+            } catch (e: ActivityNotFoundException) {
+                // 디바이스에 설치된 인터넷 브라우저가 없을 때 예외처리
+            }
+        }
+    }
+
 }

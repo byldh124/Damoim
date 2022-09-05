@@ -45,7 +45,11 @@ data class Moim(
     val lng: Double,
     @SerializedName(RequestParam.JOIN_MEMBER)
     val joinMember: String
-)
+) {
+    fun itemPay():String {
+        return "참가비 : $pay"
+    }
+}
 
 //constructor initialize for FirebaseDataBase
 data class Chat(

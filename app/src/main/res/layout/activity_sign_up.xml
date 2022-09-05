@@ -156,6 +156,60 @@
                 android:padding="12dp"
                 android:textSize="14sp" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:buttonTint="@color/red_light01"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"/>
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/gray_dark01"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:onClick="@{activity::showUseTerm}"
+                    android:textSize="14dp"
+                    android:text="@string/cmn_use_term_short"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/nanum_square_round_b"
+                    android:textSize="14dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:textColor="@color/gray_light01"
+                    android:text="@string/cmn_divider"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:gravity="center_vertical"
+                    android:textSize="14dp"
+                    android:textColor="@color/gray_dark01"
+                    android:onClick="@{activity::showPrivacy}"
+                    android:text="@string/cmn_privacy"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/nanum_square_round_b"
+                    android:textSize="14dp"
+                    android:textColor="@color/gray_light01"
+                    android:text="@string/cmn_agree_to"/>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/btnSave"
                 style="@style/ButtonRed01"
