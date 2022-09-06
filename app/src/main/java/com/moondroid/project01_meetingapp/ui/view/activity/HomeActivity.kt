@@ -323,12 +323,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     fun share(@Suppress("UNUSED_PARAMETER") vw: View) {
         val params = FeedTemplate(
             content = Content(
-                title = getString(R.string.app_name),
-                imageUrl = "https://firebasestorage.googleapis.com/v0/b/project01meetingapp.appspot.com/o/logo.png?alt=media&token=029dbc61-ab40-4c21-8da9-7dd8f56fd117",
+                title = String.format("%s %s", getString(R.string.app_sub_name), getString(R.string.app_name)),
+                imageUrl = "https://firebasestorage.googleapis.com/v0/b/project01meetingapp.appspot.com/o/logo.png?alt=media&token=4081b1a5-1d77-475b-98cf-63747ba3e37b",
                 link = Link(
                     webUrl = linkUrl,
                     mobileWebUrl = linkUrl
-                )
+                ),
+                description = "모임대장에서 다양한 사람들과 새로운 취미를 시작해보세요."
             ),
             buttons = listOf(
                 Button(
