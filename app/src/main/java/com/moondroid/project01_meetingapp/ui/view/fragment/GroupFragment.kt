@@ -214,7 +214,7 @@ class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragm
                             FirebaseStorage.getInstance().getReference("GalleryImgs").child(time)
                         imgUri = it.data
                         imgUri?.let { uri ->
-                            imgRef.putFile(uri).addOnSuccessListener { task ->
+                            imgRef.putFile(uri).addOnSuccessListener {
                                 imgRef.downloadUrl.addOnSuccessListener { uri2 ->
                                     val fdb = FirebaseDatabase.getInstance()
                                     val dbRef = fdb.getReference("GalleryImgs/${DMApp.group.title}")
