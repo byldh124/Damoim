@@ -18,6 +18,7 @@ import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.PrefKey
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
+import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import com.moondroid.project01_meetingapp.utils.view.exitApp
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
@@ -99,6 +100,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 DMApp.user = Gson().fromJson(userInfo, User::class.java)
 
                 DMAnalyze.setProperty(DMApp.user)
+                DMCrash.setProperty(DMApp.user.id)
 
                 isReady = true
                 action = { goToHomeActivity() }

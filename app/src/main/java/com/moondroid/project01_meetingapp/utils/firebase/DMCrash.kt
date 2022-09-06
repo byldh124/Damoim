@@ -16,6 +16,10 @@ class DMCrash private constructor() {
                 }
             }
 
+        fun setProperty(userId: String){
+            instance?.setUserId(userId)
+        }
+
         fun logException(exception: Exception) {
             if (instance == null) {
                 getInstance()

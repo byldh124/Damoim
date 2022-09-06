@@ -15,6 +15,7 @@ import com.moondroid.project01_meetingapp.ui.viewmodel.SignInViewModel
 import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
+import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import com.moondroid.project01_meetingapp.utils.view.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -100,6 +101,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                     val userInfo = it.body
                     DMApp.user = Gson().fromJson(userInfo, User::class.java)
                     DMAnalyze.setProperty(DMApp.user)
+                    DMCrash.setProperty(DMApp.user.id)
                     if (binding.checkBox.isChecked) {
                         DMApp.prefs.putString(PrefKey.USER_INFO, userInfo.toString())
                     }
