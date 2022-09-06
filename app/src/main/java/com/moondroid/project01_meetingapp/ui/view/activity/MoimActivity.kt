@@ -14,13 +14,12 @@ import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityMoimBinding
 import com.moondroid.project01_meetingapp.model.Address
-import com.moondroid.project01_meetingapp.model.Moim
 import com.moondroid.project01_meetingapp.ui.viewmodel.MoimViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.RequestParam
 import com.moondroid.project01_meetingapp.utils.ResponseCode
-import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
+import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.toast
@@ -36,7 +35,7 @@ import org.joda.time.DateTime
 
 @AndroidEntryPoint
 class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), OnMapReadyCallback {
-    private val requestCode = -1
+    private val requestCode = 0xf0f0
     private var temp: Address? = null
     private val viewModel: MoimViewModel by viewModels()
     private lateinit var locationSource: FusedLocationSource
@@ -97,17 +96,27 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
         viewModel.moimResponse.observe(this) {
             when (it.code) {
                 ResponseCode.SUCCESS -> {
-                    showMessage("새로운 모임을 만들었습니다.") {
+                    showMessage(getString(R.string.alm_create_moim_success)) {
+
+                        val bundle = Bundle()
+                        bundle.putString(RequestParam.TITLE, DMApp.group.title)
+                        DMAnalyze.logEvent("Create_Moim", bundle)
+
                         finish()
                     }
                 }
 
                 ResponseCode.ALREADY_EXIST -> {
-                    showMessage("동일 날짜에 이미 정모가 등록되어 있습니다.")
+                    showMessage(getString(R.string.error_moim_already_exist))
                 }
 
                 else -> {
-                    showMessage(String.format("모임 만들기에 실패했습니다. [%s]", "E01: ${it.code}"))
+                    showMessage(
+                        String.format(
+                            getString(R.string.error_create_moim_fail),
+                            "E01: ${it.code}"
+                        )
+                    )
                 }
             }
         }
@@ -154,17 +163,17 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
         var pay = binding.tvPay.text.toString()
 
         if (date.isEmpty()) {
-            toast("모임 날짜를 입력해주세요.")
+            toast(getString(R.string.error_empty_moim_date))
             return
         } else if (time.isEmpty()) {
-            toast("모임 시간을 입력해주세요.")
+            toast(getString(R.string.error_empty_moim_time))
             return
         } else {
             if (pay.isEmpty()) {
-                pay = "0원"
+                pay = String.format("0%s", getString(R.string.cmn_won))
             } else {
-                if (!pay.endsWith("원")) {
-                    pay += "원"
+                if (!pay.endsWith(getString(R.string.cmn_won))) {
+                    pay += getString(R.string.cmn_won)
                 }
             }
             val joinMember = Gson().toJson(arrayOf(DMApp.user.id))
@@ -178,8 +187,6 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
             body.addProperty(RequestParam.LAT, lat)
             body.addProperty(RequestParam.LNG, lng)
             body.addProperty(RequestParam.JOIN_MEMBER, joinMember)
-
-            log("createMoim() , body => $body")
 
             viewModel.createMoim(body)
         }

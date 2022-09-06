@@ -18,6 +18,7 @@ import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.viewmodel.SignUpViewModel
 import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.DMUtils
+import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
@@ -150,6 +151,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                 ResponseCode.SUCCESS -> {
                     toast(getString(R.string.alm_sign_up_success))
                     DMApp.user = Gson().fromJson(it.body, User::class.java)
+                    DMAnalyze.setProperty(DMApp.user)
                     getMsgToken()
                 }
 
@@ -171,8 +173,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
         viewModel.tokenResponse.observe(this@SignUpActivity) {
             try {
-                log("updateToken() , Response: $it")
-                hideLoading()
+                DMAnalyze.logEvent("SignUp Success")
                 goToHomeActivity(ActivityTy.SIGN_UP)
             } catch (e: Exception) {
                 logException(e)

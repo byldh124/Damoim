@@ -6,6 +6,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySettingBinding
+import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,6 +31,8 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(R.layout.activity_s
      */
     fun logout(@Suppress("UNUSED_PARAMETER") vw: View) {
         DMApp.prefs.clear()
+
+        DMAnalyze.logEvent("Logout")
 
         val intent = Intent(this, SignInActivity::class.java)
         finishAffinity()

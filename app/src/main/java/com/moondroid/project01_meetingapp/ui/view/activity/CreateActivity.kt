@@ -2,6 +2,7 @@ package com.moondroid.project01_meetingapp.ui.view.activity
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -17,6 +18,7 @@ import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.ui.viewmodel.CreateViewModel
 import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.DMUtils
+import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.*
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaType
@@ -148,7 +150,14 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
 
             when (it.code) {
                 ResponseCode.SUCCESS -> {
+
                     DMApp.group = Gson().fromJson(it.body, GroupInfo::class.java)
+
+                    val bundle = Bundle()
+                    bundle.putString(RequestParam.TITLE, DMApp.group.title)
+                    bundle.putString(RequestParam.MASTER_ID, DMApp.group.masterId)
+                    DMAnalyze.logEvent("Create Success", bundle)
+
                     val intent = Intent(this@CreateActivity, GroupActivity::class.java)
                     intent.putExtra(IntentParam.ACTIVITY, ActivityTy.CREATE)
                     startActivityWithAnim(intent)

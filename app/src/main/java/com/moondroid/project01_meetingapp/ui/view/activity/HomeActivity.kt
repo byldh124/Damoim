@@ -33,6 +33,7 @@ import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.GroupListType
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.ResponseCode
+import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
@@ -321,6 +322,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     }
 
     fun share(@Suppress("UNUSED_PARAMETER") vw: View) {
+
+        DMAnalyze.logEvent("Share Clicked")
+
         val params = FeedTemplate(
             content = Content(
                 title = String.format("%s %s", getString(R.string.app_sub_name), getString(R.string.app_name)),

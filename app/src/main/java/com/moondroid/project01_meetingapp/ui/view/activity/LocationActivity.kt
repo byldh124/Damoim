@@ -107,7 +107,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
                                         Address(
                                             String.format(
                                                 "%s, [%s]",
-                                                it.getAddressLine(0).replace("대한민국", ""),
+                                                it.getAddressLine(0).replace("대한민국 ", ""),
                                                 query
                                             ), LatLng(it.latitude, it.longitude)
                                         )

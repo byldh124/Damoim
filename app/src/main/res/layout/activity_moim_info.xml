@@ -87,12 +87,12 @@
                             android:layout_height="wrap_content"
                             android:layout_alignBottom="@id/tvDate"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginTop="8dp"
                             android:layout_toEndOf="@id/tvDate"
-                            android:text="@{moim.time}"
                             android:fontFamily="@font/nanum_square_round_b"
-                            android:textSize="14dp"
-                            android:textColor="@color/gray_dark01"/>
+                            android:text="@{moim.time}"
+                            android:textColor="@color/gray_dark01"
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/tvLocation"
@@ -100,11 +100,11 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tvTime"
                             android:layout_alignStart="@id/tvDate"
-                            android:layout_marginTop="4dp"
-                            android:text="@{moim.address}"
+                            android:layout_marginTop="8dp"
                             android:fontFamily="@font/nanum_square_round_b"
-                            android:textSize="14dp"
-                            android:textColor="@color/gray_dark01"/>
+                            android:text="@{moim.address}"
+                            android:textColor="@color/gray_dark01"
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/tvPay"
@@ -112,10 +112,10 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tvLocation"
                             android:layout_alignStart="@id/tvDate"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
                             android:fontFamily="@font/nanum_square_round_b"
-                            android:text="@{moim.pay}"
+                            android:text="@{moim.itemPay()}"
                             android:textColor="@color/gray_dark01"
                             android:textSize="14dp" />
                     </RelativeLayout>
@@ -129,7 +129,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
                     android:onClick="@{activity::join}"
                     android:text="@string/cmn_join_in_moim" />
 
@@ -139,6 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/btnJoin"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/jalnan"
                     android:text="@string/cmn_moim_member"
                     android:textColor="@color/gray_dark01"

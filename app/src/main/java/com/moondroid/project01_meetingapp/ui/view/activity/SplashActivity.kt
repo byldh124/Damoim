@@ -17,6 +17,7 @@ import com.moondroid.project01_meetingapp.ui.viewmodel.SplashViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.PrefKey
 import com.moondroid.project01_meetingapp.utils.ResponseCode
+import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.exitApp
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
@@ -43,6 +44,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         binding.activity = this
         initView()
         initViewModel()
+
+        DMAnalyze.logEvent("Splash_Loaded")
     }
 
     /**
@@ -95,7 +98,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
             if (!userInfo.isNullOrEmpty()) {
                 DMApp.user = Gson().fromJson(userInfo, User::class.java)
 
-                log("checkAutoLogin , User => ${DMApp.user}")
+                DMAnalyze.setProperty(DMApp.user)
 
                 isReady = true
                 action = { goToHomeActivity() }

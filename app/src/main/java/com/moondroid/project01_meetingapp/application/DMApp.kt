@@ -8,6 +8,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.utils.Preferences
+import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import dagger.hilt.android.HiltAndroidApp
 import net.danlew.android.joda.JodaTimeInitializer
 import org.koin.android.ext.koin.androidContext
@@ -28,7 +29,6 @@ class DMApp : Application() {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)                      //다크모드 지원 X
 
-
         //koin -> hilt migration
         /*startKoin {
             androidContext(this@DMApp)
@@ -38,12 +38,17 @@ class DMApp : Application() {
             modules(viewModelModules)
         }*/
 
-        //set SharedPreference
+        /* initialize SharedPreferences */
         prefs = Preferences(applicationContext)
 
+        /* initializie kakao */
         KakaoSdk.init(this, resources.getString(R.string.kakao_native_app_key))
 
+        /* initialize joda time */
         AppInitializer.getInstance(applicationContext).initializeComponent(JodaTimeInitializer::class.java)
+
+        /* initialize firebase analytics */
+        DMAnalyze.init(applicationContext)
     }
 
 

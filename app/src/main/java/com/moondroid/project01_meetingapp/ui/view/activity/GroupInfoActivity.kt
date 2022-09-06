@@ -17,6 +17,7 @@ import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.RequestParam
 import com.moondroid.project01_meetingapp.utils.ResponseCode
+import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.toReqBody
@@ -135,6 +136,8 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
      */
     override fun init() {
         try {
+            DMAnalyze.logEvent("GroupInfo Loaded")
+
             binding.activity = this
             binding.groupInfo = DMApp.group
 
