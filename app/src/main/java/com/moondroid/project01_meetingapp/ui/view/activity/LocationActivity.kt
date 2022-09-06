@@ -54,7 +54,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
             val activityType = intent.getIntExtra(IntentParam.ACTIVITY, 0)
 
             if (activityType == ActivityTy.MOIM) {
-                title = getString(R.string.titl_address)
+                title = getString(R.string.title_address)
                 type = TYPE.ADDRESS
             } else {
                 title = getString(R.string.title_location_choice)

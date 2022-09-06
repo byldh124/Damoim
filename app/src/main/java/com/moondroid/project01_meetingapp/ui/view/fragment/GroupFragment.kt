@@ -3,7 +3,6 @@ package com.moondroid.project01_meetingapp.ui.view.fragment
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -33,7 +31,6 @@ import com.moondroid.project01_meetingapp.ui.view.adapter.MemberAdapter
 import com.moondroid.project01_meetingapp.ui.view.adapter.MoimAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.GroupViewModel
 import com.moondroid.project01_meetingapp.utils.DMLog
-import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
@@ -177,8 +174,6 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
 class BoardFragment : BaseFragment<FragmentGroupBoardBinding>(R.layout.fragment_group_board) {
 
     private var activity: GroupActivity? = null
-    private val viewModel: GroupViewModel by viewModels()
-    private lateinit var adapter: MemberAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -193,7 +188,6 @@ class BoardFragment : BaseFragment<FragmentGroupBoardBinding>(R.layout.fragment_
 class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragment_group_gallery) {
 
     private lateinit var activity: GroupActivity
-    private val viewModel: GroupViewModel by viewModels()
     private lateinit var adapter: GalleryAdapter
     private lateinit var imgRef: StorageReference
     private var imgUri: Uri? = null
@@ -219,7 +213,7 @@ class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragm
                                     val fdb = FirebaseDatabase.getInstance()
                                     val dbRef = fdb.getReference("GalleryImgs/${DMApp.group.title}")
                                     dbRef.child(time).setValue(uri2.toString())
-                                        .addOnSuccessListener { _ ->
+                                        .addOnSuccessListener {
                                             getImage()
                                             log("getImage , ActivityResult() => Success")
                                         }
@@ -279,7 +273,6 @@ class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragm
 class ChatFragment : BaseFragment<FragmentGroupChatBinding>(R.layout.fragment_group_chat) {
 
     private lateinit var activity: GroupActivity
-    private val viewModel: GroupViewModel by viewModels()
     private lateinit var firebaseDB: FirebaseDatabase
     private lateinit var chatRef: DatabaseReference
     private val chatList: ArrayList<Chat> = ArrayList()

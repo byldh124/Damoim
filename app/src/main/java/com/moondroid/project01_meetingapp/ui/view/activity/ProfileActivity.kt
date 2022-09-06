@@ -1,7 +1,5 @@
 package com.moondroid.project01_meetingapp.ui.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

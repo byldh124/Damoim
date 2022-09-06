@@ -20,7 +20,6 @@ import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.RequestParam
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
-import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.toast
 import com.naver.maps.geometry.LatLng

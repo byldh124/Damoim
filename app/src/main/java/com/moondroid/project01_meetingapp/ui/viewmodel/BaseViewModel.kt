@@ -1,8 +1,6 @@
 package com.moondroid.project01_meetingapp.ui.viewmodel
 
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
@@ -10,7 +8,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import java.net.UnknownHostException
-import kotlin.contracts.Returns
 import kotlin.coroutines.CoroutineContext
 
 // 반복을 막기 위해 abstract class 생성
@@ -44,9 +41,4 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
             0
         }
     }
-
-    protected fun showErrorToast() {
-
-    }
-
 }

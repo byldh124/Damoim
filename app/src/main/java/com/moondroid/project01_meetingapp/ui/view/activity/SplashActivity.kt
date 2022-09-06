@@ -171,7 +171,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     }
 
     private fun goToSgnnActivity() {
-        goToSgnnActivity(ActivityTy.SPLASH)
+        goToSignInActivity(ActivityTy.SPLASH)
         finish()
     }
 

@@ -2,14 +2,10 @@ package com.moondroid.project01_meetingapp.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.model.BaseResponse
-import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
-import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.view.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

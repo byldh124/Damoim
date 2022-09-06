@@ -20,7 +20,6 @@ import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import dagger.hilt.android.AndroidEntryPoint
-import retrofit2.Response
 
 @AndroidEntryPoint
 class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity_moim_info) {

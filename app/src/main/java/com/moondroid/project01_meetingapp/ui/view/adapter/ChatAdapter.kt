@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.moondroid.project01_meetingapp.databinding.ItemChatBinding
 import com.moondroid.project01_meetingapp.model.Chat
-import com.moondroid.project01_meetingapp.model.GroupInfo
 import kotlin.properties.Delegates
 
 class ChatAdapter(private val context: Context) :BaseAdapter(){

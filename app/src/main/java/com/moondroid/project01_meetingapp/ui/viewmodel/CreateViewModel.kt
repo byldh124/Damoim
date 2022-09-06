@@ -6,7 +6,6 @@ import com.moondroid.project01_meetingapp.model.BaseResponse
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
-import com.moondroid.project01_meetingapp.utils.view.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -2,7 +2,6 @@ package com.moondroid.project01_meetingapp.ui.view.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RelativeLayout
@@ -10,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.databinding.ItemHomeGroupInfoBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
-import com.moondroid.project01_meetingapp.utils.DMLog
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")

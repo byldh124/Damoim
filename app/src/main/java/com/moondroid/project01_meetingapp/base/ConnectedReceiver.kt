@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
 
 /**
  * 인터넷 연결상태 수신을 위한 클래스

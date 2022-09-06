@@ -7,12 +7,10 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import android.util.DisplayMetrics
 import android.util.TypedValue
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import org.jetbrains.annotations.NotNull
 import java.security.MessageDigest
-import kotlin.math.log
 
 
 internal object DMUtils {

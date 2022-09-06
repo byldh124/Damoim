@@ -5,11 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.model.BaseResponse
-import com.moondroid.project01_meetingapp.model.Moim
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
-import com.moondroid.project01_meetingapp.ui.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

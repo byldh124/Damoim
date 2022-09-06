@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.moondroid.project01_meetingapp.model.BaseResponse
-import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult

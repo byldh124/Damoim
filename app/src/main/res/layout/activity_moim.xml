@@ -37,14 +37,14 @@
             <TextView
                 android:id="@+id/tvDate"
                 style="@style/TextBgGray"
-                android:hint="모임 날짜"
+                android:hint="@string/cmn_moim_date"
                 android:onClick="@{activity::showDate}"/>
 
             <TextView
                 android:id="@+id/tvTime"
                 style="@style/TextBgGray"
                 android:layout_marginTop="16dp"
-                android:hint="모임 시간"
+                android:hint="@string/cmn_moim_time"
                 android:onClick="@{activity::showTime}"/>
 
             <EditText
@@ -52,13 +52,13 @@
                 style="@style/TextBgGray"
                 android:layout_marginTop="16dp"
                 android:inputType="number"
-                android:hint="참가비"/>
+                android:hint="@string/cmn_moim_pay"/>
 
             <TextView
                 android:id="@+id/tvLocation"
                 style="@style/TextBgGray"
                 android:layout_marginTop="16dp"
-                android:hint="모임 장소"
+                android:hint="@string/cmn_moim_location"
                 android:onClick="@{activity::toLocation}"/>
 
             <com.naver.maps.map.MapView

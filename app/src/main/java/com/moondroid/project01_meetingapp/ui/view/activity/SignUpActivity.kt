@@ -20,7 +20,6 @@ import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.gone
-import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.toast
 import dagger.hilt.android.AndroidEntryPoint

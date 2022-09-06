@@ -1,13 +1,6 @@
 package com.moondroid.project01_meetingapp.network
 
 object URLManager {
-
-    //const val ENV = "TEST"
-    const val ENV = "PROD"
-
-    const val BASE_URL_TEST = "http://moondroid.dothome.co.kr/damoim-test/"
-    const val BASE_URL_PROD = "http://moondroid.dothome.co.kr/damoim/"
-
     const val BASE_URL = "http://moondroid.dothome.co.kr/damoim/"
 
     /** 앱 기능 관련 **/

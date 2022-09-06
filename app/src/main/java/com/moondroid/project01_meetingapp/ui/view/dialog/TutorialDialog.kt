@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.marginTop
 import androidx.databinding.DataBindingUtil
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseDialog
@@ -41,8 +40,8 @@ class TutorialDialog(context: Context) : BaseDialog(context) {
     }
 
     private fun getStatusBarHeight(): Int {
-        var result = 0;
-        val id = context.resources.getIdentifier("status_bar_height", "dimen", "android");
+        var result = 0
+        val id = context.resources.getIdentifier("status_bar_height", "dimen", "android")
         if (id > 0) {
             result = context.resources.getDimensionPixelSize(id)
         }

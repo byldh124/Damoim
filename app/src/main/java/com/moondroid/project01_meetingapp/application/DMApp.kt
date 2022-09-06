@@ -11,9 +11,6 @@ import com.moondroid.project01_meetingapp.utils.Preferences
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import dagger.hilt.android.HiltAndroidApp
 import net.danlew.android.joda.JodaTimeInitializer
-import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.fragment.koin.fragmentFactory
-import org.koin.core.context.startKoin
 
 @HiltAndroidApp
 class DMApp : Application() {
@@ -41,7 +38,7 @@ class DMApp : Application() {
         /* initialize SharedPreferences */
         prefs = Preferences(applicationContext)
 
-        /* initializie kakao */
+        /* initialize kakao */
         KakaoSdk.init(this, resources.getString(R.string.kakao_native_app_key))
 
         /* initialize joda time */

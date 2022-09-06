@@ -6,20 +6,16 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.view.gone
-import kotlin.math.log
 
 class DMRecycler : RecyclerView {
 

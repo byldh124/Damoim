@@ -11,7 +11,6 @@ import com.google.gson.Gson
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.databinding.ItemGroupMemberBinding
 import com.moondroid.project01_meetingapp.model.User
-import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.ProfileActivity
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.view.gone

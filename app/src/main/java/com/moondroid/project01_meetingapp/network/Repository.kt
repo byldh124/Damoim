@@ -2,7 +2,6 @@ package com.moondroid.project01_meetingapp.network
 
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.model.BaseResponse
-import com.moondroid.project01_meetingapp.model.Moim
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

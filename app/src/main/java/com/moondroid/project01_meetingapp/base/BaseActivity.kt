@@ -19,7 +19,6 @@ import com.moondroid.project01_meetingapp.ui.view.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.WebViewDialog
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
-import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 
@@ -28,9 +27,9 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
 
     protected lateinit var binding: T
 
-    var oneButtonDialog: OneButtonDialog? = null
-    var loadingDialog: LoadingDialog? = null
-    var webViewDialog: WebViewDialog? = null
+    private var oneButtonDialog: OneButtonDialog? = null
+    private var loadingDialog: LoadingDialog? = null
+    private var webViewDialog: WebViewDialog? = null
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -151,7 +150,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         }
     }
 
-    fun goToSgnnActivity(activityTy: Int) {
+    fun goToSignInActivity(activityTy: Int) {
         try {
             val intent = Intent(this, SignInActivity::class.java)
                 .apply {

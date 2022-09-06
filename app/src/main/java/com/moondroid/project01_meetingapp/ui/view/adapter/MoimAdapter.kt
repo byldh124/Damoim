@@ -1,24 +1,18 @@
 package com.moondroid.project01_meetingapp.ui.view.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.moondroid.project01_meetingapp.databinding.ItemGroupMemberBinding
 import com.moondroid.project01_meetingapp.databinding.ItemMoimBinding
 import com.moondroid.project01_meetingapp.model.Moim
-import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.MoimInfoActivity
 import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.IntentParam
-import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
-import com.moondroid.project01_meetingapp.utils.view.visible
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")

@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseDialog

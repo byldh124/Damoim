@@ -38,6 +38,7 @@
 
 
         <TextView
+            android:id="@+id/tvModify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -49,9 +50,8 @@
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/thumbWrapper"
+            android:layout_below="@id/tvModify"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:layout_toEndOf="@id/thumbWrapper"
             android:text="@{HomeActivity.user.name}"
             android:textColor="#ff333333"

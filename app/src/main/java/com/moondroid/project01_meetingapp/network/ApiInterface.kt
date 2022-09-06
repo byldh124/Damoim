@@ -2,7 +2,6 @@ package com.moondroid.project01_meetingapp.network
 
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.model.BaseResponse
-import com.moondroid.project01_meetingapp.model.Moim
 import com.moondroid.project01_meetingapp.network.URLManager.CREATE_GROUP
 import com.moondroid.project01_meetingapp.network.URLManager.CREATE_MOIM
 import com.moondroid.project01_meetingapp.network.URLManager.ChECK_APP_VERSION
@@ -27,10 +26,8 @@ import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_INTEREST
 import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_PROFILE
 import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_TOKEN
 import com.moondroid.project01_meetingapp.utils.RequestParam
-import kotlinx.coroutines.Deferred
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.jetbrains.annotations.NotNull
 import retrofit2.Response
 import retrofit2.http.*
 
