@@ -71,7 +71,7 @@
     <string name="cmn_group_master">모임장</string>
     <string name="cmn_group_information">모임 소개</string>
     <string name="cmn_join">가입 하기</string>
-    <string name="cmn_current_moim">현재 예정 정보</string>
+    <string name="cmn_current_moim">현재 예정 정모</string>
     <string name="cmn_members">모임원</string>
     <string name="cmn_group_purpose">모임 목적</string>
     <string name="cmn_group_title">모임 이름</string>
@@ -147,6 +147,10 @@
     <string name="cmn_use_term_short">이용약관</string>
     <string name="cmn_agree_to">에 동의합니다.</string>
     <string name="cmn_divider">|</string>
+    <string name="title_moim_info">정모 참여</string>
+    <string name="cmn_join_in_moim">정모 참여하기</string>
+    <string name="cmn_moim_member">참여 멤버</string>
+    <string name="cmn_moim_info">정모 일정</string>
 
 
 </resources>

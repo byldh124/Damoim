@@ -38,6 +38,9 @@
         tools:ignore="DataExtractionRules"
         tools:targetApi="s">
         <activity
+            android:name=".ui.view.activity.MoimInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.view.activity.ProfileActivity"
             android:exported="false" />
         <activity
@@ -107,10 +110,18 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
-                <data android:host="kakaolink"
-                    android:scheme="kakaof33663a89ab7e4f6ace89f2ebeade100" />
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="moondroid.page"
+                    android:path="/link"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity

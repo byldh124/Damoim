@@ -90,6 +90,12 @@ interface Repository {
     suspend fun getMoim(): UseCaseResult<BaseResponse>                          // 모임 정보 로드
     suspend fun getMoim(title: String): UseCaseResult<BaseResponse>             // 모임 정보 로드
     suspend fun createMoim(body: JsonObject): UseCaseResult<BaseResponse>             // 모임 만들기
+    suspend fun getMoimMember(joinMember: String): UseCaseResult<BaseResponse>      //정모 멤버
+    suspend fun joinInMoim(
+        id: String,
+        title: String,
+        date: String
+    ): UseCaseResult<BaseResponse>
 }
 
 class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Repository {
@@ -299,6 +305,28 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
     override suspend fun createMoim(body: JsonObject): UseCaseResult<BaseResponse> {
         return try {
             handleResult(api.createMoim(body))
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+            UseCaseResult.Error(e)
+        }
+    }
+
+    override suspend fun getMoimMember(joinMember: String): UseCaseResult<BaseResponse> {
+        return try {
+            handleResult(api.getMoimMember(joinMember))
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+            UseCaseResult.Error(e)
+        }
+    }
+
+    override suspend fun joinInMoim(
+        id: String,
+        title: String,
+        date: String
+    ): UseCaseResult<BaseResponse> {
+        return try {
+            handleResult(api.joinInMoim(id, title, date))
         } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)

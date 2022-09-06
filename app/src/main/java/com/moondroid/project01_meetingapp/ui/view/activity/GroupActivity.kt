@@ -92,7 +92,6 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
             if (intent.getIntExtra(ACTIVITY, 0) == ActivityTy.CREATE)
                 TutorialDialog(this).show()
 
-            log("masterID : ${groupInfo.masterId} , userId : ${DMApp.user.id}")
             binding.icSetting.gone(groupInfo.masterId != DMApp.user.id)
 
         } catch (e: Exception) {

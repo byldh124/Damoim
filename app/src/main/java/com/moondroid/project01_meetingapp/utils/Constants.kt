@@ -4,7 +4,7 @@ import com.naver.maps.geometry.LatLng
 
 
 const val DEFAULT_PROFILE_IMG =
-    "http://moondroid.dothome.co.kr/damoim-test/thumbs/IMG_20210302153242unnamed.jpg"
+    "http://moondroid.dothome.co.kr/damoim/thumbs/IMG_20210302153242unnamed.jpg"
 
 const val PREFS_NAME = "pref"
 
@@ -95,6 +95,7 @@ object IntentParam {
     const val ADDRESS = "ADDRESS"
     const val TYPE = "TYPE"
     const val USER = "USER"
+    const val MOIM = "MOIM"
 }
 
 

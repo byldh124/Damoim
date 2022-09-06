@@ -47,10 +47,10 @@
                     android:id="@+id/tvInfoTitle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/jalnan"
+                    android:layout_marginTop="24dp"
                     android:gravity="center_vertical"
-                    android:padding="8dp"
                     android:text="@string/cmn_group_information"
                     android:textColor="@color/gray_dark01"
                     android:textSize="14dp"
@@ -71,7 +71,7 @@
                     android:id="@+id/btnJoin"
                     style="@style/ButtonRed01"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="16dp"
                     android:onClick="@{fragment::join}"
                     android:text="@string/cmn_join"
                     bind:layout_constraintLeft_toLeftOf="parent"
@@ -88,27 +88,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="@font/nanum_square_round_eb"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/jalnan"
                         android:text="@string/cmn_current_moim"
                         android:textColor="@color/gray_dark01"
                         android:textSize="14dp"
                         bind:layout_constraintLeft_toLeftOf="parent" />
 
-                    <RelativeLayout
+                    <FrameLayout
                         android:id="@+id/moimWrapper"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tvCurrentMoim"
-                        android:paddingVertical="16dp"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginHorizontal="8dp">
 
                         <com.moondroid.project01_meetingapp.ui.view.widget.DMRecycler
                             android:id="@+id/recMoim"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp" />
-                    </RelativeLayout>
+                            android:layout_height="wrap_content" />
+                    </FrameLayout>
 
 
                     <TextView
@@ -116,6 +114,7 @@
                         style="@style/ButtonRed01"
                         android:layout_below="@id/moimWrapper"
                         android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp"
                         android:onClick="@{fragment::create}"
                         android:text="@string/cmn_create_moim"
                         android:visibility="@{isMaster ? View.VISIBLE: View.GONE}" />
@@ -127,8 +126,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/btnCreate"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="@font/nanum_square_round_eb"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/jalnan"
                         android:text="@string/cmn_members"
                         android:textColor="@color/gray_dark01"
                         android:textSize="14dp"
@@ -139,6 +138,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tvMember"
+                        android:layout_marginHorizontal="8dp"
                         android:layout_marginTop="8dp" />
 
                 </RelativeLayout>

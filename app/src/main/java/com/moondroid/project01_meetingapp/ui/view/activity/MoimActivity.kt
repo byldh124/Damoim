@@ -20,6 +20,7 @@ import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.RequestParam
 import com.moondroid.project01_meetingapp.utils.ResponseCode
+import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.toast
@@ -100,6 +101,11 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
                         finish()
                     }
                 }
+
+                ResponseCode.ALREADY_EXIST -> {
+                    showMessage("동일 날짜에 이미 정모가 등록되어 있습니다.")
+                }
+
                 else -> {
                     showMessage(String.format("모임 만들기에 실패했습니다. [%s]", "E01: ${it.code}"))
                 }
@@ -156,8 +162,12 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
         } else {
             if (pay.isEmpty()) {
                 pay = "0원"
+            } else {
+                if (!pay.endsWith("원")) {
+                    pay += "원"
+                }
             }
-            val joinMember = Gson().toJson(ArrayList<String>().add(DMApp.user.id))
+            val joinMember = Gson().toJson(arrayOf(DMApp.user.id))
             val body = JsonObject()
             body.addProperty(RequestParam.TITLE, DMApp.group.title)
             body.addProperty(RequestParam.ADDRESS, address)

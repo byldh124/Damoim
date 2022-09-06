@@ -15,8 +15,8 @@ android {
         applicationId "com.moondroid.project01_meetingapp"
         minSdk 23
         targetSdk 32
-        versionCode 1
-        versionName "0.0.1"
+        versionCode 19
+        versionName "2.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,7 +33,6 @@ android {
             ext.enableCrashlytics = false
         }
         release {
-            buildConfigField "String", "BASE_URL", "\"http://moondroid.dothome.co.kr/damoim/\""
             shrinkResources false
             minifyEnabled true
             debuggable false

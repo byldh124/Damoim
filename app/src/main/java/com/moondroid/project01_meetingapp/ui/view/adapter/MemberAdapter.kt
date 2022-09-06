@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.databinding.ItemGroupMemberBinding
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
@@ -19,7 +20,7 @@ import com.moondroid.project01_meetingapp.utils.view.visible
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")
-class MemberAdapter(private val activity: GroupActivity) :
+class MemberAdapter(private val activity: AppCompatActivity) :
     RecyclerView.Adapter<MemberAdapter.ViewHolder>() {
 
     private var userList: List<User> by Delegates.observable(emptyList()) { _, _, _ ->
@@ -64,12 +65,11 @@ class MemberAdapter(private val activity: GroupActivity) :
 
         fun bind(user: User) {
             binding.userDetail = user
-            if (adapterPosition == 0) {
+            if (DMApp.group.masterId == user.id) {
                 tvMaster.visible()
             } else {
                 tvMaster.gone(true)
             }
         }
-
     }
 }

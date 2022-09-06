@@ -7,8 +7,12 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.util.DisplayMetrics
+import android.util.TypedValue
+import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import org.jetbrains.annotations.NotNull
 import java.security.MessageDigest
+import kotlin.math.log
 
 
 internal object DMUtils {
@@ -184,5 +188,49 @@ internal object DMUtils {
      */
     private fun isGooglePhotosUri(uri: Uri): Boolean {
         return "com.google.android.apps.photos.content" == uri.authority
+    }
+
+    fun pixelToDp(context: Context, pixel: Float): Float {
+        var dp = 0.0f
+        try {
+            val metrics = context.resources.displayMetrics
+            dp = pixel / (metrics.densityDpi / 160f)
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+        }
+        return dp
+    }
+
+    fun pixelToDp(context: Context, pixel: Int): Int {
+        var dp = 0.0f
+        try {
+            val metrics = context.resources.displayMetrics
+            dp = pixel / (metrics.densityDpi / 160f)
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+        }
+        return dp.toInt()
+    }
+
+    fun dpToPixel(context: Context, dp: Float) : Float{
+        var pixel = 0.0f
+        try {
+            pixel = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics)
+        } catch (e:Exception) {
+            DMCrash.logException(e)
+        }
+
+        return pixel
+    }
+
+    fun dpToPixel(context: Context, dp: Int) : Int {
+        var pixel = 0.0f
+        try {
+            pixel = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), context.resources.displayMetrics)
+        } catch (e:Exception) {
+            DMCrash.logException(e)
+        }
+
+        return pixel.toInt()
     }
 }

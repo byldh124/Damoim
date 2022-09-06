@@ -11,9 +11,11 @@ import com.moondroid.project01_meetingapp.network.URLManager.GET_FAVORITE
 import com.moondroid.project01_meetingapp.network.URLManager.GET_GROUP
 import com.moondroid.project01_meetingapp.network.URLManager.GET_MEMBER
 import com.moondroid.project01_meetingapp.network.URLManager.GET_MOIM
+import com.moondroid.project01_meetingapp.network.URLManager.GET_MOIM_MEMBER
 import com.moondroid.project01_meetingapp.network.URLManager.GET_MY_GROUP
 import com.moondroid.project01_meetingapp.network.URLManager.GET_RECENT
 import com.moondroid.project01_meetingapp.network.URLManager.JOIN
+import com.moondroid.project01_meetingapp.network.URLManager.JOIN_INTO_MOIM
 import com.moondroid.project01_meetingapp.network.URLManager.SALT
 import com.moondroid.project01_meetingapp.network.URLManager.SAVE_FAVOR
 import com.moondroid.project01_meetingapp.network.URLManager.SAVE_RECENT
@@ -151,5 +153,17 @@ interface ApiInterface {
     suspend fun getFavor(
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.TITLE) title: String
+    ): Response<BaseResponse>
+
+    @GET(GET_MOIM_MEMBER)
+    suspend fun getMoimMember(
+        @Query(RequestParam.JOIN_MEMBER) joinMember: String
+    ): Response<BaseResponse>
+
+    @GET(JOIN_INTO_MOIM)
+    suspend fun joinInMoim(
+        @Query(RequestParam.ID) id: String,
+        @Query(RequestParam.TITLE) title: String,
+        @Query(RequestParam.DATE) date: String
     ): Response<BaseResponse>
 }

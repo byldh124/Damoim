@@ -8,7 +8,7 @@ object URLManager {
     const val BASE_URL_TEST = "http://moondroid.dothome.co.kr/damoim-test/"
     const val BASE_URL_PROD = "http://moondroid.dothome.co.kr/damoim/"
 
-    const val BASE_URL = "http://moondroid.dothome.co.kr/damoim-test/"
+    const val BASE_URL = "http://moondroid.dothome.co.kr/damoim/"
 
     /** 앱 기능 관련 **/
     const val ChECK_APP_VERSION = "app/checkVersion.php"
@@ -23,6 +23,8 @@ object URLManager {
     /** 모임 관련 **/
     const val GET_MOIM = "moim/moim.php"
     const val CREATE_MOIM = "moim/create.php"
+    const val GET_MOIM_MEMBER = "moim/member.php"
+    const val JOIN_INTO_MOIM = "moim/join.php"
 
     /** 유저-그룹 관련 **/
     const val SAVE_RECENT = "user/updateRecent.php"

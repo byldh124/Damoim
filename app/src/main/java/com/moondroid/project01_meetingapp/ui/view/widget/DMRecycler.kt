@@ -5,12 +5,21 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import com.moondroid.project01_meetingapp.R
+import com.moondroid.project01_meetingapp.utils.DMLog
+import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.view.gone
+import kotlin.math.log
 
 class DMRecycler : RecyclerView {
 
@@ -45,22 +54,62 @@ class DMRecycler : RecyclerView {
             gravity = Gravity.CENTER
             typeface = ResourcesCompat.getFont(context, R.font.nanum_square_round_eb)
         }
+        val podding = DMUtils.dpToPixel(context, 16)
+        emptyView.setPadding(0 ,podding ,0 ,podding)
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (!initialized) {
             parent?.let {
-                if (parent is ViewGroup) {
-                    val layoutParams = ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                    )
-                    (parent as ViewGroup).addView(emptyView, layoutParams)
-                    initialized = true
+                when (parent) {
+                    is ConstraintLayout -> {
+                        val layoutParams = ConstraintLayout.LayoutParams(
+                            ConstraintLayout.LayoutParams.MATCH_PARENT,
+                            ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            topToTop = ConstraintSet.PARENT_ID
+                            bottomToBottom = ConstraintSet.PARENT_ID
+                        }
 
-                    emptyView.gone(true)
+                        (parent as ConstraintLayout).addView(emptyView, layoutParams)
+                    }
+
+                    is RelativeLayout -> {
+                        RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.MATCH_PARENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            addRule(RelativeLayout.CENTER_VERTICAL)
+                        }
+
+                        (parent as RelativeLayout).addView(emptyView, layoutParams)
+                    }
+
+                    is FrameLayout -> {
+                        FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            gravity = Gravity.CENTER
+                        }
+
+                        (parent as FrameLayout).addView(emptyView, layoutParams)
+                    }
+
+                    else -> {
+                        ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                        )
+
+                        (parent as ViewGroup).addView(emptyView, layoutParams)
+                    }
                 }
+
+                initialized = true
+
+                emptyView.gone(true)
             }
         }
     }

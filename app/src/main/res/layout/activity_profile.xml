@@ -114,7 +114,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:fontFamily="@font/nanum_square_round_eb"
+                android:fontFamily="@font/jalnan"
                 android:text="@string/cmn_join_group"
                 android:textColor="@color/gray_dark01"
                 android:textSize="16dp" />
