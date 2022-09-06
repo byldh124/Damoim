@@ -356,9 +356,3 @@ class ChatFragment : BaseFragment<FragmentGroupChatBinding>(R.layout.fragment_gr
         })
     }
 }
-
-class BlockFragment : BaseFragment<FragmentGroupBlockBinding>(R.layout.fragment_group_block) {
-    override fun init() {
-
-    }
-}

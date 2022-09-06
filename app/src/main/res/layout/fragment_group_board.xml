@@ -9,7 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="게시판 서비스는 준비 중입니다.\n빠른 시일 내에 찾아뵙겠습니다."
+            android:text="@string/alm_board_ready"
             android:lineSpacingExtra="8dp"
             android:fontFamily="@font/nanum_square_round_eb"
             android:textColor="@color/gray_dark01"/>

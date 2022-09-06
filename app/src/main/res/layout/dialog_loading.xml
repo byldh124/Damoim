@@ -35,7 +35,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.3"
-                android:text="잠시만 기다려 주십시오."
+                android:text="@string/cmn_wait_loading"
                 android:textSize="18dp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/nanum_square_round_eb"/>

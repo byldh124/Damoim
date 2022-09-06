@@ -46,7 +46,7 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:fontFamily="@font/nanum_square_round_b"
-            android:text="모임장님 안녕하세요.\n우측 상단 설정 버튼을 통해 모임 페이지를 꾸미고\n새로운 분들과의 만남을 시작해보세요."/>
+            android:text="@string/alm_tutorial"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
