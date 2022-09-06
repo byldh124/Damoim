@@ -40,8 +40,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/thumb"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 bind:image="@{user.thumb}" />
@@ -88,13 +88,13 @@
                 android:id="@+id/tvMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvBirth"
-                android:layout_alignStart="@id/tvName"
+                android:layout_below="@id/tvLocation"
+                android:layout_alignStart="@id/tvLocation"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/gray_dark01"
                 android:fontFamily="@font/nanum_square_round_b"
-                android:textSize="14dp"
-                android:text="@{user.message}"/>
+                android:text="@{user.message}"
+                android:textColor="@color/gray_dark01"
+                android:textSize="14dp" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivInterest"

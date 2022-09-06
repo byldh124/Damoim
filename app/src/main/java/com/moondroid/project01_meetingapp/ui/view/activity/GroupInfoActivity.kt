@@ -147,9 +147,21 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
             image = DMApp.group.image
             information = DMApp.group.information
 
+            initView()
             initViewModel()
         } catch (e: Exception) {
             logException(e)
+        }
+    }
+
+    /**
+     * initialize View
+     * */
+    private fun initView(){
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setDisplayShowTitleEnabled(false)
         }
     }
 
@@ -173,6 +185,10 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
                         val json = it.body.asJsonObject
                         val group = Gson().fromJson(json, GroupInfo::class.java)
                         DMApp.group = group
+
+                        showMessage(getString(R.string.alm_modify_group_info_complete)){
+                            this@GroupInfoActivity.finish()
+                        }
                     }
 
                     ResponseCode.ALREADY_EXIST -> {

@@ -14,6 +14,15 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(R.layout.activity_s
 
     override fun init() {
         binding.activity = this
+        initView()
+    }
+
+    private fun initView() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setDisplayShowTitleEnabled(false)
+        }
     }
 
     /**

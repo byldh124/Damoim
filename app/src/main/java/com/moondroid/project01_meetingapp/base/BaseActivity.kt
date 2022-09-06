@@ -41,6 +41,11 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         init()
     }
 
+    override fun onResume() {
+        super.onResume()
+        overridePendingTransition(android.R.anim.fade_in, 0)
+    }
+
     abstract fun init()
 
     fun showNetworkError(code: Int) {

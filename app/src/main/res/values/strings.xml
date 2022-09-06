@@ -151,6 +151,7 @@
     <string name="cmn_join_in_moim">정모 참여하기</string>
     <string name="cmn_moim_member">참여 멤버</string>
     <string name="cmn_moim_info">정모 일정</string>
+    <string name="alm_modify_group_info_complete">그룹정보 변경이 완료되었습니다.</string>
 
 
 </resources>
