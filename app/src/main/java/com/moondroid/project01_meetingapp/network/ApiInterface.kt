@@ -28,6 +28,7 @@ import com.moondroid.project01_meetingapp.network.URLManager.UPDATE_TOKEN
 import com.moondroid.project01_meetingapp.utils.RequestParam
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -52,6 +53,10 @@ interface ApiInterface {
         @Query(RequestParam.ID) id: String
     ): Response<BaseResponse>
 
+    /**
+     * @param body (id , hashPw, salt, gender, location, interest, message, thumb : String)
+     *
+     **/
     @POST(SIGN_UP)
     suspend fun signUp(
         @Body body: JsonObject
@@ -64,10 +69,21 @@ interface ApiInterface {
         @Query("versionName") versionName: String
     ): Response<BaseResponse>
 
+    /**
+     * @param body (id: String, token: String)
+     **/
     @POST(UPDATE_TOKEN)
     suspend fun updateToken(
         @Body body: JsonObject
     ): Response<BaseResponse>
+
+    /**
+     * @param body (id: String, token: String)
+     **/
+    @POST(UPDATE_TOKEN)
+    fun updateTokenService(
+        @Body body: JsonObject
+    ): Call<BaseResponse>
 
     @GET(GET_MOIM)
     suspend fun getMoim(): Response<BaseResponse>
@@ -81,7 +97,7 @@ interface ApiInterface {
     ): Response<BaseResponse>
 
     @POST(SIGN_IN_KAKAO)
-    suspend fun signInkakao(
+    suspend fun signInKakao(
         @Body body: JsonObject
     ): Response<BaseResponse>
 
@@ -100,7 +116,7 @@ interface ApiInterface {
     ): Response<BaseResponse>
 
     @GET(GET_FAVORITE)
-    suspend fun getFavortite(
+    suspend fun getFavorite(
         @Query(RequestParam.ID) id: String
     ): Response<BaseResponse>
 

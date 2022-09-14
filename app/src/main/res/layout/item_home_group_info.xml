@@ -36,10 +36,7 @@
                     android:layout_height="100dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="8dp"
-                    app:bottomLeftCornerRadius="16dp"
-                    app:bottomRightCornerRadius="16dp"
-                    app:topLeftCornerRadius="16dp"
-                    app:topRightCornerRadius="16dp">
+                    app:cornerRadius="16dp">
 
                     <ImageView
                         android:id="@+id/titleImg"
@@ -65,6 +62,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/imgWrapper"
                     android:layout_marginStart="4dp"
+                    android:fontFamily="@font/nanum_square_round_b"
+                    android:textColor="@color/gray_dark02"
                     android:layout_toEndOf="@id/interestIcon"
                     android:text="@{groupDetail.location}" />
 
@@ -75,9 +74,10 @@
                     android:layout_below="@id/interestIcon"
                     android:layout_alignStart="@id/interestIcon"
                     android:layout_marginTop="4dp"
+                    android:fontFamily="@font/nanum_square_round_eb"
                     android:text="@{groupDetail.title}"
-                    android:textColor="#ff333333"
-                    android:textSize="16sp" />
+                    android:textColor="@color/gray_dark01"
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/txtGroupPurpose"
@@ -85,10 +85,12 @@
                     android:layout_height="match_parent"
                     android:layout_below="@id/txtGroupTitle"
                     android:layout_alignStart="@id/interestIcon"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
-                    android:text="@{groupDetail.purpose}" />
+                    android:fontFamily="@font/nanum_square_round_b"
+                    android:text="@{groupDetail.purpose}"
+                    android:textColor="@color/gray_dark02" />
             </RelativeLayout>
 
         </com.google.android.material.card.MaterialCardView>

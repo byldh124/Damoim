@@ -23,14 +23,14 @@ internal object DMUtils {
     }
 
     fun hashingPw(password: String, salt: String): String {
-        val md: MessageDigest = MessageDigest.getInstance("SHA-256") // SHA-256 해시함수를 사용
+        val md: MessageDigest = MessageDigest.getInstance("SHA-256")  // SHA-256 해시함수를 사용
         var output: ByteArray = password.toByteArray()
 
         // key-stretching
         for (i in 0..999) {
-            val temp: String = byteToString(output) + salt // 패스워드와 Salt 를 합쳐 새로운 문자열 생성
-            md.update(temp.toByteArray(Charsets.UTF_16)) // temp 의 문자열을 해싱하여 md 에 저장해둔다
-            output = md.digest() // md 객체의 다이제스트를 얻어 password 를 갱신한다
+            val temp: String = byteToString(output) + salt      // 패스워드와 Salt 를 합쳐 새로운 문자열 생성
+            md.update(temp.toByteArray(Charsets.UTF_16))        // temp 의 문자열을 해싱하여 md 에 저장해둔다
+            output = md.digest()                                // md 객체의 다이제스트를 얻어 password 를 갱신한다
         }
 
         return byteToString(output)
@@ -188,6 +188,9 @@ internal object DMUtils {
         return "com.google.android.apps.photos.content" == uri.authority
     }
 
+    /**
+     * Convert Px -> Dp
+     */
     fun pixelToDp(context: Context, pixel: Float): Float {
         var dp = 0.0f
         try {
@@ -199,6 +202,9 @@ internal object DMUtils {
         return dp
     }
 
+    /**
+     * Convert Px -> Dp
+     */
     fun pixelToDp(context: Context, pixel: Int): Int {
         var dp = 0.0f
         try {
@@ -210,6 +216,9 @@ internal object DMUtils {
         return dp.toInt()
     }
 
+    /**
+     * Convert Dp -> Px
+     */
     fun dpToPixel(context: Context, dp: Float) : Float{
         var pixel = 0.0f
         try {
@@ -221,6 +230,10 @@ internal object DMUtils {
         return pixel
     }
 
+
+    /**
+     * Convert Dp -> Px
+     */
     fun dpToPixel(context: Context, dp: Int) : Int {
         var pixel = 0.0f
         try {

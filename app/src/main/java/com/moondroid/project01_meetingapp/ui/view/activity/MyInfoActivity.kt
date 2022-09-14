@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
@@ -38,47 +37,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
     lateinit var user: User
     private lateinit var gender: String
 
-    private val nameRegex =
-        Regex("^(.{2,8})$")                                             // 이름 정규식     [2 - 8 글자]
-
-    /* 관심지역 ActivityResult */
-    private val getLocation =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        binding.tvLocation.text =
-                            it.getStringExtra(IntentParam.LOCATION).toString()
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
-    /* 프로필 이미지 ActivityResult */
-    private val getImage =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        val uri = it.data
-                        uri?.let { u ->
-                            path = DMUtils.getPathFromUri(this, u)
-                            if (!path.isNullOrEmpty()) {
-                                val bitmap = BitmapFactory.decodeFile(path)
-                                Glide.with(this).load(bitmap).into(binding.thumb)
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
     override fun init() {
-
         DMAnalyze.logEvent("MyInfo Loaded")
 
         user = DMApp.user
@@ -169,7 +128,15 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
      * 지역 선택
      */
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
-        getLocation.launch(Intent(this, LocationActivity::class.java))
+        val onResult: (Intent) -> Unit = { intent ->
+            binding.tvLocation.text =
+                intent.getStringExtra(IntentParam.LOCATION).toString()
+        }
+
+        val sendIntent = Intent(this, LocationActivity::class.java)
+            .putExtra(IntentParam.ACTIVITY, ActivityTy.MY_INFO)
+
+        activityResult(onResult, sendIntent)
     }
 
     /**
@@ -213,9 +180,21 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
      */
     fun getImage(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            getImage.launch(intent)
+            val onResult: (Intent) -> Unit = { intent ->
+                val uri = intent.data
+                uri?.let { u ->
+                    path = DMUtils.getPathFromUri(this, u)
+                    if (!path.isNullOrEmpty()) {
+                        val bitmap = BitmapFactory.decodeFile(path)
+                        Glide.with(this).load(bitmap).into(binding.thumb)
+                    }
+                }
+            }
+
+            val sendIntent = Intent(Intent.ACTION_PICK)
+            sendIntent.type = "image/*"
+
+            activityResult(onResult, sendIntent)
         } catch (e: Exception) {
             logException(e)
         }
@@ -234,7 +213,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
             val thumb = DMApp.user.thumb
             val message = binding.etMsg.text.toString()
 
-            if (!name.matches(nameRegex)) {
+            if (!name.matches(Regex.NAME)) {
                 toast(getString(R.string.error_name_mismatch))
                 return
             } else if (message.isEmpty()) {

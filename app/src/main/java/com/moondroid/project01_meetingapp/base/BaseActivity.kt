@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -31,6 +32,21 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     private var loadingDialog: LoadingDialog? = null
     private var webViewDialog: WebViewDialog? = null
 
+    private var onResult : (Intent) -> Unit? = {}
+
+    private val activityResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            try {
+                if (result?.resultCode == RESULT_OK) {
+                    result.data?.let {
+                        onResult(result.data!!)
+                    }
+                }
+            } catch (e: Exception) {
+                logException(e)
+            }
+        }
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +65,11 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
 
     fun showNetworkError(code: Int) {
         showNetworkError(code, onClick = {})
+    }
+
+    fun activityResult(onResult: (Intent) -> Unit?, intent: Intent) {
+        this@BaseActivity.onResult = onResult
+        activityResult.launch(intent)
     }
 
     fun showNetworkError(code: Int, onClick: () -> Unit) {
@@ -181,11 +202,11 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         }
     }
 
-    fun showUseTerm(@Suppress("UNUSED_PARAMETER")vw: View) {
+    fun showUseTerm(@Suppress("UNUSED_PARAMETER") vw: View) {
         showUseTerm()
     }
 
-    fun showPrivacy(@Suppress("UNUSED_PARAMETER")vw: View) {
+    fun showPrivacy(@Suppress("UNUSED_PARAMETER") vw: View) {
         showPrivacy()
     }
 
@@ -202,7 +223,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         }
     }
 
-    fun showPrivacy(){
+    fun showPrivacy() {
         try {
             if (webViewDialog == null) {
                 webViewDialog = WebViewDialog(this, WebViewDialog.TYPE.PRIVACY)
@@ -213,11 +234,6 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         } catch (e: Exception) {
             logException(e)
         }
-    }
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(android.R.anim.fade_in, 0)
     }
 
     fun restart() {

@@ -97,4 +97,18 @@
         <item name="android:textColorHint">@color/gray_light01</item>
     </style>
 
+    <style name="TextTab" parent="TextAppearance.Design.Tab">
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="TextNav" parent="Widget.Design.NavigationView">
+        <item name="android:fontFamily">@font/nanum_square_round_eb</item>
+    </style>
+
+    <style name="TextBottomNav" parent="Widget.Design.BottomNavigationView">
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
 </resources>

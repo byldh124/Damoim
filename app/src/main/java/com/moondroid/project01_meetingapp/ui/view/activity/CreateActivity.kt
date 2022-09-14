@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
@@ -37,70 +36,6 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
     private lateinit var title: String                              // 모임명
     private lateinit var purpose: String                            // 모임 목적
 
-    private val titleRegex =
-        Regex("^(.{2,20})$")                                 // 이름 정규식 [2-20]
-
-    /* 관심사 ActivityResult */
-    private val getInterest =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-
-                        interest = getString(it.getIntExtra(IntentParam.INTEREST, 0))
-
-                        val resId = it.getIntExtra(IntentParam.INTEREST_ICON, 0)
-
-                        log("getInterest => interest : $interest , resId : $resId")
-
-                        Glide
-                            .with(this@CreateActivity)
-                            .load(resId)
-                            .into(binding.icInterest)
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
-    /* 모임지역 ActivityResult */
-    private val getLocation =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        location = it.getStringExtra(IntentParam.LOCATION).toString()
-                        binding.tvLocation.text = location
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
-    /* 썸네일 ActivityResult */
-    private val getImage =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        val uri = it.data
-                        uri?.let { u ->
-                            path = DMUtils.getPathFromUri(this, u)
-                            if (!path.isNullOrEmpty()) {
-                                val bitmap = BitmapFactory.decodeFile(path)
-                                Glide.with(this).load(bitmap).into(binding.thumb)
-                                binding.tvImage.gone(true)
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
     override fun init() {
         binding.activity = this
         initView()
@@ -125,8 +60,6 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
                 binding.tvMsgLength.text =
                     String.format(getString(R.string.cmn_message_length), it.length)
             }
-
-
         } catch (e: Exception) {
             logException(e)
         }
@@ -168,7 +101,6 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
                     showMessage(getString(R.string.error_already_exist_title)) {
                         binding.etTitle.requestFocus()
                     }
-
                 }
 
                 else -> {
@@ -187,30 +119,59 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
      * 썸네일 이미지 선택
      */
     fun getImage(@Suppress("UNUSED_PARAMETER") vw: View) {
-        try {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            getImage.launch(intent)
-        } catch (e: Exception) {
-            logException(e)
+        val onResult: (Intent) -> Unit = { intent ->
+            try {
+                val uri = intent.data
+                uri?.let {
+                    path = DMUtils.getPathFromUri(this, it)
+                    if (!path.isNullOrEmpty()) {
+                        val bitmap = BitmapFactory.decodeFile(path)
+                        Glide.with(this).load(bitmap).into(binding.thumb)
+                        binding.tvImage.gone(true)
+                    }
+                }
+            } catch (e: Exception) {
+                logException(e)
+            }
         }
+        val intent = Intent(Intent.ACTION_PICK).setType("image/*")
+
+        activityResult(onResult, intent)
+        activityResult(onResult, intent)
     }
 
     /**
      * 모임 지역 선택
      */
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
-        getLocation.launch(
-            Intent(this, LocationActivity::class.java)
-                .putExtra(IntentParam.ACTIVITY, ActivityTy.CREATE)
-        )
+        val onResult: (Intent) -> Unit = { intent ->
+            try {
+                location = intent.getStringExtra(IntentParam.LOCATION).toString()
+                binding.tvLocation.text = location
+            } catch (e: Exception) {
+                logException(e)
+            }
+        }
+        val intent = Intent(this, LocationActivity::class.java)
+            .putExtra(IntentParam.ACTIVITY, ActivityTy.CREATE)
+        activityResult(onResult, intent)
     }
 
     /**
      * 관심사 선택
      */
     fun toInterest() {
-        getInterest.launch(Intent(this, InterestActivity::class.java))
+        val onResult: (Intent) -> Unit = { intent ->
+            try {
+                interest = getString(intent.getIntExtra(IntentParam.INTEREST, 0))
+                val resId = intent.getIntExtra(IntentParam.INTEREST_ICON, 0)
+                Glide.with(this).load(resId).into(binding.icInterest)
+            } catch (e: Exception) {
+                logException(e)
+            }
+        }
+        val intent = Intent(this, InterestActivity::class.java)
+        activityResult(onResult, intent)
     }
 
     fun toInterest(@Suppress("UNUSED_PARAMETER") vw: View) {
@@ -225,7 +186,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
             title = binding.etTitle.text.toString()
             purpose = binding.etPurpose.text.toString()
 
-            if (!title.matches(titleRegex)) {
+            if (!title.matches(Regex.TITLE)) {
                 toast(getString(R.string.error_title_mismatch))
             } else if (purpose.isEmpty()) {
                 toast(getString(R.string.error_purpose_empty))

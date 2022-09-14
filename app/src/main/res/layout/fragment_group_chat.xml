@@ -46,7 +46,7 @@
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:text="@string/cmn_send" />
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

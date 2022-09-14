@@ -69,35 +69,39 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         }
 
         viewModel.saltResponse.observe(this) {
-            when (it.code) {
-                ResponseCode.SUCCESS -> {
-                    val salt = it.body.asString
-                    val hashPw = DMUtils.hashingPw(pw, salt)
-                    signIn(hashPw)
-                }
+            try {
+                when (it.code) {
+                    ResponseCode.SUCCESS -> {
+                        val salt = it.body.asString
+                        val hashPw = DMUtils.hashingPw(pw, salt)
+                        signIn(hashPw)
+                    }
 
-                ResponseCode.NOT_EXIST -> {
-                    showMessage(getString(R.string.error_id_not_exist)) {
-                        binding.etId.requestFocus()
+                    ResponseCode.NOT_EXIST -> {
+                        showMessage(getString(R.string.error_id_not_exist)) {
+                            binding.etId.requestFocus()
+                        }
+                    }
+                    else -> {
+                        showMessage(
+                            String.format(
+                                getString(R.string.error_sign_in_fail),
+                                "E01 : ${it.code}"
+                            )
+                        )
                     }
                 }
-                else -> {
-                    showMessage(
-                        String.format(
-                            getString(R.string.error_sign_in_fail),
-                            "E01 : ${it.code}"
-                        )
-                    )
-                }
+            } catch (e: Exception) {
+                logException(e)
             }
         }
 
         viewModel.signInResponse.observe(this) {
-
             log("signIn() , Response = $it")
 
             when (it.code) {
                 ResponseCode.SUCCESS -> {
+                    DMAnalyze.logEvent("SignIn_Success")
                     val userInfo = it.body
                     DMApp.user = Gson().fromJson(userInfo, User::class.java)
                     DMAnalyze.setProperty(DMApp.user)
@@ -140,6 +144,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
             when (it.code) {
                 ResponseCode.SUCCESS -> {
+                    DMAnalyze.logEvent("SignIn_Success[Kakao]")
                     val userInfo = it.body
                     DMApp.user = Gson().fromJson(userInfo, User::class.java)
                     if (binding.checkBox.isChecked) {
@@ -293,7 +298,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
             body.addProperty(RequestParam.ID, id)
 
-            viewModel.signInkakao(body)
+            viewModel.signInKakao(body)
 
         } catch (e: Exception) {
             logException(e)

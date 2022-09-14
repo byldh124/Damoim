@@ -3,7 +3,6 @@ package com.moondroid.project01_meetingapp.ui.view.activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
@@ -13,10 +12,7 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityGroupInfoBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.ui.viewmodel.GroupInfoViewModel
-import com.moondroid.project01_meetingapp.utils.DMUtils
-import com.moondroid.project01_meetingapp.utils.IntentParam
-import com.moondroid.project01_meetingapp.utils.RequestParam
-import com.moondroid.project01_meetingapp.utils.ResponseCode
+import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
@@ -34,7 +30,6 @@ import java.io.File
  */
 @AndroidEntryPoint
 class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activity_group_info) {
-
     val viewModel: GroupInfoViewModel by viewModels()
     private lateinit var originTitle: String                            // 초기 그룹명
     private lateinit var title: String                                  // 변경된 그룹명
@@ -47,89 +42,6 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
 
     private var thumbPath: String? = null                               // 썸네일 Real Path
     private var imagePath: String? = null                               // 배경이미지 Real Path
-
-    private val titleRegex = Regex("^(.{2,20})$")                // 이름 정규식 [2-20]
-
-    /* 관심사 ActivityResult */
-    private val getInterest =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-
-                        interest = getString(it.getIntExtra(IntentParam.INTEREST, 0))
-
-                        val resId = it.getIntExtra(IntentParam.INTEREST_ICON, 0)
-
-                        log("getInterest => interest : $interest , resId : $resId")
-
-                        Glide
-                            .with(this@GroupInfoActivity)
-                            .load(resId)
-                            .into(binding.icInterest)
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
-    /* 모임지역 ActivityResult */
-    private val getLocation =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        location = it.getStringExtra(IntentParam.LOCATION).toString()
-                        binding.tvLocation.text = location
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
-    /* 썸네일 ActivityResult */
-    private val getThumb =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        val uri = it.data
-                        uri?.let { u ->
-                            thumbPath = DMUtils.getPathFromUri(this, u)
-                            if (!thumbPath.isNullOrEmpty()) {
-                                val bitmap = BitmapFactory.decodeFile(thumbPath)
-                                Glide.with(this).load(bitmap).into(binding.thumb)
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
-    /* 배경이미지 ActivityResult */
-    private val getImage =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        val uri = it.data
-                        uri?.let { u ->
-                            imagePath = DMUtils.getPathFromUri(this, u)
-                            if (!imagePath.isNullOrEmpty()) {
-                                val bitmap = BitmapFactory.decodeFile(imagePath)
-                                Glide.with(this).load(bitmap).into(binding.ivImage)
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
 
     /**
      * View initialize
@@ -160,7 +72,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
     /**
      * initialize View
      * */
-    private fun initView(){
+    private fun initView() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
@@ -189,7 +101,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
                         val group = Gson().fromJson(json, GroupInfo::class.java)
                         DMApp.group = group
 
-                        showMessage(getString(R.string.alm_modify_group_info_complete)){
+                        showMessage(getString(R.string.alm_modify_group_info_complete)) {
                             this@GroupInfoActivity.finish()
                         }
                     }
@@ -225,7 +137,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
             purpose = binding.tvPurpose.text.toString()
             information = binding.tvInformation.text.toString()
 
-            if (!title.matches(titleRegex)) {
+            if (!title.matches(Regex.TITLE)) {
                 toast(getString(R.string.error_title_mismatch))
                 binding.tvTitle.requestFocus()
             } else if (purpose.isEmpty()) {
@@ -288,14 +200,29 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
      * 관심사 선택
      */
     fun toInterest(@Suppress("UNUSED_PARAMETER") vw: View) {
-        getInterest.launch(Intent(this, InterestActivity::class.java))
+        val onResult :(Intent) -> Unit = {
+            interest = getString(it.getIntExtra(IntentParam.INTEREST, 0))
+            val resId = it.getIntExtra(IntentParam.INTEREST_ICON, 0)
+            Glide.with(this).load(resId).into(binding.icInterest)
+        }
+
+        val intent = Intent(this, InterestActivity::class.java)
+
+        activityResult(onResult, intent)
     }
 
     /**
      * 지역 선택
      */
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
-        getLocation.launch(Intent(this, LocationActivity::class.java))
+        val onResult: (Intent) -> Unit = {
+            location = it.getStringExtra(IntentParam.LOCATION).toString()
+            binding.tvLocation.text = location
+        }
+
+        val intent = Intent(this, LocationActivity::class.java)
+
+        activityResult(onResult, intent)
     }
 
     /**
@@ -303,9 +230,19 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
      */
     fun getThumb(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            getThumb.launch(intent)
+            val onResult : (Intent) -> Unit = {
+                val uri = it.data
+                uri?.let { u ->
+                    thumbPath = DMUtils.getPathFromUri(this, u)
+                    if (!thumbPath.isNullOrEmpty()) {
+                        val bitmap = BitmapFactory.decodeFile(thumbPath)
+                        Glide.with(this).load(bitmap).into(binding.thumb)
+                    }
+                }
+            }
+            val intent = Intent(Intent.ACTION_PICK).setType("image/*")
+
+            activityResult(onResult, intent)
         } catch (e: Exception) {
             logException(e)
         }
@@ -316,9 +253,19 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
      */
     fun getImage(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            getImage.launch(intent)
+            val onResult: (Intent) -> Unit = {
+                val uri = it.data
+                uri?.let { u ->
+                    imagePath = DMUtils.getPathFromUri(this, u)
+                    if (!imagePath.isNullOrEmpty()) {
+                        val bitmap = BitmapFactory.decodeFile(imagePath)
+                        Glide.with(this).load(bitmap).into(binding.ivImage)
+                    }
+                }
+            }
+            val intent = Intent(Intent.ACTION_PICK).setType("image/*")
+
+            activityResult(onResult, intent)
         } catch (e: Exception) {
             logException(e)
         }

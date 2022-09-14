@@ -53,21 +53,14 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
         locationSource = FusedLocationSource(this, requestCode)
     }
 
-    /* 관심지역 ActivityResult */
+    /* 관심지역
+    ActivityResult */
     private val getAddress =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             try {
                 if (result?.resultCode == RESULT_OK) {
                     result.data?.let {
-                        val json = it.getStringExtra(IntentParam.ADDRESS).toString()
-                        temp = Gson().fromJson(json, Address::class.java)
-                        temp?.let { address ->
-                            binding.tvLocation.text = address.address
-                            val marker = Marker(address.latLng)
-                            marker.map = mNaverMap
-                            mNaverMap.cameraPosition =
-                                CameraPosition(address.latLng, 16.0, 0.0, 0.0)
-                        }
+
                     }
                 }
             } catch (e: Exception) {
@@ -122,10 +115,22 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
     }
 
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
-        getAddress.launch(
-            Intent(this, LocationActivity::class.java)
-                .putExtra(IntentParam.ACTIVITY, ActivityTy.MOIM)
-        )
+        val onResult: (Intent) -> Unit = {
+            val json = it.getStringExtra(IntentParam.ADDRESS).toString()
+            temp = Gson().fromJson(json, Address::class.java)
+            temp?.let { address ->
+                binding.tvLocation.text = address.address
+                val marker = Marker(address.latLng)
+                marker.map = mNaverMap
+                mNaverMap.cameraPosition =
+                    CameraPosition(address.latLng, 16.0, 0.0, 0.0)
+            }
+        }
+
+        val intent = Intent(this, LocationActivity::class.java)
+            .putExtra(IntentParam.ACTIVITY, ActivityTy.MOIM)
+
+        activityResult(onResult, intent)
     }
 
 

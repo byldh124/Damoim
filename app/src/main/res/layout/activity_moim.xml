@@ -47,7 +47,7 @@
                 android:hint="@string/cmn_moim_time"
                 android:onClick="@{activity::showTime}"/>
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/tvPay"
                 style="@style/TextBgGray"
                 android:layout_marginTop="16dp"

@@ -21,12 +21,12 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/TitleWhite"
                 android:text="@string/cmn_sign_up"/>
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -34,7 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
                 android:inputType="text"
                 android:privateImeOptions="defaultInputmode=english" />
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etPw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                 android:padding="12dp"
                 android:inputType="textPassword"
                 android:privateImeOptions="defaultInputmode=english" />
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etPw2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                 android:privateImeOptions="defaultInputmode=english" />
 
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                 android:hint="@string/cmn_birth"
                 android:onClick="@{activity::showDateDialog}"
                 android:padding="12dp"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
 
             <RadioGroup
                 android:id="@+id/rgAccount"
@@ -113,7 +113,7 @@
                     android:id="@+id/rbAccountMale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/radionbutton_male"
+                    android:background="@drawable/bg_rb_male"
                     android:button="@android:color/transparent"
                     android:checked="true"
                     android:gravity="center"
@@ -124,7 +124,7 @@
                     android:id="@+id/rbAccountFemale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/radionbutton_female"
+                    android:background="@drawable/bg_rb_female"
                     android:button="@android:color/transparent"
                     android:gravity="center"
                     android:text="@string/cmn_female"
@@ -142,7 +142,7 @@
                 android:hint="@string/cmn_location"
                 android:onClick="@{activity::goToLocationActivity}"
                 android:padding="12dp"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/tvInterest"
@@ -154,7 +154,7 @@
                 android:hint="@string/cmn_interest"
                 android:onClick="@{activity::goToInterestActivity}"
                 android:padding="12dp"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -216,7 +216,7 @@
                 android:text="@string/cmn_save"
                 android:layout_marginTop="32dp"
                 android:onClick="@{activity::signUp}"/>
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

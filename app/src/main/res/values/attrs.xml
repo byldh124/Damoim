@@ -23,5 +23,6 @@
         <attr name="topRightCornerRadius" format="dimension" />
         <attr name="bottomLeftCornerRadius" format="dimension" />
         <attr name="bottomRightCornerRadius" format="dimension" />
+        <attr name="cornerRadius" format="dimension" />
     </declare-styleable>
 </resources>

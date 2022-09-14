@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +17,10 @@ import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseFragment
-import com.moondroid.project01_meetingapp.databinding.*
+import com.moondroid.project01_meetingapp.databinding.FragmentGroupBoardBinding
+import com.moondroid.project01_meetingapp.databinding.FragmentGroupChatBinding
+import com.moondroid.project01_meetingapp.databinding.FragmentGroupGalleryBinding
+import com.moondroid.project01_meetingapp.databinding.FragmentGroupInfoBinding
 import com.moondroid.project01_meetingapp.model.Chat
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.model.Moim
@@ -34,7 +35,6 @@ import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
-import com.moondroid.project01_meetingapp.utils.view.logException
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 
@@ -195,43 +195,10 @@ class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragm
     private lateinit var galleryRef: DatabaseReference
     private val urlList = ArrayList<String>()
 
-    @SuppressLint("SimpleDateFormat")
-    private val getImage =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == AppCompatActivity.RESULT_OK) {
-                    result.data?.let {
-                        val time =
-                            SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis())
-
-                        imgRef =
-                            FirebaseStorage.getInstance().getReference("GalleryImgs").child(time)
-                        imgUri = it.data
-                        imgUri?.let { uri ->
-                            imgRef.putFile(uri).addOnSuccessListener {
-                                imgRef.downloadUrl.addOnSuccessListener { uri2 ->
-                                    val fdb = FirebaseDatabase.getInstance()
-                                    val dbRef = fdb.getReference("GalleryImgs/${DMApp.group.title}")
-                                    dbRef.child(time).setValue(uri2.toString())
-                                        .addOnSuccessListener {
-                                            getImage()
-                                            log("getImage , ActivityResult() => Success")
-                                        }
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as GroupActivity
     }
-
 
     override fun init() {
         binding.fragment = this
@@ -245,13 +212,32 @@ class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragm
         adapter = GalleryAdapter(activity)
         binding.recycler.adapter = adapter
 
-        binding.icAdd.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            getImage.launch(intent)
+        getImage()
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun add(@Suppress("UNUSED_PARAMETER")vw: View) {
+        val onResult: (Intent) -> Unit = {
+            val time = SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis())
+            imgRef = FirebaseStorage.getInstance().getReference("GalleryImgs").child(time)
+            imgUri = it.data
+            imgUri?.let { uri ->
+                imgRef.putFile(uri).addOnSuccessListener {
+                    imgRef.downloadUrl.addOnSuccessListener { uri2 ->
+                        val fdb = FirebaseDatabase.getInstance()
+                        val dbRef = fdb.getReference("GalleryImgs/${DMApp.group.title}")
+                        dbRef.child(time).setValue(uri2.toString())
+                            .addOnSuccessListener {
+                                getImage()
+                                log("getImage , ActivityResult() => Success")
+                            }
+                    }
+                }
+            }
         }
 
-        getImage()
+        val intent = Intent(Intent.ACTION_PICK).setType("image/*")
+        activity.activityResult(onResult, intent)
     }
 
     private fun getImage() {

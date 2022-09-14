@@ -38,7 +38,7 @@
                 android:layout_toStartOf="@id/mThumb"
                 android:text="@{chat.name}"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/mMessage"
@@ -62,7 +62,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_toStartOf="@id/mMessage"
                 android:text="@{chat.time}"
-                android:textSize="12sp" />
+                android:textSize="12dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -87,7 +87,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@id/oThumb"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -111,7 +111,7 @@
                 android:layout_alignBottom="@id/oMessage"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/oMessage"
-                android:textSize="12sp"/>
+                android:textSize="12dp"/>
 
         </RelativeLayout>
 

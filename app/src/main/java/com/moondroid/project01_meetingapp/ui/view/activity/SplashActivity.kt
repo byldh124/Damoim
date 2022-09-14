@@ -108,7 +108,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
             } else {
                 isReady = true
-                action = { goToSgnnActivity() }
+                action = { goToSignInActivity() }
                 startAction()
             }
         } catch (e: Exception) {
@@ -121,7 +121,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
      */
     private fun checkAppVersion() {
         try {
-
             viewModel.checkAppVersion(
                 packageName,
                 BuildConfig.VERSION_CODE,
@@ -172,7 +171,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         goToHomeActivity(ActivityTy.SPLASH)
     }
 
-    private fun goToSgnnActivity() {
+    private fun goToSignInActivity() {
         goToSignInActivity(ActivityTy.SPLASH)
         finish()
     }

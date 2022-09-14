@@ -7,7 +7,7 @@
 <data-extraction-rules>
     <cloud-backup>
         <!--
-        The domain can be file, database, sharedpref, external or root.
+        The domain can be file, database, sharedPref, external or root.
         Examples:
 
         <include domain="file" path="file_to_include"/>

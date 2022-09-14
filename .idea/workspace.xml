@@ -15,11 +15,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15b13e84-4a74-4e40-bea4-292749c04dfd" name="Default Changelist" comment="정모 참여 기능 추가">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/model/Moim.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/firebase/DMMessage.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_annotation_annotation_experimental_1_1_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_extensions_2_2_0_aar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/base/BaseActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/base/BaseActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/di/NetworkModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/di/NetworkModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/di/RepositoryModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/di/RepositoryModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/model/Group.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/model/Group.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/network/ApiInterface.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/network/ApiInterface.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/network/Repository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/network/Repository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/CreateActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/CreateActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/GroupInfoActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/GroupInfoActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/HomeActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/HomeActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/MoimActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/MoimActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/MyInfoActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/MyInfoActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/ProfileActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/ProfileActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/SettingActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/SettingActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/SignInActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/SignInActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/SignUpActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/SignUpActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/SplashActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/activity/SplashActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/adapter/GroupListAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/adapter/GroupListAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/fragment/GroupFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/fragment/GroupFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/widget/DMRoundView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/widget/DMRoundView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/viewmodel/BaseViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/viewmodel/BaseViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/viewmodel/SignInViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/ui/viewmodel/SignInViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/Constants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/Constants.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/DMUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/DMUtils.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/firebase/DMCrash.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/firebase/DMCrash.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/firebase/MessagingService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/view/BindingUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/view/BindingUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/view/ViewUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/moondroid/project01_meetingapp/utils/view/ViewUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/radionbutton_female.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_rb_female.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/radionbutton_male.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_rb_male.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_create.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_create.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_group.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_group.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_group_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_group_info.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_location.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_location.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_moim.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_moim.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_moim_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_moim_info.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_info.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_webview.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_webview.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_group_chat.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_group_chat.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_group_gallery.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_group_gallery.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home_search.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home_search.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_chat.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_chat.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_group_member.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_group_member.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_home_group_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_home_group_info.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_moim.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_moim.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_navigation_header.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_navigation_header.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/xml/data_extraction_rules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/xml/data_extraction_rules.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,9 +123,9 @@
       <list>
         <option value="valueResourceFile" />
         <option value="Class" />
-        <option value="Kotlin File" />
         <option value="layoutResourceFile" />
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -101,8 +159,11 @@
     <setting file="file://$PROJECT_DIR$/.gitignore" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/build.gradle" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="KotlinCodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
   <component name="ProblemsViewState">
-    <option name="selectedIndex" value="2" />
+    <option name="selectedIndex" value="6" />
   </component>
   <component name="ProjectId" id="26qiRV4s7NwfEQCu6gDAH7BFknM" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -125,6 +186,8 @@
     <property name="android-custom-view/Volumes/SandiskSSD/development-sdk/android/sources/android-31/android/view/View.java_SELECTED" value="View" />
     <property name="android-custom-view/Volumes/SandiskSSD/development/workspace_sample/Damoim/app/src/main/java/com/moondroid/damoim/ui/view/widget/DMRoundView.kt_DMRoundView_DIMENSIONS" value="1080&#10;1920" />
     <property name="android-custom-view/Volumes/SandiskSSD/development/workspace_sample/Damoim/app/src/main/java/com/moondroid/damoim/ui/view/widget/DMRoundView.kt_SELECTED" value="DMRoundView" />
+    <property name="android-custom-viewE:/01.Projects/02.CSAM/CardInspection/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.5.0/ffb6d2b7e47daaa4a24b434db111ab9e411c33a0/appcompat-1.5.0-sources.jar!/androidx/appcompat/widget/AppCompatEditText.java_SELECTED" value="AppCompatEditText" />
+    <property name="android-custom-viewE:/01.Projects/02.CSAM/CardInspection/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.5.0/ffb6d2b7e47daaa4a24b434db111ab9e411c33a0/appcompat-1.5.0-sources.jar!/androidx/appcompat/widget/AppCompatTextView.java_SELECTED" value="AppCompatTextView" />
     <property name="android-custom-viewE:/01.Projects/02.CSAM/CardInspection/caches/modules-2/files-2.1/androidx.constraintlayout/constraintlayout/2.1.4/27e12209e529970f69bc817f349c247ef238fae7/constraintlayout-2.1.4-sources.jar!/androidx/constraintlayout/widget/ConstraintLayout.java_SELECTED" value="ConstraintLayout" />
     <property name="android-custom-viewE:/01.Projects/02.CSAM/CardInspection/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_SELECTED" value="RecyclerView" />
     <property name="android-custom-viewE:/02.SampleApp/Damoim/app/src/main/java/com/moondroid/damoim/ui/view/widget/DMEditText.kt_SELECTED" value="DMEditText" />
@@ -133,13 +196,14 @@
     <property name="android-custom-viewE:/02.SampleApp/Damoim/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/widget/DMRecycler.kt_SELECTED" value="DMRecycler" />
     <property name="android-custom-viewE:/02.SampleApp/Damoim/app/src/main/java/com/moondroid/project01_meetingapp/ui/view/widget/DMRoundView.kt_SELECTED" value="DMRoundView" />
     <property name="cidr.known.project.marker" value="true" />
+    <property name="com.intellij.openapi.externalSystem.service.settings.ExternalSystemGroupConfigurable" value="ALL" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/java/com/moondroid/damoim/ui/activity" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../05.Private/D (2)/2021mrhi/Android/Launching/WordComplete/keystore.jks" />
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
   <component name="RecentsManager">
     <key name="android.template.-178229424">

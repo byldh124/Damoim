@@ -14,6 +14,7 @@ class DMRoundView : FrameLayout {
     private var topRightCornerRadius: Float = 0.0f
     private var bottomLeftCornerRadius: Float = 0.0f
     private var bottomRightCornerRadius: Float = 0.0f
+    private var cornerRadius: Float = 0.0f
 
     constructor(context: Context?) : super(context!!) {
         init(context, null, 0)
@@ -37,6 +38,8 @@ class DMRoundView : FrameLayout {
         @Suppress("UNUSED_PARAMETER") defStyleAttr: Int
     ) {
         val typeArray = context?.obtainStyledAttributes(attrs, R.styleable.DMRoundView, 0, 0)
+        cornerRadius =
+            typeArray?.getDimension(R.styleable.DMRoundView_cornerRadius, 0.0f) ?: 0.0f
         topLeftCornerRadius =
             typeArray?.getDimension(R.styleable.DMRoundView_topLeftCornerRadius, 0.0f) ?: 0.0f
         topRightCornerRadius =
@@ -54,12 +57,22 @@ class DMRoundView : FrameLayout {
         val count = canvas?.save()
         val path = Path()
 
-        val corners = arrayOf(
-            topLeftCornerRadius, topLeftCornerRadius,
-            topRightCornerRadius, topRightCornerRadius,
-            bottomRightCornerRadius, bottomRightCornerRadius,
-            bottomLeftCornerRadius, bottomLeftCornerRadius
-        )
+        val corners = if (cornerRadius != 0.0f) {
+            arrayOf(
+                cornerRadius, cornerRadius,
+                cornerRadius, cornerRadius,
+                cornerRadius, cornerRadius,
+                cornerRadius, cornerRadius
+            )
+        } else {
+            arrayOf(
+                topLeftCornerRadius, topLeftCornerRadius,
+                topRightCornerRadius, topRightCornerRadius,
+                bottomRightCornerRadius, bottomRightCornerRadius,
+                bottomLeftCornerRadius, bottomLeftCornerRadius
+            )
+        }
+
 
         val cornerDimensions = FloatArray(8) {
             corners[it]
@@ -78,25 +91,5 @@ class DMRoundView : FrameLayout {
 
         super.dispatchDraw(canvas)
         count?.let { canvas.restoreToCount(it) }
-    }
-
-    fun setTopLeftCornerRadius(topLeftCornerRadius: Float) {
-        this.topLeftCornerRadius = topLeftCornerRadius
-        invalidate()
-    }
-
-    fun setTopRightCornerRadius(topRightCornerRadius: Float) {
-        this.topRightCornerRadius = topRightCornerRadius
-        invalidate()
-    }
-
-    fun setBottomLeftCornerRadius(bottomLeftCornerRadius: Float) {
-        this.bottomLeftCornerRadius = bottomLeftCornerRadius
-        invalidate()
-    }
-
-    fun setBottomRightCornerRadius(bottomRightCornerRadius: Float) {
-        this.bottomRightCornerRadius = bottomRightCornerRadius
-        invalidate()
     }
 }

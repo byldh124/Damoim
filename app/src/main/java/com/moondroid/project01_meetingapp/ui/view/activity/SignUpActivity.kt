@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.view.View
 import android.widget.RadioButton
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
@@ -47,43 +46,6 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
     private var location: String? = null                        // 관심지역
     private var interest: String? = null                        // 관심사
     private var fromKakao: Boolean = false                      // 카카오 로그인 여부
-
-    private val idRegex =
-        Regex("^[a-zA-Z0-9]{5,16}$")                                                        // ID 정규식 [영문, 숫자 5-16글자]
-    private val pwRegex =
-        Regex("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]{8,}\$")          // 비밀번호 정규식 [영문, 숫자, 특수기호 포함 8글자 이상]
-    private val nameRegex =
-        Regex("^(.{2,8})$")                                                                 // 이름 정규식 [2 - 8 글자]
-
-    /* 관심지역 ActivityResult */
-    private val getLocation =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        location = it.getStringExtra(IntentParam.LOCATION).toString()
-                        binding.tvLocation.text = location
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
-    /* 관심사 ActivityResult */
-    private val getInterest =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        interest = getString(it.getIntExtra(IntentParam.INTEREST, 0))
-                        binding.tvInterest.text = interest
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
 
     override fun init() {
         binding.activity = this
@@ -223,13 +185,13 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
      */
     private fun checkField() {
         try {
-            if (!fromKakao && !id.matches(idRegex)) {
+            if (!fromKakao && !id.matches(Regex.ID)) {
                 toast(getString(R.string.error_id_mismatch))
-            } else if (!fromKakao && !pw.matches(pwRegex)) {
+            } else if (!fromKakao && !pw.matches(Regex.PW)) {
                 toast(getString(R.string.error_password_mismatch))
             } else if (!fromKakao && pw != binding.etPw2.text.toString()) {
                 toast(getString(R.string.error_password_unchecked))
-            } else if (!fromKakao && !name.matches(nameRegex)) {
+            } else if (!fromKakao && !name.matches(Regex.NAME)) {
                 toast(getString(R.string.error_name_mismatch))
             } else if (birth.isNullOrEmpty()) {
                 toast(getString(R.string.error_birth_empty))
@@ -237,9 +199,9 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                 toast(getString(R.string.error_location_empty))
             } else if (interest.isNullOrEmpty()) {
                 toast(getString(R.string.error_interest_empty))
-            } else if(!binding.checkBox.isChecked){
+            } else if (!binding.checkBox.isChecked) {
                 toast(getString(R.string.alm_agree_to_use_terms_and_privacy_policy))
-            } else{
+            } else {
                 encryptPw()
             }
         } catch (e: Exception) {
@@ -349,7 +311,8 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
      */
     fun showDateDialog(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
-            val datePicker = DatePickerDialog(this,
+            val datePicker = DatePickerDialog(
+                this,
                 { _, p1, p2, p3 ->
                     binding.tvBirth.text = String.format("%d.%d.%d", p1, p2 + 1, p3)
                 }, 1990, 0, 1
@@ -364,13 +327,31 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
      * 관심지역 선택 화면 전환
      */
     fun goToLocationActivity(@Suppress("UNUSED_PARAMETER") vw: View) {
-        getLocation.launch(Intent(this, LocationActivity::class.java))
+        try {
+            val onResult: (Intent) -> Unit = { intent ->
+                location = intent.getStringExtra(IntentParam.LOCATION).toString()
+                binding.tvLocation.text = location
+            }
+            val intent = Intent(this, LocationActivity::class.java)
+            activityResult(onResult, intent)
+        } catch (e:Exception) {
+            logException(e)
+        }
     }
 
     /**
      * 관심사 선택 화면 전환
      */
     fun goToInterestActivity(@Suppress("UNUSED_PARAMETER") vw: View) {
-        getInterest.launch(Intent(this, InterestActivity::class.java))
+        try {
+            val onResult: (Intent) -> Unit = { intent ->
+                interest = getString(intent.getIntExtra(IntentParam.INTEREST, 0))
+                binding.tvInterest.text = interest
+            }
+            val intent = Intent(this, InterestActivity::class.java)
+            activityResult(onResult, intent)
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 }

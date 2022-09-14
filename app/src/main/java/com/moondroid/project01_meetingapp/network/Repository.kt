@@ -218,7 +218,7 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
 
     override suspend fun signInKakao(body: JsonObject): UseCaseResult<BaseResponse> {
         return try {
-            handleResult(api.signInkakao(body))
+            handleResult(api.signInKakao(body))
         } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)
@@ -239,7 +239,7 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
 
     override suspend fun getFavorite(id: String): UseCaseResult<BaseResponse> {
         return try {
-            handleResult(api.getFavortite(id))
+            handleResult(api.getFavorite(id))
         } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)

@@ -21,11 +21,27 @@ class DMCrash private constructor() {
         }
 
         fun logException(exception: Exception) {
-            if (instance == null) {
-                getInstance()
+            try {
+                if (instance == null) {
+                    getInstance()
+                }
+                Log.e("[logException]", exception.message.toString())
+                instance?.log(exception.message.toString())
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            Log.e("[logException]", exception.message.toString())
-            instance?.log(exception.message.toString())
+        }
+
+        fun logException(t: Throwable) {
+            try {
+                if (instance == null) {
+                    getInstance()
+                }
+                Log.e("[logException]", t.message.toString())
+                instance?.log(t.message.toString())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

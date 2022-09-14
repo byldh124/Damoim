@@ -83,7 +83,7 @@ class SignInViewModel @Inject constructor(private val repository: Repository) : 
         }
     }
 
-    fun signInkakao(body: JsonObject) {
+    fun signInKakao(body: JsonObject) {
         _showLoading.postValue(true)
         launch {
             val response = withContext(Dispatchers.IO) {

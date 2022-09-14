@@ -22,10 +22,7 @@
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:layout_centerVertical="true"
-            bind:topLeftCornerRadius="16dp"
-            bind:topRightCornerRadius="16dp"
-            bind:bottomLeftCornerRadius="16dp"
-            bind:bottomRightCornerRadius="16dp">
+            bind:cornerRadius="16dp">
 
             <ImageView
                 android:id="@+id/navigation_header_profile_image"
@@ -43,8 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text="@string/cmn_edit_profile"
+            android:fontFamily="@font/nanum_square_round_eb"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/tvName"
@@ -52,10 +50,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvModify"
             android:layout_marginStart="16dp"
+            android:fontFamily="@font/nanum_square_round_eb"
             android:layout_toEndOf="@id/thumbWrapper"
             android:text="@{HomeActivity.user.name}"
             android:textColor="#ff333333"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/tvMessage"
@@ -64,6 +63,7 @@
             android:layout_below="@id/tvName"
             android:layout_alignStart="@id/tvName"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/nanum_square_round_b"
             android:text="@{HomeActivity.user.message}" />
 
     </RelativeLayout>

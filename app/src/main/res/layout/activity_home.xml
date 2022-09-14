@@ -60,12 +60,15 @@
                 android:layout_height="?attr/actionBarSize"
                 app:itemIconTint="@color/selector_bottom_navigation_icon"
                 app:itemTextColor="@color/selector_bottom_navigation_icon"
+                app:itemTextAppearanceActive="@style/TextBottomNav"
+                app:itemTextAppearanceInactive="@style/TextBottomNav"
                 app:labelVisibilityMode="labeled"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:menu="@menu/menu_bottom_navigation" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.navigation.NavigationView
+            app:itemTextAppearance="@style/TextNav"
             android:id="@+id/homeNav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

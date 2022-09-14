@@ -54,7 +54,7 @@
             app:layout_constraintTop_toBottomOf="@id/header">
 
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 android:textColorHint="@color/gray_light01"
                 android:textSize="14dp" />
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etPw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                 android:text="@string/cmn_sign_up"/>
 
             <ImageView
-                android:id="@+id/ickakao"
+                android:id="@+id/icKakao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

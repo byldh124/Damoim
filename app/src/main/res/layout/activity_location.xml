@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etLocation"
                 android:layout_width="0dp"
                 android:layout_weight="1"

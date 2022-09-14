@@ -7,23 +7,17 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.databinding.adapters.TextViewBindingAdapter
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.ui.view.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.ui.viewmodel.BaseViewModel
 import com.moondroid.project01_meetingapp.utils.DMLog
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.lang.Exception
-
-var dialog: LoadingDialog? = null
 
 fun Activity.logException(exception: Exception) {
     FirebaseCrashlytics
@@ -38,7 +32,6 @@ fun Activity.logException(t: Throwable) {
         .log(t.message.toString())
     DMLog.e("[${this.javaClass.simpleName} logException]::$t")
 }
-
 
 fun Activity.log(msg:String){
     DMLog.e("[${this.javaClass.simpleName}] , $msg ")
@@ -87,16 +80,6 @@ fun View.gone(shouldBeGone: Boolean) {
     else visible()
 }
 
-fun Button.enabled(ctx: Context) {
-    isEnabled = true
-    background = ContextCompat.getDrawable(ctx, R.drawable.ic_launcher_background)
-}
-
-fun Button.disEnabled(ctx: Context) {
-    isEnabled = false
-    background = ContextCompat.getDrawable(ctx, R.drawable.ic_launcher_foreground)
-}
-
 fun Activity.hideKeyboard() {
     hideKeyboard(currentFocus ?: View(this))
 }
@@ -121,10 +104,12 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit){
         override fun afterTextChanged(editable: Editable?) {
             afterTextChanged.invoke(editable.toString())
         }
-
     })
 }
 
+fun ImageView.load(res: Int){
+    Glide.with(this.context).load(res).into(this)
+}
 
 fun String.toReqBody(): RequestBody {
     return toRequestBody("text-plain".toMediaTypeOrNull())

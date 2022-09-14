@@ -16,8 +16,8 @@ import com.moondroid.project01_meetingapp.ui.viewmodel.ProfileViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.ResponseCode
+import com.moondroid.project01_meetingapp.utils.view.logException
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
 
 @AndroidEntryPoint
 class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_profile),
@@ -25,6 +25,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
     private val viewModel: ProfileViewModel by viewModels()
     lateinit var user: User
     lateinit var adapter: GroupListAdapter
+
     override fun init() {
         binding.activity = this
         val userJson = intent.getStringExtra(IntentParam.USER)
@@ -35,7 +36,10 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
         initViewModel()
     }
 
-    private fun initViewModel(){
+    /**
+     * Observe ViewModel
+     */
+    private fun initViewModel() {
         viewModel.showLoading.observe(this) {
             showLoading(it)
         }
@@ -45,41 +49,50 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
         }
 
         viewModel.myGroupsContent.observe(this) {
-            when (it.code) {
-                ResponseCode.SUCCESS -> {
-                    val gson = GsonBuilder().create()
-                    val newList = gson.fromJson<ArrayList<GroupInfo>>(
-                        it.body,
-                        object : TypeToken<ArrayList<GroupInfo>>() {}.type
-                    )
-                    adapter.update(newList)
-                }
+            try {
+                when (it.code) {
+                    ResponseCode.SUCCESS -> {
+                        val gson = GsonBuilder().create()
+                        val newList = gson.fromJson<ArrayList<GroupInfo>>(
+                            it.body,
+                            object : TypeToken<ArrayList<GroupInfo>>() {}.type
+                        )
+                        adapter.update(newList)
+                    }
 
-                else -> {
-
+                    else -> {
+                        logException(Exception("[ProfileActivity] , getGroupContent()-observe() ,  Response =>${it.code}"))
+                    }
                 }
+            } catch (e: Exception) {
+                logException(e)
             }
         }
 
         viewModel.getMyGroup(user.id)
     }
 
+    /**
+     * Initialize View
+     */
     private fun initView() {
-        setSupportActionBar(binding.toolbar)
+        try {
+            setSupportActionBar(binding.toolbar)
 
-        supportActionBar?.let{
-            it.setDisplayHomeAsUpEnabled(true)
-            it.setDisplayShowTitleEnabled(false)
+            supportActionBar?.let {
+                it.setDisplayHomeAsUpEnabled(true)
+                it.setDisplayShowTitleEnabled(false)
+            }
+
+            binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            adapter = GroupListAdapter(this, this)
+            binding.recycler.adapter = adapter
+        } catch (e: Exception) {
+            logException(e)
         }
-
-        binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        adapter = GroupListAdapter(this, this)
-        binding.recycler.adapter = adapter
-
     }
 
     override fun onClick() {
         goToGroupActivity(ActivityTy.PROFILE)
     }
-
 }

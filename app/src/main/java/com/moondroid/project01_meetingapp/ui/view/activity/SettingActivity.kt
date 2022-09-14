@@ -7,6 +7,7 @@ import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySettingBinding
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
+import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,11 +19,18 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(R.layout.activity_s
         initView()
     }
 
+    /**
+     * Initialize View
+     */
     private fun initView() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-            it.setDisplayShowTitleEnabled(false)
+        try {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.let {
+                it.setDisplayHomeAsUpEnabled(true)
+                it.setDisplayShowTitleEnabled(false)
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
@@ -30,12 +38,16 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(R.layout.activity_s
      * 로그아웃
      */
     fun logout(@Suppress("UNUSED_PARAMETER") vw: View) {
-        DMApp.prefs.clear()
+        try {
+            DMApp.prefs.clear()
 
-        DMAnalyze.logEvent("Logout")
+            DMAnalyze.logEvent("Logout")
 
-        val intent = Intent(this, SignInActivity::class.java)
-        finishAffinity()
-        startActivityWithAnim(intent)
+            val intent = Intent(this, SignInActivity::class.java)
+            finishAffinity()
+            startActivityWithAnim(intent)
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 }

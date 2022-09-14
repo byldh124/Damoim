@@ -26,8 +26,8 @@ import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.view.fragment.GroupListFragment
 import com.moondroid.project01_meetingapp.ui.view.fragment.LocationFragment
-import com.moondroid.project01_meetingapp.ui.view.fragment.SearchFragment
 import com.moondroid.project01_meetingapp.ui.view.fragment.MyGroupFragment
+import com.moondroid.project01_meetingapp.ui.view.fragment.SearchFragment
 import com.moondroid.project01_meetingapp.ui.viewmodel.HomeViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.GroupListType
@@ -70,23 +70,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     lateinit var groupsList: ArrayList<GroupInfo>
 
     private var mBackWait = 0L       //Back 2번 클릭
-
-    /*관심사 ActivityResult*/
-    private val getInterest =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-                        viewModel.updateInterest(
-                            DMApp.user.id,
-                            getString(it.getIntExtra(IntentParam.INTEREST, 0))
-                        )
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
 
     override fun init() {
         headerBinding = LayoutNavigationHeaderBinding.bind(binding.homeNav.getHeaderView(0))
@@ -208,7 +191,15 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             binding.homeNav.setNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.navInterest -> {
-                        getInterest.launch(Intent(this@HomeActivity, InterestActivity::class.java))
+                        val onResult:  (Intent) -> Unit = {
+                            viewModel.updateInterest(
+                                DMApp.user.id,
+                                getString(it.getIntExtra(IntentParam.INTEREST, 0))
+                            )
+                        }
+                        val intent = Intent(this@HomeActivity, InterestActivity::class.java)
+                            .putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
+                        activityResult(onResult, intent)
                     }
 
                     R.id.navFavorite -> {
@@ -367,7 +358,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             // 웹 공유 예시 코드
             val sharerUrl = WebSharerClient.instance.makeDefaultUrl(params)
 
-            // CustomTabs으로 웹 브라우저 열기
+            // CustomTabs 으로 웹 브라우저 열기
 
             // 1. CustomTabsServiceConnection 지원 브라우저 열기
             // ex) Chrome, 삼성 인터넷, FireFox, 웨일 등

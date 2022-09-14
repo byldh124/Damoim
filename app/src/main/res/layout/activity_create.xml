@@ -21,14 +21,11 @@
             style="@style/ToolbarRed"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-
             <TextView
                 android:id="@+id/title"
                 style="@style/TitleWhite"
                 android:text="@string/title_create_group" />
         </com.google.android.material.appbar.MaterialToolbar>
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contents"
@@ -44,13 +41,10 @@
                 android:layout_height="160dp"
                 android:layout_marginTop="16dp"
                 android:onClick="@{activity::getImage}"
-                app:bottomLeftCornerRadius="16dp"
-                app:bottomRightCornerRadius="16dp"
+                app:cornerRadius="16dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:topLeftCornerRadius="16dp"
-                app:topRightCornerRadius="16dp">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/thumb"
@@ -76,12 +70,9 @@
                 android:layout_height="36dp"
                 android:translationX="8dp"
                 android:translationY="8dp"
-                app:bottomLeftCornerRadius="18dp"
-                app:bottomRightCornerRadius="18dp"
+                app:cornerRadius="18dp"
                 app:layout_constraintBottom_toBottomOf="@id/thumbWrapper"
-                app:layout_constraintRight_toRightOf="@id/thumbWrapper"
-                app:topLeftCornerRadius="18dp"
-                app:topRightCornerRadius="18dp">
+                app:layout_constraintRight_toRightOf="@id/thumbWrapper">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -95,7 +86,7 @@
                     android:src="@drawable/ic_camera01" />
             </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etTitle"
                 style="@style/TextBgGray"
                 android:layout_width="0dp"
@@ -130,7 +121,7 @@
                 android:onClick="@{activity::toLocation}"
                 android:hint="@string/cmn_group_location"/>
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etPurpose"
                 style="@style/TextBgGray"
                 app:layout_constraintTop_toBottomOf="@id/tvLocation"

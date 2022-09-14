@@ -34,7 +34,7 @@
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:text="@{moim.date}"
                     android:textColor="@color/gray_dark01"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/tvTime"

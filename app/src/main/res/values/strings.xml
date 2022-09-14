@@ -143,7 +143,7 @@
     <string name="alm_profile_update_success">프로필 업데이트가 완료되었습니다.</string>
     <string name="alm_sign_up_success">회원가입 성공</string>
     <string name="alm_update_interest_success">관심사 변경에 성공했습니다.</string>
-    <string name="alm_sucess_create_group">그룹 만들기 성공</string>
+    <string name="alm_success_create_group">그룹 만들기 성공</string>
     <string name="alm_favorite_add">관심목록에 추가되었습니다.</string>
     <string name="alm_delete_favorite">관심목록에서 삭제했습니다.</string>
     <string name="alm_data_empty">데이터가 존재하지 않습니다.</string>
