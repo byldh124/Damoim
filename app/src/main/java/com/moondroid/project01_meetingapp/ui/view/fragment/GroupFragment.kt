@@ -216,7 +216,7 @@ class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragm
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun add(@Suppress("UNUSED_PARAMETER")vw: View) {
+    fun add(@Suppress("UNUSED_PARAMETER") vw: View) {
         val onResult: (Intent) -> Unit = {
             val time = SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis())
             imgRef = FirebaseStorage.getInstance().getReference("GalleryImgs").child(time)

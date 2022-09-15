@@ -13,7 +13,10 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityGroupBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.ui.view.dialog.TutorialDialog
-import com.moondroid.project01_meetingapp.ui.view.fragment.*
+import com.moondroid.project01_meetingapp.ui.view.fragment.BoardFragment
+import com.moondroid.project01_meetingapp.ui.view.fragment.ChatFragment
+import com.moondroid.project01_meetingapp.ui.view.fragment.GalleryFragment
+import com.moondroid.project01_meetingapp.ui.view.fragment.InfoFragment
 import com.moondroid.project01_meetingapp.ui.viewmodel.GroupViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
@@ -50,11 +53,11 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
         )
 
 
-    override fun onBackPressed() {
+    override fun onBack() {
         if (binding.pager.currentItem == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed()
+            super.onBack()
         } else {
             // Otherwise, select the previous step.
             binding.pager.currentItem = 0

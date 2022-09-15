@@ -1,6 +1,7 @@
 package com.moondroid.project01_meetingapp.ui.view.activity
 
 import android.location.Geocoder
+import android.os.Build
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseActivity
@@ -15,7 +16,6 @@ import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.visible
 import com.naver.maps.geometry.LatLng
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 /**
@@ -78,7 +78,12 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
                     locationAdapter.updateList(locations)
 
                     binding.etLocation.afterTextChanged { edit ->
-                        binding.recycler.setEmptyText(String.format(getString(R.string.alm_empty_data_for_query), edit))
+                        binding.recycler.setEmptyText(
+                            String.format(
+                                getString(R.string.alm_empty_data_for_query),
+                                edit
+                            )
+                        )
                         val newLocation = ArrayList<String>()
                         locations.forEach {
                             if (it.contains(edit)) {
@@ -97,21 +102,39 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
                     binding.icSearch.setOnClickListener {
                         try {
                             val query = binding.etLocation.text.toString()
-                            binding.recycler.setEmptyText(String.format(getString(R.string.alm_empty_data_for_query), query))
+                            binding.recycler.setEmptyText(
+                                String.format(
+                                    getString(R.string.alm_empty_data_for_query),
+                                    query
+                                )
+                            )
 
                             if (query.isNotEmpty()) {
                                 address.clear()
-                                val result = geocoder.getFromLocationName(query, 10)
-                                result.forEach {
-                                    address.add(
-                                        Address(
-                                            String.format(
-                                                "%s, [%s]",
-                                                it.getAddressLine(0).replace("대한민국 ", ""),
-                                                query
-                                            ), LatLng(it.latitude, it.longitude)
+                                if (Build.VERSION.SDK_INT >= 33) {
+                                    geocoder.getFromLocationName(query, 10) { list ->
+                                        list.forEach {
+                                            val target = it.getAddressLine(0).replace("대한민국 ", "")
+                                            address.add(
+                                                Address(
+                                                    "$target [$query]",
+                                                    LatLng(it.latitude, it.longitude)
+                                                )
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    @Suppress("DEPRECATION") // deprecated over SDK VERSION 33
+                                    val result = geocoder.getFromLocationName(query, 10)
+                                    result?.forEach {
+                                        val target = it.getAddressLine(0).replace("대한민국 ", "")
+                                        address.add(
+                                            Address(
+                                                "$target [$query]",
+                                                LatLng(it.latitude, it.longitude)
+                                            )
                                         )
-                                    )
+                                    }
                                 }
                                 addressAdapter.updateList(address)
                             }

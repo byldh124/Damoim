@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -47,6 +48,16 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
             }
         }
 
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            onBack()
+        }
+    }
+
+    open fun onBack(){
+        finish()
+    }
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +65,8 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         binding = DataBindingUtil.setContentView(this, layoutResId)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         init()
+
+        this.onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onResume() {
@@ -120,12 +133,11 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         } catch (e: Exception) {
             logException(e)
         }
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            onBackPressed()
+            onBack()
         }
         return super.onOptionsItemSelected(item)
     }

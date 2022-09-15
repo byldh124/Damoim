@@ -78,7 +78,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
         checkPermission()
     }
 
-    override fun onBackPressed() {
+    override fun onBack() {
         if (binding.homeNav.visibility == View.VISIBLE) {
             binding.drawer.closeDrawers()
         } else if (title != getString(R.string.cmn_find_group)) {
@@ -89,7 +89,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             mBackWait = System.currentTimeMillis()
             toast(getString(R.string.alm_two_click_exit))
         } else {
-            super.onBackPressed()
+            super.onBack()
         }
     }
 
@@ -191,7 +191,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             binding.homeNav.setNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.navInterest -> {
-                        val onResult:  (Intent) -> Unit = {
+                        val onResult: (Intent) -> Unit = {
                             viewModel.updateInterest(
                                 DMApp.user.id,
                                 getString(it.getIntExtra(IntentParam.INTEREST, 0))
@@ -318,7 +318,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
         val params = FeedTemplate(
             content = Content(
-                title = String.format("%s %s", getString(R.string.app_sub_name), getString(R.string.app_name)),
+                title = String.format(
+                    "%s %s",
+                    getString(R.string.app_sub_name),
+                    getString(R.string.app_name)
+                ),
                 imageUrl = "https://firebasestorage.googleapis.com/v0/b/project01meetingapp.appspot.com/o/logo.png?alt=media&token=4081b1a5-1d77-475b-98cf-63747ba3e37b",
                 link = Link(
                     webUrl = linkUrl,
@@ -343,8 +347,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             ShareClient.instance.shareDefault(this, params) { sharingResult, error ->
                 if (error != null) {
                     log("카카오톡 공유 실패 : $error")
-                }
-                else if (sharingResult != null) {
+                } else if (sharingResult != null) {
                     log("카카오톡 공유 성공 ${sharingResult.intent}")
                     startActivity(sharingResult.intent)
 
@@ -364,7 +367,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             // ex) Chrome, 삼성 인터넷, FireFox, 웨일 등
             try {
                 KakaoCustomTabsClient.openWithDefault(this, sharerUrl)
-            } catch(e: UnsupportedOperationException) {
+            } catch (e: UnsupportedOperationException) {
                 // CustomTabsServiceConnection 지원 브라우저가 없을 때 예외처리
             }
 
