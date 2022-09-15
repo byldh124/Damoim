@@ -8,12 +8,11 @@ import okhttp3.RequestBody
 import org.jetbrains.annotations.NotNull
 import retrofit2.Response
 import javax.inject.Inject
-import kotlin.Exception
 
 interface Repository {
 
     /** 앱 기능 관련 **/
-    suspend fun checkAppVersion(                // 앱 버전 정보 체크
+    suspend fun checkAppVersion(        // 앱 버전 정보 체크
         packageName: String,
         versionCode: Int,
         versionName: String
@@ -25,31 +24,31 @@ interface Repository {
     suspend fun getMyGroup(userId: String): UseCaseResult<BaseResponse>         // 특정 유저가 가입한 그룹
     suspend fun getFavorite(id: String): UseCaseResult<BaseResponse>            // 특정 유저가 관심목록 표시한 그룹
     suspend fun getRecent(id: String): UseCaseResult<BaseResponse>              // 특정 유저가 최근 본 그룹
-    suspend fun loadMember(title: String): UseCaseResult<BaseResponse>       // 특정 그룹에 가입된 유저
+    suspend fun loadMember(title: String): UseCaseResult<BaseResponse>          // 특정 그룹에 가입된 유저
 
 
-    /** 유저 그룹 **/
-    suspend fun saveRecent(
+    /** 유저 그룹 -----------------------------------**/
+    suspend fun saveRecent(     // 최근 모임 저장
         id: String,
         title: String,
         lastTime: String
-    ): UseCaseResult<BaseResponse> // 최근 모임 저장
+    ): UseCaseResult<BaseResponse>
 
-    suspend fun saveFavor(
+    suspend fun saveFavor(      // 관심 모임 저장
         id: String,
         title: String,
         active: Boolean
-    ): UseCaseResult<BaseResponse>   // 관심 모임 저장
+    ): UseCaseResult<BaseResponse>
 
-    suspend fun join(
+    suspend fun join(           // 모입 가입
         id: String,
         title: String
-    ): UseCaseResult<BaseResponse>                         // 모입 가입
+    ): UseCaseResult<BaseResponse>
 
-    suspend fun getFavor(
+    suspend fun getFavor(       // 관심 모임 확인
         id: String,
         title: String
-    ): UseCaseResult<BaseResponse>                     // 관심 모임 확인
+    ): UseCaseResult<BaseResponse>
 
 
     /** 그룹 생성, 수정 **/
@@ -83,14 +82,14 @@ interface Repository {
         interest: String
     ): UseCaseResult<BaseResponse>
 
-    suspend fun updateToken(body: JsonObject): UseCaseResult<BaseResponse>      // FCM 토큰 변경
+    suspend fun updateToken(body: JsonObject): UseCaseResult<BaseResponse>          // FCM 토큰 변경
 
     /** 모임 관련 **/
-    suspend fun getMoim(): UseCaseResult<BaseResponse>                          // 모임 정보 로드
-    suspend fun getMoim(title: String): UseCaseResult<BaseResponse>             // 모임 정보 로드
-    suspend fun createMoim(body: JsonObject): UseCaseResult<BaseResponse>             // 모임 만들기
-    suspend fun getMoimMember(joinMember: String): UseCaseResult<BaseResponse>      //정모 멤버
-    suspend fun joinInMoim(
+    suspend fun getMoim(): UseCaseResult<BaseResponse>                              // 모임 정보 로드
+    suspend fun getMoim(title: String): UseCaseResult<BaseResponse>                 // 모임 정보 로드
+    suspend fun createMoim(body: JsonObject): UseCaseResult<BaseResponse>           // 모임 만들기
+    suspend fun getMoimMember(joinMember: String): UseCaseResult<BaseResponse>      // 정모 멤버
+    suspend fun joinInMoim(                                                         // 정모 참여
         id: String,
         title: String,
         date: String

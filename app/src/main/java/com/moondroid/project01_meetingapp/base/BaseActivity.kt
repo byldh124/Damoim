@@ -15,8 +15,8 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.SignInActivity
-import com.moondroid.project01_meetingapp.ui.view.dialog.OneButtonDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.LoadingDialog
+import com.moondroid.project01_meetingapp.ui.view.dialog.OneButtonDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.WebViewDialog
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
@@ -32,7 +32,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     private var loadingDialog: LoadingDialog? = null
     private var webViewDialog: WebViewDialog? = null
 
-    private var onResult : (Intent) -> Unit? = {}
+    private var onResult: (Intent) -> Unit? = {}
 
     private val activityResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
