@@ -16,7 +16,6 @@ import com.moondroid.project01_meetingapp.databinding.ActivitySignUpBinding
 import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.viewmodel.SignUpViewModel
 import com.moondroid.project01_meetingapp.utils.*
-import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import com.moondroid.project01_meetingapp.utils.view.gone
@@ -124,12 +123,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                 }
 
                 else -> {
-                    showMessage(
-                        String.format(
-                            getString(R.string.error_sign_up_fail),
-                            "[E01 : ${it.code}]"
-                        )
-                    )
+                    showMessage(getString(R.string.error_sign_up_fail), "[E01 : ${it.code}]")
                 }
             }
         }
@@ -137,13 +131,15 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         viewModel.tokenResponse.observe(this@SignUpActivity) {
             try {
                 DMAnalyze.logEvent("SignUp Success")
-                goToHomeActivity(ActivityTy.SIGN_UP)
+                viewModel.insertRoom(DMApp.user)
             } catch (e: Exception) {
                 logException(e)
             }
         }
 
-
+        viewModel.insertRoomResponse.observe(this) {
+            goToHomeActivity(ActivityTy.SIGN_UP)
+        }
     }
 
     /**
@@ -334,7 +330,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
             }
             val intent = Intent(this, LocationActivity::class.java)
             activityResult(onResult, intent)
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             logException(e)
         }
     }

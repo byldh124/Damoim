@@ -2,6 +2,8 @@ package com.moondroid.project01_meetingapp.network
 
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.model.BaseResponse
+import com.moondroid.project01_meetingapp.model.User
+import com.moondroid.project01_meetingapp.room.UserDao
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -77,7 +79,7 @@ interface Repository {
         file: MultipartBody.Part?
     ): UseCaseResult<BaseResponse>
 
-    suspend fun updateInterest(                                                 // 관심사 변경
+    suspend fun updateInterest(                                                     // 관심사 변경
         id: String,
         interest: String
     ): UseCaseResult<BaseResponse>
@@ -94,9 +96,14 @@ interface Repository {
         title: String,
         date: String
     ): UseCaseResult<BaseResponse>
+
+    /** Room **/
+    suspend fun insertUserR(user: User): Boolean                                    // 로컬 사용자 정보 저장
+    suspend fun deleteUserR(user: User): Boolean                                    // 로컬 사용자 정보 삭제
+    suspend fun getUserR(): List<User>                                              // 로컬 사용자 정보 불러오기
 }
 
-class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Repository {
+class RepositoryImpl @Inject constructor(private val api: ApiInterface, private val  userDao: UserDao) : Repository {
 
     override suspend fun loadGroup(): UseCaseResult<BaseResponse> {
         return try {
@@ -328,6 +335,35 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
         } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)
+        }
+    }
+
+    override suspend fun insertUserR(user: User): Boolean {
+        return try {
+            userDao.insertData(user)
+            true
+        } catch (e: Exception){
+            DMCrash.logException(e)
+            false
+        }
+    }
+
+    override suspend fun deleteUserR(user: User): Boolean {
+        return try {
+            userDao.delete(user)
+            true
+        } catch (e: Exception){
+            DMCrash.logException(e)
+            false
+        }
+    }
+
+    override suspend fun getUserR(): List<User> {
+        return try {
+            userDao.getUser()
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+            ArrayList()
         }
     }
 

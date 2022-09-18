@@ -1,9 +1,14 @@
 package com.moondroid.project01_meetingapp.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.moondroid.project01_meetingapp.utils.DM_USER
 import com.moondroid.project01_meetingapp.utils.RequestParam
 
+@Entity(tableName = DM_USER)
 data class User(
+    @PrimaryKey(autoGenerate = false)
     @SerializedName(RequestParam.ID)
     val id: String,
     @SerializedName(RequestParam.NAME)

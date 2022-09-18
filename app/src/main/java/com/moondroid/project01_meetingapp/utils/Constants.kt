@@ -8,6 +8,9 @@ const val PREFS_NAME = "pref"
 
 const val NETWORK_NOT_CONNECTED = -200
 
+/* Room Table name */
+const val DM_USER = "DMUser"
+
 object PrefKey {
     const val USER_INFO = "USER_INFO"
 }

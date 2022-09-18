@@ -40,6 +40,10 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
         initView()
     }
 
+    private fun replace(old: String) : String {
+        return old.replace("대한민국", "")
+    }
+
     /**
      * Initialize View
      */
@@ -114,7 +118,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
                                 if (Build.VERSION.SDK_INT >= 33) {
                                     geocoder.getFromLocationName(query, 10) { list ->
                                         list.forEach {
-                                            val target = it.getAddressLine(0).replace("대한민국 ", "")
+                                            val target = replace(it.getAddressLine(0))
                                             address.add(
                                                 Address(
                                                     "$target [$query]",
@@ -127,7 +131,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
                                     @Suppress("DEPRECATION") // deprecated over SDK VERSION 33
                                     val result = geocoder.getFromLocationName(query, 10)
                                     result?.forEach {
-                                        val target = it.getAddressLine(0).replace("대한민국 ", "")
+                                        val target = replace(it.getAddressLine(0))
                                         address.add(
                                             Address(
                                                 "$target [$query]",

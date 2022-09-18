@@ -3,6 +3,7 @@ package com.moondroid.project01_meetingapp.di
 import com.moondroid.project01_meetingapp.network.ApiInterface
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.RepositoryImpl
+import com.moondroid.project01_meetingapp.room.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,8 +21,9 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideMainRepository(
-        api: ApiInterface
+        api: ApiInterface,
+        userDao: UserDao
     ): Repository {
-        return RepositoryImpl(api)
+        return RepositoryImpl(api, userDao)
     }
 }

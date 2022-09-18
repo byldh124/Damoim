@@ -13,9 +13,8 @@ import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityMyInfoBinding
 import com.moondroid.project01_meetingapp.model.User
-import com.moondroid.project01_meetingapp.ui.viewmodel.ProfileSetViewModel
+import com.moondroid.project01_meetingapp.ui.viewmodel.MyInfoViewModel
 import com.moondroid.project01_meetingapp.utils.*
-import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +22,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-
 import java.io.File
 
 /**
@@ -32,7 +30,7 @@ import java.io.File
 @AndroidEntryPoint
 class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_info) {
 
-    private val viewModel: ProfileSetViewModel by viewModels()
+    private val viewModel: MyInfoViewModel by viewModels()
     private var path: String? = null
     lateinit var user: User
     private lateinit var gender: String
@@ -99,28 +97,23 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
                 log("updateProfile , observe() , Response => $it")
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
-                        showMessage(getString(R.string.alm_profile_update_success)) {
-                            DMApp.user = Gson().fromJson(it.body.asJsonObject, User::class.java)
-                            DMApp.prefs.putString(
-                                PrefKey.USER_INFO,
-                                it.body.toString()
-                            )
-                            finish()
-                        }
+                        DMApp.user = Gson().fromJson(it.body.asJsonObject, User::class.java)
+                        viewModel.insertRoom(DMApp.user)
                     }
 
                     else -> {
                         showMessage(
-                            String.format(
-                                getString(R.string.error_profile_update_fail),
-                                "E01 [${it.code}]"
-                            )
+                            getString(R.string.error_profile_update_fail), "E01 [${it.code}]"
                         )
                     }
                 }
             } catch (e: Exception) {
                 logException(e)
             }
+        }
+
+        viewModel.insertRoomResponse.observe(this) {
+            showMessage(getString(R.string.alm_profile_update_success)) { finish() }
         }
     }
 

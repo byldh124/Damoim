@@ -102,7 +102,7 @@ class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity
                     }
 
                     else -> {
-                        showMessage(String.format(getString(R.string.error_join_moim_fail), "E01 : ${it.code}"))
+                        showMessage(getString(R.string.error_join_moim_fail), "E01 : ${it.code}")
                     }
                 }
             } catch (e: Exception) {

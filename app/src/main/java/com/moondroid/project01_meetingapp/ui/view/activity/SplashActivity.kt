@@ -6,16 +6,13 @@ import android.net.Uri
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
-import com.google.gson.Gson
 import com.moondroid.project01_meetingapp.BuildConfig
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
-import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.viewmodel.SplashViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
-import com.moondroid.project01_meetingapp.utils.PrefKey
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
@@ -62,7 +59,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 log("appCheckResponse , observe , response => $it")
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
-                        checkAutoLogin()
+                        viewModel.getUser()
                     }
 
                     ResponseCode.INACTIVE -> {
@@ -88,16 +85,12 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 logException(e)
             }
         }
-    }
 
-    /**
-     * Prefs 에 저장된 아이디 값 체크
-     */
-    private fun checkAutoLogin() {
-        try {
-            val userInfo = DMApp.prefs.getString(PrefKey.USER_INFO)
-            if (!userInfo.isNullOrEmpty()) {
-                DMApp.user = Gson().fromJson(userInfo, User::class.java)
+        viewModel.getUserResponse.observe(this) {
+            log("userList , Observe , Response => $it")
+
+            if (it != null) {
+                DMApp.user = it
 
                 DMAnalyze.setProperty(DMApp.user)
                 DMCrash.setProperty(DMApp.user.id)
@@ -105,14 +98,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 isReady = true
                 action = { goToHomeActivity() }
                 startAction()
-
             } else {
                 isReady = true
                 action = { goToSignInActivity() }
                 startAction()
             }
-        } catch (e: Exception) {
-            logException(e)
         }
     }
 

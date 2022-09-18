@@ -16,7 +16,6 @@ import com.moondroid.project01_meetingapp.databinding.ActivityCreateBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.ui.viewmodel.CreateViewModel
 import com.moondroid.project01_meetingapp.utils.*
-import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -230,7 +229,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
             viewModel.createGroup(body, filePart)
         } catch (e: Exception) {
             logException(e)
-            showMessage(String.format(getString(R.string.error_create_group_fail), "E02"))
+            showMessage(getString(R.string.error_create_group_fail), "E02")
         }
     }
 }

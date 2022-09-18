@@ -135,6 +135,15 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         }
     }
 
+    fun showMessage(msg: String, code: String) {
+        showMessage(String.format(msg, code))
+    }
+
+    fun showMessage(msg: String, code: String, onClick: () -> Unit) {
+        showMessage(String.format(msg, code), onClick)
+    }
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             onBack()
