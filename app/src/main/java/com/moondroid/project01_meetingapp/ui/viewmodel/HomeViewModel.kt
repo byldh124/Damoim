@@ -6,7 +6,6 @@ import com.moondroid.project01_meetingapp.model.BaseResponse
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
-import com.moondroid.project01_meetingapp.utils.view.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,7 +42,6 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Ba
 
             when (response) {
                 is UseCaseResult.Success -> {
-                    log("loadGroup , Response => ${response.data}")
                     _showLoading.postValue(false)
                     _groupsContent.postValue(response.data)
                 }

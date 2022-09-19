@@ -3,7 +3,7 @@
     <ANNOTATIONS>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/eb3af8f8ee01caf487a6fb972585f027/transformed/exifinterface-1.2.0/annotations.zip!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/dd58fdc8d6a758cb06414593d791ef70/transformed/exifinterface-1.2.0/annotations.zip!/" />
-      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/8e22357f38756f8da1aa12ba427818d9/transformed/exifinterface-1.2.0/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/3ffd0b98580111a2a0f84cdc9201c124/transformed/exifinterface-1.2.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/072c498326b3ef5f935d83f83311276b/transformed/exifinterface-1.2.0/res" />
@@ -23,9 +23,9 @@
       <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/ccd154cc8a38c01ad3728c26e71f7f9e/transformed/exifinterface-1.2.0/res" />
       <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/f94b1e040dcf13cb1bbf5d492abf1d5f/transformed/exifinterface-1.2.0/res" />
       <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/64d7dc8a2227f2cce9e1060e98fd00c1/transformed/exifinterface-1.2.0/res" />
-      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/8e22357f38756f8da1aa12ba427818d9/transformed/exifinterface-1.2.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/8e22357f38756f8da1aa12ba427818d9/transformed/exifinterface-1.2.0/AndroidManifest.xml" />
       <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/8e22357f38756f8da1aa12ba427818d9/transformed/exifinterface-1.2.0/res" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/3ffd0b98580111a2a0f84cdc9201c124/transformed/exifinterface-1.2.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/3ffd0b98580111a2a0f84cdc9201c124/transformed/exifinterface-1.2.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

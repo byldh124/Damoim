@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.moondroid.project01_meetingapp">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <supports-screens
         android:largeScreens="true"
@@ -9,13 +8,13 @@
         android:requiresSmallestWidthDp="320"
         android:resizeable="false"
         android:smallScreens="false"
-        android:xlargeScreens="false" /> <!-- Media -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 인터넷 사용 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" /> <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- FCM -->
+        android:xlargeScreens="false" />                                                            <!-- Media -->
+    <uses-permission android:name="android.permission.INTERNET" />                                  <!-- 인터넷 사용 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />                      <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />                     <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />                      <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />                    <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />                        <!-- FCM -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
@@ -39,10 +38,12 @@
         tools:targetApi="s">
         <activity
             android:name=".ui.view.activity.MoimInfoActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
             android:name=".ui.view.activity.ProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
             android:name=".ui.view.activity.MoimActivity"
             android:exported="false"

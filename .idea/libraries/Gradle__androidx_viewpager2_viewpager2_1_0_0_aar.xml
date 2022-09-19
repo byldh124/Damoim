@@ -3,7 +3,7 @@
     <ANNOTATIONS>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/9f40786ad179881fd17a3020156a9ce7/transformed/jetified-viewpager2-1.0.0/annotations.zip!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/e6a5887cf7fd282aa8b81a55c09758f3/transformed/jetified-viewpager2-1.0.0/annotations.zip!/" />
-      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/8f3ad8e8da5dd8a1f064d87c3a355cb5/transformed/jetified-viewpager2-1.0.0/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/2327565e16a5579e00881b9a9a1d68fe/transformed/jetified-viewpager2-1.0.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/9f40786ad179881fd17a3020156a9ce7/transformed/jetified-viewpager2-1.0.0/res" />
@@ -12,9 +12,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/e6a5887cf7fd282aa8b81a55c09758f3/transformed/jetified-viewpager2-1.0.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e6a5887cf7fd282aa8b81a55c09758f3/transformed/jetified-viewpager2-1.0.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e6a5887cf7fd282aa8b81a55c09758f3/transformed/jetified-viewpager2-1.0.0/AndroidManifest.xml" />
-      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/8f3ad8e8da5dd8a1f064d87c3a355cb5/transformed/jetified-viewpager2-1.0.0/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/8f3ad8e8da5dd8a1f064d87c3a355cb5/transformed/jetified-viewpager2-1.0.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/8f3ad8e8da5dd8a1f064d87c3a355cb5/transformed/jetified-viewpager2-1.0.0/res" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/2327565e16a5579e00881b9a9a1d68fe/transformed/jetified-viewpager2-1.0.0/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/2327565e16a5579e00881b9a9a1d68fe/transformed/jetified-viewpager2-1.0.0/res" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/2327565e16a5579e00881b9a9a1d68fe/transformed/jetified-viewpager2-1.0.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

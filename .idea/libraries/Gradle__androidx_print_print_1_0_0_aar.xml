@@ -3,7 +3,7 @@
     <ANNOTATIONS>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/ad5365f0a177be7b7dae2636e4a7a6f6/transformed/print-1.0.0/annotations.zip!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/e6c9af726bb2eadd9583b63c960969cf/transformed/print-1.0.0/annotations.zip!/" />
-      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/7e08275242ef17ce23d5269c9e93eb7d/transformed/print-1.0.0/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/e2d6f307d6cbea54ba68ee1ce678f8fb/transformed/print-1.0.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/64b40f86ad418a55531931148e4a58e7/transformed/print-1.0.0/res" />
@@ -23,9 +23,9 @@
       <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/54493daf62326f5d6617f6c2e9ddea92/transformed/print-1.0.0/res" />
       <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/8422a2a7480a93a8bba86051b758b139/transformed/print-1.0.0/res" />
       <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/cd19cf34893b8572d61a18c8bcf086d3/transformed/print-1.0.0/res" />
-      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/7e08275242ef17ce23d5269c9e93eb7d/transformed/print-1.0.0/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/7e08275242ef17ce23d5269c9e93eb7d/transformed/print-1.0.0/res" />
-      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/7e08275242ef17ce23d5269c9e93eb7d/transformed/print-1.0.0/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/e2d6f307d6cbea54ba68ee1ce678f8fb/transformed/print-1.0.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../01.Projects/02.CSAM/CardInspection/caches/transforms-3/e2d6f307d6cbea54ba68ee1ce678f8fb/transformed/print-1.0.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

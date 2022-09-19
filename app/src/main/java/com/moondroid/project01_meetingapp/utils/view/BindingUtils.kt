@@ -7,7 +7,6 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.moondroid.project01_meetingapp.utils.DMUtils
 
-
 @BindingAdapter("image")
 fun ImageView.loadImage(imageURL: String?) {
     Glide.with(this)
@@ -31,6 +30,7 @@ fun ImageView.interest(interest: String) {
 }
 
 /**
+ * Load interest icon in ImageView about RecyclerView position
  * @param position position by recyclerView adapter
  */
 @BindingAdapter("interestIcon")
@@ -43,6 +43,7 @@ fun ImageView.interestIcon(position: Int) {
 }
 
 /**
+ * Set interest text in TextView about RecyclerView position
  * @param position position by recyclerView adapter
  */
 @BindingAdapter("interestText")

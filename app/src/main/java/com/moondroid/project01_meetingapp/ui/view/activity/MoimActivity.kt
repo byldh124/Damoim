@@ -5,7 +5,6 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -52,21 +51,6 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, requestCode)
     }
-
-    /* 관심지역
-    ActivityResult */
-    private val getAddress =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            try {
-                if (result?.resultCode == RESULT_OK) {
-                    result.data?.let {
-
-                    }
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
 
     private fun initView() {
         setSupportActionBar(binding.toolbar)

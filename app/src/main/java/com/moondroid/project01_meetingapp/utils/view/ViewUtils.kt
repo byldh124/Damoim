@@ -8,10 +8,8 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.moondroid.project01_meetingapp.ui.viewmodel.BaseViewModel
 import com.moondroid.project01_meetingapp.utils.DMLog
@@ -105,10 +103,6 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit){
             afterTextChanged.invoke(editable.toString())
         }
     })
-}
-
-fun ImageView.load(res: Int){
-    Glide.with(this.context).load(res).into(this)
 }
 
 fun String.toReqBody(): RequestBody {

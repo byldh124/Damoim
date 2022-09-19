@@ -11,7 +11,10 @@ import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseFragment
-import com.moondroid.project01_meetingapp.databinding.*
+import com.moondroid.project01_meetingapp.databinding.FragmentHomeGroupListBinding
+import com.moondroid.project01_meetingapp.databinding.FragmentHomeLocationBinding
+import com.moondroid.project01_meetingapp.databinding.FragmentHomeMyGroupBinding
+import com.moondroid.project01_meetingapp.databinding.FragmentHomeSearchBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.model.Moim
 import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
@@ -22,6 +25,7 @@ import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
+import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
@@ -32,7 +36,6 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
-
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -90,6 +93,8 @@ class GroupListFragment :
         viewModel.groupsContent.observe(viewLifecycleOwner) {
             when (it.code) {
                 ResponseCode.SUCCESS -> {
+                    log("loadGroup() , Response => $it")
+
                     val result = it.body.asJsonArray
                     val gson = GsonBuilder().create()
                     val groups = gson.fromJson<ArrayList<GroupInfo>>(
