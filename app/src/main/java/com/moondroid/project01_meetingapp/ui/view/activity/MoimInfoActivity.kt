@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityMoimInfoBinding
 import com.moondroid.project01_meetingapp.model.Moim
@@ -76,7 +75,7 @@ class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity
                         )
                         adapter.updateList(member)
                         member.forEach { user ->
-                            if (user.id == DMApp.user.id) {
+                            if (this@MoimInfoActivity.user!!.id == user.id) {
                                 binding.btnJoin.gone(true)
                                 return@forEach
                             }
@@ -112,6 +111,6 @@ class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity
     }
 
     fun join(@Suppress("UNUSED_PARAMETER") vw: View) {
-        viewModel.join(DMApp.user.id, moim.title, moim.date)
+        viewModel.join(user!!.id, moim.title, moim.date)
     }
 }

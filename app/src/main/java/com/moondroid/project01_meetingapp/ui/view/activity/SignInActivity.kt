@@ -7,7 +7,6 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.kakao.sdk.user.UserApiClient
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySignInBinding
 import com.moondroid.project01_meetingapp.model.User
@@ -20,6 +19,9 @@ import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import com.moondroid.project01_meetingapp.utils.view.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 /**
@@ -105,12 +107,15 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 ResponseCode.SUCCESS -> {
                     DMAnalyze.logEvent("SignIn_Success")
                     val userInfo = it.body
-                    DMApp.user = Gson().fromJson(userInfo, User::class.java)
-                    DMAnalyze.setProperty(DMApp.user)
-                    DMCrash.setProperty(DMApp.user.id)
+                    user = Gson().fromJson(userInfo, User::class.java)
+                    DMAnalyze.setProperty(user!!)
+                    DMCrash.setProperty(user!!.id)
                     if (binding.checkBox.isChecked) {
-                        viewModel.insertRoom(DMApp.user)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            userDao.insertData(user!!)
+                        }
                     }
+                    goToHomeActivity()
                 }
 
                 ResponseCode.NOT_EXIST -> {
@@ -146,10 +151,13 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 ResponseCode.SUCCESS -> {
                     DMAnalyze.logEvent("SignIn_Success[Kakao]")
                     val userInfo = it.body
-                    DMApp.user = Gson().fromJson(userInfo, User::class.java)
+                    user = Gson().fromJson(userInfo, User::class.java)
                     if (binding.checkBox.isChecked) {
-                        viewModel.insertRoom(DMApp.user)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            userDao.insertData(user!!)
+                        }
                     }
+                    goToHomeActivity()
                 }
 
                 ResponseCode.NOT_EXIST -> {
@@ -166,11 +174,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 }
             }
         }
-
-        viewModel.insertRoomResponse.observe(this) {
-            goToHomeActivity()
-        }
-
     }
 
     /**

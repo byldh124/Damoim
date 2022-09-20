@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseFragment
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeGroupListBinding
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeLocationBinding
@@ -145,7 +144,7 @@ class MyGroupFragment :
 
     override fun onResume() {
         super.onResume()
-        viewModel.getMyGroup(DMApp.user.id)
+        viewModel.getMyGroup(activity.user!!.id)
     }
 
     private fun initView() {

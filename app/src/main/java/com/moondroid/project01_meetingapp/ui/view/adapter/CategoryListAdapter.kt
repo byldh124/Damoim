@@ -19,19 +19,20 @@ class CategoryListAdapter(
 ) :
     RecyclerView.Adapter<CategoryListAdapter.ViewHolder>() {
 
-    private var checkedPosition: Int by Delegates.observable(0) {_, _, _ ->
+    private var checkedPosition: Int by Delegates.observable(0) { _, _, _ ->
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemHomeCategoryBinding.inflate(LayoutInflater.from(ctx))
+            ItemHomeCategoryBinding.inflate(LayoutInflater.from(ctx), parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
 
-        val category: String = ctx.getString(DMUtils.getStringId(ctx, String.format("interest_%02d", position)))
+        val category: String =
+            ctx.getString(DMUtils.getStringId(ctx, String.format("interest_%02d", position)))
 
         holder.container.setOnClickListener {
             listener.onClick(category)
@@ -54,7 +55,7 @@ class CategoryListAdapter(
             binding.position = adapterPosition
             binding.executePendingBindings()
 
-            if (checkedPosition == adapterPosition){
+            if (checkedPosition == adapterPosition) {
                 binding.txtCategory.setTextColor(ContextCompat.getColor(ctx, R.color.red_light01))
             } else {
                 binding.txtCategory.setTextColor(ContextCompat.getColor(ctx, R.color.gray_light01))

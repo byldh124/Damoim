@@ -18,12 +18,10 @@ import com.kakao.sdk.template.model.Content
 import com.kakao.sdk.template.model.FeedTemplate
 import com.kakao.sdk.template.model.Link
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityHomeBinding
 import com.moondroid.project01_meetingapp.databinding.LayoutNavigationHeaderBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
-import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.view.fragment.GroupListFragment
 import com.moondroid.project01_meetingapp.ui.view.fragment.LocationFragment
 import com.moondroid.project01_meetingapp.ui.view.fragment.MyGroupFragment
@@ -65,7 +63,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
     private lateinit var headerBinding: LayoutNavigationHeaderBinding
     private val viewModel: HomeViewModel by viewModels()
-    lateinit var user: User
 
     lateinit var groupsList: ArrayList<GroupInfo>
 
@@ -75,6 +72,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
         headerBinding = LayoutNavigationHeaderBinding.bind(binding.homeNav.getHeaderView(0))
         initView()
         initViewModel()
+
+        binding.activity = this
+        headerBinding.homeActivity = this
+
         checkPermission()
     }
 
@@ -95,9 +96,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
     override fun onResume() {
         super.onResume()
-        user = DMApp.user
-        binding.activity = this
-        headerBinding.homeActivity = this
+        headerBinding.user = user
     }
 
     /**
@@ -193,7 +192,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                     R.id.navInterest -> {
                         val onResult: (Intent) -> Unit = {
                             viewModel.updateInterest(
-                                DMApp.user.id,
+                                user!!.id,
                                 getString(it.getIntExtra(IntentParam.INTEREST, 0))
                             )
                         }

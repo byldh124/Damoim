@@ -8,7 +8,6 @@ import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import com.moondroid.project01_meetingapp.BuildConfig
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
 import com.moondroid.project01_meetingapp.ui.viewmodel.SplashViewModel
@@ -42,7 +41,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         binding.activity = this
         initView()
         initViewModel()
-
         DMAnalyze.logEvent("Splash_Loaded")
     }
 
@@ -59,7 +57,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 log("appCheckResponse , observe , response => $it")
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
-                        viewModel.getUser()
+                        checkUser()
                     }
 
                     ResponseCode.INACTIVE -> {
@@ -85,24 +83,21 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 logException(e)
             }
         }
+    }
 
-        viewModel.getUserResponse.observe(this) {
-            log("userList , Observe , Response => $it")
+    private fun checkUser() {
+        if (user != null) {
+            log("checkUser() , user : $user")
+            DMAnalyze.setProperty(user!!)
+            DMCrash.setProperty(user!!.id)
 
-            if (it != null) {
-                DMApp.user = it
-
-                DMAnalyze.setProperty(DMApp.user)
-                DMCrash.setProperty(DMApp.user.id)
-
-                isReady = true
-                action = { goToHomeActivity() }
-                startAction()
-            } else {
-                isReady = true
-                action = { goToSignInActivity() }
-                startAction()
-            }
+            isReady = true
+            action = { goToHomeActivity() }
+            startAction()
+        } else {
+            isReady = true
+            action = { goToSignInActivity() }
+            startAction()
         }
     }
 

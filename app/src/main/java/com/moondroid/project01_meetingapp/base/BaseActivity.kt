@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.moondroid.project01_meetingapp.R
+import com.moondroid.project01_meetingapp.model.User
+import com.moondroid.project01_meetingapp.room.UserDao
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.SignInActivity
@@ -23,11 +25,20 @@ import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int) :
     AppCompatActivity() {
 
     protected lateinit var binding: T
+
+    @Inject
+    protected lateinit var userDao: UserDao
+
+    var user: User? = null
 
     private var oneButtonDialog: OneButtonDialog? = null
     private var loadingDialog: LoadingDialog? = null
@@ -54,7 +65,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         }
     }
 
-    open fun onBack(){
+    open fun onBack() {
         finish()
     }
 
@@ -64,9 +75,22 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutResId)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        init()
-
+        resetUserInfo()
         this.onBackPressedDispatcher.addCallback(this, callback)
+        init()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        resetUserInfo()
+    }
+
+    private fun resetUserInfo() {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (userDao.getUser().isNotEmpty()) {
+                user = userDao.getUser()[0]
+            }
+        }
     }
 
     override fun onResume() {

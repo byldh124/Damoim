@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityGroupListBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
@@ -94,7 +93,7 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
 
         // Extra 타입 체크 [FAVORITE, RECENT]
         if (type == TYPE.FAVORITE) {
-            viewModel.getFavorite(DMApp.user.id)
+            viewModel.getFavorite(user!!.id)
 
             viewModel.favoriteResponse.observe(this) {
                 log("favoriteResponse : $it")
@@ -120,7 +119,7 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
                 }
             }
         } else if (type == TYPE.RECENT) {
-            viewModel.getRecent(DMApp.user.id)
+            viewModel.getRecent(user!!.id)
 
             viewModel.recentResponse.observe(this) {
                 log("recentResponse : $it")

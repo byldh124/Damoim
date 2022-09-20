@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityMyInfoBinding
 import com.moondroid.project01_meetingapp.model.User
@@ -18,6 +17,9 @@ import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -32,14 +34,13 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
 
     private val viewModel: MyInfoViewModel by viewModels()
     private var path: String? = null
-    lateinit var user: User
     private lateinit var gender: String
 
     override fun init() {
         DMAnalyze.logEvent("MyInfo Loaded")
 
-        user = DMApp.user
         binding.activity = this
+        binding.user = user
         initView()
         initViewModel()
     }
@@ -71,7 +72,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
                 }
             }
 
-            gender = DMApp.user.gender
+            gender = user!!.gender
             if (gender == getString(R.string.cmn_female)) {
                 binding.rbFemale.isChecked = true
             }
@@ -97,8 +98,11 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
                 log("updateProfile , observe() , Response => $it")
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
-                        DMApp.user = Gson().fromJson(it.body.asJsonObject, User::class.java)
-                        viewModel.insertRoom(DMApp.user)
+                        user = Gson().fromJson(it.body.asJsonObject, User::class.java)
+                        showMessage(getString(R.string.alm_profile_update_success)) { finish() }
+                        CoroutineScope(Dispatchers.IO).launch {
+                            userDao.insertData(user!!)
+                        }
                     }
 
                     else -> {
@@ -110,10 +114,6 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
             } catch (e: Exception) {
                 logException(e)
             }
-        }
-
-        viewModel.insertRoomResponse.observe(this) {
-            showMessage(getString(R.string.alm_profile_update_success)) { finish() }
         }
     }
 
@@ -137,7 +137,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
      */
     fun toBirth(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
-            val array = user.birth.split(".")
+            val array = user!!.birth.split(".")
             val year: Int = try {
                 array[0].toInt()
             } catch (e: Exception) {
@@ -199,11 +199,11 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
      */
     fun saveProfile(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
-            val id = DMApp.user.id
+            val id = user!!.id
             val name = binding.etName.text.toString()
             val birth = binding.tvBirth.text.toString()
             val location = binding.tvLocation.text.toString()
-            val thumb = DMApp.user.thumb
+            val thumb = user!!.thumb
             val message = binding.etMsg.text.toString()
 
             if (!name.matches(Regex.NAME)) {

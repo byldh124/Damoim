@@ -5,43 +5,30 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.moondroid.project01_meetingapp.databinding.ItemGalleryBinding
-import com.moondroid.project01_meetingapp.ui.view.dialog.GalleryDialog
+import com.moondroid.project01_meetingapp.databinding.ItemGalleryDialogBinding
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")
-class GalleryAdapter(
+class GalleryDialogAdapter(
     private val context: Context
-) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
-
-    private var galleryDialog: GalleryDialog? = null
+) : RecyclerView.Adapter<GalleryDialogAdapter.ViewHolder>() {
 
     private var list: List<String> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
-    fun update(newList: List<String>) {
+    fun update(newList: List<String>){
         list = newList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemGalleryBinding.inflate(LayoutInflater.from(context), parent, false)
+            ItemGalleryDialogBinding.inflate(LayoutInflater.from(context), parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(list[position])
-        holder.itemView.setOnClickListener {
-            if (galleryDialog == null) {
-                galleryDialog = GalleryDialog(context, list)
-            }
-
-            galleryDialog?.let { dialog ->
-                dialog.position = position
-                dialog.show()
-            }
-        }
     }
 
     override fun getItemCount(): Int {
@@ -49,7 +36,7 @@ class GalleryAdapter(
     }
 
     inner class ViewHolder(
-        private val binding: ItemGalleryBinding
+        private val binding: ItemGalleryDialogBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(url: String) {

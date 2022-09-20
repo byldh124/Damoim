@@ -210,7 +210,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
     private fun createGroup() {
         try {
             val body = HashMap<String, RequestBody>()
-            body[RequestParam.ID] = DMApp.user.id.toReqBody()
+            body[RequestParam.ID] = user!!.id.toReqBody()
             body[RequestParam.TITLE] = title.toReqBody()
             body[RequestParam.PURPOSE] = purpose.toReqBody()
             body[RequestParam.INTEREST] = interest!!.toReqBody()

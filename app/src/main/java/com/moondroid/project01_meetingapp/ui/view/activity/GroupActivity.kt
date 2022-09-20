@@ -95,7 +95,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
             if (intent.getIntExtra(ACTIVITY, 0) == ActivityTy.CREATE)
                 TutorialDialog(this).show()
 
-            binding.icSetting.gone(groupInfo.masterId != DMApp.user.id)
+            binding.icSetting.gone(groupInfo.masterId != user!!.id)
 
         } catch (e: Exception) {
             logException(e)
@@ -114,13 +114,13 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
             showNetworkError(it)
         }
 
-        viewModel.saveRecent(DMApp.user.id, groupInfo.title, System.currentTimeMillis().toString())
+        viewModel.saveRecent(user!!.id, groupInfo.title, System.currentTimeMillis().toString())
 
         viewModel.recentResponse.observe(this) {
             log("saveRecent , observe() , Response => $it")
         }
 
-        viewModel.getFavor(DMApp.user.id, groupInfo.title)
+        viewModel.getFavor(user!!.id, groupInfo.title)
 
         viewModel.favorResponse.observe(this) {
 
@@ -185,7 +185,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
     }
 
     fun favor(@Suppress("UNUSED_PARAMETER") vw: View) {
-        viewModel.saveFavor(DMApp.user.id, groupInfo.title, !isFavor)
+        viewModel.saveFavor(user!!.id, groupInfo.title, !isFavor)
     }
 
     fun toGroupInfo(@Suppress("UNUSED_PARAMETER") vw: View) {

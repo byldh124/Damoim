@@ -28,7 +28,7 @@ class GroupListAdapter(
     private var currentCategory: String = CATEGORY_ALL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemHomeGroupInfoBinding.inflate(LayoutInflater.from(ctx)))
+        return ViewHolder(ItemHomeGroupInfoBinding.inflate(LayoutInflater.from(ctx), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

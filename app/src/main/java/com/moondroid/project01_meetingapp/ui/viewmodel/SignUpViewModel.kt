@@ -2,10 +2,8 @@ package com.moondroid.project01_meetingapp.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.model.BaseResponse
-import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult
@@ -30,20 +28,6 @@ class SignUpViewModel @Inject constructor(private val repository: Repository) : 
 
     private val _tokenResponse = SingleLiveEvent<BaseResponse>()
     val tokenResponse: LiveData<BaseResponse> get() = _tokenResponse
-
-    private val _insertRoomResponse = SingleLiveEvent<Boolean>()
-    val insertRoomResponse: LiveData<Boolean> get() = _insertRoomResponse
-
-    fun insertRoom(user: User) {
-        _showLoading.postValue(true)
-        viewModelScope.launch {
-            val response = withContext(Dispatchers.IO) {
-                repository.insertUserR(user)
-            }
-            _showLoading.postValue(false)
-            _insertRoomResponse.postValue(response)
-        }
-    }
 
     fun signUp(body: JsonObject) {
         _showLoading.postValue(true)

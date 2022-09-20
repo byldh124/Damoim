@@ -16,7 +16,7 @@ class InterestAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemInterestBinding.inflate(LayoutInflater.from(activity))
+            ItemInterestBinding.inflate(LayoutInflater.from(activity), parent, false)
         )
     }
 

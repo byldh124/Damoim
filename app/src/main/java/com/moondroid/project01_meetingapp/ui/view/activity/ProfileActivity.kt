@@ -23,7 +23,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_profile),
     GroupListAdapter.OnItemClickListener {
     private val viewModel: ProfileViewModel by viewModels()
-    lateinit var user: User
     lateinit var adapter: GroupListAdapter
 
     override fun init() {
@@ -69,7 +68,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
             }
         }
 
-        viewModel.getMyGroup(user.id)
+        viewModel.getMyGroup(user!!.id)
     }
 
     /**

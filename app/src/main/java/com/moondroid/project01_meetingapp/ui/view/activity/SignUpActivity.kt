@@ -10,7 +10,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySignUpBinding
 import com.moondroid.project01_meetingapp.model.User
@@ -22,6 +21,9 @@ import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.security.SecureRandom
 
 /**
@@ -111,9 +113,12 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
             when (it.code) {
                 ResponseCode.SUCCESS -> {
                     toast(getString(R.string.alm_sign_up_success))
-                    DMApp.user = Gson().fromJson(it.body, User::class.java)
-                    DMAnalyze.setProperty(DMApp.user)
-                    DMCrash.setProperty(DMApp.user.id)
+                    user = Gson().fromJson(it.body, User::class.java)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        userDao.insertData(user!!)
+                    }
+                    DMAnalyze.setProperty(user!!)
+                    DMCrash.setProperty(user!!.id)
                     getMsgToken()
                 }
 
@@ -131,14 +136,10 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         viewModel.tokenResponse.observe(this@SignUpActivity) {
             try {
                 DMAnalyze.logEvent("SignUp Success")
-                viewModel.insertRoom(DMApp.user)
+                goToHomeActivity(ActivityTy.SIGN_UP)
             } catch (e: Exception) {
                 logException(e)
             }
-        }
-
-        viewModel.insertRoomResponse.observe(this) {
-            goToHomeActivity(ActivityTy.SIGN_UP)
         }
     }
 

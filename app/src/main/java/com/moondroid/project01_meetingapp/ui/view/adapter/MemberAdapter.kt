@@ -32,7 +32,7 @@ class MemberAdapter(private val activity: AppCompatActivity) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemGroupMemberBinding.inflate(LayoutInflater.from(activity))
+            ItemGroupMemberBinding.inflate(LayoutInflater.from(activity), parent, false)
         )
     }
 

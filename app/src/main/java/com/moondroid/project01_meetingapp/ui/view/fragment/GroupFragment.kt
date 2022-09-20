@@ -46,6 +46,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     lateinit var groupInfo: GroupInfo
     private lateinit var memberAdapter: MemberAdapter
     private lateinit var moimAdapter: MoimAdapter
+    lateinit var user: User
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -55,7 +56,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     override fun init() {
         binding.fragment = this
         groupInfo = DMApp.group
-        binding.isMaster = groupInfo.masterId == DMApp.user.id
+        binding.isMaster = groupInfo.masterId == activity.user!!.id
         binding.groupInfo = groupInfo
         initView()
         initViewModel()
@@ -122,8 +123,8 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
                     )
                     DMApp.group.member = member
                     memberAdapter.updateList(member)
-                    member.forEach { user ->
-                        if (user.id == DMApp.user.id) {
+                    member.forEach { item ->
+                        if (user.id == item.id) {
                             binding.btnJoin.gone(true)
                             DMApp.group.isMember = true
                             return@forEach
@@ -162,7 +163,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     }
 
     fun join(@Suppress("UNUSED_PARAMETER") vw: View) {
-        viewModel.join(DMApp.user.id, groupInfo.title)
+        viewModel.join(user.id, groupInfo.title)
     }
 
     fun create(@Suppress("UNUSED_PARAMETER") vw: View) {
@@ -264,10 +265,12 @@ class ChatFragment : BaseFragment<FragmentGroupChatBinding>(R.layout.fragment_gr
     private val chatList: ArrayList<Chat> = ArrayList()
     private lateinit var chat: Chat
     private lateinit var adapter: ChatAdapter
+    private lateinit var user: User
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as GroupActivity
+        user = activity.user!!
     }
 
     override fun init() {
@@ -281,10 +284,10 @@ class ChatFragment : BaseFragment<FragmentGroupChatBinding>(R.layout.fragment_gr
             val time = System.currentTimeMillis()
 
             val chat = Chat(
-                DMApp.user.id,
-                DMApp.user.name,
+                user.id,
+                user.name,
                 SimpleDateFormat("MM.dd HH:ss").format(time),
-                DMApp.user.thumb,
+                user.thumb,
                 binding.etMessage.text.toString()
             )
 
@@ -306,7 +309,7 @@ class ChatFragment : BaseFragment<FragmentGroupChatBinding>(R.layout.fragment_gr
                     if (chat.id == it.id) {
                         chat.thumb = it.thumb
                         chat.name = it.name
-                        if (chat.id == DMApp.user.id) {
+                        if (chat.id == user.id) {
                             chat.other = false
                         }
                         return@forEach

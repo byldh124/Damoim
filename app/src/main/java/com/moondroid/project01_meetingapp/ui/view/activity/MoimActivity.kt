@@ -164,7 +164,7 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
                     pay += getString(R.string.cmn_won)
                 }
             }
-            val joinMember = Gson().toJson(arrayOf(DMApp.user.id))
+            val joinMember = Gson().toJson(arrayOf(user!!.id))
             val body = JsonObject()
             body.addProperty(RequestParam.TITLE, DMApp.group.title)
             body.addProperty(RequestParam.ADDRESS, address)

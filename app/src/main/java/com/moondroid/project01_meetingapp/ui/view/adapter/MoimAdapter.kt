@@ -29,7 +29,7 @@ class MoimAdapter(private val activity: GroupActivity) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemMoimBinding.inflate(LayoutInflater.from(activity))
+            ItemMoimBinding.inflate(LayoutInflater.from(activity), parent, false)
         )
     }
 

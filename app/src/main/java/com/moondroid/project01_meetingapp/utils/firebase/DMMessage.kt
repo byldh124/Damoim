@@ -12,9 +12,10 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.model.BaseResponse
+import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.network.ApiInterface
+import com.moondroid.project01_meetingapp.room.UserDao
 import com.moondroid.project01_meetingapp.ui.view.activity.SplashActivity
 import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.NotificationParam
@@ -27,7 +28,8 @@ import retrofit2.Retrofit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DMMessage @Inject constructor(private val retrofit: Retrofit) : FirebaseMessagingService() {
+class DMMessage @Inject constructor(private val userDao: UserDao, private val retrofit: Retrofit) :
+    FirebaseMessagingService() {
     private val channelId = "ch01"
 
     override fun onNewToken(token: String) {
@@ -96,10 +98,12 @@ class DMMessage @Inject constructor(private val retrofit: Retrofit) : FirebaseMe
 
     private fun sendNewToken(token: String) {
         try {
-            if (DMApp.user.id.isNotEmpty()) {
+            if (userDao.getUser().isNotEmpty()) {
+                val user: User = userDao.getUser()[0]
+
                 val body = JsonObject()
 
-                body.addProperty(RequestParam.ID, DMApp.user.id)
+                body.addProperty(RequestParam.ID, user.id)
                 body.addProperty(RequestParam.TOKEN, token)
 
                 retrofit.create(ApiInterface::class.java).updateTokenService(body)

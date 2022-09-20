@@ -8,6 +8,10 @@
         <variable
             name="HomeActivity"
             type="com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity" />
+
+        <variable
+            name="user"
+            type="com.moondroid.project01_meetingapp.model.User" />
     </data>
 
     <RelativeLayout
@@ -29,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                bind:image="@{HomeActivity.user.thumb}" />
+                bind:image="@{user.thumb}" />
 
         </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
 
@@ -52,7 +56,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="@font/nanum_square_round_eb"
             android:layout_toEndOf="@id/thumbWrapper"
-            android:text="@{HomeActivity.user.name}"
+            android:text="@{user.name}"
             android:textColor="#ff333333"
             android:textSize="16dp" />
 
@@ -64,7 +68,7 @@
             android:layout_alignStart="@id/tvName"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/nanum_square_round_b"
-            android:text="@{HomeActivity.user.message}" />
+            android:text="@{user.message}" />
 
     </RelativeLayout>
 </layout>

@@ -26,9 +26,7 @@ class AddressAdapter(private val activity: LocationActivity) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            ItemLocationBinding.inflate(LayoutInflater.from(activity))
-        )
+        return ViewHolder(ItemLocationBinding.inflate(LayoutInflater.from(activity), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
