@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseDialog
 import com.moondroid.project01_meetingapp.databinding.DialogTutorialBinding
+import com.moondroid.project01_meetingapp.utils.DMUtils
 
 class TutorialDialog(context: Context) : BaseDialog(context) {
 
@@ -36,17 +37,7 @@ class TutorialDialog(context: Context) : BaseDialog(context) {
         animation.start()
 
         val layoutParams = binding.header.layoutParams as ConstraintLayout.LayoutParams
-        layoutParams.topMargin = getStatusBarHeight()
-    }
-
-    private fun getStatusBarHeight(): Int {
-        var result = 0
-        val id = context.resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (id > 0) {
-            result = context.resources.getDimensionPixelSize(id)
-        }
-
-        return result
+        layoutParams.topMargin = DMUtils.getStatusBarHeight(context)
     }
 
     fun userClick(@Suppress("UNUSED_PARAMETER") vw: View) {

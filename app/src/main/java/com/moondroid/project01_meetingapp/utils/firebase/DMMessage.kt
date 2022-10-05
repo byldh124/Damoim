@@ -21,6 +21,9 @@ import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.NotificationParam
 import com.moondroid.project01_meetingapp.utils.RequestParam
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,9 +31,11 @@ import retrofit2.Retrofit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DMMessage @Inject constructor(private val userDao: UserDao, private val retrofit: Retrofit) :
-    FirebaseMessagingService() {
+class DMMessage : FirebaseMessagingService() {
+
     private val channelId = "ch01"
+    @Inject lateinit var userDao: UserDao
+    @Inject lateinit var retrofit: Retrofit
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
@@ -98,28 +103,31 @@ class DMMessage @Inject constructor(private val userDao: UserDao, private val re
 
     private fun sendNewToken(token: String) {
         try {
-            if (userDao.getUser().isNotEmpty()) {
-                val user: User = userDao.getUser()[0]
+            CoroutineScope(Dispatchers.IO).launch {
+                DMLog.e("sendNewToken() - token : $token , userDao is Empty : ${userDao.getUser().isEmpty()}")
+                if (userDao.getUser().isNotEmpty()) {
+                    val user: User = userDao.getUser()[0]
 
-                val body = JsonObject()
+                    val body = JsonObject()
 
-                body.addProperty(RequestParam.ID, user.id)
-                body.addProperty(RequestParam.TOKEN, token)
+                    body.addProperty(RequestParam.ID, user.id)
+                    body.addProperty(RequestParam.TOKEN, token)
 
-                retrofit.create(ApiInterface::class.java).updateTokenService(body)
-                    .enqueue(object : Callback<BaseResponse> {
-                        override fun onResponse(
-                            call: Call<BaseResponse>,
-                            response: Response<BaseResponse>
-                        ) {
-                            DMLog.e("sendNewToken() api call")
-                        }
+                    retrofit.create(ApiInterface::class.java).updateTokenService(body)
+                        .enqueue(object : Callback<BaseResponse> {
+                            override fun onResponse(
+                                call: Call<BaseResponse>,
+                                response: Response<BaseResponse>
+                            ) {
+                                DMLog.e("sendNewToken() api call")
+                            }
 
-                        override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
-                            DMCrash.logException(t)
-                        }
+                            override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
+                                DMCrash.logException(t)
+                            }
 
-                    })
+                        })
+                }
             }
         } catch (e: Exception) {
             DMCrash.logException(e)

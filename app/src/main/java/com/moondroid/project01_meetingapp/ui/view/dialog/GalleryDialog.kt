@@ -27,7 +27,7 @@ class GalleryDialog(context: Context, val list: List<String>) : BaseDialog(conte
         adapter = GalleryDialogAdapter(context)
         adapter.update(list)
         binding.pager.adapter = adapter
-        binding.pager.currentItem = 0
+        binding.pager.currentItem = position
     }
 
     fun exit(@Suppress("UNUSED_PARAMETER")vw: View) {

@@ -6,11 +6,11 @@ import com.moondroid.project01_meetingapp.model.User
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertData(user: User)
+    suspend fun insertData(user: User)
 
     @Query("SELECT * FROM DMUser")
-    fun getUser(): List<User>
+    suspend fun getUser(): List<User>
 
     @Delete
-    fun delete(user: User)
+    suspend fun delete(user: User)
 }

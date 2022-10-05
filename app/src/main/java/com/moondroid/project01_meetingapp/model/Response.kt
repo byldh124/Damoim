@@ -12,12 +12,3 @@ data class BaseResponse(
     @SerializedName(RequestParam.CODE)
     val code: Int
 )
-
-data class BoolResponse(
-    @SerializedName(RequestParam.RESULT)
-    val body: Boolean,
-    @SerializedName(RequestParam.MESSAGE)
-    val msg: String,
-    @SerializedName(RequestParam.CODE)
-    val code: Int
-)

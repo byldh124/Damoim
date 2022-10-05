@@ -159,12 +159,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
                 }
 
                 else -> {
-                    showMessage(
-                        String.format(
-                            getString(R.string.error_change_favorite_fail),
-                            "E01 : ${it.code}"
-                        )
-                    )
+                    showMessage(getString(R.string.error_change_favorite_fail), "E01 : ${it.code}")
                 }
             }
         }

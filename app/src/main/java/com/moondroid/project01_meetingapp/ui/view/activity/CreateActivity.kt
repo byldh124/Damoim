@@ -103,12 +103,7 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
                 }
 
                 else -> {
-                    showMessage(
-                        String.format(
-                            getString(R.string.error_create_group_fail),
-                            "E01 : ${it.code}"
-                        )
-                    )
+                    showMessage(getString(R.string.error_create_group_fail), "E01 : ${it.code}")
                 }
             }
         }

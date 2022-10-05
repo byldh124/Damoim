@@ -18,6 +18,7 @@ import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import com.moondroid.project01_meetingapp.utils.view.gone
+import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -108,7 +109,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
         viewModel.signUpResponse.observe(this) {
 
-            DMLog.e("[SignUpActivity::requestSignUp] Response => $it")
+            log("requestSignUp() , Response => $it")
 
             when (it.code) {
                 ResponseCode.SUCCESS -> {
@@ -262,7 +263,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
                 val token = task.result
 
-                DMLog.e("[SignUpActivity::getMsgToken] token => $token")
+                log("getMsgToken() , token => $token")
                 updateToken(token)
             })
         } catch (e: Exception) {

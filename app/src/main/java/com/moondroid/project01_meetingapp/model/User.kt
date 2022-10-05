@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.moondroid.project01_meetingapp.utils.DM_USER
 import com.moondroid.project01_meetingapp.utils.RequestParam
+import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = DM_USER)
 data class User(

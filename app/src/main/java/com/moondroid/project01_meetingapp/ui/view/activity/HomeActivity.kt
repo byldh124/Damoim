@@ -111,14 +111,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             supportActionBar?.setDisplayShowTitleEnabled(false)
 
             // connect drawer - navigation
-            val drawerToggle =
-                ActionBarDrawerToggle(
-                    this,
-                    binding.drawer,
-                    binding.toolbar,
-                    R.string.app_name,
-                    R.string.app_name
-                )
+            val drawerToggle = ActionBarDrawerToggle(
+                this, binding.drawer, binding.toolbar, R.string.app_name, R.string.app_name
+            )
 
             drawerToggle.syncState()
             binding.drawer.addDrawerListener(drawerToggle)
@@ -192,12 +187,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                     R.id.navInterest -> {
                         val onResult: (Intent) -> Unit = {
                             viewModel.updateInterest(
-                                user!!.id,
-                                getString(it.getIntExtra(IntentParam.INTEREST, 0))
+                                user!!.id, getString(it.getIntExtra(IntentParam.INTEREST, 0))
                             )
                         }
-                        val intent = Intent(this@HomeActivity, InterestActivity::class.java)
-                            .putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
+                        val intent =
+                            Intent(this@HomeActivity, InterestActivity::class.java).putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
                         activityResult(onResult, intent)
                     }
 
@@ -244,12 +238,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     private fun checkPermission() {
         try {
             val requestPermissionLauncher =
-                registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-                    //DO NOTHING
+                registerForActivityResult(ActivityResultContracts.RequestPermission()) { //DO NOTHING
                 }
             if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_DENIED
             ) {
                 requestPermissionLauncher.launch(
@@ -258,8 +250,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             }
 
             if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
+                    this, Manifest.permission.ACCESS_FINE_LOCATION
                 ) == PackageManager.PERMISSION_DENIED
             ) {
                 requestPermissionLauncher.launch(
@@ -302,9 +293,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
      */
     private fun changeFragment(fragment: Fragment) {
         try {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
+            supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment)
                 .commit()
         } catch (e: Exception) {
             logException(e)
@@ -318,31 +307,21 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
         val params = FeedTemplate(
             content = Content(
                 title = String.format(
-                    "%s %s",
-                    getString(R.string.app_sub_name),
-                    getString(R.string.app_name)
-                ),
-                imageUrl = "https://firebasestorage.googleapis.com/v0/b/project01meetingapp.appspot.com/o/logo.png?alt=media&token=4081b1a5-1d77-475b-98cf-63747ba3e37b",
-                link = Link(
-                    webUrl = linkUrl,
-                    mobileWebUrl = linkUrl
-                ),
-                description = "모임대장에서 다양한 사람들과 새로운 취미를 시작해보세요."
-            ),
-            buttons = listOf(
+                    "%s %s", getString(R.string.app_sub_name), getString(R.string.app_name)
+                ), imageUrl = "https://firebasestorage.googleapis.com/v0/b/project01meetingapp.appspot.com/o/logo.png?alt=media&token=4081b1a5-1d77-475b-98cf-63747ba3e37b", link = Link(
+                    webUrl = linkUrl, mobileWebUrl = linkUrl
+                ), description = "모임대장에서 다양한 사람들과 새로운 취미를 시작해보세요."
+            ), buttons = listOf(
                 Button(
-                    getString(R.string.cmn_share_button),
-                    Link(
-                        webUrl = linkUrl,
-                        mobileWebUrl = linkUrl
+                    getString(R.string.cmn_share_button), Link(
+                        webUrl = linkUrl, mobileWebUrl = linkUrl
                     )
                 )
             )
         )
 
         // 카카오톡 설치여부 확인
-        if (ShareClient.instance.isKakaoTalkSharingAvailable(this)) {
-            // 카카오톡으로 카카오톡 공유 가능
+        if (ShareClient.instance.isKakaoTalkSharingAvailable(this)) { // 카카오톡으로 카카오톡 공유 가능
             ShareClient.instance.shareDefault(this, params) { sharingResult, error ->
                 if (error != null) {
                     log("카카오톡 공유 실패 : $error")
@@ -355,8 +334,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                     log("Argument Msg: ${sharingResult.argumentMsg}")
                 }
             }
-        } else {
-            // 카카오톡 미설치: 웹 공유 사용 권장
+        } else { // 카카오톡 미설치: 웹 공유 사용 권장
             // 웹 공유 예시 코드
             val sharerUrl = WebSharerClient.instance.makeDefaultUrl(params)
 
@@ -366,16 +344,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             // ex) Chrome, 삼성 인터넷, FireFox, 웨일 등
             try {
                 KakaoCustomTabsClient.openWithDefault(this, sharerUrl)
-            } catch (e: UnsupportedOperationException) {
-                // CustomTabsServiceConnection 지원 브라우저가 없을 때 예외처리
+            } catch (e: UnsupportedOperationException) { // CustomTabsServiceConnection 지원 브라우저가 없을 때 예외처리
             }
 
             // 2. CustomTabsServiceConnection 미지원 브라우저 열기
             // ex) 다음, 네이버 등
             try {
                 KakaoCustomTabsClient.open(this, sharerUrl)
-            } catch (e: ActivityNotFoundException) {
-                // 디바이스에 설치된 인터넷 브라우저가 없을 때 예외처리
+            } catch (e: ActivityNotFoundException) { // 디바이스에 설치된 인터넷 브라우저가 없을 때 예외처리
             }
         }
     }

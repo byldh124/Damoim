@@ -110,7 +110,7 @@ dependencies {
     implementation("androidx.room:room-rxjava2:$room_version")
 
     //Gson
-    implementation "com.google.code.gson:gson:2.9.0"
+    implementation "com.google.code.gson:gson:2.9.1"
 
     // rxjava2
     implementation "com.polidea.rxandroidble2:rxandroidble:1.11.1"
@@ -140,7 +140,7 @@ dependencies {
     // Coroutines - Deferred adapter
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
 
-    //Firebase
+    // Firebase
     implementation platform('com.google.firebase:firebase-bom:30.4.1')
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
@@ -148,6 +148,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-messaging-ktx'
+
+    // Google - Login
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
 
     //navigation
     //implementation("androidx.navigation:navigation-fragment-ktx:2.5.1")

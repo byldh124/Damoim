@@ -11,14 +11,13 @@ import javax.inject.Inject
 interface Repository {
 
     /** 앱 기능 관련 **/
-    suspend fun checkAppVersion(        // 앱 버전 정보 체크
-        packageName: String,
-        versionCode: Int,
-        versionName: String
-    ): UseCaseResult<BaseResponse>
+
+    suspend fun checkAppVersion(
+        packageName: String, versionCode: Int, versionName: String
+    ): UseCaseResult<BaseResponse>  // 앱 버전 정보 체크
 
 
-    /** 그룹 정보 관련 **/
+    /** 그룹 정보 관련 */
     suspend fun loadGroup(): UseCaseResult<BaseResponse>                        // 전체 그룹
     suspend fun getMyGroup(userId: String): UseCaseResult<BaseResponse>         // 특정 유저가 가입한 그룹
     suspend fun getFavorite(id: String): UseCaseResult<BaseResponse>            // 특정 유저가 관심목록 표시한 그룹
@@ -27,40 +26,32 @@ interface Repository {
 
 
     /** 유저 그룹 -----------------------------------**/
-    suspend fun saveRecent(     // 최근 모임 저장
-        id: String,
-        title: String,
-        lastTime: String
-    ): UseCaseResult<BaseResponse>
+    suspend fun saveRecent(
+        id: String, title: String, lastTime: String
+    ): UseCaseResult<BaseResponse>  // 최근 모임 저장
 
-    suspend fun saveFavor(      // 관심 모임 저장
-        id: String,
-        title: String,
-        active: Boolean
-    ): UseCaseResult<BaseResponse>
+    suspend fun saveFavor(
+        id: String, title: String, active: Boolean
+    ): UseCaseResult<BaseResponse>  // 관심 모임 저장
 
-    suspend fun join(           // 모입 가입
-        id: String,
-        title: String
-    ): UseCaseResult<BaseResponse>
+    suspend fun join(
+        id: String, title: String
+    ): UseCaseResult<BaseResponse>  // 모입 가입
 
-    suspend fun getFavor(       // 관심 모임 확인
-        id: String,
-        title: String
-    ): UseCaseResult<BaseResponse>
+    suspend fun getFavor(
+        id: String, title: String
+    ): UseCaseResult<BaseResponse>  // 관심 모임 확인
 
 
     /** 그룹 생성, 수정 **/
-    suspend fun createGroup(                // 그룹 생성
+    suspend fun createGroup(
         body: Map<String, RequestBody>,
         file: MultipartBody.Part?
-    ): UseCaseResult<BaseResponse>
+    ): UseCaseResult<BaseResponse>  // 그룹 생성
 
-    suspend fun updateGroup(                // 그룹 생성
-        body: Map<String, RequestBody>,
-        thumb: MultipartBody.Part?,
-        image: MultipartBody.Part?
-    ): UseCaseResult<BaseResponse>
+    suspend fun updateGroup(
+        body: Map<String, RequestBody>, thumb: MultipartBody.Part?, image: MultipartBody.Part?
+    ): UseCaseResult<BaseResponse>  // 그룹 생성
 
 
     /** 회원가입, 로그인 **/
@@ -71,15 +62,12 @@ interface Repository {
 
 
     /** 유저 정보 수정 **/
-    suspend fun updateProfile(                                                  // 회원 정보 수정
+    suspend fun updateProfile(
         body: Map<String, RequestBody>,
         file: MultipartBody.Part?
-    ): UseCaseResult<BaseResponse>
+    ): UseCaseResult<BaseResponse> // 회원 정보 수정
 
-    suspend fun updateInterest(                                                     // 관심사 변경
-        id: String,
-        interest: String
-    ): UseCaseResult<BaseResponse>
+    suspend fun updateInterest(id: String, interest: String): UseCaseResult<BaseResponse> // 관심사 변경
 
     suspend fun updateToken(body: JsonObject): UseCaseResult<BaseResponse>          // FCM 토큰 변경
 
@@ -88,15 +76,10 @@ interface Repository {
     suspend fun getMoim(title: String): UseCaseResult<BaseResponse>                 // 모임 정보 로드
     suspend fun createMoim(body: JsonObject): UseCaseResult<BaseResponse>           // 모임 만들기
     suspend fun getMoimMember(joinMember: String): UseCaseResult<BaseResponse>      // 정모 멤버
-    suspend fun joinInMoim(                                                         // 정모 참여
-        id: String,
-        title: String,
-        date: String
-    ): UseCaseResult<BaseResponse>
+    suspend fun joinInMoim(id: String, title: String, date: String): UseCaseResult<BaseResponse>  // 정모 참여
 }
 
 class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Repository {
-
     override suspend fun loadGroup(): UseCaseResult<BaseResponse> {
         return try {
             handleResult(api.getGroup())
@@ -126,9 +109,7 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
     }
 
     override suspend fun saveRecent(
-        id: String,
-        title: String,
-        lastTime: String
+        id: String, title: String, lastTime: String
     ): UseCaseResult<BaseResponse> {
         return try {
             handleResult(api.saveRecent(id, title, lastTime))
@@ -140,9 +121,7 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
     }
 
     override suspend fun saveFavor(
-        id: String,
-        title: String,
-        active: Boolean
+        id: String, title: String, active: Boolean
     ): UseCaseResult<BaseResponse> {
         return try {
             handleResult(api.saveFavor(id, title, active))
@@ -172,8 +151,7 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
 
 
     override suspend fun createGroup(
-        body: Map<String, RequestBody>,
-        file: MultipartBody.Part?
+        body: Map<String, RequestBody>, file: MultipartBody.Part?
     ): UseCaseResult<BaseResponse> {
         return try {
             handleResult(api.createGroup(body, file))
@@ -184,9 +162,7 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
     }
 
     override suspend fun updateGroup(
-        body: Map<String, RequestBody>,
-        thumb: MultipartBody.Part?,
-        image: MultipartBody.Part?
+        body: Map<String, RequestBody>, thumb: MultipartBody.Part?, image: MultipartBody.Part?
     ): UseCaseResult<BaseResponse> {
         return try {
             handleResult(api.updateGroup(body, thumb, image))
@@ -224,8 +200,7 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
     }
 
     override suspend fun updateProfile(
-        body: Map<String, RequestBody>,
-        file: MultipartBody.Part?
+        body: Map<String, RequestBody>, file: MultipartBody.Part?
     ): UseCaseResult<BaseResponse> {
         return try {
             handleResult(api.updateProfile(body, file))
@@ -318,9 +293,7 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
     }
 
     override suspend fun joinInMoim(
-        id: String,
-        title: String,
-        date: String
+        id: String, title: String, date: String
     ): UseCaseResult<BaseResponse> {
         return try {
             handleResult(api.joinInMoim(id, title, date))
@@ -331,9 +304,7 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
     }
 
     override suspend fun checkAppVersion(
-        packageName: String,
-        versionCode: Int,
-        versionName: String
+        packageName: String, versionCode: Int, versionName: String
     ): UseCaseResult<BaseResponse> {
         return try {
             handleResult(api.checkAppVersion(packageName, versionCode, versionName))

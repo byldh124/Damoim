@@ -97,29 +97,60 @@
                 android:text="@string/cmn_auto_sign_in"
                 android:textColor="@color/gray_dark02" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSignIn"
                 style="@style/ButtonRed01"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:onClick="@{activity::checkField}"
                 android:text="@string/cmn_sign_in" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSignUp"
                 style="@style/ButtonGray01"
                 android:layout_marginTop="12dp"
                 android:onClick="@{activity::goToSignUp}"
-                android:text="@string/cmn_sign_up"/>
+                android:text="@string/cmn_sign_up" />
 
-            <ImageView
-                android:id="@+id/icKakao"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:layout_marginTop="36dp"
-                android:elevation="2dp"
-                android:onClick="@{activity::getKakaoProfile}"
-                android:src="@drawable/btn_kakao_login" />
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    app:cardElevation="2dp">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/icKakao"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/btn_kakao_login"
+                        android:onClick="@{activity::getKakaoProfile}"
+                        app:elevation="4dp" />
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <Space
+                    android:layout_width="8dp"
+                    android:layout_height="0dp" />
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/icGoogle"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:elevation="0dp"
+                    app:onClick="@{activity::getGoogleAccount}"
+                    app:backgroundTint="@null" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -128,36 +159,36 @@
                 android:layout_marginTop="32dp"
                 android:orientation="horizontal">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cmn_use_terms"
                     android:fontFamily="@font/nanum_square_round_eb"
-                    android:textColor="@color/gray_dark01"
-                    android:onClick="@{activity::showUseTerm}"/>
+                    android:onClick="@{activity::showUseTerm}"
+                    android:text="@string/cmn_use_terms"
+                    android:textColor="@color/gray_dark01" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cmn_divider"
                     android:layout_marginHorizontal="8dp"
                     android:fontFamily="@font/nanum_square_round_eb"
-                    android:textColor="@color/gray_dark01"/>
+                    android:text="@string/cmn_divider"
+                    android:textColor="@color/gray_dark01" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cmn_privacy"
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:onClick="@{activity::showPrivacy}"
-                    android:textColor="@color/gray_dark01"/>
+                    android:text="@string/cmn_privacy"
+                    android:textColor="@color/gray_dark01" />
 
             </LinearLayout>
 
 
         </LinearLayout>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

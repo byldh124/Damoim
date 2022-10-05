@@ -70,12 +70,11 @@ class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity
                         val body = it.body.asJsonArray
                         val gson = Gson()
                         val member = gson.fromJson<ArrayList<User>>(
-                            body,
-                            object : TypeToken<ArrayList<User>>() {}.type
+                            body, object : TypeToken<ArrayList<User>>() {}.type
                         )
                         adapter.updateList(member)
-                        member.forEach { user ->
-                            if (this@MoimInfoActivity.user!!.id == user.id) {
+                        member.forEach { item ->
+                            if (user!!.id == item.id) {
                                 binding.btnJoin.gone(true)
                                 return@forEach
                             }

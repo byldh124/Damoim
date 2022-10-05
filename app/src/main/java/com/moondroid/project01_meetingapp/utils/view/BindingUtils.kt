@@ -1,10 +1,12 @@
 package com.moondroid.project01_meetingapp.utils.view
 
+import android.view.View
 import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.google.android.gms.common.SignInButton
 import com.moondroid.project01_meetingapp.utils.DMUtils
 
 @BindingAdapter("image")
@@ -56,4 +58,13 @@ fun TextView.interestText(position: Int) {
 @BindingAdapter("loadUrl")
 fun WebView.webLoad(url: String) {
     this.loadUrl(url)
+}
+
+/**
+ * Google SignInButton is not support DataBinding
+ **/
+
+@BindingAdapter("onClick")
+fun SignInButton.onClick(method: () -> Unit) {
+    this.setOnClickListener { method.invoke() }
 }

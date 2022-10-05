@@ -2,7 +2,15 @@ package com.moondroid.project01_meetingapp.ui.view.activity
 
 import android.content.Intent
 import android.view.View
+import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.kakao.sdk.user.UserApiClient
@@ -58,6 +66,12 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     override fun init() {
         binding.activity = this
         initViewModel()
+        initView()
+    }
+
+    private fun initView() {
+        val textView = binding.icGoogle.getChildAt(0) as TextView
+        textView.text = "구글 로그인"
     }
 
     /**
@@ -87,12 +101,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                         }
                     }
                     else -> {
-                        showMessage(
-                            String.format(
-                                getString(R.string.error_sign_in_fail),
-                                "E01 : ${it.code}"
-                            )
-                        )
+                        showMessage(getString(R.string.error_sign_in_fail), "E01 : ${it.code}")
                     }
                 }
             } catch (e: Exception) {
@@ -131,21 +140,14 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 }
 
                 else -> {
-                    showMessage(
-                        String.format(
-                            getString(
-                                R.string.error_sign_in_fail,
-                                "E02 : ${it.code}"
-                            )
-                        )
-                    )
+                    showMessage(getString(R.string.error_sign_in_fail, "E02 : ${it.code}"))
                 }
             }
         }
 
         viewModel.kakaoSignInResponse.observe(this) {
 
-            DMLog.e("[SignInActivity::signInKakao] Response : $it")
+            log("signInKakao() , Response : $it")
 
             when (it.code) {
                 ResponseCode.SUCCESS -> {
@@ -305,6 +307,39 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         } catch (e: Exception) {
             logException(e)
         }
+    }
+
+
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == RESULT_OK) {
+            val data: Intent? = it.data
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(data)
+            val account = task.getResult(ApiException::class.java)
+
+            id = account.id.toString()
+            name = account.displayName.toString()
+            thumb = if(account.photoUrl == null) {
+                DEFAULT_PROFILE_IMG
+            } else {
+                account.photoUrl.toString()
+            }
+
+            signInWithKakao()
+        }
+    }
+
+
+    fun getGoogleAccount() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        val mGoogleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        val singInIntent = mGoogleSignInClient.signInIntent
+
+        resultLauncher.launch(singInIntent)
     }
 
     private fun goToHomeActivity() {

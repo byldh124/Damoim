@@ -53,14 +53,13 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
                     ResponseCode.SUCCESS -> {
                         val gson = GsonBuilder().create()
                         val newList = gson.fromJson<ArrayList<GroupInfo>>(
-                            it.body,
-                            object : TypeToken<ArrayList<GroupInfo>>() {}.type
+                            it.body, object : TypeToken<ArrayList<GroupInfo>>() {}.type
                         )
                         adapter.update(newList)
                     }
 
                     else -> {
-                        logException(Exception("[ProfileActivity] , getGroupContent()-observe() ,  Response =>${it.code}"))
+                        logException(Exception("[ProfileActivity] , getGroupContent()-observe() , Response =>${it.code}"))
                     }
                 }
             } catch (e: Exception) {

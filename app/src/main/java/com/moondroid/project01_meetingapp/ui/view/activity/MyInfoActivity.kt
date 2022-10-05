@@ -40,7 +40,6 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
         DMAnalyze.logEvent("MyInfo Loaded")
 
         binding.activity = this
-        binding.user = user
         initView()
         initViewModel()
     }
@@ -106,9 +105,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
                     }
 
                     else -> {
-                        showMessage(
-                            getString(R.string.error_profile_update_fail), "E01 [${it.code}]"
-                        )
+                        showMessage(getString(R.string.error_profile_update_fail), "E01 [${it.code}]")
                     }
                 }
             } catch (e: Exception) {
@@ -122,12 +119,12 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
      */
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
         val onResult: (Intent) -> Unit = { intent ->
-            binding.tvLocation.text =
-                intent.getStringExtra(IntentParam.LOCATION).toString()
+            binding.tvLocation.text = intent.getStringExtra(IntentParam.LOCATION).toString()
         }
 
-        val sendIntent = Intent(this, LocationActivity::class.java)
-            .putExtra(IntentParam.ACTIVITY, ActivityTy.MY_INFO)
+        val sendIntent = Intent(this, LocationActivity::class.java).putExtra(
+            IntentParam.ACTIVITY, ActivityTy.MY_INFO
+        )
 
         activityResult(onResult, sendIntent)
     }
@@ -156,8 +153,7 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
             }
 
             val datePicker = DatePickerDialog(
-                this,
-                { _, p1, p2, p3 ->
+                this, { _, p1, p2, p3 ->
                     binding.tvBirth.text = String.format("%d.%d.%d", p1, p2 + 1, p3)
                 }, year, month, date
             )

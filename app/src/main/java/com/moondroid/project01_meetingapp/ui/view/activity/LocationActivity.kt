@@ -15,6 +15,7 @@ import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.visible
 import com.naver.maps.geometry.LatLng
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 
@@ -22,6 +23,8 @@ import java.util.*
  * 지역 선택
  *  -> 선택된 지역을 Intent Extra 로 전달
  */
+
+@AndroidEntryPoint
 class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity_location) {
     private lateinit var locationAdapter: LocationAdapter
     private lateinit var addressAdapter: AddressAdapter
@@ -40,7 +43,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
         initView()
     }
 
-    private fun replace(old: String) : String {
+    private fun replace(old: String): String {
         return old.replace("대한민국", "")
     }
 
@@ -84,8 +87,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
                     binding.etLocation.afterTextChanged { edit ->
                         binding.recycler.setEmptyText(
                             String.format(
-                                getString(R.string.alm_empty_data_for_query),
-                                edit
+                                getString(R.string.alm_empty_data_for_query), edit
                             )
                         )
                         val newLocation = ArrayList<String>()
@@ -108,8 +110,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
                             val query = binding.etLocation.text.toString()
                             binding.recycler.setEmptyText(
                                 String.format(
-                                    getString(R.string.alm_empty_data_for_query),
-                                    query
+                                    getString(R.string.alm_empty_data_for_query), query
                                 )
                             )
 

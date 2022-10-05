@@ -32,8 +32,8 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
     private val viewModel: GroupListViewModel by viewModels()
 
     enum class TYPE {
-        FAVORITE,
-        RECENT
+        FAVORITE,           // 관심등록 모임
+        RECENT              // 최근 본 모임
     }
 
     override fun init() {
@@ -57,13 +57,21 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
         when (intent.getIntExtra(IntentParam.TYPE, 0)) {
             GroupListType.FAVORITE -> {
                 type = TYPE.FAVORITE                                            // 타입 설정
-                title = getString(R.string.title_group_list_favorite)                                              // 타이틀 설정
-                binding.recycler.setEmptyText(getString(R.string.alm_favor_group_empty))      // Recycler EmptyMessage 설정
+                title = getString(
+                    R.string.title_group_list_favorite
+                )                                              // 타이틀 설정
+                binding.recycler.setEmptyText(
+                    getString(R.string.alm_favor_group_empty)
+                )      // Recycler EmptyMessage 설정
             }
             GroupListType.RECENT -> {
                 type = TYPE.RECENT                                              // 타입 설정
-                title = getString(R.string.title_group_list_recent)                                           // 타이틀 설정
-                binding.recycler.setEmptyText(getString(R.string.alm_recent_group_empty))         // Recycler EmptyMessage 설정
+                title = getString(
+                    R.string.title_group_list_recent
+                )                                           // 타이틀 설정
+                binding.recycler.setEmptyText(
+                    getString(R.string.alm_recent_group_empty)
+                )         // Recycler EmptyMessage 설정
             }
             else -> finish()
         }
@@ -101,20 +109,14 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
                     ResponseCode.SUCCESS -> {
                         val gson = GsonBuilder().create()
                         val newList = gson.fromJson<ArrayList<GroupInfo>>(
-                            it.body,
-                            object : TypeToken<ArrayList<GroupInfo>>() {}.type
+                            it.body, object : TypeToken<ArrayList<GroupInfo>>() {}.type
                         )
 
                         adapter.update(newList)
                     }
 
                     else -> {
-                        showMessage(
-                            String.format(
-                                getString(R.string.error_load_group_list_fail),
-                                "[E01 : ${it.code}]"
-                            )
-                        )
+                        showMessage(getString(R.string.error_load_group_list_fail), "[E01 : ${it.code}]")
                     }
                 }
             }
@@ -127,20 +129,14 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
                     ResponseCode.SUCCESS -> {
                         val gson = GsonBuilder().create()
                         val newList = gson.fromJson<ArrayList<GroupInfo>>(
-                            it.body,
-                            object : TypeToken<ArrayList<GroupInfo>>() {}.type
+                            it.body, object : TypeToken<ArrayList<GroupInfo>>() {}.type
                         )
 
                         adapter.update(newList)
                     }
 
                     else -> {
-                        showMessage(
-                            String.format(
-                                getString(R.string.error_load_group_list_fail),
-                                "[E02 : ${it.code}]"
-                            )
-                        ) {
+                        showMessage(getString(R.string.error_load_group_list_fail), "[E02 : ${it.code}]") {
                             finish()
                         }
                     }

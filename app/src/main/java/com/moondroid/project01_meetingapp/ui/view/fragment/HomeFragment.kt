@@ -21,7 +21,6 @@ import com.moondroid.project01_meetingapp.ui.view.adapter.CategoryListAdapter
 import com.moondroid.project01_meetingapp.ui.view.adapter.GroupListAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.HomeViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
-import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.view.log
@@ -158,7 +157,7 @@ class MyGroupFragment :
     private fun initViewModel() {
 
         viewModel.myGroupsContent.observe(viewLifecycleOwner) {
-            DMLog.e("[HomeFragment] , MyGroupFragment , getMyGroup() Response => $it")
+            log("MyGroupFragment , getMyGroup() Response => $it")
             when (it.code) {
                 ResponseCode.SUCCESS -> {
                     val gson = GsonBuilder().create()
@@ -171,12 +170,7 @@ class MyGroupFragment :
                 }
 
                 else -> {
-                    activity.showMessage(
-                        String.format(
-                            getString(R.string.error_load_group_list_fail),
-                            "[E01 : ${it.code}]"
-                        )
-                    )
+                    activity.showMessage(getString(R.string.error_load_group_list_fail), "[E01 : ${it.code}]")
                 }
             }
         }
@@ -273,7 +267,7 @@ class LocationFragment : BaseFragment<FragmentHomeLocationBinding>(R.layout.frag
     private fun initViewModel() {
         viewModel.moimResponse.observe(viewLifecycleOwner) {
 
-            DMLog.e("[LocationFragment] , moimResponse , Response => $it")
+            log("moimResponse , Response => $it")
 
             when (it.code) {
                 ResponseCode.SUCCESS -> {
@@ -301,12 +295,7 @@ class LocationFragment : BaseFragment<FragmentHomeLocationBinding>(R.layout.frag
                                 infoWindow.adapter =
                                     object : InfoWindow.DefaultTextAdapter(activity) {
                                         override fun getText(p0: InfoWindow): CharSequence {
-                                            return String.format(
-                                                "%s\n%s\n%s",
-                                                item.title,
-                                                item.date,
-                                                item.time
-                                            )
+                                            return String.format("%s\n%s\n%s", item.title, item.date, item.time)
                                         }
                                     }
 
@@ -319,12 +308,7 @@ class LocationFragment : BaseFragment<FragmentHomeLocationBinding>(R.layout.frag
                 }
 
                 else -> {
-                    activity.showMessage(
-                        String.format(
-                            activity.getString(R.string.error_load_moim_list_fail),
-                            "[E01 : ${it.code}]"
-                        )
-                    )
+                    activity.showMessage(getString(R.string.error_load_moim_list_fail), "[E01 : ${it.code}]")
                 }
             }
         }

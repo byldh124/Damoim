@@ -1,5 +1,6 @@
 package com.moondroid.project01_meetingapp.utils
 
+import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
@@ -9,7 +10,6 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.TypedValue
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
-import org.jetbrains.annotations.NotNull
 import java.security.MessageDigest
 
 
@@ -45,6 +45,7 @@ internal object DMUtils {
         return sb.toString()
     }
 
+    @SuppressLint("DiscouragedApi")
     fun getStringId(context: Context, name: String): Int {
         return try {
             context.resources.getIdentifier(name, "string", context.packageName)
@@ -53,6 +54,7 @@ internal object DMUtils {
         }
     }
 
+    @SuppressLint("DiscouragedApi")
     fun getDrawableId(context: Context, name: String): Int {
         return try {
             context.resources.getIdentifier(name, "drawable", context.packageName)
@@ -73,7 +75,7 @@ internal object DMUtils {
         return 0
     }
 
-    fun getPathFromUri(context: Context, @NotNull uri: Uri): String? {
+    fun getPathFromUri(context: Context, uri: Uri): String? {
         // DocumentProvider
         if (DocumentsContract.isDocumentUri(context, uri)) {
             // ExternalStorageProvider
@@ -219,11 +221,11 @@ internal object DMUtils {
     /**
      * Convert Dp -> Px
      */
-    fun dpToPixel(context: Context, dp: Float) : Float{
+    fun dpToPixel(context: Context, dp: Float): Float {
         var pixel = 0.0f
         try {
             pixel = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics)
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             DMCrash.logException(e)
         }
 
@@ -234,14 +236,29 @@ internal object DMUtils {
     /**
      * Convert Dp -> Px
      */
-    fun dpToPixel(context: Context, dp: Int) : Int {
+    fun dpToPixel(context: Context, dp: Int): Int {
         var pixel = 0.0f
         try {
-            pixel = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), context.resources.displayMetrics)
-        } catch (e:Exception) {
+            pixel = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp.toFloat(),
+                context.resources.displayMetrics
+            )
+        } catch (e: Exception) {
             DMCrash.logException(e)
         }
 
         return pixel.toInt()
+    }
+
+    @SuppressLint("DiscouragedApi", "InternalInsetResource")
+    fun getStatusBarHeight(context: Context): Int {
+        var result = 0
+        val id = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (id > 0) {
+            result = context.resources.getDimensionPixelSize(id)
+        }
+
+        return result
     }
 }

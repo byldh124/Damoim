@@ -87,12 +87,7 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
                 }
 
                 else -> {
-                    showMessage(
-                        String.format(
-                            getString(R.string.error_create_moim_fail),
-                            "E01: ${it.code}"
-                        )
-                    )
+                    showMessage(getString(R.string.error_create_moim_fail), "E01: ${it.code}")
                 }
             }
         }
@@ -106,13 +101,14 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
                 binding.tvLocation.text = address.address
                 val marker = Marker(address.latLng)
                 marker.map = mNaverMap
-                mNaverMap.cameraPosition =
-                    CameraPosition(address.latLng, 16.0, 0.0, 0.0)
+                mNaverMap.cameraPosition = CameraPosition(address.latLng, 16.0, 0.0, 0.0)
             }
         }
 
-        val intent = Intent(this, LocationActivity::class.java)
-            .putExtra(IntentParam.ACTIVITY, ActivityTy.MOIM)
+        val intent = Intent(this, LocationActivity::class.java).putExtra(
+            IntentParam.ACTIVITY,
+            ActivityTy.MOIM
+        )
 
         activityResult(onResult, intent)
     }
@@ -121,8 +117,7 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
     fun showDate(@Suppress("UNUSED_PARAMETER") vw: View) {
         val date = DateTime(System.currentTimeMillis())
         val datePicker = DatePickerDialog(
-            this,
-            { _, p1, p2, p3 ->
+            this, { _, p1, p2, p3 ->
                 binding.tvDate.text = String.format("%d.%d.%d", p1, p2 + 1, p3)
             }, date.year, date.monthOfYear - 1, date.dayOfMonth
         )
@@ -132,8 +127,7 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
 
     fun showTime(@Suppress("UNUSED_PARAMETER") vw: View) {
         val timePicker = TimePickerDialog(
-            this,
-            { _, hour, minute ->
+            this, { _, hour, minute ->
                 binding.tvTime.text = String.format("%02d : %02d", hour, minute)
             }, 12, 0, true
         )

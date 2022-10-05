@@ -166,4 +166,7 @@
     <string name="hint_input_location">동 읍 면 을 입력해주세요.</string>
 
     <string name="warning_private_project">이 어플은 실제 서비스 되는 앱이 아닌 개인용 프로젝트 입니다.</string>
+    <string name="alm_group_join_success">모임 가입에 성공했습니다.</string>
+    <string name="error_group_already_join">이미 가입된 모임입니다.</string>
+    <string name="error_group_join_fail">모임 가입 실패 [%s]</string>
 </resources>

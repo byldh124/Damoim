@@ -1,9 +1,9 @@
 package com.moondroid.project01_meetingapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
+import com.moondroid.project01_meetingapp.utils.view.log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -28,7 +28,7 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
     fun logException(msg: String) {
         DMCrash.getInstance()
             .log(msg)
-        DMLog.e(msg)
+        log(msg)
     }
 
     protected fun handleException(e: Throwable): Int {

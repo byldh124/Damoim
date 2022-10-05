@@ -113,12 +113,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
                     }
 
                     else -> {
-                        showMessage(
-                            String.format(
-                                this@GroupInfoActivity.getString(R.string.error_update_group_info),
-                                "E1 : ${it.code}"
-                            )
-                        )
+                        showMessage(getString(R.string.error_update_group_info), "E1 : ${it.code}")
                     }
                 }
             } catch (e: Exception) {
@@ -200,7 +195,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
      * 관심사 선택
      */
     fun toInterest(@Suppress("UNUSED_PARAMETER") vw: View) {
-        val onResult :(Intent) -> Unit = {
+        val onResult: (Intent) -> Unit = {
             interest = getString(it.getIntExtra(IntentParam.INTEREST, 0))
             val resId = it.getIntExtra(IntentParam.INTEREST_ICON, 0)
             Glide.with(this).load(resId).into(binding.icInterest)
@@ -230,7 +225,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
      */
     fun getThumb(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
-            val onResult : (Intent) -> Unit = {
+            val onResult: (Intent) -> Unit = {
                 val uri = it.data
                 uri?.let { u ->
                     thumbPath = DMUtils.getPathFromUri(this, u)

@@ -30,13 +30,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int) :
-    AppCompatActivity() {
+
+/**
+ * 의존성 주입을 위해 해당 클래스를 상속받는 액티비티는 @AndroidEntryPoint 어노테이션을 달아줘야 함
+ **/
+abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int) : AppCompatActivity() {
 
     protected lateinit var binding: T
 
-    @Inject
-    protected lateinit var userDao: UserDao
+    @Inject protected lateinit var userDao: UserDao
 
     var user: User? = null
 
@@ -113,15 +115,9 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         try {
             if (code != 0) {
                 if (code == NETWORK_NOT_CONNECTED) {
-                    showMessage(
-                        String.format(getString(R.string.error_network_not_connected), code),
-                        onClick
-                    )
+                    showMessage(getString(R.string.error_network_not_connected), code.toString(), onClick)
                 } else {
-                    showMessage(
-                        String.format(getString(R.string.error_network_fail), code),
-                        onClick
-                    )
+                    showMessage(getString(R.string.error_network_fail), code.toString(), onClick)
                 }
             }
         } catch (e: Exception) {
@@ -203,12 +199,11 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
 
     fun goToHomeActivity(activityTy: Int) {
         try {
-            val intent = Intent(this, HomeActivity::class.java)
-                .apply {
-                    putExtra(ACTIVITY, activityTy)
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                }
+            val intent = Intent(this, HomeActivity::class.java).apply {
+                putExtra(ACTIVITY, activityTy)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            }
             startActivityWithAnim(intent)
             finishAffinity()
         } catch (e: Exception) {
@@ -218,12 +213,11 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
 
     fun goToSignInActivity(activityTy: Int) {
         try {
-            val intent = Intent(this, SignInActivity::class.java)
-                .apply {
-                    putExtra(ACTIVITY, activityTy)
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                }
+            val intent = Intent(this, SignInActivity::class.java).apply {
+                putExtra(ACTIVITY, activityTy)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            }
             startActivityWithAnim(intent)
         } catch (e: Exception) {
             logException(e)
@@ -235,12 +229,11 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
      */
     fun goToGroupActivity(activityType: Int) {
         try {
-            val intent = Intent(this, GroupActivity::class.java)
-                .apply {
-                    putExtra(ACTIVITY, activityType)
-                    addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                }
+            val intent = Intent(this, GroupActivity::class.java).apply {
+                putExtra(ACTIVITY, activityType)
+                addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            }
             startActivityWithAnim(intent)
         } catch (e: Exception) {
             logException(e)

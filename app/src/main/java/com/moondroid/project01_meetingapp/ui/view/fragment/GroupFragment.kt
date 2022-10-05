@@ -31,7 +31,6 @@ import com.moondroid.project01_meetingapp.ui.view.adapter.GalleryAdapter
 import com.moondroid.project01_meetingapp.ui.view.adapter.MemberAdapter
 import com.moondroid.project01_meetingapp.ui.view.adapter.MoimAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.GroupViewModel
-import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
@@ -51,6 +50,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as GroupActivity
+        user = activity.user!!
     }
 
     override fun init() {
@@ -112,14 +112,13 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
         }
 
         viewModel.memberResponse.observe(viewLifecycleOwner) {
-            DMLog.e("[GroupFragment] , GroupInfoFragment , getMember() Response => $it")
+            log("GroupInfoFragment , getMember() Response => $it")
             when (it.code) {
                 ResponseCode.SUCCESS -> {
                     val body = it.body.asJsonArray
                     val gson = Gson()
                     val member = gson.fromJson<ArrayList<User>>(
-                        body,
-                        object : TypeToken<ArrayList<User>>() {}.type
+                        body, object : TypeToken<ArrayList<User>>() {}.type
                     )
                     DMApp.group.member = member
                     memberAdapter.updateList(member)
@@ -143,20 +142,20 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
 
             when (it.code) {
                 ResponseCode.SUCCESS -> {
-                    activity.showMessage("모임 가입에 성공했습니다.") {
+                    activity.showMessage(getString(R.string.alm_group_join_success)) {
                         viewModel.loadMember(groupInfo.title)
                     }
                     activity.restart()
                 }
 
                 ResponseCode.ALREADY_EXIST -> {
-                    activity.showMessage("이미 가입된 모임입니다.") {
+                    activity.showMessage(getString(R.string.error_group_already_join)) {
                         viewModel.loadMember(groupInfo.title)
                     }
                 }
 
                 else -> {
-                    activity.showMessage(String.format("모임 가입 실패 [%s]", "E01 : ${it.code}"))
+                    activity.showMessage(getString(R.string.error_group_join_fail), "E01 : ${it.code}")
                 }
             }
         }
@@ -227,11 +226,10 @@ class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragm
                     imgRef.downloadUrl.addOnSuccessListener { uri2 ->
                         val fdb = FirebaseDatabase.getInstance()
                         val dbRef = fdb.getReference("GalleryImgs/${DMApp.group.title}")
-                        dbRef.child(time).setValue(uri2.toString())
-                            .addOnSuccessListener {
-                                getImage()
-                                log("getImage , ActivityResult() => Success")
-                            }
+                        dbRef.child(time).setValue(uri2.toString()).addOnSuccessListener {
+                            getImage()
+                            log("getImage , ActivityResult() => Success")
+                        }
                     }
                 }
             }
