@@ -1,6 +1,5 @@
 package com.moondroid.project01_meetingapp.utils.view
 
-import android.view.View
 import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
