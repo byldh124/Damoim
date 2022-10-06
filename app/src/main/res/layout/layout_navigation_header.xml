@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="HomeActivity"
+            name="activity"
             type="com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity" />
 
         <variable
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:background="#9FE3D7"
-        android:onClick="@{HomeActivity::toProfileActivity}"
+        android:onClick="@{activity::toMyInfoActivity}"
         android:padding="16dp">
 
         <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView

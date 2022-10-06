@@ -23,6 +23,7 @@ import com.moondroid.project01_meetingapp.ui.view.dialog.OneButtonDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.WebViewDialog
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
+import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import kotlinx.coroutines.CoroutineScope
@@ -40,6 +41,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
 
     @Inject protected lateinit var userDao: UserDao
 
+    //Binding -> 접근제한자 : Public
     var user: User? = null
 
     private var oneButtonDialog: OneButtonDialog? = null
@@ -71,7 +73,6 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         finish()
     }
 
-
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,11 +81,6 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         resetUserInfo()
         this.onBackPressedDispatcher.addCallback(this, callback)
         init()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        resetUserInfo()
     }
 
     private fun resetUserInfo() {
@@ -97,6 +93,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
 
     override fun onResume() {
         super.onResume()
+        resetUserInfo()
         overridePendingTransition(android.R.anim.fade_in, 0)
     }
 

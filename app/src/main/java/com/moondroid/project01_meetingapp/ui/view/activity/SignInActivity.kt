@@ -313,13 +313,12 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK) {
             val data: Intent? = it.data
-            val task: Task<GoogleSignInAccount> =
-                GoogleSignIn.getSignedInAccountFromIntent(data)
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             val account = task.getResult(ApiException::class.java)
 
             id = account.id.toString()
             name = account.displayName.toString()
-            thumb = if(account.photoUrl == null) {
+            thumb = if (account.photoUrl == null) {
                 DEFAULT_PROFILE_IMG
             } else {
                 account.photoUrl.toString()

@@ -1,11 +1,13 @@
 package com.moondroid.project01_meetingapp.ui.view.activity
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.moondroid.project01_meetingapp.R
@@ -25,6 +27,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.util.concurrent.Executor
 
 /**
  * 회원 프로필 수정
@@ -35,9 +38,12 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
     private val viewModel: MyInfoViewModel by viewModels()
     private var path: String? = null
     private lateinit var gender: String
+    private lateinit var executor: Executor
 
     override fun init() {
         DMAnalyze.logEvent("MyInfo Loaded")
+
+        executor = ContextCompat.getMainExecutor(this)
 
         binding.activity = this
         initView()
@@ -98,9 +104,14 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
                         user = Gson().fromJson(it.body.asJsonObject, User::class.java)
-                        showMessage(getString(R.string.alm_profile_update_success)) { finish() }
                         CoroutineScope(Dispatchers.IO).launch {
                             userDao.insertData(user!!)
+                            executor.execute {
+                                showMessage(getString(R.string.alm_profile_update_success)) {
+                                    setResult(Activity.RESULT_OK, intent)
+                                    finish()
+                                }
+                            }
                         }
                     }
 

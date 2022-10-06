@@ -11,6 +11,8 @@ import android.provider.MediaStore
 import android.util.TypedValue
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import java.security.MessageDigest
+import java.text.SimpleDateFormat
+import java.util.Date
 
 
 internal object DMUtils {
@@ -259,6 +261,20 @@ internal object DMUtils {
             result = context.resources.getDimensionPixelSize(id)
         }
 
+        return result
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun beforeDate(date: String, pattern: String): Boolean {
+        var result = false
+        try {
+            val format = SimpleDateFormat(pattern)
+            val targetDate = format.parse(date)
+            val toDay = Date(System.currentTimeMillis())
+            result = targetDate!!.after(toDay)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         return result
     }
 }

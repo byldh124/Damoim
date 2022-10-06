@@ -27,6 +27,10 @@ class GalleryDialog(context: Context, val list: List<String>) : BaseDialog(conte
         adapter = GalleryDialogAdapter(context)
         adapter.update(list)
         binding.pager.adapter = adapter
+    }
+
+    override fun show() {
+        super.show()
         binding.pager.currentItem = position
     }
 

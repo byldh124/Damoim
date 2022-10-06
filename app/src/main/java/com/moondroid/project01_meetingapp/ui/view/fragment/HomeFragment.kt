@@ -1,6 +1,5 @@
 package com.moondroid.project01_meetingapp.ui.view.fragment
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -21,6 +20,7 @@ import com.moondroid.project01_meetingapp.ui.view.adapter.CategoryListAdapter
 import com.moondroid.project01_meetingapp.ui.view.adapter.GroupListAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.HomeViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
+import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.view.log
@@ -34,7 +34,6 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -263,7 +262,6 @@ class LocationFragment : BaseFragment<FragmentHomeLocationBinding>(R.layout.frag
         locationSource = FusedLocationSource(this, 0xff)
     }
 
-    @SuppressLint("SimpleDateFormat")
     private fun initViewModel() {
         viewModel.moimResponse.observe(viewLifecycleOwner) {
 
@@ -277,32 +275,25 @@ class LocationFragment : BaseFragment<FragmentHomeLocationBinding>(R.layout.frag
                         object : TypeToken<ArrayList<Moim>>() {}.type
                     )
 
-                    val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd")
-
                     newList.forEach { item ->
-                        val date = simpleDateFormat.parse(item.date)
-                        if (date != null) {
-                            if (date.after(Date(System.currentTimeMillis()))) {
-                                val marker = Marker()
-                                marker.apply {
-                                    position = LatLng(item.lat, item.lng)
-                                    map = mNaverMap
-                                    width = Marker.SIZE_AUTO
-                                    height = Marker.SIZE_AUTO
-                                }
-                                val infoWindow = InfoWindow()
-
-                                infoWindow.adapter =
-                                    object : InfoWindow.DefaultTextAdapter(activity) {
-                                        override fun getText(p0: InfoWindow): CharSequence {
-                                            return String.format("%s\n%s\n%s", item.title, item.date, item.time)
-                                        }
-                                    }
-
-                                infoWindow.open(marker)
+                        if (DMUtils.beforeDate(item.date, "yyyy.MM.dd")) {
+                            val marker = Marker()
+                            marker.apply {
+                                position = LatLng(item.lat, item.lng)
+                                map = mNaverMap
+                                width = Marker.SIZE_AUTO
+                                height = Marker.SIZE_AUTO
                             }
-                        } else {
-                            logException(Exception("[LocationFragment] , Moim Date Parse Exception"))
+                            val infoWindow = InfoWindow()
+
+                            infoWindow.adapter =
+                                object : InfoWindow.DefaultTextAdapter(activity) {
+                                    override fun getText(p0: InfoWindow): CharSequence {
+                                        return String.format("%s\n%s\n%s", item.title, item.date, item.time)
+                                    }
+                                }
+
+                            infoWindow.open(marker)
                         }
                     }
                 }

@@ -37,6 +37,9 @@ import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import com.moondroid.project01_meetingapp.utils.view.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 /**
@@ -74,7 +77,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
         initViewModel()
 
         binding.activity = this
-        headerBinding.homeActivity = this
+        headerBinding.activity = this
+        headerBinding.user = user
 
         checkPermission()
     }
@@ -92,11 +96,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
         } else {
             super.onBack()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        headerBinding.user = user
     }
 
     /**
@@ -154,6 +153,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
      * Observe ViewModel
      */
     private fun initViewModel() {
+
         viewModel.showLoading.observe(this) {
             showLoading(it)
         }
@@ -191,7 +191,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                             )
                         }
                         val intent =
-                            Intent(this@HomeActivity, InterestActivity::class.java).putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
+                            Intent(this@HomeActivity, InterestActivity::class.java).putExtra(
+                                IntentParam.ACTIVITY,
+                                ActivityTy.HOME
+                            )
                         activityResult(onResult, intent)
                     }
 
@@ -209,14 +212,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                         startActivityWithAnim(intent)
                     }
                 }
-
-                binding.drawer.closeDrawer(binding.homeNav)
-
+                hideNavigation();
                 true
             }
         } catch (e: Exception) {
             logException(e)
         }
+    }
+
+    private fun hideNavigation() {
+        binding.drawer.closeDrawer(binding.homeNav)
     }
 
     /**
@@ -278,11 +283,19 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     /**
      * 프로필 세팅 액티비티 전환
      */
-    fun toProfileActivity(@Suppress("UNUSED_PARAMETER") vw: View) {
+    fun toMyInfoActivity(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             val intent = Intent(this, MyInfoActivity::class.java)
             intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
-            startActivityWithAnim(intent)
+
+            val result: (Intent) -> Unit = {
+                CoroutineScope(Dispatchers.IO).launch {
+                    user = userDao.getUser()[0]
+                    headerBinding.user = user
+                }
+            }
+            activityResult(result, intent)
+            hideNavigation()
         } catch (e: Exception) {
             logException(e)
         }
@@ -308,9 +321,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             content = Content(
                 title = String.format(
                     "%s %s", getString(R.string.app_sub_name), getString(R.string.app_name)
-                ), imageUrl = "https://firebasestorage.googleapis.com/v0/b/project01meetingapp.appspot.com/o/logo.png?alt=media&token=4081b1a5-1d77-475b-98cf-63747ba3e37b", link = Link(
+                ),
+                imageUrl = "https://firebasestorage.googleapis.com/v0/b/project01meetingapp.appspot.com/o/logo.png?alt=media&token=4081b1a5-1d77-475b-98cf-63747ba3e37b",
+                link = Link(
                     webUrl = linkUrl, mobileWebUrl = linkUrl
-                ), description = "모임대장에서 다양한 사람들과 새로운 취미를 시작해보세요."
+                ),
+                description = "모임대장에서 다양한 사람들과 새로운 취미를 시작해보세요."
             ), buttons = listOf(
                 Button(
                     getString(R.string.cmn_share_button), Link(

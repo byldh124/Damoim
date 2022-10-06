@@ -31,6 +31,7 @@ import com.moondroid.project01_meetingapp.ui.view.adapter.GalleryAdapter
 import com.moondroid.project01_meetingapp.ui.view.adapter.MemberAdapter
 import com.moondroid.project01_meetingapp.ui.view.adapter.MoimAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.GroupViewModel
+import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.gone
 import com.moondroid.project01_meetingapp.utils.view.log
@@ -66,7 +67,9 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
         super.onResume()
         groupInfo = DMApp.group
         binding.groupInfo = groupInfo
+
         viewModel.getMoim(groupInfo.title)
+        viewModel.loadMember(groupInfo.title)
     }
 
     private fun initView() {
@@ -88,19 +91,22 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     }
 
     private fun initViewModel() {
-        activity.groupInfo.let {
-            viewModel.loadMember(it.title)
-        }
-
         viewModel.moimResponse.observe(viewLifecycleOwner) {
             log("getMoim() , observe() , Response => $it")
 
             when (it.code) {
                 ResponseCode.SUCCESS -> {
                     val body = it.body.asJsonArray
-                    val moim = Gson().fromJson<ArrayList<Moim>>(
+                    val moimRes = Gson().fromJson<ArrayList<Moim>>(
                         body, object : TypeToken<ArrayList<Moim>>() {}.type
                     )
+
+                    val moim = ArrayList<Moim>()
+                    moimRes.forEach { item ->
+                        if (DMUtils.beforeDate(item.date, "yyyy.MM.dd")) {
+                            moim.add(item)
+                        }
+                    }
 
                     moimAdapter.updateList(moim)
                 }
@@ -144,8 +150,8 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
                 ResponseCode.SUCCESS -> {
                     activity.showMessage(getString(R.string.alm_group_join_success)) {
                         viewModel.loadMember(groupInfo.title)
+                        //activity.restart()
                     }
-                    activity.restart()
                 }
 
                 ResponseCode.ALREADY_EXIST -> {
