@@ -8,13 +8,13 @@
         android:requiresSmallestWidthDp="320"
         android:resizeable="false"
         android:smallScreens="false"
-        android:xlargeScreens="false" />                                                            <!-- Media -->
-    <uses-permission android:name="android.permission.INTERNET" />                                  <!-- 인터넷 사용 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />                      <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />                     <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />                      <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />                    <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />                        <!-- FCM -->
+        android:xlargeScreens="false" /> <!-- Media -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 인터넷 사용 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" /> <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- FCM -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
@@ -36,6 +36,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="DataExtractionRules"
         tools:targetApi="s">
+
         <activity
             android:name=".ui.view.activity.MoimInfoActivity"
             android:exported="false"
@@ -56,6 +57,11 @@
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="csit8ak1h9" />
+
+        <activity
+            android:name=".ui.view.activity.ReportActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
 
         <activity
             android:name=".ui.view.activity.SettingActivity"
@@ -112,7 +118,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -132,9 +137,7 @@
         <activity
             android:name=".ui.view.activity.GroupActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
-
-        <!-- Google FCM Background Service -->
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Google FCM Background Service -->
         <service
             android:name=".utils.firebase.DMMessage"
             android:exported="false"

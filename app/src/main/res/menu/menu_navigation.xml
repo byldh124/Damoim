@@ -22,16 +22,12 @@
             android:title="@string/cmn_recent_view_group"
             android:icon="@drawable/ic_navigation_recent"
             app:showAsAction="ifRoom"/>
-        <!--<item
-            android:id="@+id/navigation_menu_premium_meet"
-            android:title="@string/cmn_premium_group"
-            android:icon="@drawable/ic_navigation_premium"
-            app:showAsAction="ifRoom"/>
+
         <item
-            android:id="@+id/navigation_menu_mk_charge_class"
-            android:title="@string/cmn_create_premium_group"
-            android:icon="@drawable/ic_navigation_mk_charge"
-            app:showAsAction="ifRoom"/>-->
+            android:id="@+id/navBlock"
+            android:title="@string/cmn_recent_view_group"
+            android:icon="@drawable/ic_block"
+            app:showAsAction="ifRoom"/>
     </group>
 
     <group

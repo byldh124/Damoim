@@ -169,4 +169,14 @@
     <string name="alm_group_join_success">모임 가입에 성공했습니다.</string>
     <string name="error_group_already_join">이미 가입된 모임입니다.</string>
     <string name="error_group_join_fail">모임 가입 실패 [%s]</string>
+    <string name="cmn_cancel">취소</string>
+    <string name="cmn_report">신고하기</string>
+    <string name="subs_report_info">신고 내용은 영업일 기준 5일 이내에 처리됩니다.</string>
+    <string name="hint_report_message">ex) 타인에 대한 욕설, 비방</string>
+    <string name="cmn_report_reason">신고사유</string>
+    <string name="alm_report_user_check">해당 유저를 신고하시겠습니까?</string>
+    <string name="error_input_report_reason">신고 사유를 작성해주세요.</string>
+    <string name="cmn_report_target">신고대상</string>
+    <string name="cmn_report_date">신고날짜</string>
+    <string name="alm_report_success">신고 처리가 완료되었습니다</string>
 </resources>

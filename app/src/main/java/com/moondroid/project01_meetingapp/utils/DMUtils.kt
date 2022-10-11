@@ -10,6 +10,8 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.TypedValue
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -276,5 +278,14 @@ internal object DMUtils {
             e.printStackTrace()
         }
         return result
+    }
+
+    fun getToday(format: String): String {
+        return try {
+            (DateTime(DateTimeZone.UTC)).toString(format)
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+            ""
+        }
     }
 }

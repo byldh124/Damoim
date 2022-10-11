@@ -20,17 +20,5 @@ open class DMLog protected constructor() {
                 Log.e(TAG, msg)
             }
         }
-
-        fun i(msg: String) {
-            if (isDebug) {
-                Log.i(TAG, msg)
-            }
-        }
-
-        fun v(msg: String) {
-            if (isDebug) {
-                Log.v(TAG, msg)
-            }
-        }
     }
 }
