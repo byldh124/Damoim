@@ -39,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @AndroidEntryPoint
 class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group) {
-    private val pageNum = 4
+    private val pageNum = 3
     private val viewModel: GroupViewModel by viewModels()
     lateinit var groupInfo: GroupInfo
     lateinit var title: String
@@ -47,7 +47,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
     val fragments =
         arrayOf(
             InfoFragment(),
-            BoardFragment(),
+            //BoardFragment(),
             GalleryFragment(),
             ChatFragment()
         )

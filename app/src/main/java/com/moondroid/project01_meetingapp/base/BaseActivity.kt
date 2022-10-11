@@ -20,10 +20,10 @@ import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.SignInActivity
 import com.moondroid.project01_meetingapp.ui.view.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.OneButtonDialog
+import com.moondroid.project01_meetingapp.ui.view.dialog.TwoButtonDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.WebViewDialog
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
-import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import kotlinx.coroutines.CoroutineScope
@@ -45,6 +45,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     var user: User? = null
 
     private var oneButtonDialog: OneButtonDialog? = null
+    private var twoButtonDialog: TwoButtonDialog? = null
     private var loadingDialog: LoadingDialog? = null
     private var webViewDialog: WebViewDialog? = null
 
@@ -138,18 +139,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     }
 
     fun showMessage(msg: String) {
-        try {
-            if (oneButtonDialog == null) {
-                oneButtonDialog = OneButtonDialog(this, msg) {}
-            } else {
-                oneButtonDialog!!.msg = msg
-                oneButtonDialog!!.onClick = {}
-            }
-
-            oneButtonDialog!!.show()
-        } catch (e: Exception) {
-            logException(e)
-        }
+        showMessage(msg){}
     }
 
     fun showMessage(msg: String, code: String) {
@@ -157,6 +147,33 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     }
 
     fun showMessage(msg: String, code: String, onClick: () -> Unit) {
+        showMessage(String.format(msg, code), onClick)
+    }
+
+    fun showMessage2(msg: String, onClick: () -> Unit) {
+        try {
+            if (twoButtonDialog == null) {
+                twoButtonDialog = TwoButtonDialog(this, msg, onClick)
+            } else {
+                twoButtonDialog!!.msg = msg
+                twoButtonDialog!!.onClick = onClick
+            }
+
+            twoButtonDialog!!.show()
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
+
+    fun showMessage2(msg: String) {
+        showMessage2(msg) {}
+    }
+
+    fun showMessage2(msg: String, code: String) {
+        showMessage(String.format(msg, code))
+    }
+
+    fun showMessage2(msg: String, code: String, onClick: () -> Unit) {
         showMessage(String.format(msg, code), onClick)
     }
 

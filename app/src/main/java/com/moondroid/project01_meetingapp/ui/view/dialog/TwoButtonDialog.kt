@@ -6,18 +6,17 @@ import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseDialog
-import com.moondroid.project01_meetingapp.databinding.DialogOneButtonBinding
+import com.moondroid.project01_meetingapp.databinding.DialogTwoButtonBinding
 
-class OneButtonDialog(context: Context, var msg: String, var onClick: () -> Unit) : BaseDialog(context) {
-
-    lateinit var binding: DialogOneButtonBinding
+class TwoButtonDialog(context: Context, var msg: String, var onClick: () -> Unit) :BaseDialog(context) {
+    lateinit var binding: DialogTwoButtonBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
-            R.layout.dialog_one_button,
+            R.layout.dialog_two_button,
             null,
             false
         )
@@ -25,16 +24,12 @@ class OneButtonDialog(context: Context, var msg: String, var onClick: () -> Unit
     }
 
     fun confirm() {
-        cancel()
+        dismiss()
+        onClick()
     }
 
     override fun show() {
         super.show()
         binding.dialog = this
-    }
-
-    override fun cancel() {
-        super.cancel()
-        onClick()
     }
 }

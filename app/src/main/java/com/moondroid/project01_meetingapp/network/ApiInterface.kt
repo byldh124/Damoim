@@ -2,6 +2,7 @@ package com.moondroid.project01_meetingapp.network
 
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.model.BaseResponse
+import com.moondroid.project01_meetingapp.network.URLManager.BLOCK
 import com.moondroid.project01_meetingapp.network.URLManager.CREATE_GROUP
 import com.moondroid.project01_meetingapp.network.URLManager.CREATE_MOIM
 import com.moondroid.project01_meetingapp.network.URLManager.ChECK_APP_VERSION
@@ -15,6 +16,7 @@ import com.moondroid.project01_meetingapp.network.URLManager.GET_MY_GROUP
 import com.moondroid.project01_meetingapp.network.URLManager.GET_RECENT
 import com.moondroid.project01_meetingapp.network.URLManager.JOIN
 import com.moondroid.project01_meetingapp.network.URLManager.JOIN_INTO_MOIM
+import com.moondroid.project01_meetingapp.network.URLManager.REPORT
 import com.moondroid.project01_meetingapp.network.URLManager.SALT
 import com.moondroid.project01_meetingapp.network.URLManager.SAVE_FAVOR
 import com.moondroid.project01_meetingapp.network.URLManager.SAVE_RECENT
@@ -178,5 +180,17 @@ interface ApiInterface {
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.TITLE) title: String,
         @Query(RequestParam.DATE) date: String
+    ): Response<BaseResponse>
+
+    @GET(BLOCK)
+    suspend fun blockUser(
+        @Query(RequestParam.ID) id: String,
+        @Query(RequestParam.BLOCK_ID) blockId: String
+    ):Response<BaseResponse>
+
+    @GET(REPORT)
+    suspend fun reportUser(
+        @Query(RequestParam.ID) id: String,
+        @Query(RequestParam.MESSAGE) msg: String
     ): Response<BaseResponse>
 }

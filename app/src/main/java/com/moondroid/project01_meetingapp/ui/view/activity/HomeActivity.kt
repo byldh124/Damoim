@@ -206,13 +206,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                         goToGroupListActivity(GroupListType.RECENT)
                     }
 
+                    R.id.navBlock -> {
+                        goToGroupListActivity(GroupListType.RECENT)
+                    }
+
                     R.id.navSetting -> {
                         val intent = Intent(this, SettingActivity::class.java)
                         intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
                         startActivityWithAnim(intent)
                     }
                 }
-                hideNavigation();
+                hideNavigation()
                 true
             }
         } catch (e: Exception) {

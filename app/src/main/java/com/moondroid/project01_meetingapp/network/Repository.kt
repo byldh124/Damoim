@@ -6,6 +6,7 @@ import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import java.sql.RowId
 import javax.inject.Inject
 
 interface Repository {
@@ -77,6 +78,9 @@ interface Repository {
     suspend fun createMoim(body: JsonObject): UseCaseResult<BaseResponse>           // 모임 만들기
     suspend fun getMoimMember(joinMember: String): UseCaseResult<BaseResponse>      // 정모 멤버
     suspend fun joinInMoim(id: String, title: String, date: String): UseCaseResult<BaseResponse>  // 정모 참여
+
+    suspend fun blockUser(id: String, blockId: String) :UseCaseResult<BaseResponse>
+    suspend fun reportUser(id: String, message: String) :UseCaseResult<BaseResponse>
 }
 
 class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Repository {
@@ -308,6 +312,28 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
     ): UseCaseResult<BaseResponse> {
         return try {
             handleResult(api.checkAppVersion(packageName, versionCode, versionName))
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+            UseCaseResult.Error(e)
+        }
+    }
+
+    override suspend fun blockUser(
+        id: String, blockId: String
+    ): UseCaseResult<BaseResponse> {
+        return try {
+            handleResult(api.blockUser(id, blockId))
+        } catch (e: Exception) {
+            DMCrash.logException(e)
+            UseCaseResult.Error(e)
+        }
+    }
+
+    override suspend fun reportUser(
+        id: String, message: String
+    ): UseCaseResult<BaseResponse> {
+        return try {
+            handleResult(api.reportUser(id, message))
         } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)

@@ -125,6 +125,9 @@
     </option>
   </component>
   <component name="EntryPointsManager">
+    <entry_points version="2.0">
+      <entry_point TYPE="field" FQNAME="com.moondroid.project01_meetingapp.base.BaseActivity onResult" />
+    </entry_points>
     <pattern value="com.moondroid.project01_meetingapp.model.Address" method="Address" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
