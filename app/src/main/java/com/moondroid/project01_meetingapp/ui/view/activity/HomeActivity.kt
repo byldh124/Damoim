@@ -206,9 +206,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                         goToGroupListActivity(GroupListType.RECENT)
                     }
 
-                    R.id.navBlock -> {
+                    /*R.id.navBlock -> {
                         goToGroupListActivity(GroupListType.RECENT)
-                    }
+                    }*/
 
                     R.id.navSetting -> {
                         val intent = Intent(this, SettingActivity::class.java)

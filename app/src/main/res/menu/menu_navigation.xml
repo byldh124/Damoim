@@ -23,11 +23,11 @@
             android:icon="@drawable/ic_navigation_recent"
             app:showAsAction="ifRoom"/>
 
-        <item
+        <!--<item
             android:id="@+id/navBlock"
             android:title="@string/cmn_recent_view_group"
             android:icon="@drawable/ic_block"
-            app:showAsAction="ifRoom"/>
+            app:showAsAction="ifRoom"/>-->
     </group>
 
     <group
