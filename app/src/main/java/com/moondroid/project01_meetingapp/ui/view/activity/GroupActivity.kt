@@ -85,9 +85,9 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
             TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
                 when (position) {
                     0 -> tab.text = getString(R.string.cmn_tab_group_info)
-                    1 -> tab.text = getString(R.string.cmn_tab_board)
-                    2 -> tab.text = getString(R.string.cmn_tab_gallery)
-                    3 -> tab.text = getString(R.string.cmn_tab_chat)
+                    //1 -> tab.text = getString(R.string.cmn_tab_board)
+                    1 -> tab.text = getString(R.string.cmn_tab_gallery)
+                    2 -> tab.text = getString(R.string.cmn_tab_chat)
                     else -> tab.text = getString(R.string.cmn_tab_default)
                 }
             }.attach()
