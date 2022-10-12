@@ -10,6 +10,7 @@ import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.log
+import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,17 +37,22 @@ class ReportActivity : BaseActivity<ActivityReportBinding>(R.layout.activity_rep
 
         viewModel.reportResponse.observe(this) {
 
-            log("reportResponse , observe() , Response => $it")
-            when (it.code) {
-                ResponseCode.SUCCESS -> {
-                    showMessage(getString(R.string.alm_report_success)) {
-                        finish()
+            try {
+                log("reportResponse , observe() , Response => $it")
+                when (it.code) {
+                    ResponseCode.SUCCESS -> {
+                        showMessage(getString(R.string.alm_report_success)) {
+                            finish()
+                        }
+                    }
+                    else -> {
+                        showMessage(getString(R.string.error_report_fail), "[E01 : ${it.code}]") {
+                            finish()
+                        }
                     }
                 }
-
-                else -> {
-
-                }
+            } catch (e: Exception) {
+                logException(e)
             }
         }
     }
@@ -62,29 +68,33 @@ class ReportActivity : BaseActivity<ActivityReportBinding>(R.layout.activity_rep
     }
 
     fun report(@Suppress("UNUSED_PARAMETER") vw: View) {
-        val message = binding.etMessage.text.toString()
+        try {
+            val message = binding.etMessage.text.toString()
 
-        if (message.isEmpty()) {
-            toast(getString(R.string.error_input_report_reason))
-            return
-        }
+            if (message.isEmpty()) {
+                toast(getString(R.string.error_input_report_reason))
+                return
+            }
 
-        val builder: StringBuilder = StringBuilder()
+            val builder: StringBuilder = StringBuilder()
 
-        builder.append(getString(R.string.cmn_report_target))
-            .append(" : ")
-            .append(reportId)
-            .append("\n")
-            .append(getString(R.string.cmn_report_reason))
-            .append(" : ")
-            .append(message)
-            .append("\n")
-            .append(getString(R.string.cmn_report_date))
-            .append(" : ")
-            .append(DMUtils.getToday("yyyy-MM-dd HH:mm:ss"))
+            builder.append(getString(R.string.cmn_report_target))
+                .append(" : ")
+                .append(reportId)
+                .append("\n")
+                .append(getString(R.string.cmn_report_reason))
+                .append(" : ")
+                .append(message)
+                .append("\n")
+                .append(getString(R.string.cmn_report_date))
+                .append(" : ")
+                .append(DMUtils.getToday("yyyy-MM-dd HH:mm:ss"))
 
-        showMessage2(getString(R.string.alm_report_user_check)) {
-            viewModel.reportUser(user!!.id, builder.toString())
+            showMessage2(getString(R.string.alm_report_user_check)) {
+                viewModel.reportUser(user!!.id, builder.toString())
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 }

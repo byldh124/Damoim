@@ -179,4 +179,6 @@
     <string name="cmn_report_target">신고대상</string>
     <string name="cmn_report_date">신고날짜</string>
     <string name="alm_report_success">신고 처리가 완료되었습니다</string>
+    <string name="error_report_fail">신고처리가 실패됐습니다. %s</string>
+    <string name="cmn_sign_in_google">구글 로그인</string>
 </resources>

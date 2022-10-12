@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.moondroid.project01_meetingapp.R
@@ -29,6 +30,7 @@ import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.concurrent.Executor
 import javax.inject.Inject
 
 
@@ -37,12 +39,12 @@ import javax.inject.Inject
  **/
 abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int) : AppCompatActivity() {
 
+    @Inject
+    protected lateinit var userDao: UserDao
+    var user: User? = null   //Binding -> 접근제한자 : Public
+
     protected lateinit var binding: T
-
-    @Inject protected lateinit var userDao: UserDao
-
-    //Binding -> 접근제한자 : Public
-    var user: User? = null
+    protected lateinit var executor: Executor
 
     private var oneButtonDialog: OneButtonDialog? = null
     private var twoButtonDialog: TwoButtonDialog? = null
@@ -77,24 +79,29 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        executor = ContextCompat.getMainExecutor(this)
         binding = DataBindingUtil.setContentView(this, layoutResId)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        resetUserInfo()
         this.onBackPressedDispatcher.addCallback(this, callback)
-        init()
+        resetUserInfo(this::init)
     }
 
-    private fun resetUserInfo() {
+    private fun resetUserInfo(onFinish: () -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
-            if (userDao.getUser().isNotEmpty()) {
-                user = userDao.getUser()[0]
+            try {
+                if (userDao.getUser().isNotEmpty()) {
+                    user = userDao.getUser()[0]
+                }
+                executor.execute(onFinish)
+            } catch (e: Exception) {
+                logException(e)
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        resetUserInfo()
+        resetUserInfo(onFinish = {})
         overridePendingTransition(android.R.anim.fade_in, 0)
     }
 
@@ -139,7 +146,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     }
 
     fun showMessage(msg: String) {
-        showMessage(msg){}
+        showMessage(msg) {}
     }
 
     fun showMessage(msg: String, code: String) {

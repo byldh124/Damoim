@@ -55,12 +55,14 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(R.layout.activity_s
     fun logout(@Suppress("UNUSED_PARAMETER") vw: View) {
         try {
             DMAnalyze.logEvent("Logout")
+            val intent = Intent(this, SignInActivity::class.java)
             CoroutineScope(Dispatchers.IO).launch {
                 userDao.delete(user!!)
+                executor.execute {
+                    finishAffinity()
+                    startActivityWithAnim(intent)
+                }
             }
-            val intent = Intent(this, SignInActivity::class.java)
-            finishAffinity()
-            startActivityWithAnim(intent)
         } catch (e: Exception) {
             logException(e)
         }

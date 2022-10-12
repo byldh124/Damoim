@@ -27,14 +27,18 @@ class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity
     private lateinit var moim: Moim
 
     override fun init() {
-        binding.activity = this
-        moim = Gson().fromJson(intent.getStringExtra(IntentParam.MOIM), Moim::class.java)
-        binding.moim = moim
+        try {
+            binding.activity = this
+            moim = Gson().fromJson(intent.getStringExtra(IntentParam.MOIM), Moim::class.java)
+            binding.moim = moim
 
-        initView()
-        initViewModel()
+            initView()
+            initViewModel()
 
-        viewModel.getMember(moim.joinMember)
+            viewModel.getMember(moim.joinMember)
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
     private fun initView() {
@@ -110,6 +114,10 @@ class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity
     }
 
     fun join(@Suppress("UNUSED_PARAMETER") vw: View) {
-        viewModel.join(user!!.id, moim.title, moim.date)
+        try {
+            viewModel.join(user!!.id, moim.title, moim.date)
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 }

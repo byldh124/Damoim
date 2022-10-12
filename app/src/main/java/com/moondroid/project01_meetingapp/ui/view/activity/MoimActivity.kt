@@ -53,10 +53,14 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
     }
 
     private fun initView() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-            it.setDisplayShowTitleEnabled(false)
+        try {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.let {
+                it.setDisplayHomeAsUpEnabled(true)
+                it.setDisplayShowTitleEnabled(false)
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
@@ -70,38 +74,46 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
         }
 
         viewModel.moimResponse.observe(this) {
-            when (it.code) {
-                ResponseCode.SUCCESS -> {
-                    showMessage(getString(R.string.alm_create_moim_success)) {
+            try {
+                when (it.code) {
+                    ResponseCode.SUCCESS -> {
+                        showMessage(getString(R.string.alm_create_moim_success)) {
 
-                        val bundle = Bundle()
-                        bundle.putString(RequestParam.TITLE, DMApp.group.title)
-                        DMAnalyze.logEvent("Create_Moim", bundle)
+                            val bundle = Bundle()
+                            bundle.putString(RequestParam.TITLE, DMApp.group.title)
+                            DMAnalyze.logEvent("Create_Moim", bundle)
 
-                        finish()
+                            finish()
+                        }
+                    }
+
+                    ResponseCode.ALREADY_EXIST -> {
+                        showMessage(getString(R.string.error_moim_already_exist))
+                    }
+
+                    else -> {
+                        showMessage(getString(R.string.error_create_moim_fail), "E01: ${it.code}")
                     }
                 }
-
-                ResponseCode.ALREADY_EXIST -> {
-                    showMessage(getString(R.string.error_moim_already_exist))
-                }
-
-                else -> {
-                    showMessage(getString(R.string.error_create_moim_fail), "E01: ${it.code}")
-                }
+            } catch (e: Exception) {
+                logException(e)
             }
         }
     }
 
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
         val onResult: (Intent) -> Unit = {
-            val json = it.getStringExtra(IntentParam.ADDRESS).toString()
-            temp = Gson().fromJson(json, Address::class.java)
-            temp?.let { address ->
-                binding.tvLocation.text = address.address
-                val marker = Marker(address.latLng)
-                marker.map = mNaverMap
-                mNaverMap.cameraPosition = CameraPosition(address.latLng, 16.0, 0.0, 0.0)
+            try {
+                val json = it.getStringExtra(IntentParam.ADDRESS).toString()
+                temp = Gson().fromJson(json, Address::class.java)
+                temp?.let { address ->
+                    binding.tvLocation.text = address.address
+                    val marker = Marker(address.latLng)
+                    marker.map = mNaverMap
+                    mNaverMap.cameraPosition = CameraPosition(address.latLng, 16.0, 0.0, 0.0)
+                }
+            } catch (e: Exception) {
+                logException(e)
             }
         }
 
@@ -115,62 +127,72 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
 
 
     fun showDate(@Suppress("UNUSED_PARAMETER") vw: View) {
-        val date = DateTime(System.currentTimeMillis())
-        val datePicker = DatePickerDialog(
-            this, { _, p1, p2, p3 ->
-                binding.tvDate.text = String.format("%d.%d.%d", p1, p2 + 1, p3)
-            }, date.year, date.monthOfYear - 1, date.dayOfMonth
-        )
-
-        datePicker.show()
+        try {
+            val date = DateTime(System.currentTimeMillis())
+            val datePicker = DatePickerDialog(
+                this, R.style.DatePickerSpin, { _, p1, p2, p3 ->
+                    binding.tvDate.text = String.format("%d.%d.%d", p1, p2 + 1, p3)
+                }, date.year, date.monthOfYear - 1, date.dayOfMonth
+            )
+            datePicker.show()
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
     fun showTime(@Suppress("UNUSED_PARAMETER") vw: View) {
-        val timePicker = TimePickerDialog(
-            this, { _, hour, minute ->
-                binding.tvTime.text = String.format("%02d : %02d", hour, minute)
-            }, 12, 0, true
-        )
-
-        timePicker.show()
+        try {
+            val timePicker = TimePickerDialog(
+                this, R.style.TimePickerSpin, { _, hour, minute ->
+                    binding.tvTime.text = String.format("%02d : %02d", hour, minute) }
+                , 12, 0, true
+            )
+            timePicker.show()
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
     fun save(@Suppress("UNUSED_PARAMETER") vw: View) {
-        if (temp == null) return
-        val address = temp!!.address
-        val lat = temp!!.latLng.latitude
-        val lng = temp!!.latLng.longitude
-        val date = binding.tvDate.text.toString()
-        val time = binding.tvTime.text.toString()
-        var pay = binding.tvPay.text.toString()
+        try {
+            if (temp == null) return
+            val address = temp!!.address
+            val lat = temp!!.latLng.latitude
+            val lng = temp!!.latLng.longitude
+            val date = binding.tvDate.text.toString()
+            val time = binding.tvTime.text.toString()
+            var pay = binding.tvPay.text.toString()
 
-        if (date.isEmpty()) {
-            toast(getString(R.string.error_empty_moim_date))
-            return
-        } else if (time.isEmpty()) {
-            toast(getString(R.string.error_empty_moim_time))
-            return
-        } else {
-            if (pay.isEmpty()) {
-                pay = String.format("0%s", getString(R.string.cmn_won))
+            if (date.isEmpty()) {
+                toast(getString(R.string.error_empty_moim_date))
+                return
+            } else if (time.isEmpty()) {
+                toast(getString(R.string.error_empty_moim_time))
+                return
             } else {
-                if (!pay.endsWith(getString(R.string.cmn_won))) {
-                    pay += getString(R.string.cmn_won)
+                if (pay.isEmpty()) {
+                    pay = String.format("0%s", getString(R.string.cmn_won))
+                } else {
+                    if (!pay.endsWith(getString(R.string.cmn_won))) {
+                        pay += getString(R.string.cmn_won)
+                    }
                 }
-            }
-            val joinMember = Gson().toJson(arrayOf(user!!.id))
-            val body = JsonObject()
-            body.addProperty(RequestParam.TITLE, DMApp.group.title)
-            body.addProperty(RequestParam.ADDRESS, address)
-            body.addProperty(RequestParam.DATE, date)
-            body.addProperty(RequestParam.TIME, time)
-            body.addProperty(RequestParam.PAY, pay)
-            body.addProperty(RequestParam.PAY, pay)
-            body.addProperty(RequestParam.LAT, lat)
-            body.addProperty(RequestParam.LNG, lng)
-            body.addProperty(RequestParam.JOIN_MEMBER, joinMember)
+                val joinMember = Gson().toJson(arrayOf(user!!.id))
+                val body = JsonObject()
+                body.addProperty(RequestParam.TITLE, DMApp.group.title)
+                body.addProperty(RequestParam.ADDRESS, address)
+                body.addProperty(RequestParam.DATE, date)
+                body.addProperty(RequestParam.TIME, time)
+                body.addProperty(RequestParam.PAY, pay)
+                body.addProperty(RequestParam.PAY, pay)
+                body.addProperty(RequestParam.LAT, lat)
+                body.addProperty(RequestParam.LNG, lng)
+                body.addProperty(RequestParam.JOIN_MEMBER, joinMember)
 
-            viewModel.createMoim(body)
+                viewModel.createMoim(body)
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 

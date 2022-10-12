@@ -13,7 +13,6 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityGroupBinding
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.ui.view.dialog.TutorialDialog
-import com.moondroid.project01_meetingapp.ui.view.fragment.BoardFragment
 import com.moondroid.project01_meetingapp.ui.view.fragment.ChatFragment
 import com.moondroid.project01_meetingapp.ui.view.fragment.GalleryFragment
 import com.moondroid.project01_meetingapp.ui.view.fragment.InfoFragment
@@ -75,8 +74,7 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
      * View, Fragment 초기화
      */
     private fun initView() {
-        try {
-            //Action Bar
+        try { //Action Bar
             title = groupInfo.title
 
             val pagerAdapter = PagerAdapter(this)
@@ -96,7 +94,6 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
                 TutorialDialog(this).show()
 
             binding.icSetting.gone(groupInfo.masterId != user!!.id)
-
         } catch (e: Exception) {
             logException(e)
         }
@@ -123,44 +120,48 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
         viewModel.getFavor(user!!.id, groupInfo.title)
 
         viewModel.favorResponse.observe(this) {
-
             log("getFavor() , observe() , Response => $it")
-
-            isFavor = when (it.code) {
-                ResponseCode.SUCCESS -> {
-                    val body = it.body.asJsonObject
-                    body.get(RequestParam.FAVOR).asBoolean
+            try {
+                isFavor = when (it.code) {
+                    ResponseCode.SUCCESS -> {
+                        val body = it.body.asJsonObject
+                        body.get(RequestParam.FAVOR).asBoolean
+                    }
+                    else -> {
+                        false
+                    }
                 }
-                else -> {
-                    false
-                }
+                binding.activity = this@GroupActivity
+            } catch (e: Exception) {
+                logException(e)
             }
-            binding.activity = this@GroupActivity
         }
 
         viewModel.saveFavorResponse.observe(this) {
-
             log("saveFavor() , observe() , Response => $it")
+            try {
+                when (it.code) {
+                    ResponseCode.SUCCESS -> {
+                        val message: String
+                        if (!isFavor) {
+                            message = getString(R.string.alm_favorite_add)
+                            isFavor = true
+                        } else {
+                            message = getString(R.string.alm_delete_favorite)
+                            isFavor = false
+                        }
 
-            when (it.code) {
-                ResponseCode.SUCCESS -> {
-                    val message: String
-                    if (!isFavor) {
-                        message = getString(R.string.alm_favorite_add)
-                        isFavor = true
-                    } else {
-                        message = getString(R.string.alm_delete_favorite)
-                        isFavor = false
+                        showMessage(message) {
+                            binding.activity = this@GroupActivity
+                        }
                     }
 
-                    showMessage(message) {
-                        binding.activity = this@GroupActivity
+                    else -> {
+                        showMessage(getString(R.string.error_change_favorite_fail), "E01 : ${it.code}")
                     }
                 }
-
-                else -> {
-                    showMessage(getString(R.string.error_change_favorite_fail), "E01 : ${it.code}")
-                }
+            } catch (e: Exception) {
+                logException(e)
             }
         }
     }
@@ -184,14 +185,22 @@ class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group
     }
 
     fun toGroupInfo(@Suppress("UNUSED_PARAMETER") vw: View) {
-        val intent = Intent(this, GroupInfoActivity::class.java)
-        intent.putExtra(ACTIVITY, ActivityTy.GROUP)
-        startActivityWithAnim(intent)
+        try {
+            val intent = Intent(this, GroupInfoActivity::class.java)
+            intent.putExtra(ACTIVITY, ActivityTy.GROUP)
+            startActivityWithAnim(intent)
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
     fun toMoimActivity() {
-        val intent = Intent(this, MoimActivity::class.java)
-        intent.putExtra(ACTIVITY, ActivityTy.GROUP)
-        startActivityWithAnim(intent)
+        try {
+            val intent = Intent(this, MoimActivity::class.java)
+            intent.putExtra(ACTIVITY, ActivityTy.GROUP)
+            startActivityWithAnim(intent)
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 }

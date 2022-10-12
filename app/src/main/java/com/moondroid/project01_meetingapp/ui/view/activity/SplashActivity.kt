@@ -68,8 +68,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                                 startActivity(intent)
                             } catch (e: Exception) {
                                 logException(e)
-                                exitApp()
                             }
+                            exitApp()
                         }
                     }
 
@@ -86,18 +86,22 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     }
 
     private fun checkUser() {
-        if (user != null) {
-            log("checkUser() , user : $user")
-            DMAnalyze.setProperty(user!!)
-            DMCrash.setProperty(user!!.id)
+        try {
+            if (user != null) {
+                log("checkUser() , user : $user")
+                DMAnalyze.setProperty(user!!)
+                DMCrash.setProperty(user!!.id)
 
-            isReady = true
-            action = { goToHomeActivity() }
-            startAction()
-        } else {
-            isReady = true
-            action = { goToSignInActivity() }
-            startAction()
+                isReady = true
+                action = { goToHomeActivity() }
+                startAction()
+            } else {
+                isReady = true
+                action = { goToSignInActivity() }
+                startAction()
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
@@ -111,7 +115,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 BuildConfig.VERSION_CODE,
                 BuildConfig.VERSION_NAME
             )
-
         } catch (e: Exception) {
             logException(e)
         }

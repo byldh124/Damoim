@@ -70,8 +70,12 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     }
 
     private fun initView() {
-        val textView = binding.icGoogle.getChildAt(0) as TextView
-        textView.text = "구글 로그인"
+        try {
+            val textView = binding.icGoogle.getChildAt(0) as TextView
+            textView.text = getString(R.string.cmn_sign_in_google)
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
     /**
@@ -110,70 +114,75 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         }
 
         viewModel.signInResponse.observe(this) {
-            log("signIn() , Response = $it")
+            try {
+                log("signIn() , Response = $it")
+                when (it.code) {
+                    ResponseCode.SUCCESS -> {
+                        DMAnalyze.logEvent("SignIn_Success")
+                        val userInfo = it.body
+                        user = Gson().fromJson(userInfo, User::class.java)
+                        DMAnalyze.setProperty(user!!)
+                        DMCrash.setProperty(user!!.id)
+                        if (binding.checkBox.isChecked) {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                userDao.insertData(user!!)
+                            }
+                        }
+                        goToHomeActivity()
+                    }
 
-            when (it.code) {
-                ResponseCode.SUCCESS -> {
-                    DMAnalyze.logEvent("SignIn_Success")
-                    val userInfo = it.body
-                    user = Gson().fromJson(userInfo, User::class.java)
-                    DMAnalyze.setProperty(user!!)
-                    DMCrash.setProperty(user!!.id)
-                    if (binding.checkBox.isChecked) {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            userDao.insertData(user!!)
+                    ResponseCode.NOT_EXIST -> {
+                        showMessage(getString(R.string.error_id_not_exist)) {
+                            binding.etId.requestFocus()
                         }
                     }
-                    goToHomeActivity()
-                }
 
-                ResponseCode.NOT_EXIST -> {
-                    showMessage(getString(R.string.error_id_not_exist)) {
-                        binding.etId.requestFocus()
+                    ResponseCode.INVALID_VALUE -> {
+                        showMessage(getString(R.string.error_wrong_password)) {
+                            binding.etPw.requestFocus()
+                        }
+                    }
+
+                    else -> {
+                        showMessage(getString(R.string.error_sign_in_fail, "E02 : ${it.code}"))
                     }
                 }
-
-                ResponseCode.INVALID_VALUE -> {
-                    showMessage(getString(R.string.error_wrong_password)) {
-                        binding.etPw.requestFocus()
-                    }
-                }
-
-                else -> {
-                    showMessage(getString(R.string.error_sign_in_fail, "E02 : ${it.code}"))
-                }
+            } catch (e: Exception) {
+                logException(e)
             }
         }
 
         viewModel.kakaoSignInResponse.observe(this) {
-
-            log("signInKakao() , Response : $it")
-
-            when (it.code) {
-                ResponseCode.SUCCESS -> {
-                    DMAnalyze.logEvent("SignIn_Success[Kakao]")
-                    val userInfo = it.body
-                    user = Gson().fromJson(userInfo, User::class.java)
-                    if (binding.checkBox.isChecked) {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            userDao.insertData(user!!)
+            try {
+                log("signInKakao() , Response : $it")
+                when (it.code) {
+                    ResponseCode.SUCCESS -> {
+                        DMAnalyze.logEvent("SignIn_Success[Kakao]")
+                        val userInfo = it.body
+                        user = Gson().fromJson(userInfo, User::class.java)
+                        if (binding.checkBox.isChecked) {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                userDao.insertData(user!!)
+                            }
                         }
+                        goToHomeActivity()
                     }
-                    goToHomeActivity()
-                }
 
-                ResponseCode.NOT_EXIST -> {
-                    val intent = Intent(this@SignInActivity, SignUpActivity::class.java)
-                    intent.putExtra(RequestParam.ID, id)
-                    intent.putExtra(RequestParam.NAME, name)
-                    intent.putExtra(RequestParam.THUMB, thumb)
+                    ResponseCode.NOT_EXIST -> {
+                        val intent = Intent(this@SignInActivity, SignUpActivity::class.java)
+                        intent.putExtra(RequestParam.ID, id)
+                        intent.putExtra(RequestParam.NAME, name)
+                        intent.putExtra(RequestParam.THUMB, thumb)
 
-                    startActivityWithAnim(intent)
-                }
+                        startActivityWithAnim(intent)
+                    }
 
-                else -> {
-                    showMessage(getString(R.string.error_sign_in_fail), "E03 : ${it.code}")
+                    else -> {
+                        showMessage(getString(R.string.error_sign_in_fail), "E03 : ${it.code}")
+                    }
                 }
+            } catch (e: Exception) {
+                logException(e)
             }
         }
     }
@@ -309,36 +318,44 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         }
     }
 
-
+    //Google Account Activity Result
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == RESULT_OK) {
-            val data: Intent? = it.data
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
-            val account = task.getResult(ApiException::class.java)
+        try {
+            if (it.resultCode == RESULT_OK) {
+                val data: Intent? = it.data
+                val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+                val account = task.getResult(ApiException::class.java)
 
-            id = account.id.toString()
-            name = account.displayName.toString()
-            thumb = if (account.photoUrl == null) {
-                DEFAULT_PROFILE_IMG
-            } else {
-                account.photoUrl.toString()
+                id = account.id.toString()
+                name = account.displayName.toString()
+                thumb = if (account.photoUrl == null) {
+                    DEFAULT_PROFILE_IMG
+                } else {
+                    account.photoUrl.toString()
+                }
+
+                signInWithKakao()
             }
-
-            signInWithKakao()
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
 
     fun getGoogleAccount() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
+        try {
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
 
-        val mGoogleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(this, gso)
+            val mGoogleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        val singInIntent = mGoogleSignInClient.signInIntent
+            val singInIntent = mGoogleSignInClient.signInIntent
 
-        resultLauncher.launch(singInIntent)
+            resultLauncher.launch(singInIntent)
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
     private fun goToHomeActivity() {
@@ -349,12 +366,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
      * 회원가입 화면 전환
      */
     fun goToSignUp(@Suppress("UNUSED_PARAMETER") view: View) {
-        try {
-            val intent = Intent(this, SignUpActivity::class.java)
-            intent.putExtra(IntentParam.ACTIVITY, ActivityTy.SIGN_IN)
-            startActivityWithAnim(intent)
-        } catch (e: Exception) {
-            logException(e)
-        }
+        log("goToSignUp api call")
+        val intent = Intent(this, SignUpActivity::class.java)
+        intent.putExtra(IntentParam.ACTIVITY, ActivityTy.SIGN_IN)
+        startActivityWithAnim(intent)
     }
 }

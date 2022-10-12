@@ -27,6 +27,25 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <!-- DatePickerDialog -->
+    <style name="DatePickerSpin" parent="android:Theme.Material.Dialog">
+        <item name="android:datePickerStyle">@style/DatePickerMode</item>
+    </style>
+
+    <style name="DatePickerMode" parent="android:Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+    </style>
+
+
+    <!-- TimePickerDialog -->
+    <style name="TimePickerSpin" parent="android:Theme.Material.Dialog">
+        <item name="android:timePickerStyle">@style/TimePickerMode</item>
+    </style>
+
+    <style name="TimePickerMode" parent="android:Widget.Material.TimePicker">
+        <item name="android:timePickerMode">spinner</item>
+    </style>
+
     <style name="ToolbarRed">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
