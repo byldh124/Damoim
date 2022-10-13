@@ -6,6 +6,7 @@ plugins {
     id 'com.google.firebase.crashlytics'
     id 'dagger.hilt.android.plugin'
     id 'com.google.dagger.hilt.android'
+    id 'io.realm.kotlin'
 }
 
 android {
@@ -93,6 +94,10 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.5.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+
+    // realm
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt'
+    implementation 'io.realm.kotlin:library-base:1.2.0'
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"

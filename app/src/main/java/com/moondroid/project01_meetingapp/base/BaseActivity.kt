@@ -14,7 +14,8 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.model.User
+import com.moondroid.project01_meetingapp.model.DMUser
+import com.moondroid.project01_meetingapp.realm.DMRealm
 import com.moondroid.project01_meetingapp.room.UserDao
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
@@ -25,11 +26,12 @@ import com.moondroid.project01_meetingapp.ui.view.dialog.TwoButtonDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.WebViewDialog
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
+import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import io.realm.kotlin.Realm
+import io.realm.kotlin.ext.query
+import io.realm.kotlin.query.RealmResults
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -38,10 +40,7 @@ import javax.inject.Inject
  * 의존성 주입을 위해 해당 클래스를 상속받는 액티비티는 @AndroidEntryPoint 어노테이션을 달아줘야 함
  **/
 abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int) : AppCompatActivity() {
-
-    @Inject
-    protected lateinit var userDao: UserDao
-    var user: User? = null   //Binding -> 접근제한자 : Public
+    var user: DMUser? = null  //Binding -> 접근제한자 : Public
 
     protected lateinit var binding: T
     protected lateinit var executor: Executor
@@ -79,29 +78,43 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        executor = ContextCompat.getMainExecutor(this)
         binding = DataBindingUtil.setContentView(this, layoutResId)
+        executor = ContextCompat.getMainExecutor(this)
+        resetUserInfo()
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         this.onBackPressedDispatcher.addCallback(this, callback)
-        resetUserInfo(this::init)
+        init()
     }
 
-    private fun resetUserInfo(onFinish: () -> Unit) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                if (userDao.getUser().isNotEmpty()) {
-                    user = userDao.getUser()[0]
+    protected fun resetUserInfo() {
+        try {
+            val items: RealmResults<DMUser> = DMRealm.getInstance().query<DMUser>().find()
+            if (items.isNotEmpty()) {
+                if (items.count() == 1 && !items.last().isEmpty()) {
+                    user = items.last()
+                } else {
+                    deleteRealm()
                 }
-                executor.execute(onFinish)
-            } catch (e: Exception) {
-                logException(e)
             }
+        } catch (e:Exception) {
+            logException(e)
+        }
+    }
+
+    private fun deleteRealm() {
+        try {
+            DMRealm.getInstance().writeBlocking {
+                val writeTransactionItems = query<DMUser>().find()
+                delete(writeTransactionItems)
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        resetUserInfo(onFinish = {})
+        resetUserInfo()
         overridePendingTransition(android.R.anim.fade_in, 0)
     }
 

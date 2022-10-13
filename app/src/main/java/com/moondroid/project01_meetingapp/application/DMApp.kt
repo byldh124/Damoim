@@ -6,9 +6,11 @@ import androidx.startup.AppInitializer
 import com.kakao.sdk.common.KakaoSdk
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.model.GroupInfo
+import com.moondroid.project01_meetingapp.realm.DMRealm
 import com.moondroid.project01_meetingapp.utils.Preferences
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import dagger.hilt.android.HiltAndroidApp
+import io.realm.kotlin.Realm
 import net.danlew.android.joda.JodaTimeInitializer
 
 @HiltAndroidApp
@@ -46,5 +48,7 @@ class DMApp : Application() {
 
         /* initialize firebase analytics */
         DMAnalyze.init(applicationContext)
+
+        DMRealm.init()
     }
 }

@@ -297,10 +297,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
 
             val result: (Intent) -> Unit = {
-                CoroutineScope(Dispatchers.IO).launch {
-                    user = userDao.getUser()[0]
-                    headerBinding.user = user
-                }
+                resetUserInfo()
+                headerBinding.user = user
             }
             activityResult(result, intent)
             hideNavigation()

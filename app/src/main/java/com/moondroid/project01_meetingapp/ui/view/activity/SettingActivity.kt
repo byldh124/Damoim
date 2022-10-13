@@ -6,11 +6,14 @@ import androidx.activity.viewModels
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySettingBinding
+import com.moondroid.project01_meetingapp.model.DMUser
+import com.moondroid.project01_meetingapp.realm.DMRealm
 import com.moondroid.project01_meetingapp.ui.viewmodel.SettingViewModel
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import dagger.hilt.android.AndroidEntryPoint
+import io.realm.kotlin.ext.query
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,13 +59,12 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(R.layout.activity_s
         try {
             DMAnalyze.logEvent("Logout")
             val intent = Intent(this, SignInActivity::class.java)
-            CoroutineScope(Dispatchers.IO).launch {
-                userDao.delete(user!!)
-                executor.execute {
-                    finishAffinity()
-                    startActivityWithAnim(intent)
-                }
+            DMRealm.getInstance().writeBlocking {
+                val writeTransactionItems = query<DMUser>().find()
+                delete(writeTransactionItems)
             }
+            finishAffinity()
+            startActivityWithAnim(intent)
         } catch (e: Exception) {
             logException(e)
         }

@@ -6,6 +6,10 @@ import com.google.gson.annotations.SerializedName
 import com.moondroid.project01_meetingapp.utils.DM_USER
 import com.moondroid.project01_meetingapp.utils.RequestParam
 
+
+/**
+ * User Model class for Room
+ * */
 @Entity(tableName = DM_USER)
 data class User(
     @PrimaryKey(autoGenerate = false)

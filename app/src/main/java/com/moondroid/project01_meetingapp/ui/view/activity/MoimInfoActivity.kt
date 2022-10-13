@@ -9,8 +9,8 @@ import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityMoimInfoBinding
+import com.moondroid.project01_meetingapp.model.DMUser
 import com.moondroid.project01_meetingapp.model.Moim
-import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.view.adapter.MemberAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.MoimInfoViewModel
 import com.moondroid.project01_meetingapp.utils.IntentParam
@@ -73,8 +73,8 @@ class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity
                     ResponseCode.SUCCESS -> {
                         val body = it.body.asJsonArray
                         val gson = Gson()
-                        val member = gson.fromJson<ArrayList<User>>(
-                            body, object : TypeToken<ArrayList<User>>() {}.type
+                        val member = gson.fromJson<ArrayList<DMUser>>(
+                            body, object : TypeToken<ArrayList<DMUser>>() {}.type
                         )
                         adapter.updateList(member)
                         member.forEach { item ->

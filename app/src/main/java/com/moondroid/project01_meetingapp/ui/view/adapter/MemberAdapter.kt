@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.databinding.ItemGroupMemberBinding
-import com.moondroid.project01_meetingapp.model.User
+import com.moondroid.project01_meetingapp.model.DMUser
 import com.moondroid.project01_meetingapp.ui.view.activity.ProfileActivity
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.view.gone
@@ -22,11 +22,11 @@ import kotlin.properties.Delegates
 class MemberAdapter(private val activity: AppCompatActivity) :
     RecyclerView.Adapter<MemberAdapter.ViewHolder>() {
 
-    private var userList: List<User> by Delegates.observable(emptyList()) { _, _, _ ->
+    private var userList: List<DMUser> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
-    fun updateList(newUserList: List<User>) {
+    fun updateList(newUserList: List<DMUser>) {
         userList = newUserList
     }
 
@@ -38,7 +38,7 @@ class MemberAdapter(private val activity: AppCompatActivity) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (position != RecyclerView.NO_POSITION) {
-            val user: User = userList[position]
+            val user: DMUser = userList[position]
             holder.bind(user)
 
             holder.itemView.setOnClickListener {
@@ -62,7 +62,7 @@ class MemberAdapter(private val activity: AppCompatActivity) :
     ) : RecyclerView.ViewHolder(binding.root) {
         private val tvMaster: TextView = binding.tvMaster
 
-        fun bind(user: User) {
+        fun bind(user: DMUser) {
             binding.userDetail = user
             if (DMApp.group.masterId == user.id) {
                 tvMaster.visible()

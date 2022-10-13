@@ -22,9 +22,9 @@ import com.moondroid.project01_meetingapp.databinding.FragmentGroupChatBinding
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupGalleryBinding
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupInfoBinding
 import com.moondroid.project01_meetingapp.model.Chat
+import com.moondroid.project01_meetingapp.model.DMUser
 import com.moondroid.project01_meetingapp.model.GroupInfo
 import com.moondroid.project01_meetingapp.model.Moim
-import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.adapter.ChatAdapter
 import com.moondroid.project01_meetingapp.ui.view.adapter.GalleryAdapter
@@ -46,7 +46,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     lateinit var groupInfo: GroupInfo
     private lateinit var memberAdapter: MemberAdapter
     private lateinit var moimAdapter: MoimAdapter
-    lateinit var user: User
+    lateinit var user: DMUser
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -123,8 +123,8 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
                 ResponseCode.SUCCESS -> {
                     val body = it.body.asJsonArray
                     val gson = Gson()
-                    val member = gson.fromJson<ArrayList<User>>(
-                        body, object : TypeToken<ArrayList<User>>() {}.type
+                    val member = gson.fromJson<ArrayList<DMUser>>(
+                        body, object : TypeToken<ArrayList<DMUser>>() {}.type
                     )
                     DMApp.group.member = member
                     memberAdapter.updateList(member)
@@ -218,6 +218,8 @@ class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragm
         adapter = GalleryAdapter(activity)
         binding.recycler.adapter = adapter
 
+        binding.icAdd.gone(!DMApp.group.isMember)
+
         getImage()
     }
 
@@ -254,7 +256,6 @@ class GalleryFragment : BaseFragment<FragmentGroupGalleryBinding>(R.layout.fragm
                 log("[GalleryFragment] , called")
                 urlList.add(ds.getValue(String::class.java)!!)
             }
-
             adapter.update(urlList)
         }
     }
@@ -269,7 +270,7 @@ class ChatFragment : BaseFragment<FragmentGroupChatBinding>(R.layout.fragment_gr
     private val chatList: ArrayList<Chat> = ArrayList()
     private lateinit var chat: Chat
     private lateinit var adapter: ChatAdapter
-    private lateinit var user: User
+    private lateinit var user: DMUser
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
