@@ -101,7 +101,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         }
     }
 
-    private fun deleteRealm() {
+    protected fun deleteRealm() {
         try {
             DMRealm.getInstance().writeBlocking {
                 val writeTransactionItems = query<DMUser>().find()

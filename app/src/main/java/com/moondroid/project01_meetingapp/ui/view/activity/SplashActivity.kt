@@ -90,6 +90,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     private fun checkUser() {
         try {
             val autoLogin = DMApp.prefs.getBoolean(PrefsKey.AUTO_LOGIN)
+            if (!autoLogin) {
+                deleteRealm()
+            }
 
             if (user != null && autoLogin) {
                 DMAnalyze.setProperty(user!!)
