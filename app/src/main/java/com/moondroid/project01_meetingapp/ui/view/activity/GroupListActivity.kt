@@ -16,6 +16,7 @@ import com.moondroid.project01_meetingapp.utils.GroupListType
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.view.log
+import com.moondroid.project01_meetingapp.utils.view.logException
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -46,45 +47,48 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
      * View initialize
      */
     private fun initView() {
+        try {
+            setSupportActionBar(binding.toolbar)
 
-        setSupportActionBar(binding.toolbar)
+            supportActionBar?.let {
+                it.setDisplayShowTitleEnabled(false)
+                it.setDisplayHomeAsUpEnabled(true)
+            }
 
-        supportActionBar?.let {
-            it.setDisplayShowTitleEnabled(false)
-            it.setDisplayHomeAsUpEnabled(true)
+            when (intent.getIntExtra(IntentParam.TYPE, 0)) {
+                GroupListType.FAVORITE -> {
+                    type = TYPE.FAVORITE                                            // 타입 설정
+                    title = getString(
+                        R.string.title_group_list_favorite
+                    )                                              // 타이틀 설정
+                    binding.recycler.setEmptyText(
+                        getString(R.string.alm_favor_group_empty)
+                    )      // Recycler EmptyMessage 설정
+                }
+                GroupListType.RECENT -> {
+                    type = TYPE.RECENT                                              // 타입 설정
+                    title = getString(
+                        R.string.title_group_list_recent
+                    )                                           // 타이틀 설정
+                    binding.recycler.setEmptyText(
+                        getString(R.string.alm_recent_group_empty)
+                    )         // Recycler EmptyMessage 설정
+                }
+                else -> finish()
+            }
+
+            val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            binding.recycler.layoutManager = layoutManager
+
+            adapter = GroupListAdapter(this, object : GroupListAdapter.OnItemClickListener {
+                override fun onClick() {
+                    goToGroupActivity(ActivityTy.GROUP_LIST)
+                }
+            })
+            binding.recycler.adapter = adapter
+        } catch (e: Exception) {
+            logException(e)
         }
-
-        when (intent.getIntExtra(IntentParam.TYPE, 0)) {
-            GroupListType.FAVORITE -> {
-                type = TYPE.FAVORITE                                            // 타입 설정
-                title = getString(
-                    R.string.title_group_list_favorite
-                )                                              // 타이틀 설정
-                binding.recycler.setEmptyText(
-                    getString(R.string.alm_favor_group_empty)
-                )      // Recycler EmptyMessage 설정
-            }
-            GroupListType.RECENT -> {
-                type = TYPE.RECENT                                              // 타입 설정
-                title = getString(
-                    R.string.title_group_list_recent
-                )                                           // 타이틀 설정
-                binding.recycler.setEmptyText(
-                    getString(R.string.alm_recent_group_empty)
-                )         // Recycler EmptyMessage 설정
-            }
-            else -> finish()
-        }
-
-        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        binding.recycler.layoutManager = layoutManager
-
-        adapter = GroupListAdapter(this, object : GroupListAdapter.OnItemClickListener {
-            override fun onClick() {
-                goToGroupActivity(ActivityTy.GROUP_LIST)
-            }
-        })
-        binding.recycler.adapter = adapter
     }
 
     /**
@@ -100,49 +104,66 @@ class GroupListActivity : BaseActivity<ActivityGroupListBinding>(R.layout.activi
         }
 
         // Extra 타입 체크 [FAVORITE, RECENT]
-        if (type == TYPE.FAVORITE) {
-            viewModel.getFavorite(user!!.id)
+        try {
+            if (type == TYPE.FAVORITE) {
+                viewModel.getFavorite(user!!.id)
 
-            viewModel.favoriteResponse.observe(this) {
-                log("favoriteResponse : $it")
-                when (it.code) {
-                    ResponseCode.SUCCESS -> {
-                        val gson = GsonBuilder().create()
-                        val newList = gson.fromJson<ArrayList<GroupInfo>>(
-                            it.body, object : TypeToken<ArrayList<GroupInfo>>() {}.type
-                        )
+                viewModel.favoriteResponse.observe(this) {
+                    try {
+                        log("favoriteResponse : $it")
+                        when (it.code) {
+                            ResponseCode.SUCCESS -> {
+                                val gson = GsonBuilder().create()
+                                val newList = gson.fromJson<ArrayList<GroupInfo>>(
+                                    it.body, object : TypeToken<ArrayList<GroupInfo>>() {}.type
+                                )
 
-                        adapter.update(newList)
-                    }
+                                adapter.update(newList)
+                            }
 
-                    else -> {
-                        showMessage(getString(R.string.error_load_group_list_fail), "[E01 : ${it.code}]")
+                            else -> {
+                                showMessage(getString(R.string.error_load_group_list_fail), "[E01 : ${it.code}]") {
+                                    finish()
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        logException(e)
+                        showMessage(getString(R.string.error_load_group_list_fail), "[E02]") {
+                            finish()
+                        }
                     }
                 }
-            }
-        } else if (type == TYPE.RECENT) {
-            viewModel.getRecent(user!!.id)
+            } else if (type == TYPE.RECENT) {
+                viewModel.getRecent(user!!.id)
 
-            viewModel.recentResponse.observe(this) {
-                log("recentResponse : $it")
-                when (it.code) {
-                    ResponseCode.SUCCESS -> {
-                        val gson = GsonBuilder().create()
-                        val newList = gson.fromJson<ArrayList<GroupInfo>>(
-                            it.body, object : TypeToken<ArrayList<GroupInfo>>() {}.type
-                        )
-
-                        adapter.update(newList)
-                    }
-
-                    else -> {
-                        showMessage(getString(R.string.error_load_group_list_fail), "[E02 : ${it.code}]") {
+                viewModel.recentResponse.observe(this) {
+                    try {
+                        log("recentResponse : $it")
+                        when (it.code) {
+                            ResponseCode.SUCCESS -> {
+                                val gson = GsonBuilder().create()
+                                val newList = gson.fromJson<ArrayList<GroupInfo>>(
+                                    it.body, object : TypeToken<ArrayList<GroupInfo>>() {}.type
+                                )
+                                adapter.update(newList)
+                            }
+                            else -> {
+                                showMessage(getString(R.string.error_load_group_list_fail), "[E03 : ${it.code}]") {
+                                    finish()
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        logException(e)
+                        showMessage(getString(R.string.error_load_group_list_fail), "[E04]") {
                             finish()
                         }
                     }
                 }
             }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
-
 }

@@ -12,7 +12,8 @@ import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySignUpBinding
-import com.moondroid.project01_meetingapp.model.User
+import com.moondroid.project01_meetingapp.model.DMUser
+import com.moondroid.project01_meetingapp.realm.DMRealm
 import com.moondroid.project01_meetingapp.ui.viewmodel.SignUpViewModel
 import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
@@ -22,9 +23,6 @@ import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.toast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.security.SecureRandom
 
 /**
@@ -48,6 +46,9 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
     private var location: String? = null                        // 관심지역
     private var interest: String? = null                        // 관심사
     private var fromKakao: Boolean = false                      // 카카오 로그인 여부
+    private var year = 1990
+    private var month = 0
+    private var date = 1
 
     override fun init() {
         binding.activity = this
@@ -108,29 +109,32 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         }
 
         viewModel.signUpResponse.observe(this) {
+            try {
+                log("requestSignUp() , Response => $it")
 
-            log("requestSignUp() , Response => $it")
-
-            when (it.code) {
-                ResponseCode.SUCCESS -> {
-                    toast(getString(R.string.alm_sign_up_success))
-                    user = Gson().fromJson(it.body, User::class.java)
-                    CoroutineScope(Dispatchers.IO).launch {
-                        userDao.insertData(user!!)
+                when (it.code) {
+                    ResponseCode.SUCCESS -> {
+                        toast(getString(R.string.alm_sign_up_success))
+                        user = Gson().fromJson(it.body, DMUser::class.java)
+                        DMRealm.getInstance().writeBlocking {
+                            copyToRealm(user!!)
+                        }
+                        DMAnalyze.setProperty(user!!)
+                        DMCrash.setProperty(user!!.id)
+                        getMsgToken()
                     }
-                    DMAnalyze.setProperty(user!!)
-                    DMCrash.setProperty(user!!.id)
-                    getMsgToken()
-                }
 
-                ResponseCode.ALREADY_EXIST -> {
-                    toast(getString(R.string.error_id_already_exist))
-                    binding.etId.requestFocus()
-                }
+                    ResponseCode.ALREADY_EXIST -> {
+                        toast(getString(R.string.error_id_already_exist))
+                        binding.etId.requestFocus()
+                    }
 
-                else -> {
-                    showMessage(getString(R.string.error_sign_up_fail), "[E01 : ${it.code}]")
+                    else -> {
+                        showMessage(getString(R.string.error_sign_up_fail), "[E01 : ${it.code}]")
+                    }
                 }
+            } catch (e: Exception) {
+                logException(e)
             }
         }
 
@@ -230,7 +234,6 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
      */
     private fun requestSignUp(hashPw: String, salt: String) {
         try {
-
             val jsonObject = JsonObject()
             jsonObject.addProperty(RequestParam.ID, id)
             jsonObject.addProperty(RequestParam.HASH_PW, hashPw)
@@ -311,9 +314,13 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         try {
             val datePicker = DatePickerDialog(
                 this,
+                R.style.DatePickerSpin,
                 { _, p1, p2, p3 ->
-                    binding.tvBirth.text = String.format("%d.%d.%d", p1, p2 + 1, p3)
-                }, 1990, 0, 1
+                    year = p1
+                    month = p2
+                    date = p3
+                    binding.tvBirth.text = String.format("%d.%d.%d", year, month + 1, date)
+                }, year, month, date
             )
             datePicker.show()
         } catch (e: Exception) {

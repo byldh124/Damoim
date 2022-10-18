@@ -11,7 +11,7 @@
 
         <variable
             name="user"
-            type="com.moondroid.project01_meetingapp.model.User" />
+            type="com.moondroid.project01_meetingapp.model.DMUser" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

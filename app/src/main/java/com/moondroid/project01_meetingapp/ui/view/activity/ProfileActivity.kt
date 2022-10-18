@@ -12,14 +12,13 @@ import com.google.gson.reflect.TypeToken
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityProfileBinding
+import com.moondroid.project01_meetingapp.model.DMUser
 import com.moondroid.project01_meetingapp.model.GroupInfo
-import com.moondroid.project01_meetingapp.model.User
 import com.moondroid.project01_meetingapp.ui.view.adapter.GroupListAdapter
 import com.moondroid.project01_meetingapp.ui.viewmodel.ProfileViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.ResponseCode
-import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,13 +28,13 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
     GroupListAdapter.OnItemClickListener {
     private val viewModel: ProfileViewModel by viewModels()
     lateinit var adapter: GroupListAdapter
-    private var profileUser: User? = null
+    private var profileUser: DMUser? = null
 
     override fun init() {
         try {
             binding.activity = this
             val userJson = intent.getStringExtra(IntentParam.USER)
-            profileUser = Gson().fromJson(userJson, User::class.java)
+            profileUser = Gson().fromJson(userJson, DMUser::class.java)
 
             if (profileUser == null) finish()
 

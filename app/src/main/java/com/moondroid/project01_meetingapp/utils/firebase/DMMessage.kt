@@ -13,17 +13,16 @@ import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.model.BaseResponse
-import com.moondroid.project01_meetingapp.model.User
+import com.moondroid.project01_meetingapp.model.DMUser
 import com.moondroid.project01_meetingapp.network.ApiInterface
-import com.moondroid.project01_meetingapp.room.UserDao
+import com.moondroid.project01_meetingapp.realm.DMRealm
 import com.moondroid.project01_meetingapp.ui.view.activity.SplashActivity
 import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.NotificationParam
 import com.moondroid.project01_meetingapp.utils.RequestParam
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import io.realm.kotlin.ext.query
+import io.realm.kotlin.query.RealmResults
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,8 +33,9 @@ import javax.inject.Inject
 class DMMessage : FirebaseMessagingService() {
 
     private val channelId = "ch01"
-    @Inject lateinit var userDao: UserDao
-    @Inject lateinit var retrofit: Retrofit
+
+    @Inject
+    lateinit var retrofit: Retrofit
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
@@ -103,32 +103,31 @@ class DMMessage : FirebaseMessagingService() {
 
     private fun sendNewToken(token: String) {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
-                DMLog.e("sendNewToken() - token : $token , userDao is Empty : ${userDao.getUser().isEmpty()}")
-                if (userDao.getUser().isNotEmpty()) {
-                    val user: User = userDao.getUser()[0]
+            val items: RealmResults<DMUser> = DMRealm.getInstance().query<DMUser>().find()
+            if (items.isNotEmpty()) {
+                val user: DMUser = items.last()
 
-                    val body = JsonObject()
+                val body = JsonObject()
 
-                    body.addProperty(RequestParam.ID, user.id)
-                    body.addProperty(RequestParam.TOKEN, token)
+                body.addProperty(RequestParam.ID, user.id)
+                body.addProperty(RequestParam.TOKEN, token)
 
-                    retrofit.create(ApiInterface::class.java).updateTokenService(body)
-                        .enqueue(object : Callback<BaseResponse> {
-                            override fun onResponse(
-                                call: Call<BaseResponse>,
-                                response: Response<BaseResponse>
-                            ) {
-                                DMLog.e("sendNewToken() api call")
-                            }
+                retrofit.create(ApiInterface::class.java).updateTokenService(body)
+                    .enqueue(object : Callback<BaseResponse> {
+                        override fun onResponse(
+                            call: Call<BaseResponse>,
+                            response: Response<BaseResponse>
+                        ) {
+                            DMLog.e("sendNewToken() api call")
+                        }
 
-                            override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
-                                DMCrash.logException(t)
-                            }
+                        override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
+                            DMCrash.logException(t)
+                        }
 
-                        })
-                }
+                    })
             }
+
         } catch (e: Exception) {
             DMCrash.logException(e)
         }

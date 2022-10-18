@@ -11,6 +11,10 @@ const val NETWORK_NOT_CONNECTED = -200
 /* Room Table name */
 const val DM_USER = "DMUser"
 
+object PrefsKey {
+    const val AUTO_LOGIN = "AUTO_LOGIN"
+}
+
 object ResponseCode {
     const val SUCCESS = 1000
     const val FAIL = 2000

@@ -73,10 +73,14 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
      * initialize View
      * */
     private fun initView() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-            it.setDisplayShowTitleEnabled(false)
+        try {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.let {
+                it.setDisplayHomeAsUpEnabled(true)
+                it.setDisplayShowTitleEnabled(false)
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
@@ -196,13 +200,15 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
      */
     fun toInterest(@Suppress("UNUSED_PARAMETER") vw: View) {
         val onResult: (Intent) -> Unit = {
-            interest = getString(it.getIntExtra(IntentParam.INTEREST, 0))
-            val resId = it.getIntExtra(IntentParam.INTEREST_ICON, 0)
-            Glide.with(this).load(resId).into(binding.icInterest)
+            try {
+                interest = getString(it.getIntExtra(IntentParam.INTEREST, 0))
+                val resId = it.getIntExtra(IntentParam.INTEREST_ICON, 0)
+                Glide.with(this).load(resId).into(binding.icInterest)
+            } catch (e: Exception) {
+                logException(e)
+            }
         }
-
         val intent = Intent(this, InterestActivity::class.java)
-
         activityResult(onResult, intent)
     }
 
@@ -211,12 +217,15 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
      */
     fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
         val onResult: (Intent) -> Unit = {
-            location = it.getStringExtra(IntentParam.LOCATION).toString()
-            binding.tvLocation.text = location
+            try {
+                location = it.getStringExtra(IntentParam.LOCATION).toString()
+                binding.tvLocation.text = location
+            } catch (e: Exception) {
+                logException(e)
+            }
         }
 
         val intent = Intent(this, LocationActivity::class.java)
-
         activityResult(onResult, intent)
     }
 

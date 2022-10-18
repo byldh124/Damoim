@@ -10,10 +10,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.model.User
+import com.moondroid.project01_meetingapp.model.DMUser
+import com.moondroid.project01_meetingapp.realm.DMRealm
 import com.moondroid.project01_meetingapp.room.UserDao
 import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
 import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
@@ -24,11 +26,13 @@ import com.moondroid.project01_meetingapp.ui.view.dialog.TwoButtonDialog
 import com.moondroid.project01_meetingapp.ui.view.dialog.WebViewDialog
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
+import com.moondroid.project01_meetingapp.utils.view.log
 import com.moondroid.project01_meetingapp.utils.view.logException
 import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import io.realm.kotlin.Realm
+import io.realm.kotlin.ext.query
+import io.realm.kotlin.query.RealmResults
+import java.util.concurrent.Executor
 import javax.inject.Inject
 
 
@@ -36,13 +40,10 @@ import javax.inject.Inject
  * 의존성 주입을 위해 해당 클래스를 상속받는 액티비티는 @AndroidEntryPoint 어노테이션을 달아줘야 함
  **/
 abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int) : AppCompatActivity() {
+    var user: DMUser? = null  //Binding -> 접근제한자 : Public
 
     protected lateinit var binding: T
-
-    @Inject protected lateinit var userDao: UserDao
-
-    //Binding -> 접근제한자 : Public
-    var user: User? = null
+    protected lateinit var executor: Executor
 
     private var oneButtonDialog: OneButtonDialog? = null
     private var twoButtonDialog: TwoButtonDialog? = null
@@ -78,17 +79,36 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutResId)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        executor = ContextCompat.getMainExecutor(this)
         resetUserInfo()
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         this.onBackPressedDispatcher.addCallback(this, callback)
         init()
     }
 
-    private fun resetUserInfo() {
-        CoroutineScope(Dispatchers.IO).launch {
-            if (userDao.getUser().isNotEmpty()) {
-                user = userDao.getUser()[0]
+    protected fun resetUserInfo() {
+        try {
+            val items: RealmResults<DMUser> = DMRealm.getInstance().query<DMUser>().find()
+            if (items.isNotEmpty()) {
+                if (items.count() == 1 && !items.last().isEmpty()) {
+                    user = items.last()
+                } else {
+                    deleteRealm()
+                }
             }
+        } catch (e:Exception) {
+            logException(e)
+        }
+    }
+
+    protected fun deleteRealm() {
+        try {
+            DMRealm.getInstance().writeBlocking {
+                val writeTransactionItems = query<DMUser>().find()
+                delete(writeTransactionItems)
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
@@ -139,7 +159,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     }
 
     fun showMessage(msg: String) {
-        showMessage(msg){}
+        showMessage(msg) {}
     }
 
     fun showMessage(msg: String, code: String) {

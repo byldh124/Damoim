@@ -84,17 +84,21 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     }
 
     override fun onBack() {
-        if (binding.homeNav.visibility == View.VISIBLE) {
-            binding.drawer.closeDrawers()
-        } else if (title != getString(R.string.cmn_find_group)) {
-            //changeFragment(GroupListFragment())
-            binding.bnv.selectedItemId = R.id.bnv_tab1
-            title = getString(R.string.cmn_find_group)
-        } else if (System.currentTimeMillis() - mBackWait >= 2000) {
-            mBackWait = System.currentTimeMillis()
-            toast(getString(R.string.alm_two_click_exit))
-        } else {
-            super.onBack()
+        try {
+            if (binding.homeNav.visibility == View.VISIBLE) {
+                binding.drawer.closeDrawers()
+            } else if (title != getString(R.string.cmn_find_group)) {
+                //changeFragment(GroupListFragment())
+                binding.bnv.selectedItemId = R.id.bnv_tab1
+                title = getString(R.string.cmn_find_group)
+            } else if (System.currentTimeMillis() - mBackWait >= 2000) {
+                mBackWait = System.currentTimeMillis()
+                toast(getString(R.string.alm_two_click_exit))
+            } else {
+                super.onBack()
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
@@ -293,10 +297,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
 
             val result: (Intent) -> Unit = {
-                CoroutineScope(Dispatchers.IO).launch {
-                    user = userDao.getUser()[0]
-                    headerBinding.user = user
-                }
+                resetUserInfo()
+                headerBinding.user = user
             }
             activityResult(result, intent)
             hideNavigation()
@@ -319,60 +321,64 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
     fun share(@Suppress("UNUSED_PARAMETER") vw: View) {
 
-        DMAnalyze.logEvent("Share Clicked")
+        try {
+            DMAnalyze.logEvent("Share Clicked")
 
-        val params = FeedTemplate(
-            content = Content(
-                title = String.format(
-                    "%s %s", getString(R.string.app_sub_name), getString(R.string.app_name)
-                ),
-                imageUrl = "https://firebasestorage.googleapis.com/v0/b/project01meetingapp.appspot.com/o/logo.png?alt=media&token=4081b1a5-1d77-475b-98cf-63747ba3e37b",
-                link = Link(
-                    webUrl = linkUrl, mobileWebUrl = linkUrl
-                ),
-                description = "모임대장에서 다양한 사람들과 새로운 취미를 시작해보세요."
-            ), buttons = listOf(
-                Button(
-                    getString(R.string.cmn_share_button), Link(
+            val params = FeedTemplate(
+                content = Content(
+                    title = String.format(
+                        "%s %s", getString(R.string.app_sub_name), getString(R.string.app_name)
+                    ),
+                    imageUrl = "https://firebasestorage.googleapis.com/v0/b/project01meetingapp.appspot.com/o/logo.png?alt=media&token=4081b1a5-1d77-475b-98cf-63747ba3e37b",
+                    link = Link(
                         webUrl = linkUrl, mobileWebUrl = linkUrl
+                    ),
+                    description = "모임대장에서 다양한 사람들과 새로운 취미를 시작해보세요."
+                ), buttons = listOf(
+                    Button(
+                        getString(R.string.cmn_share_button), Link(
+                            webUrl = linkUrl, mobileWebUrl = linkUrl
+                        )
                     )
                 )
             )
-        )
 
-        // 카카오톡 설치여부 확인
-        if (ShareClient.instance.isKakaoTalkSharingAvailable(this)) { // 카카오톡으로 카카오톡 공유 가능
-            ShareClient.instance.shareDefault(this, params) { sharingResult, error ->
-                if (error != null) {
-                    log("카카오톡 공유 실패 : $error")
-                } else if (sharingResult != null) {
-                    log("카카오톡 공유 성공 ${sharingResult.intent}")
-                    startActivity(sharingResult.intent)
+            // 카카오톡 설치여부 확인
+            if (ShareClient.instance.isKakaoTalkSharingAvailable(this)) { // 카카오톡으로 카카오톡 공유 가능
+                ShareClient.instance.shareDefault(this, params) { sharingResult, error ->
+                    if (error != null) {
+                        log("카카오톡 공유 실패 : $error")
+                    } else if (sharingResult != null) {
+                        log("카카오톡 공유 성공 ${sharingResult.intent}")
+                        startActivity(sharingResult.intent)
 
-                    // 카카오톡 공유에 성공했지만 아래 경고 메시지가 존재할 경우 일부 컨텐츠가 정상 동작하지 않을 수 있습니다.
-                    log("Warning Msg: ${sharingResult.warningMsg}")
-                    log("Argument Msg: ${sharingResult.argumentMsg}")
+                        // 카카오톡 공유에 성공했지만 아래 경고 메시지가 존재할 경우 일부 컨텐츠가 정상 동작하지 않을 수 있습니다.
+                        log("Warning Msg: ${sharingResult.warningMsg}")
+                        log("Argument Msg: ${sharingResult.argumentMsg}")
+                    }
+                }
+            } else { // 카카오톡 미설치: 웹 공유 사용 권장
+                // 웹 공유 예시 코드
+                val sharerUrl = WebSharerClient.instance.makeDefaultUrl(params)
+
+                // CustomTabs 으로 웹 브라우저 열기
+
+                // 1. CustomTabsServiceConnection 지원 브라우저 열기
+                // ex) Chrome, 삼성 인터넷, FireFox, 웨일 등
+                try {
+                    KakaoCustomTabsClient.openWithDefault(this, sharerUrl)
+                } catch (e: UnsupportedOperationException) { // CustomTabsServiceConnection 지원 브라우저가 없을 때 예외처리
+                }
+
+                // 2. CustomTabsServiceConnection 미지원 브라우저 열기
+                // ex) 다음, 네이버 등
+                try {
+                    KakaoCustomTabsClient.open(this, sharerUrl)
+                } catch (e: ActivityNotFoundException) { // 디바이스에 설치된 인터넷 브라우저가 없을 때 예외처리
                 }
             }
-        } else { // 카카오톡 미설치: 웹 공유 사용 권장
-            // 웹 공유 예시 코드
-            val sharerUrl = WebSharerClient.instance.makeDefaultUrl(params)
-
-            // CustomTabs 으로 웹 브라우저 열기
-
-            // 1. CustomTabsServiceConnection 지원 브라우저 열기
-            // ex) Chrome, 삼성 인터넷, FireFox, 웨일 등
-            try {
-                KakaoCustomTabsClient.openWithDefault(this, sharerUrl)
-            } catch (e: UnsupportedOperationException) { // CustomTabsServiceConnection 지원 브라우저가 없을 때 예외처리
-            }
-
-            // 2. CustomTabsServiceConnection 미지원 브라우저 열기
-            // ex) 다음, 네이버 등
-            try {
-                KakaoCustomTabsClient.open(this, sharerUrl)
-            } catch (e: ActivityNotFoundException) { // 디바이스에 설치된 인터넷 브라우저가 없을 때 예외처리
-            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 

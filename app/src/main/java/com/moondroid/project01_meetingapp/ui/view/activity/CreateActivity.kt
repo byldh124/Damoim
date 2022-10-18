@@ -77,34 +77,33 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
         }
 
         viewModel.createResponse.observe(this) {
-
             log("createResponse : $it")
+            try {
+                when (it.code) {
+                    ResponseCode.SUCCESS -> {
+                        DMApp.group = Gson().fromJson(it.body, GroupInfo::class.java)
 
-            when (it.code) {
-                ResponseCode.SUCCESS -> {
+                        val bundle = Bundle()
+                        bundle.putString(RequestParam.TITLE, DMApp.group.title)
+                        bundle.putString(RequestParam.MASTER_ID, DMApp.group.masterId)
+                        DMAnalyze.logEvent("Create Success", bundle)
 
-                    DMApp.group = Gson().fromJson(it.body, GroupInfo::class.java)
-
-                    val bundle = Bundle()
-                    bundle.putString(RequestParam.TITLE, DMApp.group.title)
-                    bundle.putString(RequestParam.MASTER_ID, DMApp.group.masterId)
-                    DMAnalyze.logEvent("Create Success", bundle)
-
-                    val intent = Intent(this@CreateActivity, GroupActivity::class.java)
-                    intent.putExtra(IntentParam.ACTIVITY, ActivityTy.CREATE)
-                    startActivityWithAnim(intent)
-                    finish()
-                }
-
-                ResponseCode.ALREADY_EXIST -> {
-                    showMessage(getString(R.string.error_already_exist_title)) {
-                        binding.etTitle.requestFocus()
+                        val intent = Intent(this@CreateActivity, GroupActivity::class.java)
+                        intent.putExtra(IntentParam.ACTIVITY, ActivityTy.CREATE)
+                        startActivityWithAnim(intent)
+                        finish()
+                    }
+                    ResponseCode.ALREADY_EXIST -> {
+                        showMessage(getString(R.string.error_already_exist_title)) {
+                            binding.etTitle.requestFocus()
+                        }
+                    }
+                    else -> {
+                        showMessage(getString(R.string.error_create_group_fail), "E01 : ${it.code}")
                     }
                 }
-
-                else -> {
-                    showMessage(getString(R.string.error_create_group_fail), "E01 : ${it.code}")
-                }
+            } catch (e: Exception) {
+                logException(e)
             }
         }
     }
@@ -129,8 +128,6 @@ class CreateActivity : BaseActivity<ActivityCreateBinding>(R.layout.activity_cre
             }
         }
         val intent = Intent(Intent.ACTION_PICK).setType("image/*")
-
-        activityResult(onResult, intent)
         activityResult(onResult, intent)
     }
 

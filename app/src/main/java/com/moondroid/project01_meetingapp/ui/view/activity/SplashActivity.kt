@@ -8,10 +8,12 @@ import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import com.moondroid.project01_meetingapp.BuildConfig
 import com.moondroid.project01_meetingapp.R
+import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
 import com.moondroid.project01_meetingapp.ui.viewmodel.SplashViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
+import com.moondroid.project01_meetingapp.utils.PrefsKey
 import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
@@ -68,8 +70,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                                 startActivity(intent)
                             } catch (e: Exception) {
                                 logException(e)
-                                exitApp()
                             }
+                            exitApp()
                         }
                     }
 
@@ -86,18 +88,25 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     }
 
     private fun checkUser() {
-        if (user != null) {
-            log("checkUser() , user : $user")
-            DMAnalyze.setProperty(user!!)
-            DMCrash.setProperty(user!!.id)
+        try {
+            val autoLogin = DMApp.prefs.getBoolean(PrefsKey.AUTO_LOGIN)
+            if (!autoLogin) {
+                deleteRealm()
+            }
 
-            isReady = true
-            action = { goToHomeActivity() }
-            startAction()
-        } else {
-            isReady = true
-            action = { goToSignInActivity() }
-            startAction()
+            if (user != null && autoLogin) {
+                DMAnalyze.setProperty(user!!)
+                DMCrash.setProperty(user!!.id)
+                isReady = true
+                action = { goToHomeActivity() }
+                startAction()
+            } else {
+                isReady = true
+                action = { goToSignInActivity() }
+                startAction()
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
@@ -111,7 +120,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 BuildConfig.VERSION_CODE,
                 BuildConfig.VERSION_NAME
             )
-
         } catch (e: Exception) {
             logException(e)
         }

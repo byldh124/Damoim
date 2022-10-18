@@ -62,7 +62,6 @@ fun WebView.webLoad(url: String) {
 /**
  * Google SignInButton is not support DataBinding
  **/
-
 @BindingAdapter("onClick")
 fun SignInButton.onClick(method: () -> Unit) {
     this.setOnClickListener { method.invoke() }

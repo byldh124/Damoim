@@ -22,7 +22,7 @@ data class GroupInfo(
     @SerializedName(RequestParam.MASTER_ID)
     val masterId: String,
     @SerializedName(RequestParam.MEMBER)
-    var member: List<User> = ArrayList(),
+    var member: List<DMUser> = ArrayList(),
     @SerializedName(RequestParam.IS_MEMBER)
     var isMember:Boolean = false
 )

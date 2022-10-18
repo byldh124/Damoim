@@ -3,31 +3,30 @@ package com.moondroid.project01_meetingapp.ui.view.activity
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.ClipData.Item
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.View
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityMyInfoBinding
-import com.moondroid.project01_meetingapp.model.User
+import com.moondroid.project01_meetingapp.model.DMUser
+import com.moondroid.project01_meetingapp.realm.DMRealm
 import com.moondroid.project01_meetingapp.ui.viewmodel.MyInfoViewModel
 import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.moondroid.project01_meetingapp.utils.view.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import io.realm.kotlin.ext.query
+import io.realm.kotlin.query.RealmResults
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import java.util.concurrent.Executor
 
 /**
  * 회원 프로필 수정
@@ -38,13 +37,9 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
     private val viewModel: MyInfoViewModel by viewModels()
     private var path: String? = null
     private lateinit var gender: String
-    private lateinit var executor: Executor
 
     override fun init() {
         DMAnalyze.logEvent("MyInfo Loaded")
-
-        executor = ContextCompat.getMainExecutor(this)
-
         binding.activity = this
         initView()
         initViewModel()
@@ -103,15 +98,15 @@ class MyInfoActivity : BaseActivity<ActivityMyInfoBinding>(R.layout.activity_my_
                 log("updateProfile , observe() , Response => $it")
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
-                        user = Gson().fromJson(it.body.asJsonObject, User::class.java)
-                        CoroutineScope(Dispatchers.IO).launch {
-                            userDao.insertData(user!!)
-                            executor.execute {
-                                showMessage(getString(R.string.alm_profile_update_success)) {
-                                    setResult(Activity.RESULT_OK, intent)
-                                    finish()
-                                }
-                            }
+                        user = Gson().fromJson(it.body.asJsonObject, DMUser::class.java)
+                        val incompleteItems : RealmResults<DMUser> = DMRealm.getInstance().query<DMUser>().find()
+                        DMRealm.getInstance().writeBlocking {
+                            findLatest(incompleteItems[0])?.settings(user!!)
+                        }
+
+                        showMessage(getString(R.string.alm_profile_update_success)) {
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
                         }
                     }
 
