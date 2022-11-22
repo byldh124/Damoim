@@ -3,7 +3,7 @@ package com.moondroid.project01_meetingapp.utils.firebase
 import android.content.Context
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.moondroid.project01_meetingapp.model.DMUser
+import com.moondroid.project01_meetingapp.domain.model.DMUser
 import com.moondroid.project01_meetingapp.utils.RequestParam
 
 class DMAnalyze {

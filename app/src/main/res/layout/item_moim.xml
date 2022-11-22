@@ -5,7 +5,7 @@
 
         <variable
             name="moim"
-            type="com.moondroid.project01_meetingapp.model.Moim" />
+            type="com.moondroid.project01_meetingapp.domain.model.Moim" />
     </data>
 
     <FrameLayout

@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.startup.AppInitializer
 import com.kakao.sdk.common.KakaoSdk
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.model.GroupInfo
-import com.moondroid.project01_meetingapp.realm.DMRealm
+import com.moondroid.project01_meetingapp.domain.model.GroupInfo
+import com.moondroid.project01_meetingapp.data.datasource.local.realm.DMRealm
 import com.moondroid.project01_meetingapp.utils.Preferences
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import dagger.hilt.android.HiltAndroidApp
@@ -23,18 +23,7 @@ class DMApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)                      //다크모드 지원 X
-
-        //koin -> hilt migration
-        /*startKoin {
-            androidContext(this@DMApp)
-            fragmentFactory()
-            modules(appModules)
-            modules(fragmentModules)
-            modules(viewModelModules)
-        }*/
-
 
         /* initialize SharedPreferences */
         prefs = Preferences(applicationContext)

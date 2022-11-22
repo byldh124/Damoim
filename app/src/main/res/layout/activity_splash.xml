@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.SplashActivity" />
-    </data>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -21,39 +16,38 @@
                 android:id="@+id/logo01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="48dp"
-                android:text="@string/app_name"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:fontFamily="@font/jalnan"
+                android:text="@string/app_name"
                 android:textColor="@color/red_dark01"
-                app:layout_constraintVertical_bias="0.44"/>
+                android:textSize="48dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.44" />
 
             <TextView
                 android:id="@+id/logo02"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="@string/app_sub_name"
                 android:fontFamily="@font/jalnan"
-                app:layout_constraintTop_toBottomOf="@id/logo01"
-                app:layout_constraintRight_toRightOf="parent"
+                android:text="@string/app_sub_name"
+                android:textColor="@color/red_dark01"
+                android:textSize="20dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:textColor="@color/red_dark01"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/logo01" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:src="@drawable/ic_kotlin_logo"
-                app:layout_constraintWidth_percent="0.2"
-                app:layout_constraintDimensionRatio="486:108"
                 android:layout_marginBottom="48dp"
-                />
+                android:src="@drawable/ic_kotlin_logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="486:108"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintWidth_percent="0.2" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 

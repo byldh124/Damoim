@@ -1,12 +1,12 @@
 package com.moondroid.project01_meetingapp.network
 
 import com.google.gson.JsonObject
-import com.moondroid.project01_meetingapp.model.BaseResponse
+import com.moondroid.project01_meetingapp.data.datasource.remote.ApiInterface
+import com.moondroid.project01_meetingapp.data.response.BaseResponse
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
-import java.sql.RowId
 import javax.inject.Inject
 
 interface Repository {
@@ -196,7 +196,7 @@ class RepositoryImpl @Inject constructor(private val api: ApiInterface) : Reposi
 
     override suspend fun signInKakao(body: JsonObject): UseCaseResult<BaseResponse> {
         return try {
-            handleResult(api.signInKakao(body))
+            handleResult(api.signInSocial(body))
         } catch (e: Exception) {
             DMCrash.logException(e)
             UseCaseResult.Error(e)

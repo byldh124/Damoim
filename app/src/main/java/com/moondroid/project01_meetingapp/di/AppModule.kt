@@ -2,7 +2,9 @@ package com.moondroid.project01_meetingapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.moondroid.project01_meetingapp.room.UserDatabase
+import com.moondroid.project01_meetingapp.data.datasource.local.LocalDataSource
+import com.moondroid.project01_meetingapp.data.datasource.local.room.UserDao
+import com.moondroid.project01_meetingapp.data.datasource.local.room.UserDatabase
 import com.moondroid.project01_meetingapp.utils.DM_USER
 import dagger.Module
 import dagger.Provides
@@ -17,7 +19,7 @@ object AppModule {
 
     @Singleton // Tell Dagger-Hilt to create a singleton accessible everywhere in Application Component (i.e. everywhere in the application)
     @Provides
-    fun provideYourDatabase(
+    fun provideUserDatabase(
         @ApplicationContext app: Context
     ) = Room.databaseBuilder(
         app,
@@ -27,5 +29,11 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideYourDao(db: UserDatabase) = db.userDao() // The reason we can implement a Dao for the database
+    fun provideUserDao(db: UserDatabase) = db.userDao() // The reason we can implement a Dao for the database
+
+    @Provides
+    @Singleton
+    fun provideLocalDataSource(userDao: UserDao): LocalDataSource {
+        return LocalDataSource(userDao)
+    }
 }

@@ -7,7 +7,7 @@
 
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.InterestActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.view.activity.InterestActivity" />
     </data>
 
     <RelativeLayout

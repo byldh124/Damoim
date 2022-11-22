@@ -4,8 +4,8 @@ package com.moondroid.project01_meetingapp.di
 
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.moondroid.project01_meetingapp.network.ApiInterface
-import com.moondroid.project01_meetingapp.network.URLManager.BASE_URL
+import com.moondroid.project01_meetingapp.data.datasource.remote.ApiInterface
+import com.moondroid.project01_meetingapp.data.datasource.remote.URLManager.BASE_URL
 import com.moondroid.project01_meetingapp.utils.DMLog
 import dagger.Module
 import dagger.Provides

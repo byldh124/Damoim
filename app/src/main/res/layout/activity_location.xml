@@ -5,7 +5,7 @@
 
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.LocationActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.view.activity.LocationActivity" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -57,7 +57,7 @@
 
 
 
-        <com.moondroid.project01_meetingapp.ui.view.widget.DMRecycler
+        <com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

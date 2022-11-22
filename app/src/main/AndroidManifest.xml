@@ -38,19 +38,19 @@
         tools:targetApi="s">
 
         <activity
-            android:name=".ui.view.activity.MoimInfoActivity"
+            android:name=".presentation.view.activity.MoimInfoActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".ui.view.activity.ProfileActivity"
+            android:name=".presentation.view.activity.ProfileActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".ui.view.activity.MoimActivity"
+            android:name=".presentation.view.activity.MoimActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".ui.view.activity.GroupInfoActivity"
+            android:name=".presentation.view.activity.GroupInfoActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
 
@@ -59,40 +59,40 @@
             android:value="csit8ak1h9" />
 
         <activity
-            android:name=".ui.view.activity.ReportActivity"
+            android:name=".presentation.view.activity.ReportActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
 
         <activity
-            android:name=".ui.view.activity.SettingActivity"
+            android:name=".presentation.view.activity.SettingActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".ui.view.activity.GroupListActivity"
+            android:name=".presentation.view.activity.GroupListActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".ui.view.activity.LocationActivity"
+            android:name=".presentation.view.activity.LocationActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.White" />
         <activity
-            android:name=".ui.view.activity.InterestActivity"
+            android:name=".presentation.view.activity.InterestActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.White" />
         <activity
-            android:name=".ui.view.activity.MyInfoActivity"
+            android:name=".presentation.view.activity.MyInfoActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".ui.view.activity.SignUpActivity"
+            android:name=".presentation.view.signup.SignUpActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".ui.view.activity.SignInActivity"
+            android:name=".presentation.view.signin.SignInActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".ui.view.activity.CreateActivity"
+            android:name=".presentation.view.activity.CreateActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Kakao Login Activity -->
         <activity
@@ -110,7 +110,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.view.activity.SplashActivity"
+            android:name=".presentation.view.splash.SplashActivity"
             android:exported="true"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
@@ -131,11 +131,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.view.activity.HomeActivity"
+            android:name=".presentation.view.activity.HomeActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".ui.view.activity.GroupActivity"
+            android:name=".presentation.view.activity.GroupActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Google FCM Background Service -->
         <service

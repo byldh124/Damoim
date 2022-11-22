@@ -6,7 +6,7 @@
 
         <variable
             name="dialog"
-            type="com.moondroid.project01_meetingapp.ui.view.dialog.LoadingDialog" />
+            type="com.moondroid.project01_meetingapp.presentation.dialog.LoadingDialog" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,7 +6,7 @@
 
         <variable
             name="fragment"
-            type="com.moondroid.project01_meetingapp.ui.view.fragment.LocationFragment" />
+            type="com.moondroid.project01_meetingapp.presentation.view.fragment.LocationFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

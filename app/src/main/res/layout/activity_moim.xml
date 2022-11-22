@@ -3,7 +3,7 @@
     <data>
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.MoimActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.view.activity.MoimActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,7 +11,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.view.activity.MoimActivity">
+        tools:context=".presentation.view.activity.MoimActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"

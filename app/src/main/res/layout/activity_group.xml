@@ -6,14 +6,14 @@
     <data>
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.view.activity.GroupActivity" />
 
         <import type="android.view.View"/>
     </data>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.view.activity.GroupActivity">
+            tools:context=".presentation.view.activity.GroupActivity">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/header"

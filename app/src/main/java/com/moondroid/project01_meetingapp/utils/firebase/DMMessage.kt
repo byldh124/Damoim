@@ -12,14 +12,15 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.model.BaseResponse
-import com.moondroid.project01_meetingapp.model.DMUser
-import com.moondroid.project01_meetingapp.network.ApiInterface
-import com.moondroid.project01_meetingapp.realm.DMRealm
-import com.moondroid.project01_meetingapp.ui.view.activity.SplashActivity
+import com.moondroid.project01_meetingapp.data.response.BaseResponse
+import com.moondroid.project01_meetingapp.domain.model.DMUser
+import com.moondroid.project01_meetingapp.data.datasource.remote.ApiInterface
+import com.moondroid.project01_meetingapp.data.datasource.local.realm.DMRealm
+import com.moondroid.project01_meetingapp.presentation.view.splash.SplashActivity
 import com.moondroid.project01_meetingapp.utils.DMLog
 import com.moondroid.project01_meetingapp.utils.NotificationParam
 import com.moondroid.project01_meetingapp.utils.RequestParam
+import com.moondroid.project01_meetingapp.utils.log
 import dagger.hilt.android.AndroidEntryPoint
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.query.RealmResults
@@ -32,7 +33,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DMMessage : FirebaseMessagingService() {
 
-    private val channelId = "ch01"
+    private val channelId = "channel_dm"
 
     @Inject
     lateinit var retrofit: Retrofit
@@ -118,13 +119,12 @@ class DMMessage : FirebaseMessagingService() {
                             call: Call<BaseResponse>,
                             response: Response<BaseResponse>
                         ) {
-                            DMLog.e("sendNewToken() api call")
+                            log("sendNewToken() api call")
                         }
 
                         override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
                             DMCrash.logException(t)
                         }
-
                     })
             }
 

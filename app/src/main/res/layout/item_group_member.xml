@@ -7,7 +7,7 @@
 
         <variable
             name="userDetail"
-            type="com.moondroid.project01_meetingapp.model.DMUser" />
+            type="com.moondroid.project01_meetingapp.domain.model.DMUser" />
     </data>
 
     <FrameLayout

@@ -14,26 +14,22 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.model.DMUser
-import com.moondroid.project01_meetingapp.realm.DMRealm
-import com.moondroid.project01_meetingapp.room.UserDao
-import com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity
-import com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity
-import com.moondroid.project01_meetingapp.ui.view.activity.SignInActivity
-import com.moondroid.project01_meetingapp.ui.view.dialog.LoadingDialog
-import com.moondroid.project01_meetingapp.ui.view.dialog.OneButtonDialog
-import com.moondroid.project01_meetingapp.ui.view.dialog.TwoButtonDialog
-import com.moondroid.project01_meetingapp.ui.view.dialog.WebViewDialog
+import com.moondroid.project01_meetingapp.domain.model.DMUser
+import com.moondroid.project01_meetingapp.data.datasource.local.realm.DMRealm
+import com.moondroid.project01_meetingapp.presentation.view.activity.GroupActivity
+import com.moondroid.project01_meetingapp.presentation.view.activity.HomeActivity
+import com.moondroid.project01_meetingapp.presentation.view.signin.SignInActivity
+import com.moondroid.project01_meetingapp.presentation.dialog.LoadingDialog
+import com.moondroid.project01_meetingapp.presentation.dialog.OneButtonDialog
+import com.moondroid.project01_meetingapp.presentation.dialog.TwoButtonDialog
+import com.moondroid.project01_meetingapp.presentation.dialog.WebViewDialog
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
-import com.moondroid.project01_meetingapp.utils.view.log
-import com.moondroid.project01_meetingapp.utils.view.logException
-import com.moondroid.project01_meetingapp.utils.view.startActivityWithAnim
-import io.realm.kotlin.Realm
+import com.moondroid.project01_meetingapp.utils.logException
+import com.moondroid.project01_meetingapp.utils.startActivityWithAnim
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.query.RealmResults
 import java.util.concurrent.Executor
-import javax.inject.Inject
 
 
 /**
@@ -79,6 +75,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutResId)
+        binding.lifecycleOwner = this
         executor = ContextCompat.getMainExecutor(this)
         resetUserInfo()
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -272,14 +269,6 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutResId: Int
         } catch (e: Exception) {
             logException(e)
         }
-    }
-
-    fun showUseTerm(@Suppress("UNUSED_PARAMETER") vw: View) {
-        showUseTerm()
-    }
-
-    fun showPrivacy(@Suppress("UNUSED_PARAMETER") vw: View) {
-        showPrivacy()
     }
 
     fun showUseTerm() {

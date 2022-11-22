@@ -7,14 +7,18 @@
     <data>
 
         <variable
+            name="model"
+            type="com.moondroid.project01_meetingapp.presentation.view.signin.SignInViewModel" />
+
+        <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.SignInActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.view.signin.SignInActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.view.activity.SignInActivity">
+        tools:context=".presentation.view.signin.SignInActivity">
 
         <LinearLayout
             android:id="@+id/header"
@@ -62,6 +66,7 @@
                 android:background="@drawable/bg_edit_white01"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:hint="@string/cmn_id"
+                android:text="@={model.id}"
                 android:inputType="text"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="16dp"
@@ -78,6 +83,7 @@
                 android:background="@drawable/bg_edit_white01"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:hint="@string/cmn_pw"
+                android:text="@={model.pw}"
                 android:inputType="textPassword"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="16dp"
@@ -92,23 +98,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:buttonTint="@color/red_light01"
-                android:checked="true"
+                android:checked="@={model.isChecked()}"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:text="@string/cmn_auto_sign_in"
                 android:textColor="@color/gray_dark02" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvSignIn"
+                android:id="@+id/btnSignIn"
                 style="@style/ButtonRed01"
                 android:layout_marginTop="16dp"
-                android:onClick="@{activity::checkField}"
+                android:onClick="@{() -> model.checkField()}"
                 android:text="@string/cmn_sign_in" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvSignUp"
+                android:id="@+id/btnSignUp"
                 style="@style/ButtonGray01"
                 android:layout_marginTop="12dp"
-                android:onClick="@{activity::goToSignUp}"
+                android:onClick="@{() -> model.signUp()}"
                 android:text="@string/cmn_sign_up" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -130,7 +136,6 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/btn_kakao_login"
-                        android:onClick="@{activity::getKakaoProfile}"
                         app:elevation="4dp" />
                 </com.google.android.material.card.MaterialCardView>
 
@@ -147,7 +152,6 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:elevation="0dp"
-                    app:onClick="@{activity::getGoogleAccount}"
                     app:backgroundTint="@null" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -160,10 +164,10 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtUseTerm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanum_square_round_eb"
-                    android:onClick="@{activity::showUseTerm}"
                     android:text="@string/cmn_use_terms"
                     android:textColor="@color/gray_dark01" />
 
@@ -176,10 +180,10 @@
                     android:textColor="@color/gray_dark01" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtPrivacy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanum_square_round_eb"
-                    android:onClick="@{activity::showPrivacy}"
                     android:text="@string/cmn_privacy"
                     android:textColor="@color/gray_dark01" />
 

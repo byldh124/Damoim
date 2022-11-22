@@ -4,7 +4,7 @@
     <data>
         <variable
             name="chat"
-            type="com.moondroid.project01_meetingapp.model.Chat" />
+            type="com.moondroid.project01_meetingapp.domain.model.Chat" />
         <import type="android.view.View"/>
     </data>
 

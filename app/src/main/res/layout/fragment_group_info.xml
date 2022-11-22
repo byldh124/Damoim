@@ -7,11 +7,11 @@
 
         <variable
             name="fragment"
-            type="com.moondroid.project01_meetingapp.ui.view.fragment.InfoFragment" />
+            type="com.moondroid.project01_meetingapp.presentation.view.fragment.InfoFragment" />
 
         <variable
             name="groupInfo"
-            type="com.moondroid.project01_meetingapp.model.GroupInfo" />
+            type="com.moondroid.project01_meetingapp.domain.model.GroupInfo" />
 
         <variable
             name="isMaster"
@@ -102,7 +102,7 @@
                         android:layout_below="@id/tvCurrentMoim"
                         android:layout_marginHorizontal="8dp">
 
-                        <com.moondroid.project01_meetingapp.ui.view.widget.DMRecycler
+                        <com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
                             android:id="@+id/recMoim"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />

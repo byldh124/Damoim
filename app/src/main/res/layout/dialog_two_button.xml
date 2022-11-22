@@ -7,7 +7,7 @@
 
         <variable
             name="dialog"
-            type="com.moondroid.project01_meetingapp.ui.view.dialog.TwoButtonDialog" />
+            type="com.moondroid.project01_meetingapp.presentation.dialog.TwoButtonDialog" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

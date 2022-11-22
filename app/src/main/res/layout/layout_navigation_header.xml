@@ -7,11 +7,11 @@
 
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.view.activity.HomeActivity" />
 
         <variable
             name="user"
-            type="com.moondroid.project01_meetingapp.model.DMUser" />
+            type="com.moondroid.project01_meetingapp.domain.model.DMUser" />
     </data>
 
     <RelativeLayout
@@ -21,7 +21,7 @@
         android:onClick="@{activity::toMyInfoActivity}"
         android:padding="16dp">
 
-        <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView
+        <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
             android:id="@+id/thumbWrapper"
             android:layout_width="96dp"
             android:layout_height="96dp"
@@ -35,7 +35,7 @@
                 android:scaleType="centerCrop"
                 bind:image="@{user.thumb}" />
 
-        </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
+        </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
 
 
         <TextView

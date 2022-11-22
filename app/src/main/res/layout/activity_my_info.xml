@@ -7,13 +7,13 @@
 
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.MyInfoActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.view.activity.MyInfoActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.view.activity.MyInfoActivity">
+        tools:context=".presentation.view.activity.MyInfoActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -34,7 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-            <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView
+            <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
                 android:id="@+id/thumbWrapper"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
@@ -52,9 +52,9 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />
 
-            </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
+            </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
 
-            <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView
+            <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:translationX="8dp"
@@ -73,7 +73,7 @@
                     android:layout_height="match_parent"
                     android:padding="6dp"
                     android:src="@drawable/ic_camera01" />
-            </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
+            </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
 
 
             <androidx.appcompat.widget.AppCompatEditText
