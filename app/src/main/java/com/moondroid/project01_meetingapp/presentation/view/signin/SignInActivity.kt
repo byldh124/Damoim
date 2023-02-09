@@ -60,10 +60,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 showLoading(event.show)
             }
 
-            is Event.Toast -> {
-                toast(getString(event.resId))
-            }
-
             is Event.Message -> {
                 showMessage(event.message)
             }

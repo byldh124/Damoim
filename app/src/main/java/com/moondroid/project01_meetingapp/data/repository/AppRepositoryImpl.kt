@@ -1,5 +1,6 @@
 package com.moondroid.project01_meetingapp.data.repository
 
+import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.data.common.DMResult
 import com.moondroid.project01_meetingapp.data.common.DataSourceException
@@ -35,18 +36,6 @@ class AppRepositoryImpl(
                     is DMResult.Error -> {
                         emit(DMResult.Error(exception))
                     }
-                }
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    override suspend fun getUser(): Flow<DMResult<User>> {
-        return flow {
-            localDataSource.getUser().run {
-                if (this.isNotEmpty()) {
-                    emit(DMResult.Success(localDataSource.getUser().last().toDomain()))
-                } else {
-                    emit(DMResult.Error(DataSourceException.Unexpected(R.string.error_client_unexpected_message)))
                 }
             }
         }.flowOn(Dispatchers.IO)

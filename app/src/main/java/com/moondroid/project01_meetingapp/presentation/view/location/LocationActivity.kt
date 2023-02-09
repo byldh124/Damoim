@@ -1,14 +1,16 @@
-package com.moondroid.project01_meetingapp.presentation.view.activity
+package com.moondroid.project01_meetingapp.presentation.view.location
 
+import android.app.Activity
+import android.content.Intent
 import android.location.Geocoder
 import android.os.Build
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityLocationBinding
 import com.moondroid.project01_meetingapp.domain.model.Address
-import com.moondroid.project01_meetingapp.presentation.view.adapter.AddressAdapter
-import com.moondroid.project01_meetingapp.presentation.view.adapter.LocationAdapter
 import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import com.moondroid.project01_meetingapp.utils.afterTextChanged
@@ -31,6 +33,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
     private lateinit var geocoder: Geocoder
     private lateinit var type: TYPE
     private val address = ArrayList<Address>()
+    val title = MutableLiveData<String>()
 
     enum class TYPE {
         LOCAL,                  // 읍,면,동 검색
@@ -38,7 +41,6 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
     }
 
     override fun init() {
-        binding.activity = this
         geocoder = Geocoder(this, Locale.KOREA)
         initView()
     }
@@ -61,16 +63,25 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
             val activityType = intent.getIntExtra(IntentParam.ACTIVITY, 0)
 
             if (activityType == ActivityTy.MOIM) {
-                title = getString(R.string.title_address)
+                binding.txtTitle.text = getString(R.string.title_address)
                 type = TYPE.ADDRESS
             } else {
-                title = getString(R.string.title_location_choice)
+                binding.txtTitle.text = getString(R.string.title_location_choice)
                 type = TYPE.LOCAL
             }
-            binding.activity = this
 
-            locationAdapter = LocationAdapter(this)
-            addressAdapter = AddressAdapter(this)
+            locationAdapter = LocationAdapter {
+                val intent = Intent()
+                intent.putExtra(IntentParam.LOCATION, it)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+
+            addressAdapter = AddressAdapter {
+                val intent = Intent().putExtra(IntentParam.ADDRESS, Gson().toJson(it))
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
 
             binding.recycler.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

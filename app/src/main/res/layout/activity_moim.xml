@@ -2,8 +2,8 @@
 <layout>
     <data>
         <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.view.activity.MoimActivity" />
+            name="model"
+            type="com.moondroid.project01_meetingapp.presentation.view.moim.MoimViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,7 +11,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.view.activity.MoimActivity">
+        tools:context=".presentation.view.moim.MoimActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -38,20 +38,21 @@
                 android:id="@+id/tvDate"
                 style="@style/TextBgGray"
                 android:hint="@string/cmn_moim_date"
-                android:onClick="@{activity::showDate}"/>
+                android:onClick="@{() -> model.showDate()}"/>
 
             <TextView
                 android:id="@+id/tvTime"
                 style="@style/TextBgGray"
                 android:layout_marginTop="16dp"
                 android:hint="@string/cmn_moim_time"
-                android:onClick="@{activity::showTime}"/>
+                android:onClick="@{() -> model.showTime()}"/>
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/tvPay"
                 style="@style/TextBgGray"
                 android:layout_marginTop="16dp"
                 android:inputType="number"
+                android:text="@={model.pay}"
                 android:hint="@string/cmn_moim_pay"/>
 
             <TextView
@@ -59,7 +60,7 @@
                 style="@style/TextBgGray"
                 android:layout_marginTop="16dp"
                 android:hint="@string/cmn_moim_location"
-                android:onClick="@{activity::toLocation}"/>
+                android:onClick="@{() -> model.toLocation()}"/>
 
             <com.naver.maps.map.MapView
                 android:id="@+id/mapView"
@@ -72,7 +73,7 @@
                 style="@style/ButtonRed01"
                 android:layout_marginTop="16dp"
                 android:text="@string/cmn_save"
-                android:onClick="@{activity::save}"/>
+                android:onClick="@{() -> model.save()}"/>
         </LinearLayout>
 
 

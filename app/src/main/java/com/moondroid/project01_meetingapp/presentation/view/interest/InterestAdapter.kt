@@ -1,22 +1,17 @@
-package com.moondroid.project01_meetingapp.presentation.view.adapter
+package com.moondroid.project01_meetingapp.presentation.view.interest
 
-import android.app.Activity
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.moondroid.project01_meetingapp.databinding.ItemInterestBinding
-import com.moondroid.project01_meetingapp.presentation.view.activity.InterestActivity
-import com.moondroid.project01_meetingapp.utils.DMUtils
-import com.moondroid.project01_meetingapp.utils.IntentParam
 
 class InterestAdapter(
-    private val activity: InterestActivity
+    private val onClick: (position: Int) -> Unit
 ) : RecyclerView.Adapter<InterestAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemInterestBinding.inflate(LayoutInflater.from(activity), parent, false)
+            ItemInterestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -24,11 +19,7 @@ class InterestAdapter(
         holder.bind()
 
         holder.itemView.setOnClickListener {
-            val intent = Intent()
-            intent.putExtra(IntentParam.INTEREST, DMUtils.getStringId(activity, String.format("interest_%02d", position + 1 )))
-            intent.putExtra(IntentParam.INTEREST_ICON, DMUtils.getDrawableId(activity, String.format("ic_interest_%02d", position + 1)))
-            activity.setResult(Activity.RESULT_OK, intent)
-            activity.finish()
+            onClick(position)
         }
     }
 

@@ -9,12 +9,16 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.moondroid.project01_meetingapp.base.BaseActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -35,17 +39,17 @@ fun Activity.logException(t: Throwable) {
     DMLog.e("[${this.javaClass.simpleName} logException]::$t")
 }
 
-fun Any.log(msg:String){
+fun Any.log(msg: String) {
     DMLog.e("[${this.javaClass.simpleName}] , $msg ")
 }
 
-fun Activity.exitApp(){
+fun Activity.exitApp() {
     this.moveTaskToBack(true)
     this.finish()
     android.os.Process.killProcess(android.os.Process.myPid())
 }
 
-fun Activity.startActivityWithAnim(intent: Intent){
+fun Activity.startActivityWithAnim(intent: Intent) {
     this.startActivity(intent)
     overridePendingTransition(android.R.anim.fade_in, 0)
 }
@@ -86,8 +90,12 @@ fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
-fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit){
-    this.addTextChangedListener(object : TextWatcher{
+fun Context.toast(@StringRes resId: Int) {
+    toast(getString(resId))
+}
+
+fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
         }
 
@@ -107,6 +115,18 @@ fun String.toReqBody(): RequestBody {
 fun LifecycleOwner.repeatOnStarted(block: suspend CoroutineScope.() -> Unit) {
     lifecycleScope.launch {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED, block)
+    }
+}
+
+fun Toolbar.init(activity: AppCompatActivity) {
+    try {
+        activity.setSupportActionBar(this)
+        activity.supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setDisplayShowTitleEnabled(false)
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
     }
 }
 

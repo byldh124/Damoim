@@ -1,11 +1,24 @@
 package com.moondroid.project01_meetingapp.utils
 
+import android.view.View
 import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.google.android.gms.common.SignInButton
+import com.moondroid.project01_meetingapp.R
+import com.moondroid.project01_meetingapp.presentation.view.grouplist.GroupListActivity
+import com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
+
+@BindingAdapter("visible")
+fun View.visible(boolean: Boolean){
+    if (boolean) {
+        this.visibility = View.VISIBLE
+    } else {
+        this.visibility = View.GONE
+    }
+}
 
 @BindingAdapter("image")
 fun ImageView.loadImage(imageURL: String?) {
@@ -64,4 +77,28 @@ fun WebView.webLoad(url: String) {
 @BindingAdapter("onClick")
 fun SignInButton.onClick(method: () -> Unit) {
     this.setOnClickListener { method.invoke() }
+}
+
+@BindingAdapter("groupListTitle")
+fun TextView.setGroupTitle(type: GroupType) {
+    text = when (type) {
+        GroupType.FAVORITE -> context.getString(R.string.title_group_list_favorite)
+        GroupType.RECENT -> context.getString(R.string.title_group_list_recent)
+        GroupType.MY_GROUP -> context.getString(R.string.cmn_my_group)
+    }
+}
+
+@BindingAdapter("emptyMessage")
+fun DMRecycler.setEmptyMessage(type: GroupType) {
+    when (type) {
+        GroupType.FAVORITE -> setEmptyText(
+            context.getString(R.string.alm_favor_group_empty)
+        )
+        GroupType.RECENT -> setEmptyText(
+            context.getString(R.string.alm_recent_group_empty)
+        )
+        GroupType.MY_GROUP -> setEmptyText(
+            context.getString(R.string.alm_my_group_empty)
+        )
+    }
 }

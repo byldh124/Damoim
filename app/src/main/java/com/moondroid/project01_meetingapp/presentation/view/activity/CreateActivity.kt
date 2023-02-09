@@ -14,6 +14,8 @@ import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityCreateBinding
 import com.moondroid.project01_meetingapp.domain.model.GroupInfo
+import com.moondroid.project01_meetingapp.presentation.view.interest.InterestActivity
+import com.moondroid.project01_meetingapp.presentation.view.location.LocationActivity
 import com.moondroid.project01_meetingapp.presentation.viewmodel.CreateViewModel
 import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze

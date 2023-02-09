@@ -29,7 +29,7 @@ import com.moondroid.project01_meetingapp.presentation.view.activity.GroupActivi
 import com.moondroid.project01_meetingapp.presentation.view.adapter.ChatAdapter
 import com.moondroid.project01_meetingapp.presentation.view.adapter.GalleryAdapter
 import com.moondroid.project01_meetingapp.presentation.view.adapter.MemberAdapter
-import com.moondroid.project01_meetingapp.presentation.view.adapter.MoimAdapter
+import com.moondroid.project01_meetingapp.presentation.view.adapter.MoimListAdapter
 import com.moondroid.project01_meetingapp.presentation.viewmodel.GroupViewModel
 import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.moondroid.project01_meetingapp.utils.ResponseCode
@@ -45,7 +45,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     private val viewModel: GroupViewModel by viewModels()
     lateinit var groupInfo: GroupInfo
     private lateinit var memberAdapter: MemberAdapter
-    private lateinit var moimAdapter: MoimAdapter
+    private lateinit var moimListAdapter: MoimListAdapter
     lateinit var user: DMUser
 
     override fun onAttach(context: Context) {
@@ -75,7 +75,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
     private fun initView() {
         activity.let {
             memberAdapter = MemberAdapter(it)
-            moimAdapter = MoimAdapter(it)
+            moimListAdapter = MoimListAdapter(it)
         }
 
         binding.recMoim.setEmptyText("현재 예정된 정모가 없습니다.")
@@ -87,7 +87,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
         binding.recMember.adapter = memberAdapter
-        binding.recMoim.adapter = moimAdapter
+        binding.recMoim.adapter = moimListAdapter
     }
 
     private fun initViewModel() {
@@ -108,7 +108,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
                         }
                     }
 
-                    moimAdapter.updateList(moim)
+                    moimListAdapter.updateList(moim)
                 }
 
                 else -> {

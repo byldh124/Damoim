@@ -1,5 +1,6 @@
 package com.moondroid.project01_meetingapp.presentation.view.signin
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
@@ -12,20 +13,24 @@ import com.moondroid.project01_meetingapp.data.common.onSuccess
 import com.moondroid.project01_meetingapp.delegrate.MutableEventFlow
 import com.moondroid.project01_meetingapp.delegrate.asEventFlow
 import com.moondroid.project01_meetingapp.domain.model.User
-import com.moondroid.project01_meetingapp.domain.usecase.sign.GetSaltUseCase
+import com.moondroid.project01_meetingapp.domain.usecase.user.UserUseCase
+import com.moondroid.project01_meetingapp.domain.usecase.sign.SaltUseCase
 import com.moondroid.project01_meetingapp.domain.usecase.sign.SignInSocialUseCase
 import com.moondroid.project01_meetingapp.domain.usecase.sign.SignInUseCase
 import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val signInUseCase: SignInUseCase,
-    private val getSaltUseCase: GetSaltUseCase,
+    private val saltUseCase: SaltUseCase,
+    private val userUseCase: UserUseCase,
     private val signInSocialUseCase: SignInSocialUseCase
 ) : BaseViewModel() {
 
@@ -42,9 +47,9 @@ class SignInViewModel @Inject constructor(
     fun checkField() {
         try {
             if (!id.value.isNullOrEmpty() && !id.value.toString().matches(Regex.ID)) {
-                toast(R.string.error_id_mismatch)
+                context.toast(R.string.error_id_mismatch)
             } else if (!pw.value.isNullOrEmpty() && !pw.value.toString().matches(Regex.PW)) {
-                toast(R.string.error_password_mismatch)
+                context.toast(R.string.error_password_mismatch)
             } else {
                 getSalt(id.value.toString())
             }
@@ -56,7 +61,7 @@ class SignInViewModel @Inject constructor(
     private fun getSalt(id: String) {
         loading(true)
         viewModelScope.launch {
-            getSaltUseCase(id).collect { result ->
+            saltUseCase(id).collect { result ->
                 loading(false)
                 result.onSuccess {
                     when (it.code) {
@@ -69,7 +74,7 @@ class SignInViewModel @Inject constructor(
                             signIn(body)
                         }
                         ResponseCode.NOT_EXIST -> {
-                            toast(R.string.error_id_not_exist)
+                            context.toast(R.string.error_id_not_exist)
                         }
 
                         ResponseCode.FAIL -> {
@@ -81,18 +86,32 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    fun signIn(body: JsonObject) {
+    private fun signIn(body: JsonObject) {
         loading(true)
         viewModelScope.launch {
             signInUseCase(body).collect { result ->
-                loading(false)
                 result.onSuccess {
-                    log("signIn() - result.onSuccess")
-                    isChecked.value?.let { it1 -> DMApp.prefs.putBoolean(PrefsKey.AUTO_LOGIN, it1) }
-                    home()
+                    when (it.code) {
+                        ResponseCode.SUCCESS -> {
+                            val user = Gson().fromJson(it.body, User::class.java)
+                            viewModelScope.launch(Dispatchers.IO) {
+                                userUseCase(user!!)
+                            }
+                            isChecked.value?.let { it1 -> DMApp.prefs.putBoolean(PrefsKey.AUTO_LOGIN, it1) }
+                            home()
+                        }
+                        ResponseCode.INVALID_VALUE -> {
+                            context.toast(R.string.error_wrong_password)
+                        }
+
+                        ResponseCode.FAIL -> {
+                            message(it.msg)
+                        }
+                    }
                 }.onError {
                     message(it.message.toString())
                 }
+                loading(false)
             }
         }
     }
@@ -113,6 +132,11 @@ class SignInViewModel @Inject constructor(
                     when (it.code) {
                         ResponseCode.SUCCESS -> {
                             DMAnalyze.logEvent("SignIn_Success[Social]")
+                            val user = Gson().fromJson(it.body, User::class.java)
+                            viewModelScope.launch(Dispatchers.IO) {
+                                userUseCase(user!!)
+                            }
+                            isChecked.value?.let { it1 -> DMApp.prefs.putBoolean(PrefsKey.AUTO_LOGIN, it1) }
                             home()
                         }
 
@@ -133,7 +157,6 @@ class SignInViewModel @Inject constructor(
 
     private fun loading(b: Boolean) = event(Event.Loading(b))
     fun message(msg: String) = event(Event.Message(msg))
-    fun toast(resId: Int) = event(Event.Toast(resId))
     private fun home() = event(Event.Home)
     fun signUp() = event(Event.SignUp)
     private fun signUpSocial(id: String, name: String, thumb: String) =
@@ -149,7 +172,6 @@ class SignInViewModel @Inject constructor(
 sealed class Event {
     data class Loading(val show: Boolean) : Event()
     data class Message(val message: String) : Event()
-    data class Toast(val resId: Int) : Event()
     object Home : Event()
     object SignUp : Event()
     data class SignUpSocial(val id: String, val name: String, val thumb: String) : Event()

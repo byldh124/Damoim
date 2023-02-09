@@ -14,7 +14,7 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityProfileBinding
 import com.moondroid.project01_meetingapp.domain.model.DMUser
 import com.moondroid.project01_meetingapp.domain.model.GroupInfo
-import com.moondroid.project01_meetingapp.presentation.view.adapter.GroupListAdapter
+import com.moondroid.project01_meetingapp.presentation.view.grouplist.GroupListAdapter
 import com.moondroid.project01_meetingapp.presentation.viewmodel.ProfileViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.IntentParam
@@ -24,8 +24,7 @@ import com.moondroid.project01_meetingapp.utils.startActivityWithAnim
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_profile),
-    GroupListAdapter.OnItemClickListener {
+class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_profile) {
     private val viewModel: ProfileViewModel by viewModels()
     lateinit var adapter: GroupListAdapter
     private var profileUser: DMUser? = null
@@ -129,15 +128,13 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
             }
 
             binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-            adapter = GroupListAdapter(this, this)
+            adapter = GroupListAdapter {
+                goToGroupActivity(ActivityTy.PROFILE)
+            }
             binding.recycler.adapter = adapter
         } catch (e: Exception) {
             logException(e)
         }
-    }
-
-    override fun onClick() {
-        goToGroupActivity(ActivityTy.PROFILE)
     }
 
     private fun toReportActivity() {

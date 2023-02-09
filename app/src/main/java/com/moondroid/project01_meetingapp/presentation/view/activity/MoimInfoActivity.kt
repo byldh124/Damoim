@@ -13,11 +13,7 @@ import com.moondroid.project01_meetingapp.domain.model.DMUser
 import com.moondroid.project01_meetingapp.domain.model.Moim
 import com.moondroid.project01_meetingapp.presentation.view.adapter.MemberAdapter
 import com.moondroid.project01_meetingapp.presentation.viewmodel.MoimInfoViewModel
-import com.moondroid.project01_meetingapp.utils.IntentParam
-import com.moondroid.project01_meetingapp.utils.ResponseCode
-import com.moondroid.project01_meetingapp.utils.gone
-import com.moondroid.project01_meetingapp.utils.log
-import com.moondroid.project01_meetingapp.utils.logException
+import com.moondroid.project01_meetingapp.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,11 +39,7 @@ class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity
 
     private fun initView() {
         try {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.let {
-                it.setDisplayShowTitleEnabled(false)
-                it.setDisplayHomeAsUpEnabled(true)
-            }
+            binding.toolbar.init(this)
 
             binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
             adapter = MemberAdapter(this)

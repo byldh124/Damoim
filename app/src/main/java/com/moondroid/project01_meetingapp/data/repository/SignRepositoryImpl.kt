@@ -8,6 +8,7 @@ import com.moondroid.project01_meetingapp.data.datasource.remote.RemoteDataSourc
 import com.moondroid.project01_meetingapp.data.response.BaseResponse
 import com.moondroid.project01_meetingapp.domain.model.User
 import com.moondroid.project01_meetingapp.domain.repository.SignRepository
+import com.moondroid.project01_meetingapp.utils.log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -36,8 +37,6 @@ class SignRepositoryImpl(private val remoteDataSource: RemoteDataSource, private
                 when (this) {
                     is DMResult.Success -> {
                         emit(DMResult.Success(response))
-                        val user = Gson().fromJson(response.body, User::class.java)
-                        localDataSource.insertUser(user)
                     }
 
                     is DMResult.Error -> {
@@ -70,8 +69,6 @@ class SignRepositoryImpl(private val remoteDataSource: RemoteDataSource, private
                 when (this) {
                     is DMResult.Success -> {
                         emit(DMResult.Success(response))
-                        val user = Gson().fromJson(response.body, User::class.java)
-                        localDataSource.insertUser(user)
                     }
 
                     is DMResult.Error -> {

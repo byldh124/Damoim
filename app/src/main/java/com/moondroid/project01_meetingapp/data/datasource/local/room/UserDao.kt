@@ -10,7 +10,7 @@ interface UserDao {
     fun insertData(user: User)
 
     @Query("SELECT * FROM DMUser")
-    fun getUser(): List<UserEntity>
+    fun getUser(): List<User>
 
     @Query("DELETE FROM DMUser")
     fun delete()

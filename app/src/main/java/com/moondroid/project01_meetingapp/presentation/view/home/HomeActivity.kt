@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.view.activity
+package com.moondroid.project01_meetingapp.presentation.view.home
 
 import android.Manifest
 import android.content.ActivityNotFoundException
@@ -22,20 +22,18 @@ import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityHomeBinding
 import com.moondroid.project01_meetingapp.databinding.LayoutNavigationHeaderBinding
 import com.moondroid.project01_meetingapp.domain.model.GroupInfo
-import com.moondroid.project01_meetingapp.presentation.view.fragment.GroupListFragment
-import com.moondroid.project01_meetingapp.presentation.view.fragment.LocationFragment
-import com.moondroid.project01_meetingapp.presentation.view.fragment.MyGroupFragment
-import com.moondroid.project01_meetingapp.presentation.view.fragment.SearchFragment
-import com.moondroid.project01_meetingapp.presentation.viewmodel.HomeViewModel
-import com.moondroid.project01_meetingapp.utils.ActivityTy
-import com.moondroid.project01_meetingapp.utils.GroupListType
-import com.moondroid.project01_meetingapp.utils.IntentParam
-import com.moondroid.project01_meetingapp.utils.ResponseCode
+import com.moondroid.project01_meetingapp.presentation.view.activity.CreateActivity
+import com.moondroid.project01_meetingapp.presentation.view.activity.MyInfoActivity
+import com.moondroid.project01_meetingapp.presentation.view.activity.SettingActivity
+import com.moondroid.project01_meetingapp.presentation.view.grouplist.GroupListActivity
+import com.moondroid.project01_meetingapp.presentation.view.home.HomeViewModel.Event
+import com.moondroid.project01_meetingapp.presentation.view.home.main.MainFragment
+import com.moondroid.project01_meetingapp.presentation.view.home.map.LocationFragment
+import com.moondroid.project01_meetingapp.presentation.view.home.mygroup.MyGroupFragment
+import com.moondroid.project01_meetingapp.presentation.view.home.search.SearchFragment
+import com.moondroid.project01_meetingapp.presentation.view.interest.InterestActivity
+import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
-import com.moondroid.project01_meetingapp.utils.log
-import com.moondroid.project01_meetingapp.utils.logException
-import com.moondroid.project01_meetingapp.utils.startActivityWithAnim
-import com.moondroid.project01_meetingapp.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -64,20 +62,52 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     private lateinit var headerBinding: LayoutNavigationHeaderBinding
     private val viewModel: HomeViewModel by viewModels()
 
-    lateinit var groupsList: ArrayList<GroupInfo>
+    lateinit var groupsList: List<GroupInfo>
 
     private var mBackWait = 0L       //Back 2번 클릭
 
+    private var name = String()
+
     override fun init() {
         headerBinding = LayoutNavigationHeaderBinding.bind(binding.homeNav.getHeaderView(0))
-        initView()
-        initViewModel()
 
-        binding.activity = this
-        headerBinding.activity = this
-        headerBinding.user = user
+        repeatOnStarted {
+            viewModel.eventFlow.collect {
+                handleEvent(it)
+            }
+        }
+        initView()
+
+        binding.model = viewModel
+        headerBinding.model = viewModel
 
         checkPermission()
+    }
+
+    private fun handleEvent(event: Event) {
+        when (event) {
+            Event.MyProfile -> {
+                val intent = Intent(this, MyInfoActivity::class.java)
+                intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
+
+                val result: (Intent) -> Unit = {
+                    viewModel.getUser()
+                }
+                activityResult(result, intent)
+                hideNavigation()
+            }
+            is Event.Profile -> {
+                headerBinding.user = event.user
+            }
+            Event.Share -> share()
+            is Event.UpdateInterest -> {
+                if (event.b) {
+                    showMessage(getString(R.string.alm_update_interest_success))
+                } else {
+                    showMessage(getString(R.string.error_update_interest_fail))
+                }
+            }
+        }
     }
 
     override fun onBack() {
@@ -104,11 +134,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
      */
     private fun initView() {
         try {
-            title = getString(R.string.cmn_find_group)
+            name = getString(R.string.cmn_find_group)
 
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowTitleEnabled(false)
+            binding.toolbar.init(this)
 
             // connect drawer - navigation
             val drawerToggle = ActionBarDrawerToggle(
@@ -123,23 +151,23 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                 setOnItemSelectedListener {
                     when (it.itemId) {
                         R.id.bnv_tab1 -> {
-                            changeFragment(GroupListFragment())
-                            title = getString(R.string.cmn_find_group)
+                            changeFragment(MainFragment())
+                            name = getString(R.string.cmn_find_group)
                         }
                         R.id.bnv_tab2 -> {
                             changeFragment(MyGroupFragment())
-                            title = getString(R.string.cmn_my_group)
+                            name = getString(R.string.cmn_my_group)
                         }
                         R.id.bnv_tab3 -> {
                             changeFragment(SearchFragment())
-                            title = getString(R.string.cmn_search)
+                            name = getString(R.string.cmn_search)
                         }
                         R.id.bnv_tab4 -> {
                             changeFragment(LocationFragment())
-                            title = getString(R.string.cmn_search_nearly_group)
+                            name = getString(R.string.cmn_search_nearly_group)
                         }
                     }
-                    binding.activity = this@HomeActivity
+                    binding.name = name
                     true
                 }
                 selectedItemId = R.id.bnv_tab1
@@ -147,32 +175,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
             initNavigation()
         } catch (e: Exception) {
             logException(e)
-        }
-    }
-
-    /**
-     * Observe ViewModel
-     */
-    private fun initViewModel() {
-
-        viewModel.showLoading.observe(this) {
-            showLoading(it)
-        }
-
-        viewModel.showError.observe(this) {
-            showNetworkError(it)
-        }
-
-        viewModel.interestResponse.observe(this) {
-            when (it.code) {
-                ResponseCode.SUCCESS -> {
-                    showMessage(getString(R.string.alm_update_interest_success))
-                }
-
-                ResponseCode.FAIL -> {
-                    showMessage(getString(R.string.error_update_interest_fail))
-                }
-            }
         }
     }
 
@@ -286,25 +288,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
     }
 
     /**
-     * 프로필 세팅 액티비티 전환
-     */
-    fun toMyInfoActivity(@Suppress("UNUSED_PARAMETER") vw: View) {
-        try {
-            val intent = Intent(this, MyInfoActivity::class.java)
-            intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
-
-            val result: (Intent) -> Unit = {
-                resetUserInfo()
-                headerBinding.user = user
-            }
-            activityResult(result, intent)
-            hideNavigation()
-        } catch (e: Exception) {
-            logException(e)
-        }
-    }
-
-    /**
      * BottomNavigationView 클릭시 Fragment 전환
      */
     private fun changeFragment(fragment: Fragment) {
@@ -316,8 +299,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
         }
     }
 
-    fun share(@Suppress("UNUSED_PARAMETER") vw: View) {
-
+    fun share() {
         try {
             DMAnalyze.logEvent("Share Clicked")
 

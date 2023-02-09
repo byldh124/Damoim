@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
@@ -17,7 +16,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.domain.model.DMUser
 import com.moondroid.project01_meetingapp.data.datasource.local.realm.DMRealm
 import com.moondroid.project01_meetingapp.presentation.view.activity.GroupActivity
-import com.moondroid.project01_meetingapp.presentation.view.activity.HomeActivity
+import com.moondroid.project01_meetingapp.presentation.view.home.HomeActivity
 import com.moondroid.project01_meetingapp.presentation.view.signin.SignInActivity
 import com.moondroid.project01_meetingapp.presentation.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.OneButtonDialog

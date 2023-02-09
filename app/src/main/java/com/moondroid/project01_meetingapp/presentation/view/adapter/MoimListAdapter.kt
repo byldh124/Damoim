@@ -16,8 +16,8 @@ import com.moondroid.project01_meetingapp.utils.startActivityWithAnim
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")
-class MoimAdapter(private val activity: GroupActivity) :
-    RecyclerView.Adapter<MoimAdapter.ViewHolder>() {
+class MoimListAdapter(private val activity: GroupActivity) :
+    RecyclerView.Adapter<MoimListAdapter.ViewHolder>() {
 
     private var moimList: List<Moim> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()

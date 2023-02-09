@@ -1,6 +1,6 @@
 @file:Suppress("SpellCheckingInspection")
 
-package com.moondroid.project01_meetingapp.presentation.view.adapter
+package com.moondroid.project01_meetingapp.presentation.view.grouplist
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,8 +15,7 @@ import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")
 class GroupListAdapter(
-    private val ctx: Context,
-    private val listener: OnItemClickListener
+    private val onClick :  (GroupInfo) -> Unit,
 ) : RecyclerView.Adapter<GroupListAdapter.ViewHolder>() {
 
     private lateinit var listContainer: List<GroupInfo>
@@ -28,7 +27,7 @@ class GroupListAdapter(
     private var currentCategory: String = CATEGORY_ALL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemHomeGroupInfoBinding.inflate(LayoutInflater.from(ctx), parent, false))
+        return ViewHolder(ItemHomeGroupInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -43,8 +42,7 @@ class GroupListAdapter(
             * 아이템 클릭시 해당 모임의 정보를 글로벌로 올린뒤 GroupActivity 에서
             * 글로벌에 저장된 해당 정보를 조회하여 표현
             */
-            DMApp.group = group
-            listener.onClick()
+            onClick(group)
         }
 
         holder.bind(group)
@@ -91,11 +89,6 @@ class GroupListAdapter(
         }
 
     }
-
-    interface OnItemClickListener {
-        fun onClick()
-    }
-
     companion object {
         const val CATEGORY_ALL: String = "전체"
     }

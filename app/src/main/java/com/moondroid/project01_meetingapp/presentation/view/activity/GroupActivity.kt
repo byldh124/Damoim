@@ -16,6 +16,7 @@ import com.moondroid.project01_meetingapp.presentation.dialog.TutorialDialog
 import com.moondroid.project01_meetingapp.presentation.view.fragment.ChatFragment
 import com.moondroid.project01_meetingapp.presentation.view.fragment.GalleryFragment
 import com.moondroid.project01_meetingapp.presentation.view.fragment.InfoFragment
+import com.moondroid.project01_meetingapp.presentation.view.moim.MoimActivity
 import com.moondroid.project01_meetingapp.presentation.viewmodel.GroupViewModel
 import com.moondroid.project01_meetingapp.utils.ActivityTy
 import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY

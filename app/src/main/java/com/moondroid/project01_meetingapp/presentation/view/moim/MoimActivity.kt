@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.view.activity
+package com.moondroid.project01_meetingapp.presentation.view.moim
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -13,14 +13,9 @@ import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityMoimBinding
 import com.moondroid.project01_meetingapp.domain.model.Address
-import com.moondroid.project01_meetingapp.presentation.viewmodel.MoimViewModel
-import com.moondroid.project01_meetingapp.utils.ActivityTy
-import com.moondroid.project01_meetingapp.utils.IntentParam
-import com.moondroid.project01_meetingapp.utils.RequestParam
-import com.moondroid.project01_meetingapp.utils.ResponseCode
+import com.moondroid.project01_meetingapp.presentation.view.location.LocationActivity
+import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
-import com.moondroid.project01_meetingapp.utils.logException
-import com.moondroid.project01_meetingapp.utils.toast
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.LocationTrackingMode
@@ -29,20 +24,28 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import org.joda.time.DateTime
 
 @AndroidEntryPoint
 class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), OnMapReadyCallback {
-    private val requestCode = 0xf0f0
-    private var temp: Address? = null
     private val viewModel: MoimViewModel by viewModels()
+
+    private val requestCode = 0xf0f0
     private lateinit var locationSource: FusedLocationSource
     private lateinit var mNaverMap: NaverMap
 
     override fun init() {
-        binding.activity = this
-        initView()
+        binding.lifecycleOwner = this
+        binding.model = viewModel
+        binding.toolbar.init(this)
         initViewModel()
+
+        repeatOnStarted {
+            viewModel.eventFlow.collect{
+                handleEvent(it)
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,18 +53,6 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, requestCode)
-    }
-
-    private fun initView() {
-        try {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.let {
-                it.setDisplayHomeAsUpEnabled(true)
-                it.setDisplayShowTitleEnabled(false)
-            }
-        } catch (e: Exception) {
-            logException(e)
-        }
     }
 
     private fun initViewModel() {
@@ -101,16 +92,17 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
         }
     }
 
-    fun toLocation(@Suppress("UNUSED_PARAMETER") vw: View) {
+    fun toLocation() {
         val onResult: (Intent) -> Unit = {
             try {
                 val json = it.getStringExtra(IntentParam.ADDRESS).toString()
-                temp = Gson().fromJson(json, Address::class.java)
+                val temp = Gson().fromJson(json, Address::class.java)
                 temp?.let { address ->
                     binding.tvLocation.text = address.address
                     val marker = Marker(address.latLng)
                     marker.map = mNaverMap
                     mNaverMap.cameraPosition = CameraPosition(address.latLng, 16.0, 0.0, 0.0)
+                    viewModel.address = address
                 }
             } catch (e: Exception) {
                 logException(e)
@@ -126,12 +118,12 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
     }
 
 
-    fun showDate(@Suppress("UNUSED_PARAMETER") vw: View) {
+    private fun showDate() {
         try {
             val date = DateTime(System.currentTimeMillis())
             val datePicker = DatePickerDialog(
                 this, R.style.DatePickerSpin, { _, p1, p2, p3 ->
-                    binding.tvDate.text = String.format("%d.%d.%d", p1, p2 + 1, p3)
+                    viewModel.date.value = String.format("%d.%d.%d", p1, p2 + 1, p3)
                 }, date.year, date.monthOfYear - 1, date.dayOfMonth
             )
             datePicker.show()
@@ -140,11 +132,11 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
         }
     }
 
-    fun showTime(@Suppress("UNUSED_PARAMETER") vw: View) {
+    private fun showTime() {
         try {
             val timePicker = TimePickerDialog(
                 this, R.style.TimePickerSpin, { _, hour, minute ->
-                    binding.tvTime.text = String.format("%02d : %02d", hour, minute) }
+                    viewModel.time.value = String.format("%02d : %02d", hour, minute) }
                 , 12, 0, true
             )
             timePicker.show()
@@ -153,46 +145,11 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
         }
     }
 
-    fun save(@Suppress("UNUSED_PARAMETER") vw: View) {
-        try {
-            if (temp == null) return
-            val address = temp!!.address
-            val lat = temp!!.latLng.latitude
-            val lng = temp!!.latLng.longitude
-            val date = binding.tvDate.text.toString()
-            val time = binding.tvTime.text.toString()
-            var pay = binding.tvPay.text.toString()
-
-            if (date.isEmpty()) {
-                toast(getString(R.string.error_empty_moim_date))
-                return
-            } else if (time.isEmpty()) {
-                toast(getString(R.string.error_empty_moim_time))
-                return
-            } else {
-                if (pay.isEmpty()) {
-                    pay = String.format("0%s", getString(R.string.cmn_won))
-                } else {
-                    if (!pay.endsWith(getString(R.string.cmn_won))) {
-                        pay += getString(R.string.cmn_won)
-                    }
-                }
-                val joinMember = Gson().toJson(arrayOf(user!!.id))
-                val body = JsonObject()
-                body.addProperty(RequestParam.TITLE, DMApp.group.title)
-                body.addProperty(RequestParam.ADDRESS, address)
-                body.addProperty(RequestParam.DATE, date)
-                body.addProperty(RequestParam.TIME, time)
-                body.addProperty(RequestParam.PAY, pay)
-                body.addProperty(RequestParam.PAY, pay)
-                body.addProperty(RequestParam.LAT, lat)
-                body.addProperty(RequestParam.LNG, lng)
-                body.addProperty(RequestParam.JOIN_MEMBER, joinMember)
-
-                viewModel.createMoim(body)
-            }
-        } catch (e: Exception) {
-            logException(e)
+    private fun handleEvent(event: MoimViewModel.Event) {
+        when (event) {
+            MoimViewModel.Event.Date -> showDate()
+            MoimViewModel.Event.Location -> toLocation()
+            MoimViewModel.Event.Time -> showTime()
         }
     }
 

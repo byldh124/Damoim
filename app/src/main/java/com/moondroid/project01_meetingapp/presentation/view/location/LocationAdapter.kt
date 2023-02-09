@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.view.adapter
+package com.moondroid.project01_meetingapp.presentation.view.location
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -7,12 +7,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.moondroid.project01_meetingapp.databinding.ItemLocationBinding
-import com.moondroid.project01_meetingapp.presentation.view.activity.LocationActivity
 import com.moondroid.project01_meetingapp.utils.IntentParam
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")
-class LocationAdapter(private val activity: LocationActivity) :
+class LocationAdapter(private val onClick : (String) -> Unit) :
     RecyclerView.Adapter<LocationAdapter.ViewHolder>() {
 
     private var list: List<String> by Delegates.observable(emptyList()) { _, _, _ ->
@@ -25,7 +24,7 @@ class LocationAdapter(private val activity: LocationActivity) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemLocationBinding.inflate(LayoutInflater.from(activity), parent, false)
+            ItemLocationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -34,10 +33,7 @@ class LocationAdapter(private val activity: LocationActivity) :
             val address = list[position]
             bind(address)
             itemView.setOnClickListener {
-                val intent = Intent()
-                intent.putExtra(IntentParam.LOCATION, address)
-                activity.setResult(Activity.RESULT_OK, intent)
-                activity.finish()
+                onClick(address)
             }
         }
     }

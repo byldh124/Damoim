@@ -4,9 +4,13 @@ import com.moondroid.project01_meetingapp.data.datasource.local.LocalDataSource
 import com.moondroid.project01_meetingapp.data.datasource.remote.ApiInterface
 import com.moondroid.project01_meetingapp.data.datasource.remote.RemoteDataSourceImpl
 import com.moondroid.project01_meetingapp.data.repository.AppRepositoryImpl
+import com.moondroid.project01_meetingapp.data.repository.GroupRepositoryImpl
 import com.moondroid.project01_meetingapp.data.repository.SignRepositoryImpl
+import com.moondroid.project01_meetingapp.data.repository.UserRepositoryImpl
 import com.moondroid.project01_meetingapp.domain.repository.AppRepository
+import com.moondroid.project01_meetingapp.domain.repository.GroupRepository
 import com.moondroid.project01_meetingapp.domain.repository.SignRepository
+import com.moondroid.project01_meetingapp.domain.repository.UserRepository
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.network.RepositoryImpl
 import dagger.Module
@@ -28,6 +32,26 @@ object RepositoryModule {
         api: ApiInterface
     ): Repository {
         return RepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGroupRepository(
+        api: ApiInterface,
+        localDataSource: LocalDataSource
+    ) : GroupRepository {
+        val remoteDataSourceImpl = RemoteDataSourceImpl(api)
+        return GroupRepositoryImpl(remoteDataSource = remoteDataSourceImpl, localDataSource = localDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        api: ApiInterface,
+        localDataSource: LocalDataSource
+    ) : UserRepository {
+        val remoteDataSourceImpl = RemoteDataSourceImpl(api)
+        return UserRepositoryImpl(remoteDataSource = remoteDataSourceImpl, localDataSource = localDataSource)
     }
 
     @Provides

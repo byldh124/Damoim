@@ -1,7 +1,6 @@
-package com.moondroid.project01_meetingapp.presentation.view.adapter
+package com.moondroid.project01_meetingapp.presentation.view.home.main
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -13,9 +12,8 @@ import com.moondroid.project01_meetingapp.utils.DMUtils
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")
-class CategoryListAdapter(
-    private val ctx: Context,
-    private val listener: OnItemClickListener
+class CategoryListAdapter (
+    private val onClick : (String) -> Unit
 ) :
     RecyclerView.Adapter<CategoryListAdapter.ViewHolder>() {
 
@@ -25,17 +23,17 @@ class CategoryListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemHomeCategoryBinding.inflate(LayoutInflater.from(ctx), parent, false)
+            ItemHomeCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
-
+        val ctx = holder.itemView.context
         val category: String =
             ctx.getString(DMUtils.getStringId(ctx, String.format("interest_%02d", position)))
 
         holder.container.setOnClickListener {
-            listener.onClick(category)
+            onClick(category)
             checkedPosition = position
         }
 
@@ -54,16 +52,12 @@ class CategoryListAdapter(
         fun bind() {
             binding.position = adapterPosition
             binding.executePendingBindings()
-
+            val ctx = itemView.context
             if (checkedPosition == adapterPosition) {
                 binding.txtCategory.setTextColor(ContextCompat.getColor(ctx, R.color.red_light01))
             } else {
                 binding.txtCategory.setTextColor(ContextCompat.getColor(ctx, R.color.gray_light01))
             }
         }
-    }
-
-    interface OnItemClickListener {
-        fun onClick(category: String)
     }
 }

@@ -43,6 +43,12 @@ object ActivityTy {
     const val MOIM_INFO = 15
 }
 
+enum class GroupType {
+    FAVORITE,           // 관심등록 모임
+    RECENT,             // 최근 본 모임
+    MY_GROUP,           // 내 모임
+}
+
 object RequestParam {
     /** 유저 관련 **/
     const val ID = "id"

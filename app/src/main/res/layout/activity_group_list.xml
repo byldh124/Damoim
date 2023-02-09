@@ -6,14 +6,14 @@
     <data>
 
         <variable
-            name="title"
-            type="String" />
+            name="type"
+            type="com.moondroid.project01_meetingapp.utils.GroupType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.view.activity.GroupListActivity">
+        tools:context=".presentation.view.grouplist.GroupListActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -23,16 +23,17 @@
 
             <TextView
                 style="@style/TitleWhite"
-                android:text="@{title}" />
+                groupListTitle="@{type}" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 
         <com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
             android:id="@+id/recycler"
+            emptyMessage="@{type}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -2,13 +2,6 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-
-        <variable
-            name="fragment"
-            type="com.moondroid.project01_meetingapp.presentation.view.fragment.LocationFragment" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

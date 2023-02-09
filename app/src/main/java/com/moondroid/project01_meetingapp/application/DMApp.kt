@@ -12,6 +12,7 @@ import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import dagger.hilt.android.HiltAndroidApp
 import io.realm.kotlin.Realm
 import net.danlew.android.joda.JodaTimeInitializer
+import net.danlew.android.joda.ResourceZoneInfoProvider
 
 @HiltAndroidApp
 class DMApp : Application() {

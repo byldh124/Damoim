@@ -6,19 +6,19 @@
     <data>
 
         <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.view.activity.HomeActivity" />
+            name="model"
+            type="com.moondroid.project01_meetingapp.presentation.view.home.HomeViewModel" />
 
         <variable
             name="user"
-            type="com.moondroid.project01_meetingapp.domain.model.DMUser" />
+            type="com.moondroid.project01_meetingapp.domain.model.User" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:background="#9FE3D7"
-        android:onClick="@{activity::toMyInfoActivity}"
+        android:onClick="@{() -> model.toMyProfile()}"
         android:padding="16dp">
 
         <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView

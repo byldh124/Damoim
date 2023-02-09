@@ -3,28 +3,17 @@ package com.moondroid.project01_meetingapp.presentation.view.splash
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.moondroid.project01_meetingapp.BuildConfig
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.application.DMApp
 import com.moondroid.project01_meetingapp.base.BaseActivity
-import com.moondroid.project01_meetingapp.data.common.onError
-import com.moondroid.project01_meetingapp.data.common.onSuccess
 import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
 import com.moondroid.project01_meetingapp.utils.ActivityTy
-import com.moondroid.project01_meetingapp.utils.PrefsKey
-import com.moondroid.project01_meetingapp.utils.ResponseCode
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
-import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
-import com.moondroid.project01_meetingapp.utils.exitApp
-import com.moondroid.project01_meetingapp.utils.log
 import com.moondroid.project01_meetingapp.utils.logException
 import com.moondroid.project01_meetingapp.utils.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 /**
  * 스플래시 액티비티

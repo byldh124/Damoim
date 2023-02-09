@@ -46,7 +46,7 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.view.activity.MoimActivity"
+            android:name=".presentation.view.moim.MoimActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
@@ -68,15 +68,15 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.view.activity.GroupListActivity"
+            android:name=".presentation.view.grouplist.GroupListActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.view.activity.LocationActivity"
+            android:name=".presentation.view.location.LocationActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.White" />
         <activity
-            android:name=".presentation.view.activity.InterestActivity"
+            android:name=".presentation.view.interest.InterestActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.White" />
         <activity
@@ -131,7 +131,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.view.activity.HomeActivity"
+            android:name=".presentation.view.home.HomeActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
