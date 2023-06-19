@@ -3,8 +3,7 @@ package com.moondroid.project01_meetingapp.utils.firebase
 import android.content.Context
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.moondroid.project01_meetingapp.domain.model.DMUser
-import com.moondroid.project01_meetingapp.domain.model.User
+import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.project01_meetingapp.utils.RequestParam
 
 class DMAnalyze {
@@ -20,7 +19,7 @@ class DMAnalyze {
                 }
             }
 
-        fun setProperty(user: User) {
+        fun setProperty(user: Profile) {
             instance?.apply {
                 setUserId(user.id)
                 setUserProperty(RequestParam.ID, user.id)

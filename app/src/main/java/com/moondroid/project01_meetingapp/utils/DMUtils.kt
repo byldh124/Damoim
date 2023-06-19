@@ -10,8 +10,6 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.TypedValue
 import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -203,7 +201,7 @@ internal object DMUtils {
             val metrics = context.resources.displayMetrics
             dp = pixel / (metrics.densityDpi / 160f)
         } catch (e: Exception) {
-            DMCrash.logException(e)
+            DMCrash.e.logException()
         }
         return dp
     }
@@ -217,7 +215,7 @@ internal object DMUtils {
             val metrics = context.resources.displayMetrics
             dp = pixel / (metrics.densityDpi / 160f)
         } catch (e: Exception) {
-            DMCrash.logException(e)
+            DMCrash.e.logException()
         }
         return dp.toInt()
     }
@@ -230,7 +228,7 @@ internal object DMUtils {
         try {
             pixel = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics)
         } catch (e: Exception) {
-            DMCrash.logException(e)
+            DMCrash.e.logException()
         }
 
         return pixel
@@ -249,7 +247,7 @@ internal object DMUtils {
                 context.resources.displayMetrics
             )
         } catch (e: Exception) {
-            DMCrash.logException(e)
+            DMCrash.e.logException()
         }
 
         return pixel.toInt()
@@ -282,9 +280,9 @@ internal object DMUtils {
 
     fun getToday(format: String): String {
         return try {
-            (DateTime(DateTimeZone.UTC)).toString(format)
+            ""
         } catch (e: Exception) {
-            DMCrash.logException(e)
+            DMCrash.e.logException()
             ""
         }
     }

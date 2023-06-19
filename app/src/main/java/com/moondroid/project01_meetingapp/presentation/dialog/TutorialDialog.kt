@@ -8,25 +8,19 @@ import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.base.BaseDialog
+import com.moondroid.project01_meetingapp.presentation.base.BaseDialog
 import com.moondroid.project01_meetingapp.databinding.DialogTutorialBinding
 import com.moondroid.project01_meetingapp.utils.DMUtils
 
 class TutorialDialog(context: Context) : BaseDialog(context) {
-
-
-    lateinit var binding: DialogTutorialBinding
+    private lateinit var binding: DialogTutorialBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
-            R.layout.dialog_tutorial,
-            null,
-            false
-        )
-        binding.dialog = this
+        binding = DialogTutorialBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
+
+        binding.root.setOnClickListener { cancel() }
 
         initView()
     }
@@ -38,9 +32,5 @@ class TutorialDialog(context: Context) : BaseDialog(context) {
 
         val layoutParams = binding.header.layoutParams as ConstraintLayout.LayoutParams
         layoutParams.topMargin = DMUtils.getStatusBarHeight(context)
-    }
-
-    fun userClick(@Suppress("UNUSED_PARAMETER") vw: View) {
-        cancel()
     }
 }

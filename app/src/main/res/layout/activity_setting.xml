@@ -5,13 +5,13 @@
     <data>
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.view.activity.SettingActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.activity.SettingActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.view.activity.SettingActivity">
+        tools:context=".presentation.ui.activity.SettingActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"

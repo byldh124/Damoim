@@ -5,11 +5,11 @@
 
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.view.activity.GroupInfoActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.activity.GroupInfoActivity" />
 
         <variable
             name="groupInfo"
-            type="com.moondroid.project01_meetingapp.domain.model.GroupInfo" />
+            type="com.moondroid.damoim.domain.model.GroupInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -47,7 +47,7 @@
                 android:onClick="@{activity::getImage}"
                 image ="@{groupInfo.image}"/>
 
-            <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
+            <com.moondroid.project01_meetingapp.presentation.common.DMRoundView
                 android:id="@+id/imgWrapper"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
@@ -65,7 +65,7 @@
                     android:onClick="@{activity::getThumb}"
                     image="@{groupInfo.thumb}" />
 
-            </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
+            </com.moondroid.project01_meetingapp.presentation.common.DMRoundView>
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/tvTitle"

@@ -7,7 +7,7 @@
 
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.view.activity.ProfileActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.activity.ProfileActivity" />
 
         <variable
             name="user"
@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.view.activity.ProfileActivity">
+        tools:context=".presentation.ui.activity.ProfileActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"

@@ -10,23 +10,10 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.google.gson.JsonObject
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.data.response.BaseResponse
-import com.moondroid.project01_meetingapp.domain.model.DMUser
-import com.moondroid.project01_meetingapp.data.datasource.remote.ApiInterface
-import com.moondroid.project01_meetingapp.data.datasource.local.realm.DMRealm
-import com.moondroid.project01_meetingapp.presentation.view.splash.SplashActivity
-import com.moondroid.project01_meetingapp.utils.DMLog
+import com.moondroid.project01_meetingapp.presentation.ui.splash.SplashActivity
 import com.moondroid.project01_meetingapp.utils.NotificationParam
-import com.moondroid.project01_meetingapp.utils.RequestParam
-import com.moondroid.project01_meetingapp.utils.log
 import dagger.hilt.android.AndroidEntryPoint
-import io.realm.kotlin.ext.query
-import io.realm.kotlin.query.RealmResults
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import javax.inject.Inject
 
@@ -98,38 +85,16 @@ class DMMessage : FirebaseMessagingService() {
 
             notificationManager.notify(11, builder.build())
         } catch (e: Exception) {
-            DMCrash.logException(e)
+            DMCrash.e.logException()
         }
     }
 
     private fun sendNewToken(token: String) {
         try {
-            val items: RealmResults<DMUser> = DMRealm.getInstance().query<DMUser>().find()
-            if (items.isNotEmpty()) {
-                val user: DMUser = items.last()
 
-                val body = JsonObject()
-
-                body.addProperty(RequestParam.ID, user.id)
-                body.addProperty(RequestParam.TOKEN, token)
-
-                retrofit.create(ApiInterface::class.java).updateTokenService(body)
-                    .enqueue(object : Callback<BaseResponse> {
-                        override fun onResponse(
-                            call: Call<BaseResponse>,
-                            response: Response<BaseResponse>
-                        ) {
-                            log("sendNewToken() api call")
-                        }
-
-                        override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
-                            DMCrash.logException(t)
-                        }
-                    })
-            }
 
         } catch (e: Exception) {
-            DMCrash.logException(e)
+            DMCrash.e.logException()
         }
 
     }

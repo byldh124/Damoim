@@ -6,21 +6,15 @@ import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.base.BaseDialog
+import com.moondroid.project01_meetingapp.presentation.base.BaseDialog
 import com.moondroid.project01_meetingapp.databinding.DialogLoadingBinding
 
 class LoadingDialog(context: Context) : BaseDialog(context) {
-    lateinit var binding: DialogLoadingBinding
+    private lateinit var binding: DialogLoadingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
-            R.layout.dialog_loading,
-            null,
-            false
-        )
-        binding.dialog = this
+        binding = DialogLoadingBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
         setCanceledOnTouchOutside(false)
         Glide.with(context).load(R.drawable.loading_black).into(binding.imgLoading)

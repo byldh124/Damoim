@@ -5,32 +5,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.base.BaseDialog
+import com.moondroid.project01_meetingapp.presentation.base.BaseDialog
 import com.moondroid.project01_meetingapp.databinding.DialogOneButtonBinding
 
 class OneButtonDialog(context: Context, var msg: String, var onClick: () -> Unit) : BaseDialog(context) {
 
-    lateinit var binding: DialogOneButtonBinding
+    private lateinit var binding: DialogOneButtonBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
-            R.layout.dialog_one_button,
-            null,
-            false
-        )
+        binding = DialogOneButtonBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
-    }
 
-    fun confirm() {
-        cancel()
+        binding.btnConfirm.setOnClickListener {
+            cancel()
+        }
     }
 
     override fun show() {
         super.show()
-        binding.dialog = this
+        binding.tvMessage.text = msg
     }
 
     override fun cancel() {

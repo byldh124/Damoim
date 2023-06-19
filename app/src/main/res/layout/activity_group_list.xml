@@ -7,13 +7,13 @@
 
         <variable
             name="type"
-            type="com.moondroid.project01_meetingapp.utils.GroupType" />
+            type="com.moondroid.damoim.common.GroupType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.view.grouplist.GroupListActivity">
+        tools:context=".presentation.ui.grouplist.GroupListActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -27,7 +27,7 @@
 
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
+        <com.moondroid.project01_meetingapp.presentation.common.DMRecycler
             android:id="@+id/recycler"
             emptyMessage="@{type}"
             android:layout_width="match_parent"

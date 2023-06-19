@@ -24,7 +24,7 @@
     </queries>
 
     <application
-        android:name=".application.DMApp"
+        android:name=".DMApp"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:hardwareAccelerated="true"
@@ -38,19 +38,19 @@
         tools:targetApi="s">
 
         <activity
-            android:name=".presentation.view.activity.MoimInfoActivity"
+            android:name=".presentation.ui.activity.MoimInfoActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.view.activity.ProfileActivity"
+            android:name=".presentation.ui.activity.ProfileActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.view.moim.MoimActivity"
+            android:name=".presentation.ui.moim.MoimActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.view.activity.GroupInfoActivity"
+            android:name=".presentation.ui.activity.GroupInfoActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
 
@@ -59,40 +59,40 @@
             android:value="csit8ak1h9" />
 
         <activity
-            android:name=".presentation.view.activity.ReportActivity"
+            android:name=".presentation.ui.activity.ReportActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
 
         <activity
-            android:name=".presentation.view.activity.SettingActivity"
+            android:name=".presentation.ui.activity.SettingActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.view.grouplist.GroupListActivity"
+            android:name=".presentation.ui.grouplist.GroupListActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.view.location.LocationActivity"
+            android:name=".presentation.ui.location.LocationActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.White" />
         <activity
-            android:name=".presentation.view.interest.InterestActivity"
+            android:name=".presentation.ui.interest.InterestActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.White" />
         <activity
-            android:name=".presentation.view.activity.MyInfoActivity"
+            android:name=".presentation.ui.activity.MyInfoActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.view.signup.SignUpActivity"
+            android:name=".presentation.ui.signup.SignUpActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.view.signin.SignInActivity"
+            android:name=".presentation.ui.signin.SignInActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.view.activity.CreateActivity"
+            android:name=".presentation.ui.activity.CreateActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Kakao Login Activity -->
         <activity
@@ -110,7 +110,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.view.splash.SplashActivity"
+            android:name=".presentation.ui.splash.SplashActivity"
             android:exported="true"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
@@ -131,11 +131,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.view.home.HomeActivity"
+            android:name=".presentation.ui.home.HomeActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.view.activity.GroupActivity"
+            android:name=".presentation.ui.activity.GroupActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Google FCM Background Service -->
         <service

@@ -1,67 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="dialog"
-            type="com.moondroid.project01_meetingapp.presentation.dialog.OneButtonDialog" />
-    </data>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dialog_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/dialog_background">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_dialog_default_white"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1.7:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.8">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/nanum_square_round_eb"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:textAlignment="center"
+            android:textColor="@color/gray_dark02"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@id/btnConfirm"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btnConfirm"
+            style="@style/ButtonRed01"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/bg_dialog_default_white"
-            android:padding="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/cmn_confirm"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1.7:1"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.8">
+            app:layout_constraintWidth_percent="0.6" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:gravity="center"
-                android:lineSpacingExtra="8dp"
-                android:text="@{dialog.msg}"
-                android:textAlignment="center"
-                android:textColor="@color/gray_dark02"
-                android:textSize="18dp"
-                app:layout_constraintBottom_toTopOf="@id/btnConfirm"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="16dp" />
-
-            <TextView
-                android:id="@+id/btnConfirm"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_button_red_01"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:gravity="center"
-                android:onClick="@{()-> dialog.confirm()}"
-                android:paddingHorizontal="32dp"
-                android:paddingVertical="12dp"
-                android:text="@string/cmn_confirm"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintWidth_percent="0.6" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

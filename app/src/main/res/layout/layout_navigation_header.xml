@@ -7,11 +7,11 @@
 
         <variable
             name="model"
-            type="com.moondroid.project01_meetingapp.presentation.view.home.HomeViewModel" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.home.HomeViewModel" />
 
         <variable
-            name="user"
-            type="com.moondroid.project01_meetingapp.domain.model.User" />
+            name="profile"
+            type="com.moondroid.damoim.domain.model.Profile" />
     </data>
 
     <RelativeLayout
@@ -21,7 +21,7 @@
         android:onClick="@{() -> model.toMyProfile()}"
         android:padding="16dp">
 
-        <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
+        <com.moondroid.project01_meetingapp.presentation.common.DMRoundView
             android:id="@+id/thumbWrapper"
             android:layout_width="96dp"
             android:layout_height="96dp"
@@ -33,9 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                bind:image="@{user.thumb}" />
+                bind:image="@{profile.thumb}" />
 
-        </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
+        </com.moondroid.project01_meetingapp.presentation.common.DMRoundView>
 
 
         <TextView
@@ -56,7 +56,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="@font/nanum_square_round_eb"
             android:layout_toEndOf="@id/thumbWrapper"
-            android:text="@{user.name}"
+            android:text="@{profile.name}"
             android:textColor="#ff333333"
             android:textSize="16dp" />
 
@@ -68,7 +68,7 @@
             android:layout_alignStart="@id/tvName"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/nanum_square_round_b"
-            android:text="@{user.message}" />
+            android:text="@{profile.message}" />
 
     </RelativeLayout>
 </layout>

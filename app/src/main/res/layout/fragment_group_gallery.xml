@@ -4,14 +4,14 @@
     <data>
         <variable
             name="fragment"
-            type="com.moondroid.project01_meetingapp.presentation.view.fragment.GalleryFragment" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.fragment.GalleryFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
+        <com.moondroid.project01_meetingapp.presentation.common.DMRecycler
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

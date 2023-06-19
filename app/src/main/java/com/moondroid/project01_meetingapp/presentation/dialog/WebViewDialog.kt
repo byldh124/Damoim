@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.base.BaseDialog
+import com.moondroid.project01_meetingapp.presentation.base.BaseDialog
 import com.moondroid.project01_meetingapp.databinding.DialogWebviewBinding
 
 class WebViewDialog(context: Context, val type: TYPE) : BaseDialog(context) {
@@ -20,12 +20,7 @@ class WebViewDialog(context: Context, val type: TYPE) : BaseDialog(context) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
-            R.layout.dialog_webview,
-            null,
-            false
-        )
+        binding = DialogWebviewBinding.inflate(LayoutInflater.from(context), null, false)
         binding.dialog = this
         setContentView(binding.root)
 
@@ -44,6 +39,7 @@ class WebViewDialog(context: Context, val type: TYPE) : BaseDialog(context) {
 
                 binding.url = "http://moondroid.dothome.co.kr/UseTerm/DamoimMobile/useTerm.html"
             }
+
             TYPE.PRIVACY -> {
                 binding.tvUse.isEnabled = true
                 binding.tvPrivacy.isEnabled = false
@@ -51,9 +47,5 @@ class WebViewDialog(context: Context, val type: TYPE) : BaseDialog(context) {
                 binding.url = "http://moondroid.dothome.co.kr/Privacy/damoimMobile/privacy.html"
             }
         }
-    }
-
-    fun exit(@Suppress("UNUSED_PARAMETER")vw: View) {
-        cancel()
     }
 }

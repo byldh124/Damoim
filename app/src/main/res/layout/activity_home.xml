@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="com.moondroid.project01_meetingapp.presentation.view.home.HomeViewModel" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.home.HomeViewModel" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,7 +18,7 @@
         android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.view.home.HomeActivity">
+        tools:context=".presentation.ui.home.HomeActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

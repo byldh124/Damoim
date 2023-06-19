@@ -6,21 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.base.BaseDialog
+import com.moondroid.project01_meetingapp.presentation.base.BaseDialog
 import com.moondroid.project01_meetingapp.databinding.DialogGalleryBinding
-import com.moondroid.project01_meetingapp.presentation.view.adapter.GalleryDialogAdapter
 
-class GalleryDialog(context: Context, val list: List<String>) : BaseDialog(context) {
-    var position: Int = 0
-    lateinit var binding: DialogGalleryBinding
-    lateinit var adapter: GalleryDialogAdapter
+class GalleryDialog(context: Context, private val list: List<String>) : BaseDialog(context) {
+    private var position: Int = 0
+    private lateinit var binding: DialogGalleryBinding
+    private lateinit var adapter: GalleryDialogAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_gallery, null, false)
-        binding.dialog = this
+        binding = DialogGalleryBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
         initView()
+
+        binding.root.setOnClickListener {
+            cancel()
+        }
+
+        binding.icExit.setOnClickListener {
+            cancel()
+        }
     }
 
     private fun initView(){
@@ -32,9 +38,5 @@ class GalleryDialog(context: Context, val list: List<String>) : BaseDialog(conte
     override fun show() {
         super.show()
         binding.pager.currentItem = position
-    }
-
-    fun exit(@Suppress("UNUSED_PARAMETER")vw: View) {
-        cancel()
     }
 }

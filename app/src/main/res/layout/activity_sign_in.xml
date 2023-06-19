@@ -8,17 +8,17 @@
 
         <variable
             name="model"
-            type="com.moondroid.project01_meetingapp.presentation.view.signin.SignInViewModel" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.signin.SignInViewModel" />
 
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.view.signin.SignInActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.signin.SignInActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.view.signin.SignInActivity">
+        tools:context=".presentation.ui.signin.SignInActivity">
 
         <LinearLayout
             android:id="@+id/header"

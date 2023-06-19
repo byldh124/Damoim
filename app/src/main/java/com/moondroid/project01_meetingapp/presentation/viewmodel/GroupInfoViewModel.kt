@@ -3,8 +3,8 @@ package com.moondroid.project01_meetingapp.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.moondroid.project01_meetingapp.base.BaseViewModel
-import com.moondroid.project01_meetingapp.data.response.BaseResponse
+import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
+import com.moondroid.damoim.data.response.BaseResponse
 import com.moondroid.project01_meetingapp.network.Repository
 import com.moondroid.project01_meetingapp.utils.SingleLiveEvent
 import com.moondroid.project01_meetingapp.network.UseCaseResult

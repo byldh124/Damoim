@@ -22,9 +22,10 @@
 
     <!-- 다이얼로그 -->
     <style name="DialogTheme">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/dialog</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
     </style>
 
     <!-- DatePickerDialog -->
@@ -77,32 +78,29 @@
         <item name="android:fontFamily">@font/jalnan</item>
     </style>
 
-    <style name="ButtonRed01">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@font/jalnan</item>
+    <style name="Button">
+        <item name="android:fontFamily">@font/nanum_square_round_eb</item>
         <item name="android:gravity">center</item>
         <item name="android:elevation">2dp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ButtonRed01" parent="Button">
         <item name="android:background">@drawable/bg_button_red_01</item>
     </style>
 
-    <style name="ButtonGray01">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@font/jalnan</item>
-        <item name="android:gravity">center</item>
-        <item name="android:elevation">2dp</item>
-        <item name="android:paddingTop">12dp</item>
-        <item name="android:paddingBottom">12dp</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textSize">16dp</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="ButtonGray01" parent="Button">
         <item name="android:background">@drawable/bg_button_gray_01</item>
+    </style>
+
+    <style name="Icon">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:padding">8dp</item>
     </style>
 
     <style name="TextBgGray">
@@ -149,5 +147,4 @@
         <item name="android:fontFamily">@font/nanum_square_round_b</item>
         <item name="android:textSize">12dp</item>
     </style>
-
 </resources>
