@@ -34,6 +34,7 @@ import com.moondroid.damoim.data.model.response.MoimResponse
 import com.moondroid.damoim.data.model.response.ProfileResponse
 import com.moondroid.damoim.data.model.response.SaltResponse
 import com.moondroid.damoim.data.api.response.ApiStatus
+import com.moondroid.damoim.data.model.request.SignInRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -51,7 +52,7 @@ interface ApiInterface {
 
     @POST(SIGN_IN)
     suspend fun signIn(
-        @Body body: JsonObject
+        @Body body: SignInRequest
     ): ApiStatus<ProfileResponse>
 
     @GET(SALT)

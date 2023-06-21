@@ -16,7 +16,7 @@ interface RemoteDataSource {
     ): ApiResult<BaseResponseDTO>
 
     suspend fun signUp(body: JsonObject): ApiResult<ProfileEntity>                  // 회원가입
-    suspend fun signIn(body: JsonObject): ApiResult<ProfileEntity>                  // 로그인
+    suspend fun signIn(id: String, hashPw: String): ApiResult<ProfileEntity>                  // 로그인
     suspend fun getSalt(id: String): ApiResult<SaltResponse>                        // 로그인 관련
     suspend fun signInSocial(body: JsonObject): ApiResult<ProfileEntity>            // 카카오 로그인
     suspend fun updateToken(id: String, token: String): ApiResult<BaseResponseDTO>           // 푸시토큰 업데이트

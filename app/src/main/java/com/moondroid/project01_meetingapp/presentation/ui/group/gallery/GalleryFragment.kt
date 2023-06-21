@@ -49,8 +49,6 @@ class GalleryFragment : BaseFragment(R.layout.fragment_group_gallery) {
         adapter = GalleryAdapter(activity)
         binding.recycler.adapter = adapter
 
-        binding.icAdd.visible(DMApp.group.isMember)
-
         getImage()
     }
 

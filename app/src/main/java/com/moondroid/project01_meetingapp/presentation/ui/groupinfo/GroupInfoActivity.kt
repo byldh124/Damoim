@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.group.edit
+package com.moondroid.project01_meetingapp.presentation.ui.groupinfo
 
 import android.content.Intent
 import android.graphics.BitmapFactory

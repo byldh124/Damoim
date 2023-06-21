@@ -1,5 +1,6 @@
-package com.moondroid.project01_meetingapp.presentation.ui.group.edit
+package com.moondroid.project01_meetingapp.presentation.ui.groupinfo
 
+import com.moondroid.damoim.domain.usecase.group.GroupUseCase
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.MultipartBody

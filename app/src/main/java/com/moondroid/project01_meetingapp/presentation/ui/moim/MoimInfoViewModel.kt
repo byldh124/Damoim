@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.group.moim
+package com.moondroid.project01_meetingapp.presentation.ui.moim
 
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -2,7 +2,10 @@ package com.moondroid.project01_meetingapp.presentation.ui.home.main
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moondroid.damoim.common.ActivityTy
@@ -19,13 +22,13 @@ import com.moondroid.project01_meetingapp.presentation.ui.home.main.MainViewMode
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment :
-    BaseFragment(R.layout.fragment_home_main) {
-
+class MainFragment : Fragment(R.layout.fragment_home_main) {
     private val binding by viewBinding(FragmentHomeMainBinding::bind)
-    lateinit var activity: HomeActivity
+    //private val binding by viewBinding(FragmentHomeMainBinding::bind)
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var groupAdapter: GroupListAdapter
+
+    lateinit var activity: HomeActivity
+    private var groupAdapter: GroupListAdapter? = null
     private lateinit var categoryAdapter: CategoryListAdapter
 
     override fun onAttach(context: Context) {
@@ -64,7 +67,7 @@ class MainFragment :
         binding.recGroup.adapter = groupAdapter
 
         categoryAdapter = CategoryListAdapter {
-            groupAdapter.updateList(it)
+            groupAdapter?.updateList(it)
             binding.recGroup.setEmptyText(String.format(getString(R.string.alm_empty_data_for_query), it))
         }
 
@@ -82,8 +85,8 @@ class MainFragment :
     private fun handleEvent(event: Event) {
         when (event) {
             is Event.Update -> {
-                activity.groupsList = event.list as ArrayList<GroupItem>
-                groupAdapter.updateList(event.list)
+                activity.groupsList = event.list
+                groupAdapter?.updateList(event.list)
             }
         }
     }

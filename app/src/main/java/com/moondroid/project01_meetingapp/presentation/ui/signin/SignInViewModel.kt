@@ -8,6 +8,7 @@ import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.Extension.toast
 import com.moondroid.damoim.common.PrefsKey
 import com.moondroid.damoim.common.DMRegex
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.RequestParam
 import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.domain.model.status.onError
@@ -63,16 +64,12 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun getSalt(id: String) {
-        loading(true)
         viewModelScope.launch {
             saltUseCase(id).collect { result ->
-                loading(false)
+                debug("getSalt : $result")
                 result.onSuccess {
                     val hashPw = DMUtils.hashingPw(pw.value.toString(), it)
-                    val body = JsonObject()
-                    body.addProperty(RequestParam.ID, id)
-                    body.addProperty(RequestParam.HASH_PW, hashPw)
-                    signIn(body)
+                    signIn(id, hashPw)
                 }.onFail {
                     if (it == ResponseCode.NOT_EXIST) context.toast("아이디가 존재하지 않습니다.")
                 }.onError {
@@ -82,12 +79,14 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun signIn(body: JsonObject) {
+    private fun signIn(id: String, hashPw: String) {
         loading(true)
+        debug("hashPw : $hashPw")
         viewModelScope.launch {
-            signInUseCase(body).collect { result ->
+            signInUseCase.signIn(id, hashPw).collect { result ->
+                debug("signIn : $result")
                 result.onSuccess {
-                    isChecked.value?.let { it1 -> DMApp.prefs.putBoolean(PrefsKey.AUTO_LOGIN, it1) }
+                    //isChecked.value?.let { it1 -> DMApp.prefs.putBoolean(PrefsKey.AUTO_LOGIN, it1) }
                     home()
                 }
                 loading(false)
@@ -108,7 +107,7 @@ class SignInViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             signInSocialUseCase(body).collect { result ->
                 result.onSuccess {
-                    isChecked.value?.let { it1 -> DMApp.prefs.putBoolean(PrefsKey.AUTO_LOGIN, it1) }
+                    //isChecked.value?.let { it1 -> DMApp.prefs.putBoolean(PrefsKey.AUTO_LOGIN, it1) }
                     home()
                 }
             }

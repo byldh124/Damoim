@@ -1,6 +1,7 @@
 package com.moondroid.project01_meetingapp.presentation.ui.home.main
 
 import androidx.lifecycle.viewModelScope
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.damoim.domain.model.status.onError
@@ -21,7 +22,12 @@ class MainViewModel @Inject constructor(private val groupUseCase: GroupUseCase) 
     fun getGroup() {
         viewModelScope.launch {
             groupUseCase().collect { result ->
-                result.onSuccess { update(it) }.onError { it.logException() }
+                debug("getGroup : $result")
+                result.onSuccess {
+                    update(it)
+                }.onError {
+                    it.logException()
+                }
             }
         }
     }

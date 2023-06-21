@@ -9,6 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
-open class BaseFragment(@LayoutRes val layoutId: Int) : Fragment() {
+open class BaseFragment(@LayoutRes val layoutId: Int) : Fragment(layoutId) {
 
 }

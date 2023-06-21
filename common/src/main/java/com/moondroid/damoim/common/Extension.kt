@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 object Extension {
     fun Any.debug(msg: String) {
-        Log.e("모임대장" , "[${this.javaClass.simpleName.trim()} | $msg]")
+        Log.e("모임대장" , "[${this.javaClass.simpleName.trim()}] | $msg")
     }
 
     fun Throwable.logException() {

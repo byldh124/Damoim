@@ -9,6 +9,4 @@ data class GroupItem(
     val image: String,
     val information: String,
     val masterId: String,
-    var member: List<Profile> = ArrayList(),
-    var isMember: Boolean = false
 )

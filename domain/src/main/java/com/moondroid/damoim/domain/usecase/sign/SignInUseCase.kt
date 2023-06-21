@@ -6,9 +6,5 @@ import javax.inject.Inject
 
 class SignInUseCase @Inject constructor(private val signRepository: SignRepository) {
 
-    suspend fun execute(body: JsonObject) = signIn(body)
-
-    suspend operator fun invoke(body: JsonObject) = signIn(body)
-
-    private suspend fun signIn(body: JsonObject) = signRepository.signIn(body)
+    suspend fun signIn(id:String, hashPw: String) = signRepository.signIn(id, hashPw)
 }

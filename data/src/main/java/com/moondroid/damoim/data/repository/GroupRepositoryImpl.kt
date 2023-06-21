@@ -19,21 +19,29 @@ class GroupRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: ProfileDao
 ) : GroupRepository {
-    override suspend fun getGroup(): Flow<ApiResult<List<GroupItem>>> {
-        return flow<ApiResult<List<GroupItem>>> {
-            remoteDataSource.getGroupList().run {
-                when(this) {
-                    is ApiResult.Success -> emit(ApiResult.Success(response.map { it.toGroupItem() }))
-                    is ApiResult.Fail -> emit(ApiResult.Fail(code))
-                    is ApiResult.Error -> emit(ApiResult.Error(throwable))
+    override suspend fun getGroup(): Flow<ApiResult<List<GroupItem>>> = flow<ApiResult<List<GroupItem>>> {
+        remoteDataSource.getGroupList().run {
+            when (this) {
+                is ApiResult.Success -> emit(ApiResult.Success(response.map { it.toGroupItem() }))
+                is ApiResult.Fail -> emit(ApiResult.Fail(code))
+                is ApiResult.Error -> emit(ApiResult.Error(throwable))
+            }
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun getGroup(type: GroupType): Flow<ApiResult<List<GroupItem>>> = flow<ApiResult<List<GroupItem>>> {
+        localDataSource.getProfile().run {
+            this?.let { profile ->
+                remoteDataSource.getGroupList(profile.id, type).run {
+                    when (this) {
+                        is ApiResult.Success -> emit(ApiResult.Success(response.map { it.toGroupItem() }))
+                        is ApiResult.Fail -> emit(ApiResult.Fail(code))
+                        is ApiResult.Error -> emit(ApiResult.Error(throwable))
+                    }
                 }
             }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    override suspend fun getGroup(type: GroupType): Flow<ApiResult<List<GroupItem>>> {
-        TODO("Not yet implemented")
-    }
+        }
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun getMoim(): Flow<ApiResult<List<MoimItem>>> {
         TODO("Not yet implemented")

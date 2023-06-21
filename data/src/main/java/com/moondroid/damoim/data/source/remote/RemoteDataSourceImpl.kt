@@ -1,6 +1,7 @@
 package com.moondroid.damoim.data.source.remote
 
 import com.google.gson.JsonObject
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.data.api.ApiInterface
@@ -10,10 +11,12 @@ import com.moondroid.damoim.data.model.dto.BaseResponseDTO
 import com.moondroid.damoim.data.model.dto.GroupItemDTO
 import com.moondroid.damoim.data.model.dto.MoimItemDTO
 import com.moondroid.damoim.data.model.entity.ProfileEntity
+import com.moondroid.damoim.data.model.request.SignInRequest
 import com.moondroid.damoim.data.model.request.UpdateTokenRequest
 import com.moondroid.damoim.data.model.response.SaltResponse
 import com.moondroid.damoim.domain.model.status.ApiResult
 import javax.inject.Inject
+import kotlin.math.log
 
 class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : RemoteDataSource {
 
@@ -49,8 +52,8 @@ class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : 
         }
     }
 
-    override suspend fun signIn(body: JsonObject): ApiResult<ProfileEntity> {
-        return when (val result = api.signIn(body)) {
+    override suspend fun signIn(id: String, hashPw: String): ApiResult<ProfileEntity> {
+        return when (val result = api.signIn(SignInRequest(id, hashPw))) {
             is ApiStatus.Success -> {
                 if (result.response.code == ResponseCode.SUCCESS) {
                     ApiResult.Success(result.response.profileDTO.toProfileEntity())
@@ -79,7 +82,7 @@ class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : 
 
 
     override suspend fun signInSocial(body: JsonObject): ApiResult<ProfileEntity> {
-        return when (val result = api.signIn(body)) {
+        return when (val result = api.signInSocial(body)) {
             is ApiStatus.Success -> {
                 if (result.response.code == ResponseCode.SUCCESS) {
                     ApiResult.Success(result.response.profileDTO.toProfileEntity())

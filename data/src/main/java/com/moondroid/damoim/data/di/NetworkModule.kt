@@ -2,6 +2,7 @@ package com.moondroid.damoim.data.di
 
 import android.util.Log
 import com.google.gson.GsonBuilder
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.data.BuildConfig
 import com.moondroid.damoim.data.api.ApiInterface
 import com.moondroid.damoim.data.api.URLManager.BASE_URL
@@ -30,17 +31,16 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideHttpClient(): OkHttpClient = if (BuildConfig.DEBUG) {
-        val loggingInterceptor = HttpLoggingInterceptor {
-            Log.d("HttpLogger", it)
-        }
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
+        OkHttpClient.Builder().addInterceptor {
+            val original = it.request()
+            val requestBuilder = original.newBuilder()
+            requestBuilder.header("Content-Type", "application/json")
+            val request = requestBuilder.method(original.method, original.body).build()
+            debug("Request : $request")
+            return@addInterceptor it.proceed(request)
+        }.build()
     } else {
-        OkHttpClient
-            .Builder()
-            .build()
+        OkHttpClient.Builder().build()
     }
 
     @Singleton

@@ -1,7 +1,5 @@
 package com.moondroid.damoim.domain.model.status
 
-import com.moondroid.damoim.domain.model.BaseResponse
-
 sealed class ApiResult<out T> {
     //서버 통신 o, 데이터 조회 o
     data class Success<out T>(val response: T) : ApiResult<T>()

@@ -1,7 +1,5 @@
 package com.moondroid.damoim.data.model.dto
 
-import com.moondroid.damoim.domain.model.Profile
-
 data class GroupItemDTO(
     val title: String,
     val location: String,
@@ -11,6 +9,4 @@ data class GroupItemDTO(
     val image: String,
     val information: String,
     val masterId: String,
-    var member: List<Profile> = ArrayList(),
-    var isMember: Boolean = false
 )

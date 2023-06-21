@@ -35,9 +35,9 @@ class SignRepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun signIn(body: JsonObject): Flow<ApiResult<Profile>> {
+    override suspend fun signIn(id: String, hashPw: String): Flow<ApiResult<Profile>> {
         return flow<ApiResult<Profile>> {
-            remoteDataSource.signIn(body).run {
+            remoteDataSource.signIn(id, hashPw).run {
                 when (this) {
                     is ApiResult.Success -> {
                         localDataSource.deleteProfileAll()

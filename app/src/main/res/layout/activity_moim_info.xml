@@ -7,7 +7,7 @@
 
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.ui.group.moim.MoimInfoActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.moim.MoimInfoActivity" />
         <variable
             name="moim"
             type="com.moondroid.damoim.domain.model.MoimItem" />
@@ -16,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.group.moim.MoimInfoActivity">
+        tools:context=".presentation.ui.moim.MoimInfoActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"

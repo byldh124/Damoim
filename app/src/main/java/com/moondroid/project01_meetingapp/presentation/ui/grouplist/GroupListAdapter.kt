@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.project01_meetingapp.databinding.ItemHomeGroupInfoBinding
 import kotlin.properties.Delegates
@@ -17,6 +18,7 @@ class GroupListAdapter(
     private lateinit var listContainer: List<GroupItem>
 
     private var groupList: List<GroupItem> by Delegates.observable(emptyList()) { _, _, _ ->
+        debug("notifyDataSetChanged")
         notifyDataSetChanged()
     }
 
@@ -63,6 +65,7 @@ class GroupListAdapter(
     }
 
     private fun setList() {
+        debug("setList api call")
         val sampleList: MutableList<GroupItem> = ArrayList()
         listContainer.forEach {
             if (it.interest == currentCategory
@@ -71,6 +74,7 @@ class GroupListAdapter(
                 sampleList.add(it)
             }
         }
+        debug("Sample list size : ${sampleList.size}")
         groupList = sampleList
     }
 
@@ -80,6 +84,7 @@ class GroupListAdapter(
         val container: RelativeLayout = binding.container
 
         fun bind(groupInfo: GroupItem) {
+            debug("bind api call")
             binding.groupDetail = groupInfo
             binding.executePendingBindings()
         }

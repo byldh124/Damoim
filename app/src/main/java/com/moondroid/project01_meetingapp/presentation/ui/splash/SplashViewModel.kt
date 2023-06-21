@@ -55,7 +55,7 @@ class SplashViewModel @Inject constructor(
     }
 
     private fun checkUser() {
-        val autoLogin = DMApp.prefs.getBoolean(PrefsKey.AUTO_LOGIN)
+        /*val autoLogin = DMApp.prefs.getBoolean(PrefsKey.AUTO_LOGIN)
         if (autoLogin) {
             viewModelScope.launch(Dispatchers.IO) {
                 profileUseCase().collect { result ->
@@ -68,7 +68,8 @@ class SplashViewModel @Inject constructor(
             }
         } else {
             sign()
-        }
+        }*/
+        sign()
     }
 
     private fun message(msg: String) = event(SplashEvent.Message(msg))

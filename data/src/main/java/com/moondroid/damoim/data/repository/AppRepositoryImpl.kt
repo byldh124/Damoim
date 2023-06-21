@@ -20,16 +20,13 @@ class AppRepositoryImpl @Inject constructor(
         packageName: String,
         versionCode: Int,
         versionName: String
-    ): Flow<ApiResult<BaseResponse>> {
-        return flow<ApiResult<BaseResponse>> {
-            remoteDataSource.checkAppVersion(packageName, versionCode, versionName).run {
-                when (this) {
-                    is ApiResult.Success -> emit(ApiResult.Success(response.toBaseResponse()))
-                    is ApiResult.Fail -> emit(ApiResult.Fail(code))
-                    is ApiResult.Error -> emit(ApiResult.Error(throwable))
-                }
+    ): Flow<ApiResult<BaseResponse>> = flow<ApiResult<BaseResponse>> {
+        remoteDataSource.checkAppVersion(packageName, versionCode, versionName).run {
+            when (this) {
+                is ApiResult.Success -> emit(ApiResult.Success(response.toBaseResponse()))
+                is ApiResult.Fail -> emit(ApiResult.Fail(code))
+                is ApiResult.Error -> emit(ApiResult.Error(throwable))
             }
-        }.flowOn(Dispatchers.IO)
-    }
-
+        }
+    }.flowOn(Dispatchers.IO)
 }

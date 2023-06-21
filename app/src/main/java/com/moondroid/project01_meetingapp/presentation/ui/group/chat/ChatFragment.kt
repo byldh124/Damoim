@@ -37,7 +37,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.isMember = DMApp.group.isMember
+        //binding.isMember = DMApp.group.isMember
         initView()
     }
 
@@ -68,7 +68,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {
         chatRef.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 chat = snapshot.getValue(ChatItem::class.java)!!
-                DMApp.group.member.forEach {
+                /*DMApp.group.member.forEach {
                     if (chat.id == it.id) {
                         chat.thumb = it.thumb
                         chat.name = it.name
@@ -77,7 +77,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {
                         }
                         return@forEach
                     }
-                }
+                }*/
                 chatList.add(chat)
                 adapter.update(chatList)
                 binding.list.setSelection(chatList.size - 1)

@@ -18,7 +18,7 @@ import com.moondroid.project01_meetingapp.databinding.ActivityGroupBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.dialog.TutorialDialog
-import com.moondroid.project01_meetingapp.presentation.ui.group.edit.GroupInfoActivity
+import com.moondroid.project01_meetingapp.presentation.ui.groupinfo.GroupInfoActivity
 import com.moondroid.project01_meetingapp.presentation.ui.group.chat.ChatFragment
 import com.moondroid.project01_meetingapp.presentation.ui.group.gallery.GalleryFragment
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupMainFragment

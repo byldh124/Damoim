@@ -15,7 +15,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupInfoBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.group.moim.MoimInfoActivity
+import com.moondroid.project01_meetingapp.presentation.ui.moim.MoimInfoActivity
 import com.moondroid.project01_meetingapp.presentation.ui.profile.ProfileActivity
 import com.moondroid.project01_meetingapp.presentation.ui.group.GroupActivity
 import dagger.hilt.android.AndroidEntryPoint

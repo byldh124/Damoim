@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.group.moim
+package com.moondroid.project01_meetingapp.presentation.ui.moim
 
 import android.content.Intent
 import android.os.Bundle

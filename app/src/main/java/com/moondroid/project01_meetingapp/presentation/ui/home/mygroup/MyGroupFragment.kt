@@ -23,7 +23,7 @@ class MyGroupFragment :
 
     lateinit var activity: HomeActivity
     private val viewModel: MyGroupViewModel by viewModels()
-    private lateinit var groupAdapter: GroupListAdapter
+    private var groupAdapter: GroupListAdapter? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -61,7 +61,7 @@ class MyGroupFragment :
 
     private fun handleEvent(event: Event) {
         when (event) {
-            is Event.Update -> groupAdapter.update(event.list)
+            is Event.Update -> groupAdapter?.update(event.list)
         }
     }
 }

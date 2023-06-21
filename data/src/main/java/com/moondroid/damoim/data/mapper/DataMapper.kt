@@ -21,5 +21,5 @@ object DataMapper {
     fun MoimItemDTO.toMoimItem(): MoimItem = MoimItem(title, address, date, time, pay, lat, lng, joinMember)
 
     fun GroupItemDTO.toGroupItem(): GroupItem =
-        GroupItem(title, location, purpose, interest, thumb, image, information, masterId, member, isMember)
+        GroupItem(title, location, purpose, interest, thumb, image, information, masterId)
 }
