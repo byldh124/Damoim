@@ -6,6 +6,7 @@ import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.data.api.response.onSuccess
+import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.group.GroupUseCase
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow

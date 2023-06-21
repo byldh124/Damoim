@@ -7,10 +7,9 @@ import com.google.gson.JsonObject
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.Extension.toast
 import com.moondroid.damoim.common.PrefsKey
-import com.moondroid.damoim.common.Regex
+import com.moondroid.damoim.common.DMRegex
 import com.moondroid.damoim.common.RequestParam
 import com.moondroid.damoim.common.ResponseCode
-import com.moondroid.damoim.data.api.response.onSuccess
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
@@ -51,9 +50,9 @@ class SignInViewModel @Inject constructor(
      */
     fun checkField() {
         try {
-            if (!id.value.isNullOrEmpty() && !id.value.toString().matches(Regex.ID)) {
+            if (!id.value.isNullOrEmpty() && !id.value.toString().matches(DMRegex.ID)) {
                 context.toast(R.string.error_id_mismatch)
-            } else if (!pw.value.isNullOrEmpty() && !pw.value.toString().matches(Regex.PW)) {
+            } else if (!pw.value.isNullOrEmpty() && !pw.value.toString().matches(DMRegex.PW)) {
                 context.toast(R.string.error_password_mismatch)
             } else {
                 getSalt(id.value.toString())

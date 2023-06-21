@@ -10,6 +10,7 @@ import com.moondroid.damoim.common.Extension.toast
 import com.moondroid.damoim.common.RequestParam
 import com.moondroid.damoim.domain.model.MoimAddress
 import com.moondroid.damoim.data.api.response.onSuccess
+import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R

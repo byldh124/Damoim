@@ -38,11 +38,11 @@
         tools:targetApi="s">
 
         <activity
-            android:name=".presentation.ui.activity.MoimInfoActivity"
+            android:name=".presentation.ui.group.moim.MoimInfoActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.ui.activity.ProfileActivity"
+            android:name=".presentation.ui.profile.ProfileActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
@@ -50,7 +50,7 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.ui.activity.GroupInfoActivity"
+            android:name=".presentation.ui.group.edit.GroupInfoActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
 
@@ -59,12 +59,12 @@
             android:value="csit8ak1h9" />
 
         <activity
-            android:name=".presentation.ui.activity.ReportActivity"
+            android:name=".presentation.ui.profile.ReportActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
 
         <activity
-            android:name=".presentation.ui.activity.SettingActivity"
+            android:name=".presentation.ui.setting.SettingActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
@@ -80,7 +80,7 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.White" />
         <activity
-            android:name=".presentation.ui.activity.MyInfoActivity"
+            android:name=".presentation.ui.setting.MyInfoActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
@@ -92,7 +92,7 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.ui.activity.CreateActivity"
+            android:name=".presentation.ui.create.CreateActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Kakao Login Activity -->
         <activity
@@ -135,7 +135,7 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.ui.activity.GroupActivity"
+            android:name=".presentation.ui.group.GroupActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Google FCM Background Service -->
         <service

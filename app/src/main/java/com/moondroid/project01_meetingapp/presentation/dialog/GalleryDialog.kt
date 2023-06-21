@@ -10,7 +10,7 @@ import com.moondroid.project01_meetingapp.presentation.base.BaseDialog
 import com.moondroid.project01_meetingapp.databinding.DialogGalleryBinding
 
 class GalleryDialog(context: Context, private val list: List<String>) : BaseDialog(context) {
-    private var position: Int = 0
+    var position: Int = 0
     private lateinit var binding: DialogGalleryBinding
     private lateinit var adapter: GalleryDialogAdapter
 

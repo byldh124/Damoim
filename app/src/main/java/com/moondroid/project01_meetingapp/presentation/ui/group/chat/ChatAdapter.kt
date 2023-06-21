@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.adapter
+package com.moondroid.project01_meetingapp.presentation.ui.group.chat
 
 import android.annotation.SuppressLint
 import android.content.Context

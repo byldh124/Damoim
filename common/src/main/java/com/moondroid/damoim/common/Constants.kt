@@ -128,7 +128,7 @@ object GroupListType {
     const val RECENT = 2
 }
 
-object Regex {
+object DMRegex {
     val ID = Regex("^[a-zA-Z0-9]{5,16}$")                                                   // 아이디 정규식 [영문, 숫자 5-16 글자]
     val PW = Regex("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]{8,}\$")     // 비밀번호 정규식 [영문, 숫자, 특수기혹 8글자 이상]
     val TITLE = Regex("^(.{2,20})$")                                                        // 모임이름 정규식 [2-20 글자]

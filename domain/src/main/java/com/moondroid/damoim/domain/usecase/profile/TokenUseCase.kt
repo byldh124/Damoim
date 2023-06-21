@@ -5,7 +5,7 @@ import com.moondroid.damoim.domain.repository.ProfileRepository
 import javax.inject.Inject
 
 class TokenUseCase @Inject constructor(private val profileRepository: ProfileRepository) {
-    suspend fun execute(body: JsonObject) = signUp(body)
-    suspend operator fun invoke(body: JsonObject) = signUp(body)
-    private suspend fun signUp(body: JsonObject) = profileRepository.updateToken(body)
+    suspend fun execute(token: String) = updateToken(token)
+    suspend operator fun invoke(token: String) = updateToken(token)
+    private suspend fun updateToken(token: String) = profileRepository.updateToken(token)
 }

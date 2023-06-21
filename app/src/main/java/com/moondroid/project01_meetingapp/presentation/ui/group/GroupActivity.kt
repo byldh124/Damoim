@@ -1,33 +1,28 @@
-package com.moondroid.project01_meetingapp.presentation.ui.activity
+package com.moondroid.project01_meetingapp.presentation.ui.group
 
 import android.content.Intent
-import android.view.View
+import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.DMApp
-import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
-import com.moondroid.project01_meetingapp.databinding.ActivityGroupBinding
-import com.moondroid.damoim.domain.model.GroupInfo
+import com.moondroid.damoim.common.ActivityTy
+import com.moondroid.damoim.common.Extension.logException
+import com.moondroid.damoim.common.Extension.startActivityWithAnim
+import com.moondroid.damoim.common.IntentParam.ACTIVITY
 import com.moondroid.damoim.domain.model.GroupItem
+import com.moondroid.project01_meetingapp.DMApp
+import com.moondroid.project01_meetingapp.R
+import com.moondroid.project01_meetingapp.databinding.ActivityGroupBinding
+import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.dialog.TutorialDialog
-import com.moondroid.project01_meetingapp.presentation.ui.fragment.ChatFragment
-import com.moondroid.project01_meetingapp.presentation.ui.fragment.GalleryFragment
-import com.moondroid.project01_meetingapp.presentation.ui.fragment.InfoFragment
+import com.moondroid.project01_meetingapp.presentation.ui.group.edit.GroupInfoActivity
+import com.moondroid.project01_meetingapp.presentation.ui.group.chat.ChatFragment
+import com.moondroid.project01_meetingapp.presentation.ui.group.gallery.GalleryFragment
+import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupMainFragment
 import com.moondroid.project01_meetingapp.presentation.ui.moim.MoimActivity
-import com.moondroid.project01_meetingapp.presentation.viewmodel.GroupViewModel
-import com.moondroid.project01_meetingapp.utils.ActivityTy
-import com.moondroid.project01_meetingapp.utils.IntentParam.ACTIVITY
-import com.moondroid.project01_meetingapp.utils.RequestParam
-import com.moondroid.project01_meetingapp.utils.ResponseCode
-import com.moondroid.project01_meetingapp.utils.gone
-import com.moondroid.project01_meetingapp.utils.log
-import com.moondroid.project01_meetingapp.utils.logException
-import com.moondroid.project01_meetingapp.utils.startActivityWithAnim
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -49,7 +44,7 @@ class GroupActivity : BaseActivity(R.layout.activity_group) {
     var isFavor = false
     val fragments =
         arrayOf(
-            InfoFragment(),
+            GroupMainFragment(),
             //BoardFragment(),
             GalleryFragment(),
             ChatFragment()
@@ -67,11 +62,11 @@ class GroupActivity : BaseActivity(R.layout.activity_group) {
         }
     }
 
-    override fun init() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding.activity = this
         groupInfo = DMApp.group
         initView()
-        initViewModel()
     }
 
     /**
@@ -97,76 +92,9 @@ class GroupActivity : BaseActivity(R.layout.activity_group) {
             if (intent.getIntExtra(ACTIVITY, 0) == ActivityTy.CREATE)
                 TutorialDialog(this).show()
 
-            binding.icSetting.gone(groupInfo.masterId != user!!.id)
+            //binding.icSetting.gone(groupInfo.masterId != user!!.id)
         } catch (e: Exception) {
             e.logException()
-        }
-    }
-
-    /**
-     * Observe ViewModel
-     */
-    private fun initViewModel() {
-        viewModel.showLoading.observe(this) {
-            showLoading(it)
-        }
-
-        viewModel.showError.observe(this) {
-            showNetworkError(it)
-        }
-
-        viewModel.saveRecent(user!!.id, groupInfo.title, System.currentTimeMillis().toString())
-
-        viewModel.recentResponse.observe(this) {
-            log("saveRecent , observe() , Response => $it")
-        }
-
-        viewModel.getFavor(user!!.id, groupInfo.title)
-
-        viewModel.favorResponse.observe(this) {
-            log("getFavor() , observe() , Response => $it")
-            try {
-                isFavor = when (it.code) {
-                    ResponseCode.SUCCESS -> {
-                        val body = it.body.asJsonObject
-                        body.get(RequestParam.FAVOR).asBoolean
-                    }
-                    else -> {
-                        false
-                    }
-                }
-                binding.activity = this@GroupActivity
-            } catch (e: Exception) {
-                e.logException()
-            }
-        }
-
-        viewModel.saveFavorResponse.observe(this) {
-            log("saveFavor() , observe() , Response => $it")
-            try {
-                when (it.code) {
-                    ResponseCode.SUCCESS -> {
-                        val message: String
-                        if (!isFavor) {
-                            message = getString(R.string.alm_favorite_add)
-                            isFavor = true
-                        } else {
-                            message = getString(R.string.alm_delete_favorite)
-                            isFavor = false
-                        }
-
-                        showMessage(message) {
-                            binding.activity = this@GroupActivity
-                        }
-                    }
-
-                    else -> {
-                        showMessage(getString(R.string.error_change_favorite_fail), "E01 : ${it.code}")
-                    }
-                }
-            } catch (e: Exception) {
-                e.logException()
-            }
         }
     }
 
@@ -184,11 +112,11 @@ class GroupActivity : BaseActivity(R.layout.activity_group) {
         overridePendingTransition(android.R.anim.fade_in, 0)
     }
 
-    fun favor(@Suppress("UNUSED_PARAMETER") vw: View) {
-        viewModel.saveFavor(user!!.id, groupInfo.title, !isFavor)
+    fun favor() {
+        viewModel.saveFavor(groupInfo.title, !isFavor)
     }
 
-    fun toGroupInfo(@Suppress("UNUSED_PARAMETER") vw: View) {
+    fun toGroupInfo() {
         try {
             val intent = Intent(this, GroupInfoActivity::class.java)
             intent.putExtra(ACTIVITY, ActivityTy.GROUP)

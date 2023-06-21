@@ -7,7 +7,7 @@
 
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.ui.activity.MoimInfoActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.group.moim.MoimInfoActivity" />
         <variable
             name="moim"
             type="com.moondroid.damoim.domain.model.MoimItem" />
@@ -16,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.activity.MoimInfoActivity">
+        tools:context=".presentation.ui.group.moim.MoimInfoActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -115,7 +115,6 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
                             android:fontFamily="@font/nanum_square_round_b"
-                            android:text="@{moim.itemPay()}"
                             android:textColor="@color/gray_dark01"
                             android:textSize="14dp" />
                     </RelativeLayout>

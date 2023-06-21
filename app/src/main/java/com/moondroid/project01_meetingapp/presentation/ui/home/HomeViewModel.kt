@@ -8,6 +8,7 @@ import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.data.api.response.onSuccess
+import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.profile.InterestUseCase
 import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel

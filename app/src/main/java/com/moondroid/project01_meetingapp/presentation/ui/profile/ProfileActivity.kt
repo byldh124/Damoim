@@ -1,46 +1,44 @@
-package com.moondroid.project01_meetingapp.presentation.ui.activity
+package com.moondroid.project01_meetingapp.presentation.ui.profile
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
+import com.moondroid.damoim.common.ActivityTy
+import com.moondroid.damoim.common.Extension.logException
+import com.moondroid.damoim.common.Extension.startActivityWithAnim
+import com.moondroid.damoim.common.IntentParam
+import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityProfileBinding
-import com.moondroid.project01_meetingapp.domain.model.DMUser
-import com.moondroid.damoim.domain.model.GroupInfo
+import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
+import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListAdapter
-import com.moondroid.project01_meetingapp.presentation.viewmodel.ProfileViewModel
-import com.moondroid.project01_meetingapp.utils.ActivityTy
-import com.moondroid.project01_meetingapp.utils.IntentParam
-import com.moondroid.project01_meetingapp.utils.ResponseCode
-import com.moondroid.project01_meetingapp.utils.logException
-import com.moondroid.project01_meetingapp.utils.startActivityWithAnim
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_profile) {
+class ProfileActivity : BaseActivity(R.layout.activity_profile) {
+    private val binding by viewBinding(ActivityProfileBinding::inflate)
     private val viewModel: ProfileViewModel by viewModels()
     lateinit var adapter: GroupListAdapter
-    private var profileUser: DMUser? = null
+    private var profileUser: Profile? = null
 
-    override fun init() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         try {
             binding.activity = this
             val userJson = intent.getStringExtra(IntentParam.USER)
-            profileUser = Gson().fromJson(userJson, DMUser::class.java)
+            profileUser = Gson().fromJson(userJson, Profile::class.java)
 
             if (profileUser == null) finish()
 
             binding.user = profileUser
 
             initView()
-            initViewModel()
 
             viewModel.getMyGroup(profileUser!!.id)
         } catch (e: Exception) {
@@ -67,52 +65,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    /**
-     * Observe ViewModel
-     */
-    private fun initViewModel() {
-        viewModel.showLoading.observe(this) {
-            showLoading(it)
-        }
-
-        viewModel.showError.observe(this) {
-            showNetworkError(it)
-        }
-
-        viewModel.myGroupsContent.observe(this) {
-            try {
-                when (it.code) {
-                    ResponseCode.SUCCESS -> {
-                        val gson = GsonBuilder().create()
-                        val newList = gson.fromJson<ArrayList<GroupInfo>>(
-                            it.body, object : TypeToken<ArrayList<GroupInfo>>() {}.type
-                        )
-                        adapter.update(newList)
-                    }
-
-                    else -> {
-                        logException(Exception("[ProfileActivity] , getGroupContent()-observe() , Response =>${it.code}"))
-                    }
-                }
-            } catch (e: Exception) {
-                e.logException()
-            }
-        }
-
-        viewModel.blockResponse.observe(this) {
-            try {
-                when (it.code) {
-                    ResponseCode.SUCCESS -> {
-                        showMessage("차단이 완료되었습니다.")
-                        finish()
-                    }
-                }
-            } catch (e: Exception) {
-                e.logException()
-            }
-        }
     }
 
     /**

@@ -5,7 +5,7 @@
 
         <variable
             name="moim"
-            type="com.moondroid.project01_meetingapp.domain.model.Moim" />
+            type="com.moondroid.damoim.domain.model.MoimItem" />
     </data>
 
     <FrameLayout
@@ -68,7 +68,6 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/nanum_square_round_b"
-                    android:text="@{moim.itemPay()}"
                     android:textColor="@color/gray_dark01" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

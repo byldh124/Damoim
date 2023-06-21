@@ -10,9 +10,9 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.moondroid.damoim.common.NotificationParam
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.ui.splash.SplashActivity
-import com.moondroid.project01_meetingapp.utils.NotificationParam
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Retrofit
 import javax.inject.Inject
@@ -85,7 +85,7 @@ class DMMessage : FirebaseMessagingService() {
 
             notificationManager.notify(11, builder.build())
         } catch (e: Exception) {
-            DMCrash.e.logException()
+            DMCrash.logException(e)
         }
     }
 
@@ -94,7 +94,7 @@ class DMMessage : FirebaseMessagingService() {
 
 
         } catch (e: Exception) {
-            DMCrash.e.logException()
+            DMCrash.logException(e)
         }
 
     }

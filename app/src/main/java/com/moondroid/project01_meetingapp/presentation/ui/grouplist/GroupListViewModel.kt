@@ -1,11 +1,11 @@
 package com.moondroid.project01_meetingapp.presentation.ui.grouplist
 
 import androidx.lifecycle.viewModelScope
-import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.domain.model.status.onError
-import com.moondroid.damoim.data.api.response.onSuccess
+import com.moondroid.damoim.domain.model.GroupItem
+import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.group.GroupUseCase
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
@@ -15,13 +15,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GroupListViewModel @Inject constructor(private val groupUseCase: GroupUseCase, ) : BaseViewModel() {
+class GroupListViewModel @Inject constructor(private val groupUseCase: GroupUseCase) : BaseViewModel() {
 
     fun getList(type: GroupType) {
         viewModelScope.launch {
-            groupUseCase(type).collect {result ->
+            groupUseCase(type).collect { result ->
                 result.onSuccess {
-                    debug(it.toString())
+                    updateList(it)
                 }.onError {
                     it.logException()
                 }
@@ -30,19 +30,21 @@ class GroupListViewModel @Inject constructor(private val groupUseCase: GroupUseC
     }
 
 
-    private val _eventFlow = MutableEventFlow<Event>()
+    private val _eventFlow = MutableEventFlow<GroupListEvent>()
     val eventFlow = _eventFlow.asEventFlow()
 
-    private fun loading(b: Boolean) = event(Event.Loading(b))
+    private fun loading(b: Boolean) = event(GroupListEvent.Loading(b))
+    private fun updateList(list: List<GroupItem>) = event(GroupListEvent.Update(list))
 
-    private fun event(event: Event) {
+    private fun event(groupListEvent: GroupListEvent) {
         viewModelScope.launch {
-            _eventFlow.emit(event)
+            _eventFlow.emit(groupListEvent)
         }
     }
 
-    sealed class Event {
-        data class Loading(val boolean: Boolean) : Event()
-        data class Error(val code: Int) : Event()
+    sealed class GroupListEvent {
+        data class Loading(val boolean: Boolean) : GroupListEvent()
+        data class Error(val code: Int) : GroupListEvent()
+        data class Update(val list: List<GroupItem>) : GroupListEvent()
     }
 }

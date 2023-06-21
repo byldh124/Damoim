@@ -116,7 +116,6 @@
                 android:layout_height="wrap_content"
                 style="@style/ButtonRed01"
                 android:layout_marginTop="12dp"
-                android:onClick="@{() -> model.signUp()}"
                 android:text="@string/cmn_sign_up" />
 
             <androidx.appcompat.widget.LinearLayoutCompat

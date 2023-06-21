@@ -18,7 +18,7 @@ import com.moondroid.project01_meetingapp.presentation.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.OneButtonDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.TwoButtonDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.WebViewDialog
-import com.moondroid.project01_meetingapp.presentation.ui.activity.GroupActivity
+import com.moondroid.project01_meetingapp.presentation.ui.group.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
 import com.moondroid.project01_meetingapp.presentation.ui.signin.SignInActivity
 import java.util.concurrent.Executor
@@ -35,7 +35,7 @@ open class BaseActivity(@LayoutRes val layoutResId: Int) : AppCompatActivity() {
     private var loadingDialog: LoadingDialog? = null
     private var webViewDialog: WebViewDialog? = null
 
-    private var onResult: (Intent) -> Unit? = {}
+    private var onResult: (Intent) -> Any = {}
 
     private val activityResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -76,7 +76,7 @@ open class BaseActivity(@LayoutRes val layoutResId: Int) : AppCompatActivity() {
         showNetworkError(code, onClick = {})
     }
 
-    fun activityResult(intent: Intent, onResult: (Intent) -> Unit?) {
+    fun activityResult(intent: Intent, onResult: (Intent) -> Unit) {
         this@BaseActivity.onResult = onResult
         activityResult.launch(intent)
     }

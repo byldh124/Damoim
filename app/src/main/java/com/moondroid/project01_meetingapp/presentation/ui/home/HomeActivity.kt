@@ -28,15 +28,14 @@ import com.moondroid.damoim.common.Extension.repeatOnStarted
 import com.moondroid.damoim.common.Extension.startActivityWithAnim
 import com.moondroid.damoim.common.Extension.toast
 import com.moondroid.damoim.domain.model.GroupItem
-import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityHomeBinding
 import com.moondroid.project01_meetingapp.databinding.LayoutNavigationHeaderBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.activity.CreateActivity
-import com.moondroid.project01_meetingapp.presentation.ui.activity.MyInfoActivity
-import com.moondroid.project01_meetingapp.presentation.ui.activity.SettingActivity
+import com.moondroid.project01_meetingapp.presentation.ui.create.CreateActivity
+import com.moondroid.project01_meetingapp.presentation.ui.setting.MyInfoActivity
+import com.moondroid.project01_meetingapp.presentation.ui.setting.SettingActivity
 import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeViewModel.Event
 import com.moondroid.project01_meetingapp.presentation.ui.home.main.MainFragment
@@ -44,10 +43,8 @@ import com.moondroid.project01_meetingapp.presentation.ui.home.map.LocationFragm
 import com.moondroid.project01_meetingapp.presentation.ui.home.mygroup.MyGroupFragment
 import com.moondroid.project01_meetingapp.presentation.ui.home.search.SearchFragment
 import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
-import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 /**
  * 메인 화면 (HOME)

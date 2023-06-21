@@ -6,5 +6,5 @@ data class ChatItem(
     val time: String,
     var thumb: String,
     val message: String,
-    var other: Boolean
+    var other: Boolean = false
 )

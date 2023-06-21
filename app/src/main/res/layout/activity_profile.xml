@@ -7,17 +7,17 @@
 
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.ui.activity.ProfileActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.profile.ProfileActivity" />
 
         <variable
             name="user"
-            type="com.moondroid.project01_meetingapp.domain.model.DMUser" />
+            type="com.moondroid.damoim.domain.model.Profile" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.activity.ProfileActivity">
+        tools:context=".presentation.ui.profile.ProfileActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"

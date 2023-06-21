@@ -201,7 +201,7 @@ internal object DMUtils {
             val metrics = context.resources.displayMetrics
             dp = pixel / (metrics.densityDpi / 160f)
         } catch (e: Exception) {
-            DMCrash.e.logException()
+            DMCrash.logException(e)
         }
         return dp
     }
@@ -215,7 +215,7 @@ internal object DMUtils {
             val metrics = context.resources.displayMetrics
             dp = pixel / (metrics.densityDpi / 160f)
         } catch (e: Exception) {
-            DMCrash.e.logException()
+            DMCrash.logException(e)
         }
         return dp.toInt()
     }
@@ -228,7 +228,7 @@ internal object DMUtils {
         try {
             pixel = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics)
         } catch (e: Exception) {
-            DMCrash.e.logException()
+            DMCrash.logException(e)
         }
 
         return pixel
@@ -247,7 +247,7 @@ internal object DMUtils {
                 context.resources.displayMetrics
             )
         } catch (e: Exception) {
-            DMCrash.e.logException()
+            DMCrash.logException(e)
         }
 
         return pixel.toInt()
@@ -282,7 +282,7 @@ internal object DMUtils {
         return try {
             ""
         } catch (e: Exception) {
-            DMCrash.e.logException()
+            DMCrash.logException(e)
             ""
         }
     }

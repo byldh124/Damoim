@@ -18,8 +18,8 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityGroupListBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.activity.GroupActivity
-import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListViewModel.Event
+import com.moondroid.project01_meetingapp.presentation.ui.group.GroupActivity
+import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListViewModel.GroupListEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -81,10 +81,11 @@ class GroupListActivity : BaseActivity(R.layout.activity_group_list) {
         }
     }
 
-    private fun handleEvent(event: Event) {
+    private fun handleEvent(event: GroupListEvent) {
         when (event) {
-            is Event.Error -> showMessage(event.code.toString())
-            is Event.Loading -> showLoading(event.boolean)
+            is GroupListEvent.Error -> showMessage(event.code.toString())
+            is GroupListEvent.Loading -> showLoading(event.boolean)
+            is GroupListEvent.Update -> adapter.update(event.list)
         }
     }
 }

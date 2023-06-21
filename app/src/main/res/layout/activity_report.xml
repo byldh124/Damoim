@@ -5,7 +5,7 @@
 
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.ui.activity.ReportActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.profile.ReportActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,7 +13,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.activity.ReportActivity">
+        tools:context=".presentation.ui.profile.ReportActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -87,8 +87,7 @@
                 style="@style/ButtonRed01"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:text="@string/cmn_report"
-                android:onClick="@{activity::report}"/>
+                android:text="@string/cmn_report"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

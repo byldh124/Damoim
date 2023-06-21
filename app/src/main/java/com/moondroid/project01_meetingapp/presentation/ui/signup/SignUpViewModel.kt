@@ -10,9 +10,10 @@ import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.RequestParam
 import com.moondroid.damoim.common.Extension.toast
-import com.moondroid.damoim.common.Regex
+import com.moondroid.damoim.common.DMRegex
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.data.api.response.onSuccess
+import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
@@ -56,13 +57,13 @@ class SignUpViewModel @Inject constructor(
 
     fun signUp() {
         try {
-            if (!fromSocial && !id.value.toString().matches(Regex.ID)) {
+            if (!fromSocial && !id.value.toString().matches(DMRegex.ID)) {
                 context.toast(R.string.error_id_mismatch)
-            } else if (!fromSocial && !pw.value.toString().matches(Regex.PW)) {
+            } else if (!fromSocial && !pw.value.toString().matches(DMRegex.PW)) {
                 context.toast(R.string.error_password_mismatch)
             } else if (!fromSocial && pw.value != pw2.value) {
                 context.toast(R.string.error_password_unchecked)
-            } else if (!fromSocial && !name.value.toString().matches(Regex.NAME)
+            } else if (!fromSocial && !name.value.toString().matches(DMRegex.NAME)
             ) {
                 context.toast(R.string.error_name_mismatch)
             } else if (birth.value.isNullOrEmpty()) {
@@ -170,13 +171,8 @@ class SignUpViewModel @Inject constructor(
      */
     private fun updateToken(token: String) {
         try {
-            val body = JsonObject()
-            body.addProperty(RequestParam.ID, id.value)
-            body.addProperty(RequestParam.TOKEN, token)
-
-
             viewModelScope.launch {
-                tokenUseCase(body).collect {
+                tokenUseCase(token).collect {
                     loading(false)
                     home()
                 }

@@ -13,8 +13,9 @@ import com.moondroid.damoim.data.model.entity.ProfileEntity
 import com.moondroid.damoim.data.model.request.UpdateTokenRequest
 import com.moondroid.damoim.data.model.response.SaltResponse
 import com.moondroid.damoim.domain.model.status.ApiResult
+import javax.inject.Inject
 
-class RemoteDataSourceImpl(private val api: ApiInterface) : RemoteDataSource {
+class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : RemoteDataSource {
 
     override suspend fun checkAppVersion(
         packageName: String,
@@ -29,6 +30,7 @@ class RemoteDataSourceImpl(private val api: ApiInterface) : RemoteDataSource {
                     ApiResult.Fail(result.response.code)
                 }
             }
+
             is ApiStatus.Error -> ApiResult.Error(result.throwable)
         }
     }
@@ -62,16 +64,17 @@ class RemoteDataSourceImpl(private val api: ApiInterface) : RemoteDataSource {
     }
 
     override suspend fun getSalt(id: String): ApiResult<SaltResponse> {
-      return when (val result = api.getSalt(id)) {
-          is ApiStatus.Success -> {
-              if (result.response.code == ResponseCode.SUCCESS) {
-                  ApiResult.Success(result.response)
-              } else {
-                  ApiResult.Fail(result.response.code)
-              }
-          }
-          is ApiStatus.Error -> ApiResult.Error(result.throwable)
-      }
+        return when (val result = api.getSalt(id)) {
+            is ApiStatus.Success -> {
+                if (result.response.code == ResponseCode.SUCCESS) {
+                    ApiResult.Success(result.response)
+                } else {
+                    ApiResult.Fail(result.response.code)
+                }
+            }
+
+            is ApiStatus.Error -> ApiResult.Error(result.throwable)
+        }
     }
 
 
@@ -84,6 +87,7 @@ class RemoteDataSourceImpl(private val api: ApiInterface) : RemoteDataSource {
                     ApiResult.Fail(result.response.code)
                 }
             }
+
             is ApiStatus.Error -> ApiResult.Error(result.throwable)
         }
     }
@@ -126,6 +130,7 @@ class RemoteDataSourceImpl(private val api: ApiInterface) : RemoteDataSource {
                     ApiResult.Fail(result.response.code)
                 }
             }
+
             is ApiStatus.Error -> ApiResult.Error(result.throwable)
         }
     }
@@ -158,6 +163,7 @@ class RemoteDataSourceImpl(private val api: ApiInterface) : RemoteDataSource {
                     ApiResult.Fail(result.response.code)
                 }
             }
+
             is ApiStatus.Error -> ApiResult.Error(result.throwable)
         }
     }

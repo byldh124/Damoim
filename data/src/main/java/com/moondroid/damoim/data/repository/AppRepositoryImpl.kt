@@ -1,9 +1,8 @@
 package com.moondroid.damoim.data.repository
 
-import com.moondroid.damoim.domain.model.BaseResponse
-import com.moondroid.damoim.data.source.remote.RemoteDataSource
 import com.moondroid.damoim.data.mapper.DataMapper.toBaseResponse
-import com.moondroid.damoim.data.api.response.ApiStatus
+import com.moondroid.damoim.data.source.remote.RemoteDataSource
+import com.moondroid.damoim.domain.model.BaseResponse
 import com.moondroid.damoim.domain.model.status.ApiResult
 import com.moondroid.damoim.domain.repository.AppRepository
 import kotlinx.coroutines.Dispatchers

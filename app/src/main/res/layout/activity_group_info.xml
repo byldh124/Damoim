@@ -2,11 +2,6 @@
 <layout xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.ui.activity.GroupInfoActivity" />
-
         <variable
             name="groupInfo"
             type="com.moondroid.damoim.domain.model.GroupItem" />
@@ -44,7 +39,6 @@
                 app:layout_constraintDimensionRatio="5:2"
                 android:layout_marginTop="16dp"
                 android:scaleType="centerCrop"
-                android:onClick="@{activity::getImage}"
                 image ="@{groupInfo.image}"/>
 
             <com.moondroid.project01_meetingapp.presentation.common.DMRoundView
@@ -62,7 +56,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:onClick="@{activity::getThumb}"
                     image="@{groupInfo.thumb}" />
 
             </com.moondroid.project01_meetingapp.presentation.common.DMRoundView>
@@ -91,8 +84,7 @@
                 app:layout_constraintLeft_toRightOf="@id/tvTitle"
                 android:layout_marginStart="16dp"
                 app:layout_constraintTop_toTopOf="@id/tvTitle"
-                bind:interest="@{groupInfo.interest}"
-                android:onClick="@{activity::toInterest}"/>
+                bind:interest="@{groupInfo.interest}"/>
 
             <TextView
                 android:id="@+id/tvLocation"
@@ -105,7 +97,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginEnd="8dp"
                 android:text="@{groupInfo.location}"
-                android:onClick="@{activity::toLocation}"
                 android:layout_marginTop="8dp"
                 android:textColor="@color/gray_dark01"/>
 
@@ -156,8 +147,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_margin="16dp"
-                android:text="@string/cmn_save"
-                android:onClick="@{activity::save}"/>
+                android:text="@string/cmn_save"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
