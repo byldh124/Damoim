@@ -1,19 +1,18 @@
 package com.moondroid.project01_meetingapp.presentation.ui.signup
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.RequestParam
 import com.moondroid.damoim.common.Extension.toast
 import com.moondroid.damoim.common.Regex
 import com.moondroid.damoim.domain.model.status.onError
-import com.moondroid.damoim.domain.model.status.onSuccess
+import com.moondroid.damoim.data.api.response.onSuccess
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
@@ -50,32 +49,20 @@ class SignUpViewModel @Inject constructor(
     val interest = MutableLiveData<String>()                       // 관심사
     val toAgree = MutableLiveData(false)
 
-    var fromKakao = false
-
-    private val _showLoading = MutableLiveData<Boolean>()
-    val showLoading: LiveData<Boolean> get() = _showLoading
-
-    private val _showError = MutableLiveData<Int>()
-    val showError: LiveData<Int> get() = _showError
-
-    private val _signUpResponse = SingleLiveEvent<BaseResponse>()
-    val signUpResponse: LiveData<BaseResponse> get() = _signUpResponse
-
-    private val _tokenResponse = SingleLiveEvent<BaseResponse>()
-    val tokenResponse: LiveData<BaseResponse> get() = _tokenResponse
+    var fromSocial = false
 
     private val _eventFlow = MutableEventFlow<Event>()
     val eventFlow = _eventFlow.asEventFlow()
 
     fun signUp() {
         try {
-            if (!fromKakao && !id.value.toString().matches(Regex.ID)) {
+            if (!fromSocial && !id.value.toString().matches(Regex.ID)) {
                 context.toast(R.string.error_id_mismatch)
-            } else if (!fromKakao && !pw.value.toString().matches(Regex.PW)) {
+            } else if (!fromSocial && !pw.value.toString().matches(Regex.PW)) {
                 context.toast(R.string.error_password_mismatch)
-            } else if (!fromKakao && pw.value != pw2.value) {
+            } else if (!fromSocial && pw.value != pw2.value) {
                 context.toast(R.string.error_password_unchecked)
-            } else if (!fromKakao && !name.value.toString().matches(Regex.NAME)
+            } else if (!fromSocial && !name.value.toString().matches(Regex.NAME)
             ) {
                 context.toast(R.string.error_name_mismatch)
             } else if (birth.value.isNullOrEmpty()) {
@@ -168,7 +155,7 @@ class SignUpViewModel @Inject constructor(
 
                 val token = task.result
 
-                log("getMsgToken() , token => $token")
+                debug("getMsgToken() , token => $token")
                 updateToken(token)
             })
         } catch (e: Exception) {
@@ -202,11 +189,6 @@ class SignUpViewModel @Inject constructor(
     private fun loading(b: Boolean) = event(Event.Loading(b))
     fun message(msg: String) = event(Event.Message(msg))
     private fun home() = event(Event.Home)
-    fun showDate() = event(Event.Date)
-    fun toLocation() = event(Event.Location)
-    fun toInterest() = event(Event.Interest)
-    fun useTerm() = event(Event.UseTerm)
-    fun privacy() = event(Event.Privacy)
 
     private fun event(event: Event) {
         viewModelScope.launch {
@@ -218,10 +200,5 @@ class SignUpViewModel @Inject constructor(
 sealed class Event {
     class Loading(val show: Boolean) : Event()
     class Message(val message: String) : Event()
-    object UseTerm : Event()
-    object Privacy : Event()
-    object Date : Event()
-    object Interest : Event()
-    object Location : Event()
     object Home : Event()
 }

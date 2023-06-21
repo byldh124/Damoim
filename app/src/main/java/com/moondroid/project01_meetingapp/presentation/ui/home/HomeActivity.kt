@@ -83,6 +83,8 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         headerBinding = LayoutNavigationHeaderBinding.bind(binding.homeNav.getHeaderView(0))
+        binding.model = viewModel
+        headerBinding.model = viewModel
 
         repeatOnStarted {
             viewModel.eventFlow.collect {
@@ -90,9 +92,6 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
             }
         }
         initView()
-
-        binding.model = viewModel
-        headerBinding.model = viewModel
 
         checkPermission()
     }
@@ -103,16 +102,14 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                 val intent = Intent(this, MyInfoActivity::class.java)
                 intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
 
-                val result: (Intent) -> Unit = {
-                    viewModel.getUser()
-                }
-                activityResult(result, intent)
+                activityResult(intent) { viewModel.getUser() }
                 hideNavigation()
             }
+
             is Event.SetProfile -> {
                 headerBinding.profile = event.profile
             }
-            Event.Share -> share()
+
             is Event.UpdateInterest -> {
                 if (event.b) {
                     showMessage(getString(R.string.alm_update_interest_success))
@@ -151,6 +148,8 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
 
             binding.toolbar.init(this)
 
+            binding.icShare.setOnClickListener { share() }
+
             // connect drawer - navigation
             val drawerToggle = ActionBarDrawerToggle(
                 this, binding.drawer, binding.toolbar, R.string.app_name, R.string.app_name
@@ -167,14 +166,17 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                             changeFragment(MainFragment())
                             name = getString(R.string.cmn_find_group)
                         }
+
                         R.id.bnv_tab2 -> {
                             changeFragment(MyGroupFragment())
                             name = getString(R.string.cmn_my_group)
                         }
+
                         R.id.bnv_tab3 -> {
                             changeFragment(SearchFragment())
                             name = getString(R.string.cmn_search)
                         }
+
                         R.id.bnv_tab4 -> {
                             changeFragment(LocationFragment())
                             name = getString(R.string.cmn_search_nearly_group)
@@ -201,17 +203,16 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
             binding.homeNav.setNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.navInterest -> {
-                        val onResult: (Intent) -> Unit = {
-                            viewModel.updateInterest(
-                                getString(it.getIntExtra(IntentParam.INTEREST, 0))
-                            )
-                        }
                         val intent =
                             Intent(this@HomeActivity, InterestActivity::class.java).putExtra(
                                 IntentParam.ACTIVITY,
                                 ActivityTy.HOME
                             )
-                        activityResult(onResult, intent)
+                        activityResult(intent) {
+                            viewModel.updateInterest(
+                                getString(it.getIntExtra(IntentParam.INTEREST, 0))
+                            )
+                        }
                     }
 
                     R.id.navFavorite -> {
@@ -312,7 +313,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         }
     }
 
-    fun share() {
+    private fun share() {
         try {
             DMAnalyze.logEvent("Share Clicked")
 

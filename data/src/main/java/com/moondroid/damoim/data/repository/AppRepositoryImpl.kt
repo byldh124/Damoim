@@ -1,9 +1,10 @@
 package com.moondroid.damoim.data.repository
 
 import com.moondroid.damoim.domain.model.BaseResponse
-import com.moondroid.damoim.data.datasource.remote.RemoteDataSource
+import com.moondroid.damoim.data.source.remote.RemoteDataSource
 import com.moondroid.damoim.data.mapper.DataMapper.toBaseResponse
-import com.moondroid.damoim.domain.model.status.ApiStatus
+import com.moondroid.damoim.data.api.response.ApiStatus
+import com.moondroid.damoim.domain.model.status.ApiResult
 import com.moondroid.damoim.domain.repository.AppRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -20,12 +21,13 @@ class AppRepositoryImpl @Inject constructor(
         packageName: String,
         versionCode: Int,
         versionName: String
-    ): Flow<ApiStatus<BaseResponse>> {
-        return flow<ApiStatus<BaseResponse>> {
+    ): Flow<ApiResult<BaseResponse>> {
+        return flow<ApiResult<BaseResponse>> {
             remoteDataSource.checkAppVersion(packageName, versionCode, versionName).run {
                 when (this) {
-                    is ApiStatus.Success -> emit(ApiStatus.Success(response.toBaseResponse()))
-                    is ApiStatus.Error -> emit(ApiStatus.Error(throwable))
+                    is ApiResult.Success -> emit(ApiResult.Success(response.toBaseResponse()))
+                    is ApiResult.Fail -> emit(ApiResult.Fail(code))
+                    is ApiResult.Error -> emit(ApiResult.Error(throwable))
                 }
             }
         }.flowOn(Dispatchers.IO)

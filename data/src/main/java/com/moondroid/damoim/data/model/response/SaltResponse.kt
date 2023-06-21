@@ -9,5 +9,5 @@ data class SaltResponse(
     @SerializedName(RequestParam.MESSAGE)
     val message: String? = null,
     @SerializedName(RequestParam.RESULT)
-    val salt: String?
+    val result: String
 )

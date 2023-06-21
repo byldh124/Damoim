@@ -1,77 +1,41 @@
 package com.moondroid.project01_meetingapp.presentation.ui.moim
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.moondroid.project01_meetingapp.R
+import com.moondroid.damoim.common.Extension.logException
+import com.moondroid.damoim.common.Extension.toast
+import com.moondroid.damoim.common.RequestParam
+import com.moondroid.damoim.domain.model.MoimAddress
+import com.moondroid.damoim.data.api.response.onSuccess
+import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.project01_meetingapp.DMApp
+import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
-import com.moondroid.project01_meetingapp.data.common.onSuccess
-import com.moondroid.damoim.data.response.BaseResponse
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
-import com.moondroid.project01_meetingapp.domain.model.Address
-import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
-import com.moondroid.project01_meetingapp.network.Repository
-import com.moondroid.project01_meetingapp.utils.SingleLiveEvent
-import com.moondroid.project01_meetingapp.network.UseCaseResult
-import com.moondroid.project01_meetingapp.utils.RequestParam
-import com.moondroid.project01_meetingapp.utils.toast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class MoimViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val profileUseCase: ProfileUseCase,
-    private val repository: Repository
 ) : BaseViewModel() {
 
     val date = MutableLiveData<String>()
     val time = MutableLiveData<String>()
     val pay = MutableLiveData<String>()
-    var address : Address? = null
-
-
-    private val _showLoading = MutableLiveData<Boolean>()
-    val showLoading: LiveData<Boolean> get() = _showLoading
-
-    private val _showError = MutableLiveData<Int>()
-    val showError: LiveData<Int> get() = _showError
-
-    private val _moimResponse = SingleLiveEvent<BaseResponse>()
-    val moimResponse: LiveData<BaseResponse> get() = _moimResponse
+    var address : MoimAddress? = null
 
 
     fun createMoim(body: JsonObject) {
-        _showLoading.postValue(true)
-        viewModelScope.launch {
-            val response = withContext(Dispatchers.IO) {
-                repository.createMoim(body)
-            }
 
-            _showLoading.postValue(false)
-            when (response) {
-                is UseCaseResult.Success -> {
-                    _moimResponse.postValue(response.data)
-                }
-
-                is UseCaseResult.Fail -> {
-                    _showError.postValue(response.errCode)
-                }
-                is UseCaseResult.Error -> {
-                    handleException(response.exception)
-                }
-            }
-
-        }
     }
 
     private val _eventFlow = MutableEventFlow<Event>()
@@ -109,8 +73,8 @@ class MoimViewModel @Inject constructor(
                             body.addProperty(RequestParam.DATE, date.value!!)
                             body.addProperty(RequestParam.TIME, time.value!!)
                             body.addProperty(RequestParam.PAY, pay.value!!)
-                            body.addProperty(RequestParam.LAT, address!!.latLng.latitude)
-                            body.addProperty(RequestParam.LNG, address!!.latLng.longitude)
+                            body.addProperty(RequestParam.LAT, address!!.lat)
+                            body.addProperty(RequestParam.LNG, address!!.lng)
                             body.addProperty(RequestParam.JOIN_MEMBER, joinMember)
 
                             createMoim(body)

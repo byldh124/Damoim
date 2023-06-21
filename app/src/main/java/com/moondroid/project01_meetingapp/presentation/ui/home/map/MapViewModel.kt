@@ -1,11 +1,10 @@
 package com.moondroid.project01_meetingapp.presentation.ui.home.map
 
 import androidx.lifecycle.viewModelScope
-import com.google.gson.GsonBuilder
-import com.moondroid.damoim.common.Constants
-import com.moondroid.damoim.common.ResponseCode
+import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.domain.model.MoimItem
-import com.moondroid.damoim.domain.model.status.onSuccess
+import com.moondroid.damoim.domain.model.status.onError
+import com.moondroid.damoim.data.api.response.onSuccess
 import com.moondroid.damoim.domain.usecase.group.MoimUseCase
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
@@ -21,18 +20,8 @@ class MapViewModel @Inject constructor(
     fun getMoim() {
         viewModelScope.launch {
             moimUseCase().collect { result ->
-                result.onSuccess {
-                    when (it.code) {
-                        ResponseCode.SUCCESS -> {
-                            val gson = GsonBuilder().create()
-                            /*val list = gson.fromJson<ArrayList<Moim>>(
-                                it.body,
-                                object : TypeToken<ArrayList<Moim>>() {}.type
-                            )*/
-                            //update(list)
-                        }
-                    }
-                }
+                result.onSuccess { update(it) }
+                    .onError { it.logException() }
             }
         }
     }

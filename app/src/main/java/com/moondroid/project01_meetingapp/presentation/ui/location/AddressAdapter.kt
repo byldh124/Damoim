@@ -4,19 +4,19 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.moondroid.damoim.domain.model.MoimAddress
 import com.moondroid.project01_meetingapp.databinding.ItemLocationBinding
-import com.moondroid.project01_meetingapp.domain.model.Address
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")
-class AddressAdapter(private val onClick : (Address) -> Unit) :
+class AddressAdapter(private val onClick : (MoimAddress) -> Unit) :
     RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
 
-    private var list: List<Address> by Delegates.observable(emptyList()) { _, _, _ ->
+    private var list: List<MoimAddress> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
-    fun updateList(newList: List<Address>) {
+    fun updateList(newList: List<MoimAddress>) {
         list = newList
     }
 

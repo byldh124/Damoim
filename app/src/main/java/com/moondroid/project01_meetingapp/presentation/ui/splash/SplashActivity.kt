@@ -14,6 +14,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
+import com.moondroid.project01_meetingapp.presentation.ui.splash.SplashViewModel.SplashEvent
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,21 +44,19 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
     }
 
 
-    private fun handleEvent(event: Event) {
-        when(event) {
-            is Event.Message -> {
-                showMessage(event.message)
-            }
-            is Event.Update -> {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse("market://details?id=$packageName")
-                startActivity(intent)
-            }
-            is Event.Main -> {
-                goToHomeActivity()
-            }
-            is Event.Sign -> {
-                goToSignInActivity()
+    private fun handleEvent(event: SplashEvent) {
+        when (event) {
+            is SplashEvent.Message -> showMessage(event.message)
+            is SplashEvent.Main -> goToHomeActivity()
+            is SplashEvent.Sign -> goToSignInActivity()
+            is SplashEvent.Update -> {
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse("market://details?id=$packageName")
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    e.logException()
+                }
             }
         }
     }

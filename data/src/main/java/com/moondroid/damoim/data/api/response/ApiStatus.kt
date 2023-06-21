@@ -1,4 +1,4 @@
-package com.moondroid.damoim.domain.model.status
+package com.moondroid.damoim.data.api.response
 
 sealed class ApiStatus<out T> {
     data class Success<out T>(val response: T) : ApiStatus<T>()
@@ -15,7 +15,4 @@ inline fun <T : Any> ApiStatus<T>.onError(action: (Throwable) -> Unit): ApiStatu
     return this
 }
 
-class ApiException(
-    val code: Int,
-    val msg: String? = null
-) : RuntimeException()
+class ApiException(val code: Int) : RuntimeException()

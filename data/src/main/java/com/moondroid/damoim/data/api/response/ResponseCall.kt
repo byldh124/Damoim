@@ -1,7 +1,5 @@
 package com.moondroid.damoim.data.api.response
 
-import com.moondroid.damoim.domain.model.status.ApiException
-import com.moondroid.damoim.domain.model.status.ApiStatus
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.Call
@@ -23,7 +21,8 @@ internal class ResponseCall<T> constructor(
                         callback.onResponse(this@ResponseCall, Response.success(ApiStatus.Error(ApiException(response.code()))))
                     }
                 }
-            }?: callback.onResponse(this@ResponseCall, Response.success(ApiStatus.Error(
+            }?: callback.onResponse(this@ResponseCall, Response.success(
+                ApiStatus.Error(
                 Throwable("Data not found")
             )))
         }

@@ -1,4 +1,4 @@
-package com.moondroid.damoim.data.datasource.local
+package com.moondroid.damoim.data.source.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

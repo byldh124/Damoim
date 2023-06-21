@@ -6,11 +6,14 @@ import android.view.View
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.moondroid.damoim.common.Extension.debug
+import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityGroupInfoBinding
 import com.moondroid.damoim.domain.model.GroupInfo
+import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
 import com.moondroid.project01_meetingapp.presentation.viewmodel.GroupInfoViewModel
@@ -31,8 +34,10 @@ import java.io.File
  * 모임 정보 수정
  */
 @AndroidEntryPoint
-class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activity_group_info) {
+class GroupInfoActivity : BaseActivity(R.layout.activity_group_info) {
+    private val binding by viewBinding(ActivityGroupInfoBinding::inflate)
     val viewModel: GroupInfoViewModel by viewModels()
+
     private lateinit var originTitle: String                            // 초기 그룹명
     private lateinit var title: String                                  // 변경된 그룹명
     private lateinit var location: String                               // 모임지역
@@ -100,7 +105,7 @@ class GroupInfoActivity : BaseActivity<ActivityGroupInfoBinding>(R.layout.activi
 
         viewModel.groupInfoResponse.observe(this) {
             try {
-                log("updateGroup() , Response => $it")
+                debug("updateGroup() , Response => $it")
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
                         val json = it.body.asJsonObject

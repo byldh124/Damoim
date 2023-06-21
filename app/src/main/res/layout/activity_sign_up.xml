@@ -38,7 +38,7 @@
                 style="@style/TextSign"
                 android:hint="@string/cmn_id"
                 android:text="@={model.id}"
-                app:visible="@{model.fromKakao}"
+                app:visible="@{model.fromSocial}"
                 android:inputType="text"
                 android:privateImeOptions="defaultInputmode=english" />
 
@@ -47,14 +47,14 @@
                 style="@style/TextSign"
                 android:hint="@string/cmn_pw"
                 android:text="@={model.pw}"
-                app:visible="@{model.fromKakao}"
+                app:visible="@{model.fromSocial}"
                 android:inputType="textPassword"
                 android:privateImeOptions="defaultInputmode=english" />
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etPw2"
                 style="@style/TextSign"
                 android:text="@={model.pw2}"
-                app:visible="@{model.fromKakao}"
+                app:visible="@{model.fromSocial}"
                 android:hint="@string/cmn_pw_check"
                 android:inputType="textPassword"
                 android:privateImeOptions="defaultInputmode=english" />
@@ -65,15 +65,14 @@
                 style="@style/TextSign"
                 android:hint="@string/cmn_name"
                 android:text="@={model.name}"
-                app:visible="@{model.fromKakao}"
+                app:visible="@{model.fromSocial}"
                 android:inputType="text"
                 android:privateImeOptions="defaultInputmode=korean" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBirth"
                 style="@style/TextSign"
-                android:hint="@string/cmn_birth"
-                android:onClick="@{() -> model.showDate()}" />
+                android:hint="@string/cmn_birth" />
 
             <RadioGroup
                 android:id="@+id/rgAccount"
@@ -82,14 +81,14 @@
                 android:layout_marginBottom="16dp"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/rbAccountMale"
                     style="@style/RadioButtonGender"
                     android:background="@drawable/bg_rb_male"
                     android:checked="true"
                     android:text="@string/cmn_male"/>
 
-                <RadioButton
+                <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/rbAccountFemale"
                     style="@style/RadioButtonGender"
                     android:background="@drawable/bg_rb_female"
@@ -101,71 +100,69 @@
                 android:id="@+id/tvLocation"
                 style="@style/TextSign"
                 android:text="@={model.location}"
-                android:hint="@string/cmn_location"
-                android:onClick="@{() -> model.toLocation()}" />
+                android:hint="@string/cmn_location" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvInterest"
                 style="@style/TextSign"
                 android:text="@={model.interest}"
-                android:hint="@string/cmn_interest"
-                android:onClick="@{() -> model.toInterest()}"/>
+                android:hint="@string/cmn_interest"/>
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal">
 
-                <CheckBox
+                <androidx.appcompat.widget.AppCompatCheckBox
                     android:buttonTint="@color/red_light01"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:checked="@={model.toAgree}"
                     android:layout_marginEnd="8dp"/>
-                
-                <TextView
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvUseTerm"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/gray_dark01"
                     android:gravity="center_vertical"
                     android:fontFamily="@font/nanum_square_round_eb"
-                    android:onClick="@{() -> model.useTerm()}"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:text="@string/cmn_use_term_short"/>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:fontFamily="@font/nanum_square_round_b"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:layout_marginHorizontal="4dp"
                     android:textColor="@color/gray_light01"
                     android:text="@string/cmn_divider"/>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPrivacy"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:gravity="center_vertical"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:textColor="@color/gray_dark01"
-                    android:onClick="@{() -> model.privacy()}"
                     android:text="@string/cmn_privacy"/>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:fontFamily="@font/nanum_square_round_b"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:textColor="@color/gray_light01"
                     android:text="@string/cmn_agree_to"/>
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnSave"
                 style="@style/ButtonRed01"
                 android:text="@string/cmn_save"

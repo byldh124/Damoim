@@ -10,8 +10,9 @@ import com.moondroid.damoim.common.PrefsKey
 import com.moondroid.damoim.common.Regex
 import com.moondroid.damoim.common.RequestParam
 import com.moondroid.damoim.common.ResponseCode
-import com.moondroid.damoim.domain.model.status.ApiException
+import com.moondroid.damoim.data.api.response.onSuccess
 import com.moondroid.damoim.domain.model.status.onError
+import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.damoim.domain.usecase.sign.SaltUseCase
@@ -73,9 +74,10 @@ class SignInViewModel @Inject constructor(
                     body.addProperty(RequestParam.ID, id)
                     body.addProperty(RequestParam.HASH_PW, hashPw)
                     signIn(body)
-
+                }.onFail {
+                    if (it == ResponseCode.NOT_EXIST) context.toast("아이디가 존재하지 않습니다.")
                 }.onError {
-                    message(it.message.toString())
+                    it.logException()
                 }
             }
         }
@@ -88,8 +90,6 @@ class SignInViewModel @Inject constructor(
                 result.onSuccess {
                     isChecked.value?.let { it1 -> DMApp.prefs.putBoolean(PrefsKey.AUTO_LOGIN, it1) }
                     home()
-                }.onError {
-                    message(it.message.toString())
                 }
                 loading(false)
             }
@@ -111,20 +111,14 @@ class SignInViewModel @Inject constructor(
                 result.onSuccess {
                     isChecked.value?.let { it1 -> DMApp.prefs.putBoolean(PrefsKey.AUTO_LOGIN, it1) }
                     home()
-                }.onError {
-                    if (it is ApiException && it.code == ResponseCode.NOT_EXIST) {
-                        signUpSocial(id, name, thumb)
-                    }
-                    message(it.message.toString())
                 }
             }
         }
     }
 
     private fun loading(b: Boolean) = event(SignInEvent.Loading(b))
-    fun message(msg: String) = event(SignInEvent.Message(msg))
+    private fun message(msg: String) = event(SignInEvent.Message(msg))
     private fun home() = event(SignInEvent.Home)
-    fun signUp() = event(SignInEvent.SignUp)
     private fun signUpSocial(id: String, name: String, thumb: String) =
         event(SignInEvent.SignUpSocial(id = id, name = name, thumb = thumb))
 
@@ -138,7 +132,6 @@ class SignInViewModel @Inject constructor(
         data class Loading(val show: Boolean) : SignInEvent()
         data class Message(val message: String) : SignInEvent()
         object Home : SignInEvent()
-        object SignUp : SignInEvent()
         data class SignUpSocial(val id: String, val name: String, val thumb: String) : SignInEvent()
     }
 }

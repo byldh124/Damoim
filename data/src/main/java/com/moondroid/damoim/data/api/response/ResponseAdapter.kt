@@ -1,6 +1,5 @@
 package com.moondroid.damoim.data.api.response
 
-import com.moondroid.damoim.domain.model.status.ApiStatus
 import retrofit2.Call
 import retrofit2.CallAdapter
 import java.lang.reflect.Type

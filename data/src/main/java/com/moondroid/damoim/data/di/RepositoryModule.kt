@@ -6,7 +6,7 @@ import com.moondroid.damoim.domain.repository.GroupRepository
 import com.moondroid.damoim.domain.repository.ProfileRepository
 import com.moondroid.damoim.domain.repository.SignRepository
 import com.moondroid.damoim.data.repository.AppRepositoryImpl
-import com.moondroid.project01_meetingapp.data.repository.GroupRepositoryImpl
+import com.moondroid.damoim.data.repository.GroupRepositoryImpl
 import com.moondroid.damoim.data.repository.SignRepositoryImpl
 import dagger.Binds
 import dagger.Module

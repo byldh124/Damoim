@@ -1,13 +1,11 @@
 package com.moondroid.project01_meetingapp.presentation.ui.grouplist
 
 import androidx.lifecycle.viewModelScope
-import com.moondroid.damoim.common.Constants
 import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.domain.model.status.onError
-import com.moondroid.damoim.domain.model.status.onNetworkError
-import com.moondroid.damoim.domain.model.status.onSuccess
+import com.moondroid.damoim.data.api.response.onSuccess
 import com.moondroid.damoim.domain.usecase.group.GroupUseCase
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow

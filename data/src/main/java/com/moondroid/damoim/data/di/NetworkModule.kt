@@ -4,8 +4,8 @@ import android.util.Log
 import com.google.gson.GsonBuilder
 import com.moondroid.damoim.data.BuildConfig
 import com.moondroid.damoim.data.api.ApiInterface
-import com.moondroid.damoim.data.datasource.remote.RemoteDataSource
-import com.moondroid.damoim.data.datasource.remote.RemoteDataSourceImpl
+import com.moondroid.damoim.data.source.remote.RemoteDataSource
+import com.moondroid.damoim.data.source.remote.RemoteDataSourceImpl
 import com.moondroid.damoim.data.api.URLManager.BASE_URL
 import com.moondroid.damoim.data.api.response.ResponseAdapterFactory
 import dagger.Binds

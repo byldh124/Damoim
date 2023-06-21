@@ -5,18 +5,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.Extension.repeatOnStarted
-import com.moondroid.project01_meetingapp.R
+import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.project01_meetingapp.DMApp
-import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
+import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeMainBinding
-import com.moondroid.damoim.domain.model.GroupInfo
+import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListAdapter
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.main.MainViewModel.Event
-import com.moondroid.project01_meetingapp.utils.ActivityTy
-import com.moondroid.project01_meetingapp.utils.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -83,7 +82,7 @@ class MainFragment :
     private fun handleEvent(event: Event) {
         when (event) {
             is Event.Update -> {
-                activity.groupsList = event.list as ArrayList<GroupInfo>
+                activity.groupsList = event.list as ArrayList<GroupItem>
                 groupAdapter.updateList(event.list)
             }
         }

@@ -10,7 +10,7 @@
             type="com.moondroid.project01_meetingapp.presentation.ui.activity.MoimInfoActivity" />
         <variable
             name="moim"
-            type="com.moondroid.project01_meetingapp.domain.model.Moim" />
+            type="com.moondroid.damoim.domain.model.MoimItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -129,7 +129,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:onClick="@{activity::join}"
                     android:text="@string/cmn_join_in_moim" />
 
                 <TextView

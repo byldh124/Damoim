@@ -8,9 +8,11 @@ interface ProfileDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProfile(profile: ProfileEntity)
 
-    @Query("SELECT * FROM DMUser")
-    suspend fun getProfile(): List<ProfileEntity>
+    @Query("SELECT * FROM profile")
+    suspend fun getProfileList(): List<ProfileEntity>
 
-    @Query("DELETE FROM DMUser")
+    @Query("DELETE FROM profile")
     suspend fun deleteProfileAll()
+
+    suspend fun getProfile(): ProfileEntity? = getProfileList().lastOrNull()
 }

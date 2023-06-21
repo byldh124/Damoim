@@ -2,13 +2,15 @@ package com.moondroid.project01_meetingapp.presentation.ui.interest
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
+import com.moondroid.damoim.common.Extension.init
+import com.moondroid.damoim.common.Extension.logException
+import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityInterestBinding
+import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
+import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.utils.DMUtils
-import com.moondroid.project01_meetingapp.utils.IntentParam
-import com.moondroid.project01_meetingapp.utils.init
-import com.moondroid.project01_meetingapp.utils.logException
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -18,8 +20,11 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 
 @AndroidEntryPoint
-class InterestActivity : BaseActivity<ActivityInterestBinding>(R.layout.activity_interest) {
-    override fun init() {
+class InterestActivity : BaseActivity(R.layout.activity_interest) {
+    private val binding by viewBinding(ActivityInterestBinding::inflate)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         intiView()
     }
 

@@ -4,14 +4,9 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <variable
-            name="fragment"
-            type="com.moondroid.project01_meetingapp.presentation.ui.fragment.InfoFragment" />
-
         <variable
             name="groupInfo"
-            type="com.moondroid.damoim.domain.model.GroupInfo" />
+            type="com.moondroid.damoim.domain.model.GroupItem" />
 
         <variable
             name="isMaster"
@@ -70,9 +65,10 @@
                 <TextView
                     android:id="@+id/btnJoin"
                     style="@style/ButtonRed01"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="16dp"
-                    android:onClick="@{fragment::join}"
                     android:text="@string/cmn_join"
                     bind:layout_constraintLeft_toLeftOf="parent"
                     bind:layout_constraintTop_toBottomOf="@id/tvInformation" />
@@ -112,10 +108,11 @@
                     <TextView
                         android:id="@+id/btnCreate"
                         style="@style/ButtonRed01"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@id/moimWrapper"
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="16dp"
-                        android:onClick="@{fragment::create}"
                         android:text="@string/cmn_create_moim"
                         android:visibility="@{isMaster ? View.VISIBLE: View.GONE}" />
 

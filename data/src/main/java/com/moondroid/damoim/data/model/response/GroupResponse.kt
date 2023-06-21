@@ -10,5 +10,5 @@ data class GroupResponse(
     @SerializedName(RequestParam.MESSAGE)
     val message: String? = null,
     @SerializedName(RequestParam.RESULT)
-    val result: List<GroupItemDTO>?
+    val result: List<GroupItemDTO>
 )

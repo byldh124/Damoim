@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,17 +15,18 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.moondroid.project01_meetingapp.R
+import com.moondroid.damoim.domain.model.Chat
+import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.project01_meetingapp.DMApp
-import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
+import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupBoardBinding
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupChatBinding
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupGalleryBinding
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupInfoBinding
-import com.moondroid.damoim.domain.model.Chat
 import com.moondroid.project01_meetingapp.domain.model.DMUser
-import com.moondroid.damoim.domain.model.GroupInfo
 import com.moondroid.project01_meetingapp.domain.model.Moim
+import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
+import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.activity.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.adapter.ChatAdapter
 import com.moondroid.project01_meetingapp.presentation.ui.adapter.GalleryAdapter
@@ -39,23 +41,26 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 
 @AndroidEntryPoint
-class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_group_info) {
+class InfoFragment : BaseFragment(R.layout.fragment_group_info) {
 
     private lateinit var activity: GroupActivity
+    private val binding by viewBinding(FragmentGroupInfoBinding::bind)
     private val viewModel: GroupViewModel by viewModels()
-    lateinit var groupInfo: GroupInfo
+    lateinit var groupInfo: GroupItem
     private lateinit var memberAdapter: MemberAdapter
     private lateinit var moimListAdapter: MoimListAdapter
-    lateinit var user: DMUser
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as GroupActivity
-        user = activity.user!!
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
 
     override fun init() {
-        binding.fragment = this
         groupInfo = DMApp.group
         binding.isMaster = groupInfo.masterId == activity.user!!.id
         binding.groupInfo = groupInfo
@@ -136,6 +141,7 @@ class InfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_gr
                         }
                     }
                 }
+
                 else -> {
 
                 }

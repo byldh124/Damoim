@@ -3,7 +3,7 @@ package com.moondroid.project01_meetingapp
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.kakao.sdk.common.KakaoSdk
-import com.moondroid.damoim.domain.model.GroupInfo
+import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.project01_meetingapp.utils.Preferences
 import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import dagger.hilt.android.HiltAndroidApp
@@ -12,7 +12,7 @@ import dagger.hilt.android.HiltAndroidApp
 class DMApp : Application() {
 
     companion object {
-        lateinit var group: GroupInfo
+        lateinit var group: GroupItem
         lateinit var prefs: Preferences
     }
 

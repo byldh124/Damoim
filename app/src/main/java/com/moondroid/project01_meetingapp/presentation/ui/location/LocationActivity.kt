@@ -4,19 +4,20 @@ import android.app.Activity
 import android.content.Intent
 import android.location.Geocoder
 import android.os.Build
+import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.moondroid.damoim.common.ActivityTy
+import com.moondroid.damoim.common.Extension.afterTextChanged
+import com.moondroid.damoim.common.Extension.logException
+import com.moondroid.damoim.common.Extension.visible
+import com.moondroid.damoim.common.IntentParam
+import com.moondroid.damoim.domain.model.MoimAddress
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityLocationBinding
-import com.moondroid.project01_meetingapp.domain.model.Address
-import com.moondroid.project01_meetingapp.utils.ActivityTy
-import com.moondroid.project01_meetingapp.utils.IntentParam
-import com.moondroid.project01_meetingapp.utils.afterTextChanged
-import com.moondroid.project01_meetingapp.utils.logException
-import com.moondroid.project01_meetingapp.utils.visible
-import com.naver.maps.geometry.LatLng
+import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
+import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -27,20 +28,22 @@ import java.util.*
  */
 
 @AndroidEntryPoint
-class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity_location) {
+class LocationActivity : BaseActivity(R.layout.activity_location) {
     private lateinit var locationAdapter: LocationAdapter
     private lateinit var addressAdapter: AddressAdapter
     private lateinit var geocoder: Geocoder
     private lateinit var type: TYPE
-    private val address = ArrayList<Address>()
+    private val address = ArrayList<MoimAddress>()
     val title = MutableLiveData<String>()
+    private val binding by viewBinding(ActivityLocationBinding::inflate)
 
     enum class TYPE {
         LOCAL,                  // 읍,면,동 검색
         ADDRESS                 // 상세 주소 검색[모임]
     }
 
-    override fun init() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         geocoder = Geocoder(this, Locale.KOREA)
         initView()
     }
@@ -132,10 +135,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
                                         list.forEach {
                                             val target = replace(it.getAddressLine(0))
                                             address.add(
-                                                Address(
-                                                    "$target [$query]",
-                                                    LatLng(it.latitude, it.longitude)
-                                                )
+                                                MoimAddress("$target [$query]", it.latitude, it.longitude)
                                             )
                                         }
                                     }
@@ -145,10 +145,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
                                     result?.forEach {
                                         val target = replace(it.getAddressLine(0))
                                         address.add(
-                                            Address(
-                                                "$target [$query]",
-                                                LatLng(it.latitude, it.longitude)
-                                            )
+                                            MoimAddress("$target [$query]", it.latitude, it.longitude)
                                         )
                                     }
                                 }

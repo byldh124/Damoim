@@ -6,14 +6,17 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.google.gson.Gson
+import com.moondroid.damoim.common.ActivityTy
+import com.moondroid.damoim.common.Extension.init
+import com.moondroid.damoim.common.Extension.logException
+import com.moondroid.damoim.common.Extension.repeatOnStarted
+import com.moondroid.damoim.common.IntentParam
+import com.moondroid.damoim.domain.model.MoimAddress
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.DMApp
-import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityMoimBinding
-import com.moondroid.project01_meetingapp.domain.model.Address
+import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
+import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
-import com.moondroid.project01_meetingapp.utils.*
-import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.LocationTrackingMode
@@ -22,106 +25,66 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
-import org.joda.time.DateTime
+import java.util.Calendar
 
 @AndroidEntryPoint
-class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), OnMapReadyCallback {
+class MoimActivity : BaseActivity(R.layout.activity_moim), OnMapReadyCallback {
     private val viewModel: MoimViewModel by viewModels()
+    private val binding by viewBinding(ActivityMoimBinding::inflate)
 
     private val requestCode = 0xf0f0
     private lateinit var locationSource: FusedLocationSource
     private lateinit var mNaverMap: NaverMap
 
-    override fun init() {
-        binding.lifecycleOwner = this
-        binding.model = viewModel
-        binding.toolbar.init(this)
-        initViewModel()
-
-        repeatOnStarted {
-            viewModel.eventFlow.collect{
-                handleEvent(it)
-            }
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        repeatOnStarted {
+            viewModel.eventFlow.collect {
+                handleEvent(it)
+            }
+        }
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, requestCode)
+
+        binding.lifecycleOwner = this
+        binding.model = viewModel
+        binding.toolbar.init(this)
     }
 
-    private fun initViewModel() {
-        viewModel.showLoading.observe(this) {
-            showLoading(it)
-        }
-
-        viewModel.showError.observe(this) {
-            showNetworkError(it)
-        }
-
-        viewModel.moimResponse.observe(this) {
-            try {
-                when (it.code) {
-                    ResponseCode.SUCCESS -> {
-                        showMessage(getString(R.string.alm_create_moim_success)) {
-
-                            val bundle = Bundle()
-                            bundle.putString(RequestParam.TITLE, DMApp.group.title)
-                            DMAnalyze.logEvent("Create_Moim", bundle)
-
-                            finish()
-                        }
-                    }
-
-                    ResponseCode.ALREADY_EXIST -> {
-                        showMessage(getString(R.string.error_moim_already_exist))
-                    }
-
-                    else -> {
-                        showMessage(getString(R.string.error_create_moim_fail), "E01: ${it.code}")
-                    }
-                }
-            } catch (e: Exception) {
-                e.logException()
-            }
-        }
-    }
 
     fun toLocation() {
-        val onResult: (Intent) -> Unit = {
+        val intent = Intent(this, LocationActivity::class.java).putExtra(
+            IntentParam.ACTIVITY,
+            ActivityTy.MOIM
+        )
+
+        activityResult(intent) {
             try {
                 val json = it.getStringExtra(IntentParam.ADDRESS).toString()
-                val temp = Gson().fromJson(json, Address::class.java)
+                val temp = Gson().fromJson(json, MoimAddress::class.java)
                 temp?.let { address ->
                     binding.tvLocation.text = address.address
-                    val marker = Marker(address.latLng)
+                    val marker = Marker(LatLng(address.lat, address.lng))
                     marker.map = mNaverMap
-                    mNaverMap.cameraPosition = CameraPosition(address.latLng, 16.0, 0.0, 0.0)
+                    mNaverMap.cameraPosition = CameraPosition(LatLng(address.lat, address.lng), 16.0, 0.0, 0.0)
                     viewModel.address = address
                 }
             } catch (e: Exception) {
                 e.logException()
             }
         }
-
-        val intent = Intent(this, LocationActivity::class.java).putExtra(
-            IntentParam.ACTIVITY,
-            ActivityTy.MOIM
-        )
-
-        activityResult(onResult, intent)
     }
 
 
     private fun showDate() {
         try {
-            val date = DateTime(System.currentTimeMillis())
+            val date = Calendar.getInstance()
             val datePicker = DatePickerDialog(
                 this, R.style.DatePickerSpin, { _, p1, p2, p3 ->
                     viewModel.date.value = String.format("%d.%d.%d", p1, p2 + 1, p3)
-                }, date.year, date.monthOfYear - 1, date.dayOfMonth
+                }, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH)
             )
             datePicker.show()
         } catch (e: Exception) {
@@ -133,8 +96,8 @@ class MoimActivity : BaseActivity<ActivityMoimBinding>(R.layout.activity_moim), 
         try {
             val timePicker = TimePickerDialog(
                 this, R.style.TimePickerSpin, { _, hour, minute ->
-                    viewModel.time.value = String.format("%02d : %02d", hour, minute) }
-                , 12, 0, true
+                    viewModel.time.value = String.format("%02d : %02d", hour, minute)
+                }, 12, 0, true
             )
             timePicker.show()
         } catch (e: Exception) {

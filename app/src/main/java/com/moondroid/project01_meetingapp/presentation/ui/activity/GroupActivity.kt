@@ -12,6 +12,8 @@ import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityGroupBinding
 import com.moondroid.damoim.domain.model.GroupInfo
+import com.moondroid.damoim.domain.model.GroupItem
+import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.dialog.TutorialDialog
 import com.moondroid.project01_meetingapp.presentation.ui.fragment.ChatFragment
 import com.moondroid.project01_meetingapp.presentation.ui.fragment.GalleryFragment
@@ -38,10 +40,11 @@ import dagger.hilt.android.AndroidEntryPoint
  *   - 채팅
  */
 @AndroidEntryPoint
-class GroupActivity : BaseActivity<ActivityGroupBinding>(R.layout.activity_group) {
+class GroupActivity : BaseActivity(R.layout.activity_group) {
     private val pageNum = 3
+    private val binding by viewBinding(ActivityGroupBinding::inflate)
     private val viewModel: GroupViewModel by viewModels()
-    lateinit var groupInfo: GroupInfo
+    lateinit var groupInfo: GroupItem
     lateinit var title: String
     var isFavor = false
     val fragments =

@@ -1,40 +1,48 @@
 package com.moondroid.project01_meetingapp.presentation.ui.activity
 
+import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.moondroid.damoim.common.Extension.debug
+import com.moondroid.damoim.common.Extension.init
+import com.moondroid.damoim.common.Extension.logException
+import com.moondroid.damoim.common.Extension.startActivityWithAnim
+import com.moondroid.damoim.common.IntentParam
+import com.moondroid.damoim.domain.model.MoimItem
+import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivityMoimInfoBinding
 import com.moondroid.project01_meetingapp.domain.model.DMUser
 import com.moondroid.project01_meetingapp.domain.model.Moim
+import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
+import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.adapter.MemberAdapter
 import com.moondroid.project01_meetingapp.presentation.viewmodel.MoimInfoViewModel
 import com.moondroid.project01_meetingapp.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity_moim_info) {
+class MoimInfoActivity : BaseActivity(R.layout.activity_moim_info) {
+    private val binding by viewBinding(ActivityMoimInfoBinding::inflate)
     private val viewModel: MoimInfoViewModel by viewModels()
     private lateinit var adapter: MemberAdapter
-    private lateinit var moim: Moim
+    private lateinit var moim: MoimItem
 
-    override fun init() {
-        try {
-            binding.activity = this
-            moim = Gson().fromJson(intent.getStringExtra(IntentParam.MOIM), Moim::class.java)
-            binding.moim = moim
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.activity = this
+        moim = Gson().fromJson(intent.getStringExtra(IntentParam.MOIM), MoimItem::class.java)
+        binding.moim = moim
 
-            initView()
-            initViewModel()
+        initView()
+        initViewModel()
 
-            viewModel.getMember(moim.joinMember)
-        } catch (e: Exception) {
-            e.logException()
-        }
+        viewModel.getMember(moim.joinMember)
     }
 
     private fun initView() {
@@ -42,11 +50,24 @@ class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity
             binding.toolbar.init(this)
 
             binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-            adapter = MemberAdapter(this)
+            adapter = MemberAdapter {
+                toProfile(it)
+            }
             binding.recycler.adapter = adapter
+
+            binding.btnJoin.setOnClickListener { join() }
         } catch (e: Exception) {
             e.logException()
         }
+    }
+
+    private fun toProfile(profile: Profile) {
+        val intent = Intent(this, ProfileActivity::class.java).apply {
+            putExtra(IntentParam.USER, Gson().toJson(profile))
+            addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        }
+        this@MoimInfoActivity.startActivityWithAnim(intent)
     }
 
     private fun initViewModel() {
@@ -59,7 +80,7 @@ class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity
         }
 
         viewModel.memberResponse.observe(this) {
-            log("getMember() , observe() Response => $it")
+            debug("getMember() , observe() Response => $it")
             try {
                 when (it.code) {
                     ResponseCode.SUCCESS -> {
@@ -105,9 +126,9 @@ class MoimInfoActivity : BaseActivity<ActivityMoimInfoBinding>(R.layout.activity
         }
     }
 
-    fun join(@Suppress("UNUSED_PARAMETER") vw: View) {
+    fun join() {
         try {
-            viewModel.join(user!!.id, moim.title, moim.date)
+            viewModel.join(moim.title, moim.date)
         } catch (e: Exception) {
             e.logException()
         }

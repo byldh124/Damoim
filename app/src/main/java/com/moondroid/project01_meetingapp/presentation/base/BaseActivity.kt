@@ -9,9 +9,10 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import com.moondroid.damoim.common.IntentParam.ACTIVITY
+import com.moondroid.damoim.common.Constants.NETWORK_NOT_CONNECTED
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.Extension.startActivityWithAnim
+import com.moondroid.damoim.common.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.OneButtonDialog
@@ -20,7 +21,6 @@ import com.moondroid.project01_meetingapp.presentation.dialog.WebViewDialog
 import com.moondroid.project01_meetingapp.presentation.ui.activity.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
 import com.moondroid.project01_meetingapp.presentation.ui.signin.SignInActivity
-import com.moondroid.project01_meetingapp.utils.NETWORK_NOT_CONNECTED
 import java.util.concurrent.Executor
 
 
@@ -76,12 +76,12 @@ open class BaseActivity(@LayoutRes val layoutResId: Int) : AppCompatActivity() {
         showNetworkError(code, onClick = {})
     }
 
-    fun activityResult(onResult: (Intent) -> Unit?, intent: Intent) {
+    fun activityResult(intent: Intent, onResult: (Intent) -> Unit?) {
         this@BaseActivity.onResult = onResult
         activityResult.launch(intent)
     }
 
-    fun showNetworkError(code: Int, onClick: () -> Unit) {
+    private fun showNetworkError(code: Int, onClick: () -> Unit) {
         try {
             if (code != 0) {
                 if (code == NETWORK_NOT_CONNECTED) {

@@ -28,10 +28,12 @@ import com.moondroid.damoim.data.api.URLManager.UPDATE_INTEREST
 import com.moondroid.damoim.data.api.URLManager.UPDATE_PROFILE
 import com.moondroid.damoim.data.api.URLManager.UPDATE_TOKEN
 import com.moondroid.damoim.data.model.dto.BaseResponseDTO
+import com.moondroid.damoim.data.model.request.UpdateTokenRequest
 import com.moondroid.damoim.data.model.response.GroupResponse
+import com.moondroid.damoim.data.model.response.MoimResponse
 import com.moondroid.damoim.data.model.response.ProfileResponse
 import com.moondroid.damoim.data.model.response.SaltResponse
-import com.moondroid.damoim.domain.model.status.ApiStatus
+import com.moondroid.damoim.data.api.response.ApiStatus
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -73,16 +75,14 @@ interface ApiInterface {
         @Query("versionName") versionName: String
     ): ApiStatus<BaseResponseDTO>
 
-    /**
-     * @param body (id: String, token: String)
-     **/
+
     @POST(UPDATE_TOKEN)
     suspend fun updateToken(
-        @Body body: JsonObject
+        @Body updateTokenRequest: UpdateTokenRequest
     ): ApiStatus<BaseResponseDTO>
 
     @GET(GET_MOIM)
-    suspend fun getMoim(): ApiStatus<BaseResponseDTO>
+    suspend fun getMoim(): ApiStatus<MoimResponse>
 
     @POST(CREATE_MOIM)
     suspend fun createMoim(@Body body: JsonObject): ApiStatus<BaseResponseDTO>
@@ -180,7 +180,7 @@ interface ApiInterface {
     suspend fun blockUser(
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.BLOCK_ID) blockId: String
-    ):ApiStatus<BaseResponseDTO>
+    ): ApiStatus<BaseResponseDTO>
 
     @GET(REPORT)
     suspend fun reportUser(

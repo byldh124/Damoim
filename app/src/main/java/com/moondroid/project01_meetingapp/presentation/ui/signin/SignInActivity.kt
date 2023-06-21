@@ -83,10 +83,6 @@ class SignInActivity : BaseActivity(R.layout.activity_sign_in) {
                 goToHomeActivity(ActivityTy.SIGN_IN)
             }
 
-            is SignInEvent.SignUp -> {
-                goToSignUp()
-            }
-
             is SignInEvent.SignUpSocial -> {
                 val intent = Intent(this@SignInActivity, SignUpActivity::class.java)
                 intent.putExtra(IntentParam.ID, event.id)
@@ -100,17 +96,17 @@ class SignInActivity : BaseActivity(R.layout.activity_sign_in) {
     }
 
     private fun initView() {
-        try {
-            val textView = binding.icGoogle.getChildAt(0) as TextView
+        with(binding) {
+            val textView = icGoogle.getChildAt(0) as TextView
             textView.text = getString(R.string.cmn_sign_in_google)
-            binding.txtUseTerm.setOnClickListener { showUseTerm() }
-            binding.txtPrivacy.setOnClickListener { showPrivacy() }
-            binding.icGoogle.setOnClickListener { getGoogleAccount() }
-            binding.icKakao.setOnClickListener { getKakaoAccount() }
-
-        } catch (e: Exception) {
-            e.logException()
+            txtUseTerm.setOnClickListener { showUseTerm() }
+            txtPrivacy.setOnClickListener { showPrivacy() }
+            icGoogle.setOnClickListener { getGoogleAccount() }
+            icKakao.setOnClickListener { getKakaoAccount() }
+            btnSignUp.setOnClickListener { goToSignUp() }
         }
+
+
     }
 
 

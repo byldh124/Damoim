@@ -9,7 +9,7 @@
 
         <variable
             name="groupInfo"
-            type="com.moondroid.damoim.domain.model.GroupInfo" />
+            type="com.moondroid.damoim.domain.model.GroupItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

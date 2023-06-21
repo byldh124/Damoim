@@ -1,6 +1,6 @@
-package com.moondroid.damoim.domain.model
+package com.moondroid.damoim.data.model.dto
 
-data class MoimItem(
+data class MoimItemDTO(
     val title: String,
     val address: String,
     val date: String,
