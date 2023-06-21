@@ -13,17 +13,17 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object DatabaseModule {
 
     @Singleton // Tell Dagger-Hilt to create a singleton accessible everywhere in Application Component (i.e. everywhere in the application)
     @Provides
-    fun provideUserDatabase(
-        @ApplicationContext app: Context
-    ) = Room.databaseBuilder(
-        app,
-        LocalDatabase::class.java,
-        "Damoim.db"
-    ).addTypeConverter(DataTypeConverter()).build() // The reason we can construct a database for the repo
+    fun provideUserDatabase(@ApplicationContext context: Context): LocalDatabase {
+        return Room.databaseBuilder(
+            context.applicationContext,
+            LocalDatabase::class.java,
+            "Damoim.db"
+        ).build()
+    } // The reason we can construct a database for the repo
 
     @Singleton
     @Provides

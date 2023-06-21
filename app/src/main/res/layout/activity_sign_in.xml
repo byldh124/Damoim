@@ -112,9 +112,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnSignUp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/ButtonRed01"
+                style="@style/ButtonGray01"
                 android:layout_marginTop="12dp"
                 android:text="@string/cmn_sign_up" />
 

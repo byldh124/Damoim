@@ -68,7 +68,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.moondroid.project01_meetingapp.model.** { *; }
+-keep class com.moondroid.damoim.domain.model.** { *; }
+-keep class com.moondroid.damoim.domain.model.status.** { *; }
+-keep class com.moondroid.damoim.data.model.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
 
 # Prevent proguard from stripping interface information from TypeAdapterFactory,

@@ -65,8 +65,6 @@
                 <TextView
                     android:id="@+id/btnJoin"
                     style="@style/ButtonRed01"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/cmn_join"
@@ -108,8 +106,6 @@
                     <TextView
                         android:id="@+id/btnCreate"
                         style="@style/ButtonRed01"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:layout_below="@id/moimWrapper"
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="16dp"

@@ -124,6 +124,7 @@
                 <TextView
                     android:id="@+id/btnJoin"
                     style="@style/ButtonRed01"
+
                     android:layout_below="@id/moimWrapper"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
