@@ -94,6 +94,7 @@ object BindingUtils {
             GroupType.FAVORITE -> context.getString(R.string.title_group_list_favorite)
             GroupType.RECENT -> context.getString(R.string.title_group_list_recent)
             GroupType.MY_GROUP -> context.getString(R.string.cmn_my_group)
+            GroupType.ALL -> "전체"
         }
     }
 
@@ -109,6 +110,10 @@ object BindingUtils {
             )
             GroupType.MY_GROUP -> setEmptyText(
                 context.getString(R.string.alm_my_group_empty)
+            )
+
+            GroupType.ALL -> setEmptyText(
+                "현재 생성된 모임이 없습니다."
             )
         }
     }

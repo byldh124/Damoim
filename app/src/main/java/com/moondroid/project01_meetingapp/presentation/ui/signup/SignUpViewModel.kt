@@ -11,8 +11,10 @@ import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.RequestParam
 import com.moondroid.damoim.common.Extension.toast
 import com.moondroid.damoim.common.DMRegex
+import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.data.api.response.onSuccess
+import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
@@ -90,19 +92,17 @@ class SignUpViewModel @Inject constructor(
             val salt = getSalt()
             salt?.let {
                 val hashPw = DMUtils.hashingPw(pw.value!!, it)
-
-                val jsonObject = JsonObject()
-                jsonObject.addProperty(RequestParam.ID, id.value)
-                jsonObject.addProperty(RequestParam.HASH_PW, hashPw)
-                jsonObject.addProperty(RequestParam.SALT, salt)
-                jsonObject.addProperty(RequestParam.NAME, name.value)
-                jsonObject.addProperty(RequestParam.BIRTH, birth.value)
-                jsonObject.addProperty(RequestParam.GENDER, gender.value)
-                jsonObject.addProperty(RequestParam.LOCATION, location.value)
-                jsonObject.addProperty(RequestParam.INTEREST, interest.value)
-                jsonObject.addProperty(RequestParam.THUMB, thumb.value)
-
-                signUp(jsonObject)
+                signUp(
+                    id.value!!,
+                    hashPw,
+                    salt,
+                    name.value!!,
+                    birth.value!!,
+                    gender.value!!,
+                    location.value!!,
+                    interest.value!!,
+                    thumb.value!!
+                )
             }
 
         } catch (e: Exception) {
@@ -126,16 +126,27 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun signUp(body: JsonObject) {
+    private fun signUp(
+        id: String,
+        hashPw: String,
+        salt: String,
+        name: String,
+        birth: String,
+        gender: String,
+        location: String,
+        interest: String,
+        thumb: String
+    ) {
         loading(true)
         viewModelScope.launch {
-            signUpUseCase(body).collect { result ->
+            signUpUseCase(id, hashPw, salt, name, birth, gender, location, interest, thumb).collect { result ->
                 loading(false)
                 result.onSuccess {
                     DMAnalyze.setProperty(it)
                     DMCrash.setProperty(it.id)
                     getMsgToken()
-
+                }.onFail {
+                    if (it == ResponseCode.ALREADY_EXIST) context.toast(R.string.error_id_already_exist)
                 }.onError { message(it.message.toString()) }
             }
         }
@@ -155,8 +166,6 @@ class SignUpViewModel @Inject constructor(
                 }
 
                 val token = task.result
-
-                debug("getMsgToken() , token => $token")
                 updateToken(token)
             })
         } catch (e: Exception) {

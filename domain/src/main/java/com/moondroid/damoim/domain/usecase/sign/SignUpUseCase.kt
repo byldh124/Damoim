@@ -1,14 +1,43 @@
 package com.moondroid.damoim.domain.usecase.sign
 
-import com.google.gson.JsonObject
 import com.moondroid.damoim.domain.repository.SignRepository
 import javax.inject.Inject
 
 class SignUpUseCase @Inject constructor(private val signRepository: SignRepository) {
 
-    suspend fun execute(body: JsonObject) = signUp(body)
+    suspend fun execute(
+        id: String,
+        hashPw: String,
+        salt: String,
+        name: String,
+        birth: String,
+        gender: String,
+        location: String,
+        interest: String,
+        thumb: String
+    ) = signUp(id, hashPw, salt, name, birth, gender, location, interest, thumb)
 
-    suspend operator fun invoke(body: JsonObject) = signUp(body)
+    suspend operator fun invoke(
+        id: String,
+        hashPw: String,
+        salt: String,
+        name: String,
+        birth: String,
+        gender: String,
+        location: String,
+        interest: String,
+        thumb: String
+    ) = signUp(id, hashPw, salt, name, birth, gender, location, interest, thumb)
 
-    private suspend fun signUp(body: JsonObject) = signRepository.signUp(body)
+    private suspend fun signUp(
+        id: String,
+        hashPw: String,
+        salt: String,
+        name: String,
+        birth: String,
+        gender: String,
+        location: String,
+        interest: String,
+        thumb: String
+    ) = signRepository.signUp(id, hashPw, salt, name, birth, gender, location, interest, thumb)
 }

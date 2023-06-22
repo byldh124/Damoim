@@ -1,8 +1,11 @@
 package com.moondroid.damoim.data.repository
 
-import com.google.gson.JsonObject
 import com.moondroid.damoim.data.mapper.DataMapper.toProfile
 import com.moondroid.damoim.data.model.dao.ProfileDao
+import com.moondroid.damoim.data.model.request.SaltRequest
+import com.moondroid.damoim.data.model.request.SignInRequest
+import com.moondroid.damoim.data.model.request.SignUpRequest
+import com.moondroid.damoim.data.model.request.SocialSignRequest
 import com.moondroid.damoim.data.source.remote.RemoteDataSource
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.damoim.domain.model.status.ApiResult
@@ -16,11 +19,22 @@ import javax.inject.Inject
 class SignRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: ProfileDao
-) :
-    SignRepository {
-    override suspend fun signUp(body: JsonObject): Flow<ApiResult<Profile>> {
+) : SignRepository {
+    override suspend fun signUp(
+        id: String,
+        hashPw: String,
+        salt: String,
+        name: String,
+        birth: String,
+        gender: String,
+        location: String,
+        interest: String,
+        thumb: String
+    ): Flow<ApiResult<Profile>> {
         return flow<ApiResult<Profile>> {
-            remoteDataSource.signUp(body).run {
+            remoteDataSource.signUp(
+                SignUpRequest(id, hashPw, salt, name, birth, gender, location, interest, thumb)
+            ).run {
                 when (this) {
                     is ApiResult.Success -> {
                         localDataSource.deleteProfileAll()
@@ -37,7 +51,7 @@ class SignRepositoryImpl @Inject constructor(
 
     override suspend fun signIn(id: String, hashPw: String): Flow<ApiResult<Profile>> {
         return flow<ApiResult<Profile>> {
-            remoteDataSource.signIn(id, hashPw).run {
+            remoteDataSource.signIn(SignInRequest(id, hashPw)).run {
                 when (this) {
                     is ApiResult.Success -> {
                         localDataSource.deleteProfileAll()
@@ -52,9 +66,9 @@ class SignRepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun signInSocial(body: JsonObject): Flow<ApiResult<Profile>> {
+    override suspend fun socialSign(id: String): Flow<ApiResult<Profile>> {
         return flow<ApiResult<Profile>> {
-            remoteDataSource.signInSocial(body).run {
+            remoteDataSource.socialSign(SocialSignRequest(id)).run {
                 when (this) {
                     is ApiResult.Success -> {
                         localDataSource.deleteProfileAll()
@@ -71,7 +85,7 @@ class SignRepositoryImpl @Inject constructor(
 
     override suspend fun getSalt(id: String): Flow<ApiResult<String>> {
         return flow<ApiResult<String>> {
-            remoteDataSource.getSalt(id).run {
+            remoteDataSource.getSalt(SaltRequest(id)).run {
                 when (this) {
                     is ApiResult.Error -> emit(ApiResult.Error(throwable))
                     is ApiResult.Fail -> emit(ApiResult.Fail(code))

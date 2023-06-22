@@ -1,14 +1,12 @@
 package com.moondroid.project01_meetingapp.presentation.ui.splash
 
 import androidx.lifecycle.viewModelScope
-import com.moondroid.damoim.common.PrefsKey
-import com.moondroid.damoim.common.ResponseCode
+import com.moondroid.damoim.common.Preferences
 import com.moondroid.damoim.domain.model.status.onError
-import com.moondroid.damoim.data.api.response.onSuccess
+import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.app.VersionUseCase
 import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
-import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
@@ -34,19 +32,9 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             versionUseCase(packageName, versionCode, versionName).collect { result ->
                 result.onSuccess {
-                    when (it.code) {
-                        ResponseCode.SUCCESS -> {
-                            checkUser()
-                        }
-
-                        ResponseCode.INACTIVE -> {
-                            update()
-                        }
-
-                        ResponseCode.FAIL -> {
-                            it.message?.let { msg -> message(msg) }
-                        }
-                    }
+                    checkUser()
+                }.onFail {
+                    event(SplashEvent.Version(it))
                 }.onError {
                     message(it.message.toString())
                 }
@@ -55,8 +43,7 @@ class SplashViewModel @Inject constructor(
     }
 
     private fun checkUser() {
-        /*val autoLogin = DMApp.prefs.getBoolean(PrefsKey.AUTO_LOGIN)
-        if (autoLogin) {
+        if (Preferences.isAutoSign()) {
             viewModelScope.launch(Dispatchers.IO) {
                 profileUseCase().collect { result ->
                     result.onSuccess {
@@ -68,12 +55,10 @@ class SplashViewModel @Inject constructor(
             }
         } else {
             sign()
-        }*/
-        sign()
+        }
     }
 
     private fun message(msg: String) = event(SplashEvent.Message(msg))
-    private fun update() = event(SplashEvent.Update)
     private fun sign() = event(SplashEvent.Sign)
     private fun main() = event(SplashEvent.Main)
 
@@ -85,7 +70,7 @@ class SplashViewModel @Inject constructor(
 
     sealed class SplashEvent {
         data class Message(val message: String) : SplashEvent()
-        object Update : SplashEvent()
+        data class Version(val responseCode: Int) : SplashEvent()
         object Sign : SplashEvent()
         object Main : SplashEvent()
     }

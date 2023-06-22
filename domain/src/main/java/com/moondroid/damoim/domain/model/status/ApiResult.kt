@@ -1,10 +1,10 @@
 package com.moondroid.damoim.domain.model.status
 
 sealed class ApiResult<out T> {
-    //서버 통신 o, 데이터 조회 o
+    //ResponseCode = 1000(o)
     data class Success<out T>(val response: T) : ApiResult<T>()
 
-    //서버 통신 o, 데이터 조회 x
+    //ResponseCode = 1000(x)
     data class Fail<T>(val code: Int) : ApiResult<T>()
 
     //통신 에러

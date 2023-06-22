@@ -22,9 +22,8 @@ import com.moondroid.project01_meetingapp.presentation.ui.home.main.MainViewMode
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment : Fragment(R.layout.fragment_home_main) {
+class MainFragment : BaseFragment(R.layout.fragment_home_main) {
     private val binding by viewBinding(FragmentHomeMainBinding::bind)
-    //private val binding by viewBinding(FragmentHomeMainBinding::bind)
     private val viewModel: MainViewModel by viewModels()
 
     lateinit var activity: HomeActivity

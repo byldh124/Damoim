@@ -8,8 +8,11 @@ import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.Constants
+import com.moondroid.damoim.common.Extension.exitApp
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.Extension.repeatOnStarted
+import com.moondroid.damoim.common.ResponseCode
+import com.moondroid.project01_meetingapp.BuildConfig
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
@@ -39,68 +42,41 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
                 handleEvent(it)
             }
         }
-        initView()
-        checkAppVersion()
+        viewModel.checkAppVersion(packageName, BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME)
     }
-
 
     private fun handleEvent(event: SplashEvent) {
         when (event) {
             is SplashEvent.Message -> showMessage(event.message)
-            is SplashEvent.Main -> goToHomeActivity()
-            is SplashEvent.Sign -> goToSignInActivity()
-            is SplashEvent.Update -> {
-                try {
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse("market://details?id=$packageName")
-                    startActivity(intent)
-                } catch (e: Exception) {
-                    e.logException()
+            is SplashEvent.Main -> goToHomeActivity(ActivityTy.SPLASH)
+            is SplashEvent.Sign -> {
+                goToSignInActivity(ActivityTy.SPLASH)
+                finish()
+            }
+
+            is SplashEvent.Version -> {
+                when (event.responseCode) {
+                    ResponseCode.INACTIVE -> {
+                        showMessage(getString(R.string.error_request_update)) {
+                            try {
+                                val intent = Intent(Intent.ACTION_VIEW)
+                                intent.data = Uri.parse("market://details?id=$packageName")
+                                startActivity(intent)
+                            } catch (e: Exception) {
+                                e.logException()
+                            }
+                        }
+                    }
+
+                    ResponseCode.NOT_EXIST -> {
+                        showMessage(getString(R.string.error_version_not_checked)) {
+                            exitApp()
+                        }
+                    }
+
+                    else -> errorMessage()
                 }
             }
-        }
-    }
-
-    /**
-     *  앱 버전 체크
-     */
-    private fun checkAppVersion() {
-        try {
-            viewModel.checkAppVersion(
-                packageName,
-                1,
-                "0.0.1"
-            )
-        } catch (e: Exception) {
-            e.logException()
-        }
-    }
-
-    /**
-     * Initialize View
-     */
-    private fun initView() {
-        try {
-            val animation = AnimationUtils.loadAnimation(this, R.anim.logo_anim)
-            binding.container.startAnimation(animation)
-        } catch (e: Exception) {
-            e.logException()
-        }
-    }
-
-    private fun goToHomeActivity() {
-        goToHomeActivity(ActivityTy.SPLASH)
-    }
-
-    private fun goToSignInActivity() {
-        goToSignInActivity(ActivityTy.SPLASH)
-        finish()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (binding.container.animation != null) {
-            binding.container.clearAnimation()
         }
     }
 }

@@ -52,39 +52,21 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
      * Initialize View
      */
     private fun initView() {
-        try {
-            with(binding) {
-                toolbar.init(this@SignUpActivity)
-                rgAccount.setOnCheckedChangeListener { group, checkedId ->
-                    try {
-                        val rb = group.findViewById<RadioButton>(checkedId)
-                        viewModel.gender.value = rb.text.toString()
-                    } catch (e: Exception) {
-                        e.logException()
-                    }
-                }
-                tvBirth.setOnClickListener {
-                    showDateDialog()
-                }
-
-                tvLocation.setOnClickListener {
-                    toLocation()
-                }
-
-                tvInterest.setOnClickListener {
-                    toInterest()
-                }
-
-                tvUseTerm.setOnClickListener {
-                    showUseTerm()
-                }
-
-                tvPrivacy.setOnClickListener {
-                    showPrivacy()
+        with(binding) {
+            toolbar.init(this@SignUpActivity)
+            rgAccount.setOnCheckedChangeListener { group, checkedId ->
+                try {
+                    val rb = group.findViewById<RadioButton>(checkedId)
+                    viewModel.gender.value = rb.text.toString()
+                } catch (e: Exception) {
+                    e.logException()
                 }
             }
-        } catch (e: Exception) {
-            e.logException()
+            tvBirth.setOnClickListener { showDateDialog() }
+            tvLocation.setOnClickListener { toLocation() }
+            tvInterest.setOnClickListener { toInterest() }
+            tvUseTerm.setOnClickListener { showUseTerm() }
+            tvPrivacy.setOnClickListener { showPrivacy() }
         }
     }
 
@@ -109,15 +91,9 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
 
     private fun handleEvent(event: Event) {
         when (event) {
-            is Event.Loading -> {
-                showLoading(event.show)
-            }
-
-            is Event.Message -> {
-                showMessage(event.message)
-            }
-
-            Event.Home -> goToHomeActivity(ActivityTy.SIGN_IN)
+            is Event.Loading -> showLoading(event.show)
+            is Event.Message -> showMessage(event.message)
+            is Event.Home -> goToHomeActivity(ActivityTy.SIGN_IN)
         }
     }
 
@@ -125,21 +101,17 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
      * Android 달력 다이얼로그 호출
      */
     private fun showDateDialog() {
-        try {
-            val datePicker = DatePickerDialog(
-                this,
-                R.style.DatePickerSpin,
-                { _, p1, p2, p3 ->
-                    year = p1
-                    month = p2
-                    date = p3
-                    viewModel.birth.value = String.format(Locale.KOREA, "%d.%d.%d", year, month + 1, date)
-                }, year, month, date
-            )
-            datePicker.show()
-        } catch (e: Exception) {
-            e.logException()
-        }
+        val datePicker = DatePickerDialog(
+            this,
+            R.style.DatePickerSpin,
+            { _, y, m, d ->
+                year = y
+                month = m
+                date = d
+                viewModel.birth.value = String.format(Locale.KOREA, "%d.%d.%d", year, month + 1, date)
+            }, year, month, date
+        )
+        datePicker.show()
     }
 
     /**

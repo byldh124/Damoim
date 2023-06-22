@@ -110,6 +110,8 @@ open class BaseActivity(@LayoutRes val layoutResId: Int) : AppCompatActivity() {
         }
     }
 
+    fun errorMessage() = showMessage(getString(R.string.error_fail_request))
+
     fun showMessage(msg: String) {
         showMessage(msg) {}
     }

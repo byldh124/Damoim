@@ -34,12 +34,48 @@ import com.moondroid.damoim.data.model.response.MoimResponse
 import com.moondroid.damoim.data.model.response.ProfileResponse
 import com.moondroid.damoim.data.model.response.SaltResponse
 import com.moondroid.damoim.data.api.response.ApiStatus
+import com.moondroid.damoim.data.model.request.SaltRequest
 import com.moondroid.damoim.data.model.request.SignInRequest
+import com.moondroid.damoim.data.model.request.SignUpRequest
+import com.moondroid.damoim.data.model.request.SocialSignRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiInterface {
+
+    /** 버전 체크 */
+    @GET(ChECK_APP_VERSION)
+    suspend fun checkAppVersion(
+        @Query("packageName") packageName: String,
+        @Query("versionCode") versionCode: Int,
+        @Query("versionName") versionName: String
+    ): ApiStatus<BaseResponseDTO>
+
+    // 계정 관련
+    // Region Start
+    @POST(SIGN_IN)
+    suspend fun signIn(
+        @Body body: SignInRequest
+    ): ApiStatus<ProfileResponse>
+
+    @POST(SALT)
+    suspend fun getSalt(
+        @Body body: SaltRequest
+    ): ApiStatus<SaltResponse>
+
+    @POST(SIGN_UP)
+    suspend fun signUp(
+        @Body body: SignUpRequest
+    ): ApiStatus<ProfileResponse>
+
+    @POST(SIGN_IN_SOCIAL)
+    suspend fun signInSocial(
+        @Body body: SocialSignRequest
+    ): ApiStatus<ProfileResponse>
+    //Region End
+
+
 
     @GET(GET_GROUP)
     suspend fun getGroup(): ApiStatus<GroupResponse>
@@ -50,31 +86,7 @@ interface ApiInterface {
     @GET(GET_MEMBER)
     suspend fun getMember(@Query(RequestParam.TITLE) title: String): ApiStatus<BaseResponseDTO>
 
-    @POST(SIGN_IN)
-    suspend fun signIn(
-        @Body body: SignInRequest
-    ): ApiStatus<ProfileResponse>
 
-    @GET(SALT)
-    suspend fun getSalt(
-        @Query(RequestParam.ID) id: String
-    ): ApiStatus<SaltResponse>
-
-    /**
-     * @param body (id , hashPw, salt, gender, location, interest, message, thumb : String)
-     *
-     **/
-    @POST(SIGN_UP)
-    suspend fun signUp(
-        @Body body: JsonObject
-    ): ApiStatus<ProfileResponse>
-
-    @GET(ChECK_APP_VERSION)
-    suspend fun checkAppVersion(
-        @Query("packageName") packageName: String,
-        @Query("versionCode") versionCode: Int,
-        @Query("versionName") versionName: String
-    ): ApiStatus<BaseResponseDTO>
 
 
     @POST(UPDATE_TOKEN)
@@ -93,10 +105,7 @@ interface ApiInterface {
         @Query(RequestParam.TITLE) title: String
     ): ApiStatus<BaseResponseDTO>
 
-    @POST(SIGN_IN_SOCIAL)
-    suspend fun signInSocial(
-        @Body body: JsonObject
-    ): ApiStatus<ProfileResponse>
+
 
     @JvmSuppressWildcards
     @Multipart
