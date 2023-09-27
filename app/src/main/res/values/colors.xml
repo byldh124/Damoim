@@ -12,7 +12,6 @@
     <color name="dialog_background">#88000000</color>
     <color name="background_01">#171724</color>
 
-
     <color name="red_dark01">#FFF7313E</color>
     <color name="red_light01">#FB5762</color>
     <color name="red_light02">#F8949B</color>
@@ -28,9 +27,6 @@
     <color name="gray_light03">#f2f2f2</color>
     <color name="gray_light04">#8E8E8E</color>
     <color name="gray_light05">#aEaEaE</color>
-
-
-
 
     <color name="pastel_1">#8DA0FB</color>
     <color name="pastel_2">#79B9F8</color>

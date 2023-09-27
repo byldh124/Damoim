@@ -10,5 +10,5 @@ data class ProfileResponse(
     @SerializedName(RequestParam.MESSAGE)
     val message: String? = null,
     @SerializedName(RequestParam.RESULT)
-    val profileDTO: ProfileDTO
+    val result: ProfileDTO
 )

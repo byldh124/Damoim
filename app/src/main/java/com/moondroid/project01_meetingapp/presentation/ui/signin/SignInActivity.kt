@@ -19,8 +19,6 @@ import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.Constants.DEFAULT_PROFILE_IMG
 import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.repeatOnStarted
-import com.moondroid.damoim.common.Extension.startActivityWithAnim
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivitySignInBinding
@@ -28,6 +26,7 @@ import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.signin.SignInViewModel.SignInEvent
 import com.moondroid.project01_meetingapp.presentation.ui.signup.SignUpActivity
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -49,11 +48,9 @@ import dagger.hilt.android.AndroidEntryPoint
  *
  */
 @AndroidEntryPoint
-class SignInActivity : BaseActivity(R.layout.activity_sign_in) {
+class SignInActivity : BaseActivity() {
     private val binding by viewBinding(ActivitySignInBinding::inflate)
     private val viewModel: SignInViewModel by viewModels()
-
-    private val mContext by lazy { this }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +86,7 @@ class SignInActivity : BaseActivity(R.layout.activity_sign_in) {
                 intent.putExtra(IntentParam.NAME, event.name)
                 intent.putExtra(IntentParam.THUMB, event.thumb)
 
-                startActivityWithAnim(intent)
+                startActivity(intent)
             }
 
         }
@@ -144,9 +141,9 @@ class SignInActivity : BaseActivity(R.layout.activity_sign_in) {
     }
 
     private fun requestSign() {
-        UserApiClient.instance.me { user, error ->
-            if (error != null) {
-                error.logException()
+        UserApiClient.instance.me { user, throwable ->
+            if (throwable != null) {
+                logException(throwable)
             } else {
                 user?.let {
                     val id = it.id?.toString() ?: throw IllegalStateException("ID must not be null")
@@ -179,7 +176,7 @@ class SignInActivity : BaseActivity(R.layout.activity_sign_in) {
                 viewModel.signInSocial(id, name, thumb)
             }
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -196,7 +193,7 @@ class SignInActivity : BaseActivity(R.layout.activity_sign_in) {
 
             resultLauncher.launch(singInIntent)
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -206,6 +203,6 @@ class SignInActivity : BaseActivity(R.layout.activity_sign_in) {
     private fun goToSignUp() {
         val intent = Intent(this, SignUpActivity::class.java)
         intent.putExtra(IntentParam.ACTIVITY, ActivityTy.SIGN_IN)
-        startActivityWithAnim(intent)
+        startActivity(intent)
     }
 }

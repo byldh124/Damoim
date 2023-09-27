@@ -27,17 +27,18 @@ import com.moondroid.damoim.data.api.URLManager.UPDATE_GROUP
 import com.moondroid.damoim.data.api.URLManager.UPDATE_INTEREST
 import com.moondroid.damoim.data.api.URLManager.UPDATE_PROFILE
 import com.moondroid.damoim.data.api.URLManager.UPDATE_TOKEN
-import com.moondroid.damoim.data.model.dto.BaseResponseDTO
 import com.moondroid.damoim.data.model.request.UpdateTokenRequest
-import com.moondroid.damoim.data.model.response.GroupResponse
+import com.moondroid.damoim.data.model.response.GroupListResponse
 import com.moondroid.damoim.data.model.response.MoimResponse
 import com.moondroid.damoim.data.model.response.ProfileResponse
-import com.moondroid.damoim.data.model.response.SaltResponse
+import com.moondroid.damoim.data.model.response.SimpleResponse
 import com.moondroid.damoim.data.api.response.ApiStatus
 import com.moondroid.damoim.data.model.request.SaltRequest
 import com.moondroid.damoim.data.model.request.SignInRequest
 import com.moondroid.damoim.data.model.request.SignUpRequest
 import com.moondroid.damoim.data.model.request.SocialSignRequest
+import com.moondroid.damoim.data.model.response.GroupResponse
+import com.moondroid.damoim.data.model.response.MemberResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -50,62 +51,26 @@ interface ApiInterface {
         @Query("packageName") packageName: String,
         @Query("versionCode") versionCode: Int,
         @Query("versionName") versionName: String
-    ): ApiStatus<BaseResponseDTO>
+    ): ApiStatus<SimpleResponse>
 
-    // 계정 관련
+    // 회원 가입 - 로그인 관련
     // Region Start
     @POST(SIGN_IN)
-    suspend fun signIn(
-        @Body body: SignInRequest
-    ): ApiStatus<ProfileResponse>
+    suspend fun signIn(@Body body: SignInRequest): ApiStatus<ProfileResponse>
 
     @POST(SALT)
-    suspend fun getSalt(
-        @Body body: SaltRequest
-    ): ApiStatus<SaltResponse>
+    suspend fun getSalt(@Body body: SaltRequest): ApiStatus<SimpleResponse>
 
     @POST(SIGN_UP)
-    suspend fun signUp(
-        @Body body: SignUpRequest
-    ): ApiStatus<ProfileResponse>
+    suspend fun signUp(@Body body: SignUpRequest): ApiStatus<ProfileResponse>
 
     @POST(SIGN_IN_SOCIAL)
-    suspend fun signInSocial(
-        @Body body: SocialSignRequest
-    ): ApiStatus<ProfileResponse>
+    suspend fun signInSocial(@Body body: SocialSignRequest): ApiStatus<ProfileResponse>
     //Region End
 
-
-
-    @GET(GET_GROUP)
-    suspend fun getGroup(): ApiStatus<GroupResponse>
-
-    @GET(GET_MY_GROUP)
-    suspend fun getMyGroup(@Query(RequestParam.ID) userId: String): ApiStatus<GroupResponse>
-
-    @GET(GET_MEMBER)
-    suspend fun getMember(@Query(RequestParam.TITLE) title: String): ApiStatus<BaseResponseDTO>
-
-
-
-
+    //유저 정보 Region Start
     @POST(UPDATE_TOKEN)
-    suspend fun updateToken(
-        @Body updateTokenRequest: UpdateTokenRequest
-    ): ApiStatus<BaseResponseDTO>
-
-    @GET(GET_MOIM)
-    suspend fun getMoim(): ApiStatus<MoimResponse>
-
-    @POST(CREATE_MOIM)
-    suspend fun createMoim(@Body body: JsonObject): ApiStatus<BaseResponseDTO>
-
-    @GET(GET_MOIM)
-    suspend fun getMoim(
-        @Query(RequestParam.TITLE) title: String
-    ): ApiStatus<BaseResponseDTO>
-
-
+    suspend fun updateToken(@Body updateTokenRequest: UpdateTokenRequest): ApiStatus<SimpleResponse>
 
     @JvmSuppressWildcards
     @Multipart
@@ -113,23 +78,43 @@ interface ApiInterface {
     suspend fun updateProfile(
         @PartMap body: Map<String, RequestBody>,
         @Part file: MultipartBody.Part?
-    ): ApiStatus<BaseResponseDTO>
+    ): ApiStatus<ProfileResponse>
 
     @GET(UPDATE_INTEREST)
     suspend fun updateInterest(
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.INTEREST) interest: String
-    ): ApiStatus<BaseResponseDTO>
+    ): ApiStatus<SimpleResponse>
+
+
+    //Region End
+
+    // 그룹 정보 조회 Region Start
+    @GET(GET_GROUP)
+    suspend fun getAllGroups(): ApiStatus<GroupListResponse>
+
+    @GET(GET_MY_GROUP)
+    suspend fun getMyGroups(@Query(RequestParam.ID) userId: String): ApiStatus<GroupListResponse>
 
     @GET(GET_FAVORITE)
-    suspend fun getFavorite(
-        @Query(RequestParam.ID) id: String
-    ): ApiStatus<GroupResponse>
+    suspend fun getFavoriteGroups(@Query(RequestParam.ID) id: String): ApiStatus<GroupListResponse>
 
     @GET(GET_RECENT)
-    suspend fun getRecent(
-        @Query(RequestParam.ID) id: String
-    ): ApiStatus<GroupResponse>
+    suspend fun getRecentGroups(@Query(RequestParam.ID) id: String): ApiStatus<GroupListResponse>
+
+    @GET(GET_MEMBER)
+    suspend fun getMembers(@Query(RequestParam.TITLE) title: String): ApiStatus<MemberResponse>
+    //Region End
+
+    @GET(GET_MOIM)
+    suspend fun getMoim(): ApiStatus<MoimResponse>
+
+
+    @GET(GET_MOIM)
+    suspend fun getMoim(@Query(RequestParam.TITLE) title: String): ApiStatus<SimpleResponse>
+
+    @POST(CREATE_MOIM)
+    suspend fun createMoim(@Body body: JsonObject): ApiStatus<SimpleResponse>
 
     @JvmSuppressWildcards
     @Multipart
@@ -153,48 +138,48 @@ interface ApiInterface {
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.TITLE) title: String,
         @Query(RequestParam.LAST_TIME) lastTime: String
-    ): ApiStatus<BaseResponseDTO>
+    ): ApiStatus<SimpleResponse>
 
     @GET(SAVE_FAVOR)
     suspend fun saveFavor(
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.TITLE) title: String,
         @Query(RequestParam.ACTIVE) active: Boolean
-    ): ApiStatus<BaseResponseDTO>
+    ): ApiStatus<SimpleResponse>
 
     @GET(JOIN)
     suspend fun join(
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.TITLE) title: String
-    ): ApiStatus<BaseResponseDTO>
+    ): ApiStatus<SimpleResponse>
 
     @GET(GET_FAVOR)
     suspend fun getFavor(
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.TITLE) title: String
-    ): ApiStatus<BaseResponseDTO>
+    ): ApiStatus<SimpleResponse>
 
     @GET(GET_MOIM_MEMBER)
     suspend fun getMoimMember(
         @Query(RequestParam.JOIN_MEMBER) joinMember: String
-    ): ApiStatus<BaseResponseDTO>
+    ): ApiStatus<SimpleResponse>
 
     @GET(JOIN_INTO_MOIM)
     suspend fun joinInMoim(
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.TITLE) title: String,
         @Query(RequestParam.DATE) date: String
-    ): ApiStatus<BaseResponseDTO>
+    ): ApiStatus<SimpleResponse>
 
     @GET(BLOCK)
     suspend fun blockUser(
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.BLOCK_ID) blockId: String
-    ): ApiStatus<BaseResponseDTO>
+    ): ApiStatus<SimpleResponse>
 
     @GET(REPORT)
     suspend fun reportUser(
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.MESSAGE) msg: String
-    ): ApiStatus<BaseResponseDTO>
+    ): ApiStatus<SimpleResponse>
 }

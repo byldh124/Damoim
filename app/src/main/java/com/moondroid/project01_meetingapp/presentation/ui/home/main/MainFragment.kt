@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moondroid.damoim.common.ActivityTy
-import com.moondroid.damoim.common.Extension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R

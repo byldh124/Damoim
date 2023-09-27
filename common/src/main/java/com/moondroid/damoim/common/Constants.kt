@@ -71,6 +71,8 @@ object RequestParam {
     const val MASTER_ID = "masterId"
     const val MEMBER = "member"
     const val IS_MEMBER = "isMember"
+    const val ORIGIN_TITLE = "originTitle"
+
 
     /** 정모 관련 **/
     const val ADDRESS = "address"

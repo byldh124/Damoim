@@ -1,20 +1,22 @@
 package com.moondroid.project01_meetingapp.presentation.ui.create
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.DMRegex
-import com.moondroid.damoim.common.Extension.afterTextChanged
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.toast
-import com.moondroid.damoim.common.Extension.visible
 import com.moondroid.damoim.common.IntentParam
+import com.moondroid.damoim.domain.usecase.group.CreateGroupUseCase
+import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityCreateBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
@@ -22,16 +24,22 @@ import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
 import com.moondroid.project01_meetingapp.utils.*
+import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
+import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
+import com.moondroid.project01_meetingapp.utils.ViewExtension.init
+import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
+import com.moondroid.project01_meetingapp.utils.ViewExtension.visible
+import com.moondroid.project01_meetingapp.utils.image.ImageHelper.getPathFromUri
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class CreateActivity : BaseActivity(R.layout.activity_create) {
+class CreateActivity : BaseActivity() {
     private val binding by viewBinding(ActivityCreateBinding::inflate)
     private val viewModel: CreateViewModel by viewModels()
     private var path: String? = null                                // 썸네일 이미지 Real path
@@ -40,85 +48,82 @@ class CreateActivity : BaseActivity(R.layout.activity_create) {
     private lateinit var title: String                              // 모임명
     private lateinit var purpose: String                            // 모임 목적
 
+    @Inject
+    lateinit var createGroupUseCase: CreateGroupUseCase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.activity = this
         initView()
-        Handler(Looper.getMainLooper()).postDelayed(this::toInterest, 500)
+        Handler(Looper.getMainLooper()).postDelayed(::toInterest, 500)
     }
 
     /**
      * View 초기화
      */
     private fun initView() {
-        try {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.let {
-                it.setDisplayHomeAsUpEnabled(true)
-                it.setDisplayShowTitleEnabled(false)
-            }
+        binding.toolbar.init(mContext)
 
-            binding.tvMsgLength.text =
-                String.format(getString(R.string.cmn_message_length), binding.etPurpose.length())
-            binding.etPurpose.afterTextChanged {
-                binding.tvMsgLength.text =
-                    String.format(getString(R.string.cmn_message_length), it.length)
-            }
-        } catch (e: Exception) {
-            e.logException()
+        binding.tvMsgLength.text =
+            String.format(getString(R.string.cmn_message_length), binding.etPurpose.length())
+
+        binding.etPurpose.afterTextChanged {
+            binding.tvMsgLength.text = String.format(getString(R.string.cmn_message_length), it.length)
+        }
+
+        binding.wrThumb.setOnClickListener {
+            imageLauncher.launch(Intent(Intent.ACTION_PICK).setType("image/*"))
+        }
+
+        binding.icInterest.setOnClickListener {
+            toInterest()
+        }
+
+        binding.tvLocation.setOnClickListener {
+            locationLauncher.launch(Intent(mContext, LocationActivity::class.java))
         }
     }
 
-    /**
-     * 썸네일 이미지 선택
-     */
-    fun getImage(@Suppress("UNUSED_PARAMETER") vw: View) {
-        val intent = Intent(Intent.ACTION_PICK).setType("image/*")
-        activityResult(intent) {
-            val uri = intent.data
+    private fun toInterest() {
+        interestLauncher.launch(Intent(mContext, InterestActivity::class.java))
+    }
+
+    private val imageLauncher = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val uri = result.data?.data
             uri?.let {
-                path = DMUtils.getPathFromUri(this, it)
+                path = getPathFromUri(this, it)
                 if (!path.isNullOrEmpty()) {
                     val bitmap = BitmapFactory.decodeFile(path)
-                    Glide.with(this).load(bitmap).into(binding.thumb)
+                    binding.thumb.glide(bitmap)
                     binding.tvImage.visible(false)
                 }
             }
         }
     }
 
-    /**
-     * 모임 지역 선택
-     */
-    fun toLocation() {
-        val intent = Intent(this, LocationActivity::class.java)
-            .putExtra(IntentParam.ACTIVITY, ActivityTy.CREATE)
-        activityResult(intent) {
-            location = intent.getStringExtra(IntentParam.LOCATION).toString()
-            binding.tvLocation.text = location
+    private val locationLauncher = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.let { intent ->
+                location = intent.getStringExtra(IntentParam.LOCATION).toString()
+                binding.tvLocation.text = location
+            }
         }
     }
 
-    /**
-     * 관심사 선택
-     */
-    fun toInterest() {
-        val intent = Intent(this, InterestActivity::class.java)
-        activityResult(intent) {
-            interest = getString(intent.getIntExtra(IntentParam.INTEREST, 0))
-            val resId = intent.getIntExtra(IntentParam.INTEREST_ICON, 0)
-            Glide.with(this).load(resId).into(binding.icInterest)
+    private val interestLauncher = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.let { intent ->
+                interest = getString(intent.getIntExtra(IntentParam.INTEREST, 0))
+                val resId = intent.getIntExtra(IntentParam.INTEREST_ICON, 0)
+                binding.icInterest.glide(resId)
+            }
         }
-    }
-
-    fun toInterest(@Suppress("UNUSED_PARAMETER") vw: View) {
-        toInterest()
     }
 
     /**
      * 데이터 유효성 체크
      */
-    fun checkField(@Suppress("UNUSED_PARAMETER") vw: View) {
+    fun checkField() {
         try {
             title = binding.etTitle.text.toString()
             purpose = binding.etPurpose.text.toString()
@@ -138,7 +143,7 @@ class CreateActivity : BaseActivity(R.layout.activity_create) {
                 createGroup()
             }
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -147,26 +152,14 @@ class CreateActivity : BaseActivity(R.layout.activity_create) {
      */
     private fun createGroup() {
         try {
-            val body = HashMap<String, RequestBody>()
-            /*body[RequestParam.ID] = user!!.id.toReqBody()
-            body[RequestParam.TITLE] = title.toReqBody()
-            body[RequestParam.PURPOSE] = purpose.toReqBody()
-            body[RequestParam.INTEREST] = interest!!.toReqBody()
-            body[RequestParam.LOCATION] = location!!.toReqBody()*/
+            val file = path?.let { File(it) }
 
-            var filePart: MultipartBody.Part? = null
-            if (!path.isNullOrEmpty()) {
-
-                val file = path?.let { File(it) }
-                file?.let {
-                    val requestBody = it.asRequestBody("image/*".toMediaType())
-                    filePart = MultipartBody.Part.createFormData("thumb", it.name, requestBody)
-                }
+            CoroutineScope(Dispatchers.Main).launch {
+                createGroupUseCase(DMApp.profile.id, title, location!!, purpose, interest!!, file!!)
             }
 
-            viewModel.createGroup(body, filePart)
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
             showMessage(getString(R.string.error_create_group_fail), "E02")
         }
     }

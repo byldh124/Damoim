@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.moondroid.project01_meetingapp.presentation.common.DMRoundView
+                <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
                     android:id="@+id/imgWrapper"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -45,7 +45,7 @@
                         android:scaleType="centerCrop"
                         bind:image="@{groupDetail.thumb}" />
 
-                </com.moondroid.project01_meetingapp.presentation.common.DMRoundView>
+                </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
 
                 <ImageView
                     android:id="@+id/interestIcon"

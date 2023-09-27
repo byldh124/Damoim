@@ -9,10 +9,10 @@ import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.GroupListType
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.common.IntentParam
-import com.moondroid.damoim.common.Extension.init
+import com.moondroid.project01_meetingapp.utils.ViewExtension.init
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.repeatOnStarted
-import com.moondroid.damoim.common.Extension.startActivityWithAnim
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
+
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityGroupListBinding
@@ -28,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
  *  - 관심 모임
  */
 @AndroidEntryPoint
-class GroupListActivity : BaseActivity(R.layout.activity_group_list) {
+class GroupListActivity : BaseActivity() {
     private val binding by viewBinding(ActivityGroupListBinding::inflate)
     private lateinit var adapter: GroupListAdapter
     private val viewModel: GroupListViewModel by viewModels()
@@ -55,7 +55,7 @@ class GroupListActivity : BaseActivity(R.layout.activity_group_list) {
 
             adapter = GroupListAdapter {
                 DMApp.group = it
-                startActivityWithAnim(Intent(this@GroupListActivity, GroupActivity::class.java))
+                startActivity(Intent(this@GroupListActivity, GroupActivity::class.java))
                 goToGroupActivity(ActivityTy.GROUP_LIST)
             }
             binding.recycler.adapter = adapter
@@ -77,7 +77,7 @@ class GroupListActivity : BaseActivity(R.layout.activity_group_list) {
             viewModel.getList(type)
 
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 

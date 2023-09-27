@@ -6,7 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moondroid.damoim.common.ActivityTy
-import com.moondroid.damoim.common.Extension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeMyGroupBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment

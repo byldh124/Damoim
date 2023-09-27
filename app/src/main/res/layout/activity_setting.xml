@@ -33,6 +33,7 @@
             android:padding="16dp">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnLogout"
                 style="@style/ButtonRed01"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -10,20 +10,31 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.NotificationParam
+import com.moondroid.damoim.common.crashlytics.FBCrash
+import com.moondroid.damoim.domain.model.status.onError
+import com.moondroid.damoim.domain.usecase.profile.UpdateTokenUseCase
+import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.ui.splash.SplashActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DMMessage : FirebaseMessagingService() {
+class FBMessage : FirebaseMessagingService() {
 
     private val channelId = "channel_dm"
 
     @Inject
     lateinit var retrofit: Retrofit
+
+    @Inject
+    lateinit var updateTokenUseCase: UpdateTokenUseCase
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
@@ -85,17 +96,19 @@ class DMMessage : FirebaseMessagingService() {
 
             notificationManager.notify(11, builder.build())
         } catch (e: Exception) {
-            DMCrash.logException(e)
+            logException(e)
         }
     }
 
     private fun sendNewToken(token: String) {
-        try {
-
-
-        } catch (e: Exception) {
-            DMCrash.logException(e)
+        if (DMApp.setProfile()) {
+            CoroutineScope(Dispatchers.Main).launch {
+                updateTokenUseCase(DMApp.profile.id, token).collect { result ->
+                    result.onError {
+                        logException(it)
+                    }
+                }
+            }
         }
-
     }
 }

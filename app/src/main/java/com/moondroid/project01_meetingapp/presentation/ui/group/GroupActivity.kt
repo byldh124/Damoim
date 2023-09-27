@@ -9,7 +9,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.startActivityWithAnim
 import com.moondroid.damoim.common.IntentParam.ACTIVITY
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.project01_meetingapp.DMApp
@@ -18,10 +17,10 @@ import com.moondroid.project01_meetingapp.databinding.ActivityGroupBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.dialog.TutorialDialog
-import com.moondroid.project01_meetingapp.presentation.ui.groupinfo.GroupInfoActivity
 import com.moondroid.project01_meetingapp.presentation.ui.group.chat.ChatFragment
 import com.moondroid.project01_meetingapp.presentation.ui.group.gallery.GalleryFragment
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupMainFragment
+import com.moondroid.project01_meetingapp.presentation.ui.groupinfo.GroupInfoActivity
 import com.moondroid.project01_meetingapp.presentation.ui.moim.MoimActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,7 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
  *   - 채팅
  */
 @AndroidEntryPoint
-class GroupActivity : BaseActivity(R.layout.activity_group) {
+class GroupActivity : BaseActivity() {
     private val pageNum = 3
     private val binding by viewBinding(ActivityGroupBinding::inflate)
     private val viewModel: GroupViewModel by viewModels()
@@ -94,7 +93,7 @@ class GroupActivity : BaseActivity(R.layout.activity_group) {
 
             //binding.icSetting.gone(groupInfo.masterId != user!!.id)
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -120,9 +119,9 @@ class GroupActivity : BaseActivity(R.layout.activity_group) {
         try {
             val intent = Intent(this, GroupInfoActivity::class.java)
             intent.putExtra(ACTIVITY, ActivityTy.GROUP)
-            startActivityWithAnim(intent)
+            startActivity(intent)
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -130,9 +129,9 @@ class GroupActivity : BaseActivity(R.layout.activity_group) {
         try {
             val intent = Intent(this, MoimActivity::class.java)
             intent.putExtra(ACTIVITY, ActivityTy.GROUP)
-            startActivityWithAnim(intent)
+            startActivity(intent)
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 }

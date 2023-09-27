@@ -1,0 +1,199 @@
+package com.moondroid.damoim.data.datasource.remote
+
+import com.google.gson.JsonObject
+import com.moondroid.damoim.common.GroupType
+import com.moondroid.damoim.common.ResponseCode
+import com.moondroid.damoim.data.api.ApiInterface
+import com.moondroid.damoim.data.api.response.ApiStatus
+import com.moondroid.damoim.data.mapper.DataMapper.toProfileEntity
+import com.moondroid.damoim.data.model.dto.GroupItemDTO
+import com.moondroid.damoim.data.model.dto.MoimItemDTO
+import com.moondroid.damoim.data.model.entity.ProfileEntity
+import com.moondroid.damoim.data.model.request.SaltRequest
+import com.moondroid.damoim.data.model.request.SignInRequest
+import com.moondroid.damoim.data.model.request.SignUpRequest
+import com.moondroid.damoim.data.model.request.SocialSignRequest
+import com.moondroid.damoim.data.model.request.UpdateTokenRequest
+import com.moondroid.damoim.domain.model.status.ApiResult
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import javax.inject.Inject
+
+class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : RemoteDataSource {
+
+    override suspend fun checkAppVersion(
+        packageName: String,
+        versionCode: Int,
+        versionName: String
+    ): ApiResult<Unit> {
+        api.checkAppVersion(packageName, versionCode, versionName).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(Unit)
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
+
+    override suspend fun signUp(request: SignUpRequest): ApiResult<ProfileEntity> {
+        api.signUp(request).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(response.result.toProfileEntity())
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
+    override suspend fun signIn(request: SignInRequest): ApiResult<ProfileEntity> {
+        api.signIn(request).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(response.result.toProfileEntity())
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
+    override suspend fun getSalt(request: SaltRequest): ApiResult<String> {
+        api.getSalt(request).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(response.result)
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
+
+    override suspend fun socialSign(request: SocialSignRequest): ApiResult<ProfileEntity> {
+        api.signInSocial(request).run {
+            return when(this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(response.result.toProfileEntity())
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
+    override suspend fun updateToken(id: String, token: String): ApiResult<Unit> {
+        api.updateToken(UpdateTokenRequest(id, token)).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(Unit)
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
+
+    override suspend fun updateInterest(id: String, interest: String): ApiResult<Unit> {
+        api.updateInterest(id, interest).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(Unit)
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
+    override suspend fun updateProfile(body: Map<String, RequestBody>, thumb: MultipartBody.Part?): ApiResult<ProfileEntity> {
+        api.updateProfile(body, thumb).run {
+            return when(this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(response.result.toProfileEntity())
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
+    override suspend fun createGroup(
+        body: Map<String, RequestBody>,
+        file: MultipartBody.Part?
+    ): ApiResult<GroupItemDTO> {
+        api.createGroup(body, file).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(response.result)
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
+    override suspend fun updateGroup(
+        body: Map<String, RequestBody>,
+        thumb: MultipartBody.Part?,
+        image: MultipartBody.Part?
+    ): ApiResult<GroupItemDTO> {
+        api.updateGroup(body = body, thumb = thumb, image = image).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(response.result)
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
+    override suspend fun createMoim(body: JsonObject): ApiResult<Unit> {
+        api.createMoim(body).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(Unit)
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
+    override suspend fun getGroupList(id: String, type: GroupType): ApiResult<List<GroupItemDTO>> {
+        val result = when (type) {
+            GroupType.ALL -> api.getAllGroups()
+            GroupType.FAVORITE -> api.getFavoriteGroups(id)
+            GroupType.RECENT -> api.getRecentGroups(id)
+            GroupType.MY_GROUP -> api.getMyGroups(id)
+        }
+        return when (result) {
+            is ApiStatus.Error -> ApiResult.Error(result.throwable)
+            is ApiStatus.Success -> {
+                if (result.response.code.success()) ApiResult.Success(result.response.result)
+                else ApiResult.Fail(result.response.code)
+            }
+        }
+    }
+
+    override suspend fun getMoimList(): ApiResult<List<MoimItemDTO>> {
+        api.getMoim().run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(response.result)
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
+    private fun Int.success() = this == ResponseCode.SUCCESS
+}

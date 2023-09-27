@@ -96,7 +96,7 @@
                         android:layout_below="@id/tvCurrentMoim"
                         android:layout_marginHorizontal="8dp">
 
-                        <com.moondroid.project01_meetingapp.presentation.common.DMRecycler
+                        <com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
                             android:id="@+id/recMoim"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />

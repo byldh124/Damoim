@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.common
+package com.moondroid.project01_meetingapp.presentation.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -13,9 +13,9 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.moondroid.damoim.common.Extension.visible
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.utils.DMUtils
+import com.moondroid.project01_meetingapp.utils.ViewExtension.dpToPixel
+import com.moondroid.project01_meetingapp.utils.ViewExtension.visible
 
 class DMRecycler : RecyclerView {
 
@@ -50,8 +50,8 @@ class DMRecycler : RecyclerView {
             gravity = Gravity.CENTER
             typeface = ResourcesCompat.getFont(context, R.font.nanum_square_round_eb)
         }
-        val podding = DMUtils.dpToPixel(context, 16)
-        emptyView.setPadding(0 ,podding ,0 ,podding)
+        val podding = 16.dpToPixel(context)
+        emptyView.setPadding(0, podding, 0, podding)
     }
 
     override fun onAttachedToWindow() {

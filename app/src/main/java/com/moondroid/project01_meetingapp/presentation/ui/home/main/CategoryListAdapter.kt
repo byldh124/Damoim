@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ItemHomeCategoryBinding
-import com.moondroid.project01_meetingapp.utils.DMUtils
+import com.moondroid.project01_meetingapp.utils.ViewExtension.getStringId
 import kotlin.properties.Delegates
 
 @SuppressLint("NotifyDataSetChanged")
@@ -30,7 +30,7 @@ class CategoryListAdapter (
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val ctx = holder.itemView.context
         val category: String =
-            ctx.getString(DMUtils.getStringId(ctx, String.format("interest_%02d", position)))
+            ctx.getString(getStringId(ctx, String.format("interest_%02d", position)))
 
         holder.container.setOnClickListener {
             onClick(category)

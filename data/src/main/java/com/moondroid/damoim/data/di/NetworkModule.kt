@@ -7,8 +7,8 @@ import com.moondroid.damoim.data.BuildConfig
 import com.moondroid.damoim.data.api.ApiInterface
 import com.moondroid.damoim.data.api.URLManager.BASE_URL
 import com.moondroid.damoim.data.api.response.ResponseAdapterFactory
-import com.moondroid.damoim.data.source.remote.RemoteDataSource
-import com.moondroid.damoim.data.source.remote.RemoteDataSourceImpl
+import com.moondroid.damoim.data.datasource.remote.RemoteDataSource
+import com.moondroid.damoim.data.datasource.remote.RemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -31,14 +31,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideHttpClient(): OkHttpClient = if (BuildConfig.DEBUG) {
-        OkHttpClient.Builder().addInterceptor {
-            val original = it.request()
-            val requestBuilder = original.newBuilder()
-            requestBuilder.header("Content-Type", "application/json")
-            val request = requestBuilder.method(original.method, original.body).build()
-            debug("Request : $request")
-            return@addInterceptor it.proceed(request)
-        }.build()
+        val loggingInterceptor = HttpLoggingInterceptor {
+            Log.d("SehanRF", it)
+        }
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        OkHttpClient.Builder().addInterceptor(loggingInterceptor)
+            .build()
     } else {
         OkHttpClient.Builder().build()
     }

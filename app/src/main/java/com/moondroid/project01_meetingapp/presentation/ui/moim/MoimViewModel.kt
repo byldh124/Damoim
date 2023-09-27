@@ -6,10 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.toast
+import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.damoim.common.RequestParam
 import com.moondroid.damoim.domain.model.MoimAddress
-import com.moondroid.damoim.data.api.response.onSuccess
+
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.project01_meetingapp.DMApp
@@ -84,7 +84,7 @@ class MoimViewModel @Inject constructor(
                 }
             }
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 

@@ -5,9 +5,9 @@ import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.damoim.domain.model.status.onError
-import com.moondroid.damoim.data.api.response.onSuccess
+
 import com.moondroid.damoim.domain.model.status.onSuccess
-import com.moondroid.damoim.domain.usecase.group.GroupUseCase
+import com.moondroid.damoim.domain.usecase.group.GetGroupUseCase
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
@@ -16,13 +16,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyGroupViewModel @Inject constructor(private val groupUseCase: GroupUseCase) : BaseViewModel() {
+class MyGroupViewModel @Inject constructor(private val getGroupUseCase: GetGroupUseCase) : BaseViewModel() {
 
     fun getMyGroup() {
         viewModelScope.launch {
-            groupUseCase(GroupType.MY_GROUP).collect { result ->
+            getGroupUseCase(GroupType.MY_GROUP).collect { result ->
                 result.onSuccess { update(it) }
-                    .onError { it.logException() }
+                    .onError { logException(it) }
             }
         }
     }

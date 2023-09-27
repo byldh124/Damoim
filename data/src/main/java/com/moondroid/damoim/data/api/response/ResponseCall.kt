@@ -13,18 +13,25 @@ internal class ResponseCall<T> constructor(
     override fun enqueue(callback: Callback<ApiStatus<T>>) = callDelegate.enqueue(object : Callback<T> {
         override fun onResponse(call: Call<T>, response: Response<T>) {
             response.body()?.let {
-                when(response.code()) {
+                when (response.code()) {
                     in 200..208 -> {
                         callback.onResponse(this@ResponseCall, Response.success(ApiStatus.Success(it)))
                     }
+
                     in 400..409 -> {
-                        callback.onResponse(this@ResponseCall, Response.success(ApiStatus.Error(ApiException(response.code()))))
+                        callback.onResponse(
+                            this@ResponseCall,
+                            Response.success(ApiStatus.Error(ApiException(response.code())))
+                        )
                     }
                 }
-            }?: callback.onResponse(this@ResponseCall, Response.success(
-                ApiStatus.Error(
-                Throwable("Data not found")
-            )))
+            } ?: callback.onResponse(
+                this@ResponseCall, Response.success(
+                    ApiStatus.Error(
+                        Throwable("Data not found")
+                    )
+                )
+            )
         }
 
         override fun onFailure(call: Call<T>, t: Throwable) {
@@ -35,7 +42,8 @@ internal class ResponseCall<T> constructor(
 
     override fun clone(): Call<ApiStatus<T>> = ResponseCall(callDelegate.clone())
 
-    override fun execute(): Response<ApiStatus<T>> = throw UnsupportedOperationException("ResponseCall does not support execute.")
+    override fun execute(): Response<ApiStatus<T>> =
+        throw UnsupportedOperationException("ResponseCall does not support execute.")
 
     override fun isExecuted(): Boolean = callDelegate.isExecuted
 

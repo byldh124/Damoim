@@ -4,12 +4,13 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import com.google.gson.Gson
 import com.moondroid.damoim.common.ActivityTy
-import com.moondroid.damoim.common.Extension.init
+import com.moondroid.project01_meetingapp.utils.ViewExtension.init
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.MoimAddress
 import com.moondroid.project01_meetingapp.R
@@ -28,7 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
 @AndroidEntryPoint
-class MoimActivity : BaseActivity(R.layout.activity_moim), OnMapReadyCallback {
+class MoimActivity : BaseActivity(), OnMapReadyCallback {
     private val viewModel: MoimViewModel by viewModels()
     private val binding by viewBinding(ActivityMoimBinding::inflate)
 
@@ -55,26 +56,25 @@ class MoimActivity : BaseActivity(R.layout.activity_moim), OnMapReadyCallback {
 
 
     fun toLocation() {
-        val intent = Intent(this, LocationActivity::class.java).putExtra(
-            IntentParam.ACTIVITY,
-            ActivityTy.MOIM
-        )
-
-        activityResult(intent) {
-            try {
-                val json = it.getStringExtra(IntentParam.ADDRESS).toString()
-                val temp = Gson().fromJson(json, MoimAddress::class.java)
-                temp?.let { address ->
-                    binding.tvLocation.text = address.address
-                    val marker = Marker(LatLng(address.lat, address.lng))
-                    marker.map = mNaverMap
-                    mNaverMap.cameraPosition = CameraPosition(LatLng(address.lat, address.lng), 16.0, 0.0, 0.0)
-                    viewModel.address = address
+        registerForActivityResult(StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                result.data?.let { intent ->
+                    val json = intent.getStringExtra(IntentParam.ADDRESS).toString()
+                    val temp = Gson().fromJson(json, MoimAddress::class.java)
+                    temp?.let { address ->
+                        binding.tvLocation.text = address.address
+                        val marker = Marker(LatLng(address.lat, address.lng))
+                        marker.map = mNaverMap
+                        mNaverMap.cameraPosition = CameraPosition(LatLng(address.lat, address.lng), 16.0, 0.0, 0.0)
+                        viewModel.address = address
+                    }
                 }
-            } catch (e: Exception) {
-                e.logException()
             }
-        }
+        }.launch(
+            Intent(this, LocationActivity::class.java).apply {
+                putExtra(IntentParam.ACTIVITY, ActivityTy.MOIM)
+            }
+        )
     }
 
 
@@ -88,7 +88,7 @@ class MoimActivity : BaseActivity(R.layout.activity_moim), OnMapReadyCallback {
             )
             datePicker.show()
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -101,7 +101,7 @@ class MoimActivity : BaseActivity(R.layout.activity_moim), OnMapReadyCallback {
             )
             timePicker.show()
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -140,7 +140,7 @@ class MoimActivity : BaseActivity(R.layout.activity_moim), OnMapReadyCallback {
             }
 
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 

@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.moondroid.project01_meetingapp.presentation.common.DMRecycler
+        <com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

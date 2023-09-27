@@ -6,7 +6,7 @@ import com.moondroid.damoim.data.model.request.SaltRequest
 import com.moondroid.damoim.data.model.request.SignInRequest
 import com.moondroid.damoim.data.model.request.SignUpRequest
 import com.moondroid.damoim.data.model.request.SocialSignRequest
-import com.moondroid.damoim.data.source.remote.RemoteDataSource
+import com.moondroid.damoim.data.datasource.remote.RemoteDataSource
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.damoim.domain.model.status.ApiResult
 import com.moondroid.damoim.domain.repository.SignRepository
@@ -89,7 +89,7 @@ class SignRepositoryImpl @Inject constructor(
                 when (this) {
                     is ApiResult.Error -> emit(ApiResult.Error(throwable))
                     is ApiResult.Fail -> emit(ApiResult.Fail(code))
-                    is ApiResult.Success -> emit(ApiResult.Success(response.result))
+                    is ApiResult.Success -> emit(ApiResult.Success(response))
                 }
             }
         }.flowOn(Dispatchers.IO)

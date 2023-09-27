@@ -9,12 +9,18 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.common.SignInButton
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.presentation.common.DMRecycler
+import com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
+import com.moondroid.project01_meetingapp.utils.ViewExtension.getDrawableId
+import com.moondroid.project01_meetingapp.utils.ViewExtension.getInterestNum
+import com.moondroid.project01_meetingapp.utils.ViewExtension.getStringId
+import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
+import com.moondroid.project01_meetingapp.utils.image.GlideApp
+import com.moondroid.project01_meetingapp.utils.image.ImageHelper.getImgUrl
 
-object BindingUtils {
+object BindingAdapter {
     @BindingAdapter("visible")
     @JvmStatic
-    fun View.visible(boolean: Boolean){
+    fun View.visible(boolean: Boolean) {
         if (boolean) {
             this.visibility = View.VISIBLE
         } else {
@@ -24,10 +30,8 @@ object BindingUtils {
 
     @BindingAdapter("image")
     @JvmStatic
-    fun ImageView.loadImage(imageURL: String?) {
-        Glide.with(this)
-            .load(imageURL?.let { DMUtils.getImgUrl(it) })
-            .into(this)
+    fun ImageView.loadImage(imageURL: String) {
+        glide(imageURL)
     }
 
     /**
@@ -37,13 +41,11 @@ object BindingUtils {
     @BindingAdapter("interest")
     @JvmStatic
     fun ImageView.interest(interest: String) {
-        val position = DMUtils.getInterestNum(context, interest)
+        val position = getInterestNum(context, interest)
 
         val name = String.format("ic_interest_%02d", position)
 
-        Glide.with(this)
-            .load(DMUtils.getDrawableId(context, name))
-            .into(this)
+        glide(getDrawableId(context, name))
     }
 
     /**
@@ -54,10 +56,7 @@ object BindingUtils {
     @JvmStatic
     fun ImageView.interestIcon(position: Int) {
         val name = String.format("ic_interest_%02d", position)
-
-        Glide.with(this)
-            .load(DMUtils.getDrawableId(context, name))
-            .into(this)
+        glide(getDrawableId(context, name))
     }
 
     /**
@@ -69,7 +68,7 @@ object BindingUtils {
     fun TextView.interestText(position: Int) {
         val name = String.format("interest_%02d", position)
 
-        this.text = context.getString(DMUtils.getStringId(context, name))
+        this.text = context.getString(getStringId(context, name))
     }
 
     @BindingAdapter("loadUrl")
@@ -105,9 +104,11 @@ object BindingUtils {
             GroupType.FAVORITE -> setEmptyText(
                 context.getString(R.string.alm_favor_group_empty)
             )
+
             GroupType.RECENT -> setEmptyText(
                 context.getString(R.string.alm_recent_group_empty)
             )
+
             GroupType.MY_GROUP -> setEmptyText(
                 context.getString(R.string.alm_my_group_empty)
             )

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moondroid.damoim.common.ActivityTy
-import com.moondroid.damoim.common.Extension.afterTextChanged
+import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.project01_meetingapp.R
@@ -60,7 +60,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_home_search) {
             }
 
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 }

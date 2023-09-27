@@ -1,100 +1,46 @@
 package com.moondroid.damoim.common
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.Toast
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import com.moondroid.damoim.common.Extension.debug
+import com.moondroid.damoim.common.crashlytics.FBCrash
+import java.security.MessageDigest
 
 object Extension {
     fun Any.debug(msg: String) {
-        Log.e("모임대장" , "[${this.javaClass.simpleName.trim()}] | $msg")
+        if (BuildConfig.DEBUG) Log.e("Damoim", "[${this.javaClass.simpleName.trim()}] | $msg")
     }
 
-    fun Throwable.logException() {
-        FirebaseCrashlytics
-            .getInstance()
-            .log(stackTraceToString())
-    }
-
-
-    fun Activity.exitApp() {
-        this.moveTaskToBack(true)
-        this.finish()
-        android.os.Process.killProcess(android.os.Process.myPid())
-    }
-
-    fun Activity.startActivityWithAnim(intent: Intent) {
-        this.startActivity(intent)
-        overridePendingTransition(android.R.anim.fade_in, 0)
-    }
-
-    fun View.visible(isVisible: Boolean = true) {
-        visibility = if (isVisible) View.VISIBLE else View.GONE
-    }
-
-    fun Activity.hideKeyboard() {
-        hideKeyboard(currentFocus ?: View(this))
-    }
-
-    fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    fun Context.toast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    fun Context.toast(@StringRes resId: Int) {
-        toast(getString(resId))
-    }
-
-    fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-        this.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(editable: Editable?) {
-                afterTextChanged.invoke(editable.toString())
-            }
-        })
-    }
-
-    fun LifecycleOwner.repeatOnStarted(block: suspend CoroutineScope.() -> Unit) {
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED, block)
+    fun Any.logException(e: Throwable) {
+        if (BuildConfig.DEBUG) {
+            Log.e(
+                "Damoim",
+                "[ ${this.javaClass.simpleName.trim()} || logException ] -> ${e.printStackTrace()}"
+            )
         }
+        FBCrash.report(e)
     }
 
-    fun Toolbar.init(activity: AppCompatActivity) {
-        try {
-            activity.setSupportActionBar(this)
-            activity.supportActionBar?.let {
-                it.setDisplayHomeAsUpEnabled(true)
-                it.setDisplayShowTitleEnabled(false)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+    fun hashingPw(password: String, salt: String): String {
+        val md: MessageDigest = MessageDigest.getInstance("SHA-256")  // SHA-256 해시함수를 사용
+        var output: ByteArray = password.toByteArray()
+
+        // key-stretching
+        for (i in 0..999) {
+            val temp: String = byteToString(output) + salt      // 패스워드와 Salt 를 합쳐 새로운 문자열 생성
+            md.update(temp.toByteArray(Charsets.UTF_16))        // temp 의 문자열을 해싱하여 md 에 저장해둔다
+            output = md.digest()                                // md 객체의 다이제스트를 얻어 password 를 갱신한다
         }
+
+        return byteToString(output)
+    }
+
+    fun byteToString(byteArray: ByteArray): String {
+        val sb = StringBuilder()
+        for (bt in byteArray) {
+            sb.append(String.format("%02x", bt))
+        }
+        return sb.toString()
     }
 }
 

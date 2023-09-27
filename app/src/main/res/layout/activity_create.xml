@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
-
-    <data>
-
-        <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.ui.create.CreateActivity" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -36,12 +27,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-            <com.moondroid.project01_meetingapp.presentation.common.DMRoundView
-                android:id="@+id/thumbWrapper"
+            <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
+                android:id="@+id/wr_thumb"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_marginTop="16dp"
-                android:onClick="@{activity::getImage}"
                 app:cornerRadius="16dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -64,9 +54,9 @@
                     android:text="@string/alm_input_thumb"
                     android:textColor="@color/white" />
 
-            </com.moondroid.project01_meetingapp.presentation.common.DMRoundView>
+            </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
 
-            <com.moondroid.project01_meetingapp.presentation.common.DMRoundView
+            <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:translationX="8dp"
@@ -85,7 +75,7 @@
                     android:layout_height="match_parent"
                     android:padding="6dp"
                     android:src="@drawable/ic_camera01" />
-            </com.moondroid.project01_meetingapp.presentation.common.DMRoundView>
+            </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etTitle"
@@ -101,11 +91,10 @@
                 app:layout_constraintWidth_percent="0.8" />
 
             <ImageView
-                android:id="@+id/icInterest"
+                android:id="@+id/ic_interest"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
-                android:onClick="@{activity::toInterest}"
                 app:layout_constraintBottom_toBottomOf="@id/etTitle"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintLeft_toRightOf="@id/etTitle"
@@ -148,9 +137,9 @@
                 app:layout_constraintRight_toRightOf="@id/etPurpose" />
 
             <TextView
+                android:id="@+id/btn_save"
                 style="@style/ButtonRed01"
                 android:layout_marginTop="32dp"
-                android:onClick="@{activity::checkField}"
                 android:text="@string/cmn_save"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etPurpose" />
@@ -159,4 +148,3 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>

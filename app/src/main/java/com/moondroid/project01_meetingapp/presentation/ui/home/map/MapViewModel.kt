@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.domain.model.MoimItem
 import com.moondroid.damoim.domain.model.status.onError
-import com.moondroid.damoim.data.api.response.onSuccess
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.group.MoimUseCase
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
@@ -22,7 +21,7 @@ class MapViewModel @Inject constructor(
         viewModelScope.launch {
             moimUseCase().collect { result ->
                 result.onSuccess { update(it) }
-                    .onError { it.logException() }
+                    .onError { logException(it) }
             }
         }
     }

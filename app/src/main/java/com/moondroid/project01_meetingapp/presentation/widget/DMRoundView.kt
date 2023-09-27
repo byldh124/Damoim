@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.common
+package com.moondroid.project01_meetingapp.presentation.widget
 
 import android.content.Context
 import android.graphics.Canvas
@@ -53,8 +53,8 @@ class DMRoundView : FrameLayout {
         setLayerType(View.LAYER_TYPE_SOFTWARE, null)
     }
 
-    override fun dispatchDraw(canvas: Canvas?) {
-        val count = canvas?.save()
+    override fun dispatchDraw(canvas: Canvas) {
+        val count = canvas.save()
         val path = Path()
 
         val corners = if (cornerRadius != 0.0f) {
@@ -79,17 +79,15 @@ class DMRoundView : FrameLayout {
         }
 
 
-        if (canvas != null) {
-            path.addRoundRect(
-                RectF(0F, 0F, canvas.width.toFloat(), canvas.height.toFloat()),
-                cornerDimensions,
-                Path.Direction.CW
-            )
-        }
+        path.addRoundRect(
+            RectF(0F, 0F, canvas.width.toFloat(), canvas.height.toFloat()),
+            cornerDimensions,
+            Path.Direction.CW
+        )
 
-        canvas?.clipPath(path)
+        canvas.clipPath(path)
 
         super.dispatchDraw(canvas)
-        count?.let { canvas.restoreToCount(it) }
+        count.let { canvas.restoreToCount(it) }
     }
 }

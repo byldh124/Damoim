@@ -2,15 +2,12 @@ package com.moondroid.project01_meetingapp.presentation.dialog
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.databinding.DataBindingUtil
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.base.BaseDialog
 import com.moondroid.project01_meetingapp.databinding.DialogTutorialBinding
-import com.moondroid.project01_meetingapp.utils.DMUtils
+import com.moondroid.project01_meetingapp.utils.ViewExtension.getStatusBarHeight
 
 class TutorialDialog(context: Context) : BaseDialog(context) {
     private lateinit var binding: DialogTutorialBinding
@@ -31,6 +28,6 @@ class TutorialDialog(context: Context) : BaseDialog(context) {
         animation.start()
 
         val layoutParams = binding.header.layoutParams as ConstraintLayout.LayoutParams
-        layoutParams.topMargin = DMUtils.getStatusBarHeight(context)
+        layoutParams.topMargin = getStatusBarHeight(context)
     }
 }

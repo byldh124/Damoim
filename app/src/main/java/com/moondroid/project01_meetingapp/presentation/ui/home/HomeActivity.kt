@@ -1,9 +1,11 @@
 package com.moondroid.project01_meetingapp.presentation.ui.home
 
 import android.Manifest
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,11 +24,10 @@ import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.GroupListType
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.common.Extension.debug
-import com.moondroid.damoim.common.Extension.init
+import com.moondroid.project01_meetingapp.utils.ViewExtension.init
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.repeatOnStarted
-import com.moondroid.damoim.common.Extension.startActivityWithAnim
-import com.moondroid.damoim.common.Extension.toast
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityHomeBinding
@@ -43,7 +44,7 @@ import com.moondroid.project01_meetingapp.presentation.ui.home.map.LocationFragm
 import com.moondroid.project01_meetingapp.presentation.ui.home.mygroup.MyGroupFragment
 import com.moondroid.project01_meetingapp.presentation.ui.home.search.SearchFragment
 import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
-import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
+import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -64,7 +65,7 @@ import dagger.hilt.android.AndroidEntryPoint
  *  - 카카오 공유
  */
 @AndroidEntryPoint
-class HomeActivity : BaseActivity(R.layout.activity_home) {
+class HomeActivity : BaseActivity() {
     private val linkUrl = "https://moondroid.page.link/Zi7X"
     private val binding by viewBinding(ActivityHomeBinding::inflate)
 
@@ -93,13 +94,30 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         checkPermission()
     }
 
+    private val updateProfile =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.getUser()
+            }
+        }
+
+    private val getInterest =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let { intent ->
+                    viewModel.updateInterest(
+                        getString(intent.getIntExtra(IntentParam.INTEREST, 0))
+                    )
+                }
+            }
+        }
+
     private fun handleEvent(event: Event) {
         when (event) {
             Event.MyProfile -> {
-                val intent = Intent(this, MyInfoActivity::class.java)
-                intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
-
-                activityResult(intent) { viewModel.getUser() }
+                val sendIntent = Intent(mContext, MyInfoActivity::class.java)
+                    .putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
+                updateProfile.launch(sendIntent)
                 hideNavigation()
             }
 
@@ -108,11 +126,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
             }
 
             is Event.UpdateInterest -> {
-                if (event.b) {
-                    showMessage(getString(R.string.alm_update_interest_success))
-                } else {
-                    showMessage(getString(R.string.error_update_interest_fail))
-                }
+                showMessage(getString(R.string.alm_update_interest_success))
             }
         }
     }
@@ -121,10 +135,8 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         try {
             if (binding.homeNav.visibility == View.VISIBLE) {
                 binding.drawer.closeDrawers()
-            } else if (title != getString(R.string.cmn_find_group)) {
-                //changeFragment(GroupListFragment())
+            } else if (binding.bnv.selectedItemId != R.id.bnv_tab1) {
                 binding.bnv.selectedItemId = R.id.bnv_tab1
-                title = getString(R.string.cmn_find_group)
             } else if (System.currentTimeMillis() - mBackWait >= 2000) {
                 mBackWait = System.currentTimeMillis()
                 toast(getString(R.string.alm_two_click_exit))
@@ -132,7 +144,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                 super.onBack()
             }
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -186,9 +198,10 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
             }
             initNavigation()
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
+
 
     /**
      *  네비게이션 클릭 이벤트 처리
@@ -200,16 +213,9 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
             binding.homeNav.setNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.navInterest -> {
-                        val intent =
-                            Intent(this@HomeActivity, InterestActivity::class.java).putExtra(
-                                IntentParam.ACTIVITY,
-                                ActivityTy.HOME
-                            )
-                        activityResult(intent) {
-                            viewModel.updateInterest(
-                                getString(it.getIntExtra(IntentParam.INTEREST, 0))
-                            )
-                        }
+                        val intent = Intent(this@HomeActivity, InterestActivity::class.java)
+                            .putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
+                        getInterest.launch(intent)
                     }
 
                     R.id.navFavorite -> {
@@ -227,14 +233,14 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                     R.id.navSetting -> {
                         val intent = Intent(this, SettingActivity::class.java)
                         intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
-                        startActivityWithAnim(intent)
+                        startActivity(intent)
                     }
                 }
                 hideNavigation()
                 true
             }
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -250,7 +256,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     private fun goToGroupListActivity(type: Int) {
         val intent = Intent(this, GroupListActivity::class.java)
         intent.putExtra(IntentParam.TYPE, type)
-        startActivityWithAnim(intent)
+        startActivity(intent)
     }
 
     /**
@@ -259,30 +265,27 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
      * ACCESS_FINE_LOCATION
      */
     private fun checkPermission() {
-        try {
-            val requestPermissionLauncher =
-                registerForActivityResult(ActivityResultContracts.RequestPermission()) { //DO NOTHING
+        val requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions -> //DO NOTHING
+                val denied = permissions.filter { !it.value }
+                if (denied.isNotEmpty()) {
+                    showMessage("현재 적용하지 않은 권한은 추후에 변경이 가능합니다.")
                 }
-            if (ActivityCompat.checkSelfPermission(
-                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_DENIED
-            ) {
-                requestPermissionLauncher.launch(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
             }
-
-            if (ActivityCompat.checkSelfPermission(
-                    this, Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_DENIED
-            ) {
-                requestPermissionLauncher.launch(
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            }
-        } catch (e: Exception) {
-            e.logException()
+        val list = ArrayList<String>()
+        list.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            list.add(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            list.add(Manifest.permission.READ_MEDIA_IMAGES)
+            list.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
+        val deniedList =
+            list.filter { ActivityCompat.checkSelfPermission(mContext, it) == PackageManager.PERMISSION_DENIED }
+
+        requestPermissionLauncher.launch(deniedList.toTypedArray())
     }
 
     /**
@@ -292,9 +295,9 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         try {
             val intent = Intent(this, CreateActivity::class.java)
             intent.putExtra(IntentParam.ACTIVITY, ActivityTy.HOME)
-            startActivityWithAnim(intent)
+            startActivity(intent)
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -306,13 +309,13 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
             supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment)
                 .commit()
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
     private fun share() {
         try {
-            DMAnalyze.logEvent("Share Clicked")
+            FBAnalyze.logEvent("Share Clicked")
 
             val params = FeedTemplate(
                 content = Content(
@@ -368,7 +371,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                 }
             }
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 

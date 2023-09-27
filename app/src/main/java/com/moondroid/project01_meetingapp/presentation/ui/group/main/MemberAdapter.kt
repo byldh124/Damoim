@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.moondroid.damoim.common.Extension.visible
+import com.moondroid.project01_meetingapp.utils.ViewExtension.visible
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.databinding.ItemGroupMemberBinding

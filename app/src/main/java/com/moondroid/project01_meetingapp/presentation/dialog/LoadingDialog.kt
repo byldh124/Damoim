@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.base.BaseDialog
 import com.moondroid.project01_meetingapp.databinding.DialogLoadingBinding
+import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
 
 class LoadingDialog(context: Context) : BaseDialog(context) {
     private lateinit var binding: DialogLoadingBinding
@@ -17,6 +18,6 @@ class LoadingDialog(context: Context) : BaseDialog(context) {
         binding = DialogLoadingBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
         setCanceledOnTouchOutside(false)
-        Glide.with(context).load(R.drawable.loading_black).into(binding.imgLoading)
+        binding.imgLoading.glide(R.drawable.loading_black)
     }
 }

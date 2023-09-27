@@ -41,7 +41,7 @@
                 android:scaleType="centerCrop"
                 image ="@{groupInfo.image}"/>
 
-            <com.moondroid.project01_meetingapp.presentation.common.DMRoundView
+            <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
                 android:id="@+id/imgWrapper"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
@@ -58,7 +58,7 @@
                     android:scaleType="centerCrop"
                     image="@{groupInfo.thumb}" />
 
-            </com.moondroid.project01_meetingapp.presentation.common.DMRoundView>
+            </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/tvTitle"

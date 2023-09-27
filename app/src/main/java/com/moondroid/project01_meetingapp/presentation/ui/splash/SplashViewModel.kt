@@ -7,6 +7,7 @@ import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.app.VersionUseCase
 import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
+import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
@@ -47,6 +48,7 @@ class SplashViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 profileUseCase().collect { result ->
                     result.onSuccess {
+                        DMApp.profile = it
                         main()
                     }.onError {
                         sign()

@@ -28,7 +28,6 @@ android {
         jvmTarget = libs.versions.java.get()
     }
 
-    @Suppress("UnstableApiUsage")
     buildFeatures {
         buildConfig = true
     }
@@ -41,21 +40,7 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    // Glide
-    implementation(libs.glide.android)
-    kapt(libs.glide.compiler)
-
-    //Gson
-    implementation(libs.google.gson)
-
-    //lifecycle
-    kapt(libs.androidx.lifecycle.compiler)
-    implementation(libs.bundles.lifecycle)
-
-    implementation(libs.bundles.firebase)
-
-    implementation(libs.kotlinx.coroutines)
-    implementation(libs.androidx.appcompat)
+    implementation(libs.firebase.crashlytics)
 }
 
 kapt {

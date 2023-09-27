@@ -5,15 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.JsonObject
-import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.RequestParam
-import com.moondroid.damoim.common.Extension.toast
+import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.damoim.common.DMRegex
+import com.moondroid.damoim.common.Extension.byteToString
+import com.moondroid.damoim.common.Extension.hashingPw
 import com.moondroid.damoim.common.ResponseCode
+import com.moondroid.damoim.common.crashlytics.FBCrash
 import com.moondroid.damoim.domain.model.status.onError
-import com.moondroid.damoim.data.api.response.onSuccess
+
 import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.project01_meetingapp.R
@@ -21,11 +21,10 @@ import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
 import com.moondroid.damoim.domain.usecase.sign.SignUpUseCase
-import com.moondroid.damoim.domain.usecase.profile.TokenUseCase
-import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
+import com.moondroid.damoim.domain.usecase.profile.UpdateTokenUseCase
+import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.utils.*
-import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
-import com.moondroid.project01_meetingapp.utils.firebase.DMCrash
+import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -36,9 +35,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val profileUseCase: ProfileUseCase,
     private val signUpUseCase: SignUpUseCase,
-    private val tokenUseCase: TokenUseCase
+    private val updateTokenUseCase: UpdateTokenUseCase
 ) : BaseViewModel() {
 
     val id = MutableLiveData<String>()                             // ID
@@ -54,7 +52,7 @@ class SignUpViewModel @Inject constructor(
 
     var fromSocial = false
 
-    private val _eventFlow = MutableEventFlow<Event>()
+    private val _eventFlow = MutableEventFlow<SignUpEvent>()
     val eventFlow = _eventFlow.asEventFlow()
 
     fun signUp() {
@@ -80,7 +78,7 @@ class SignUpViewModel @Inject constructor(
                 encryptPw()
             }
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -91,7 +89,7 @@ class SignUpViewModel @Inject constructor(
         try {
             val salt = getSalt()
             salt?.let {
-                val hashPw = DMUtils.hashingPw(pw.value!!, it)
+                val hashPw = hashingPw(pw.value!!, it)
                 signUp(
                     id.value!!,
                     hashPw,
@@ -106,7 +104,7 @@ class SignUpViewModel @Inject constructor(
             }
 
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -119,9 +117,9 @@ class SignUpViewModel @Inject constructor(
             val temp = ByteArray(16)
             rnd.nextBytes(temp)
 
-            DMUtils.byteToString(temp)
+            byteToString(temp)
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
             null
         }
     }
@@ -142,8 +140,9 @@ class SignUpViewModel @Inject constructor(
             signUpUseCase(id, hashPw, salt, name, birth, gender, location, interest, thumb).collect { result ->
                 loading(false)
                 result.onSuccess {
-                    DMAnalyze.setProperty(it)
-                    DMCrash.setProperty(it.id)
+                    FBAnalyze.setProperty(it)
+                    FBCrash.setProperty(it.id)
+                    DMApp.profile = it
                     getMsgToken()
                 }.onFail {
                     if (it == ResponseCode.ALREADY_EXIST) context.toast(R.string.error_id_already_exist)
@@ -169,7 +168,7 @@ class SignUpViewModel @Inject constructor(
                 updateToken(token)
             })
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -181,29 +180,30 @@ class SignUpViewModel @Inject constructor(
     private fun updateToken(token: String) {
         try {
             viewModelScope.launch {
-                tokenUseCase(token).collect {
+                updateTokenUseCase(DMApp.profile.id, token).collect {
                     loading(false)
                     home()
                 }
             }
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
-    private fun loading(b: Boolean) = event(Event.Loading(b))
-    fun message(msg: String) = event(Event.Message(msg))
-    private fun home() = event(Event.Home)
+    private fun loading(b: Boolean) = event(SignUpEvent.Loading(b))
+    fun message(msg: String) = event(SignUpEvent.Message(msg))
+    private fun home() = event(SignUpEvent.Home)
 
-    private fun event(event: Event) {
+    private fun event(event: SignUpEvent) {
         viewModelScope.launch {
             _eventFlow.emit(event)
         }
     }
+
+    sealed class SignUpEvent {
+        class Loading(val show: Boolean) : SignUpEvent()
+        class Message(val message: String) : SignUpEvent()
+        object Home : SignUpEvent()
+    }
 }
 
-sealed class Event {
-    class Loading(val show: Boolean) : Event()
-    class Message(val message: String) : Event()
-    object Home : Event()
-}

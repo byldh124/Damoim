@@ -6,7 +6,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.moondroid.damoim.common.RequestParam
 import com.moondroid.damoim.domain.model.Profile
 
-class DMAnalyze {
+class FBAnalyze {
     companion object {
         @Volatile
         private var instance: FirebaseAnalytics? = null

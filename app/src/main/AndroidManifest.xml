@@ -10,14 +10,20 @@
         android:smallScreens="false"
         android:xlargeScreens="false" /> <!-- Media -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 인터넷 사용 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" /> <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 위치 정보 관련 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- FCM -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />      <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />     <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />      <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />    <!-- 위치 정보 관련 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />        <!-- FCM -->
     <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
+
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_IMAGES"
+        android:minSdkVersion="33" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <queries>
         <package android:name="com.kakao.talk" />
@@ -139,7 +145,7 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Google FCM Background Service -->
         <service
-            android:name=".utils.firebase.DMMessage"
+            android:name=".utils.firebase.FBMessage"
             android:exported="false"
             tools:ignore="Instantiatable">
             <intent-filter>

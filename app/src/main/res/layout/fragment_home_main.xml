@@ -17,7 +17,7 @@
         android:background="@color/red_light01"
         app:layout_constraintTop_toBottomOf="@id/recCategory" />
 
-    <com.moondroid.project01_meetingapp.presentation.common.DMRecycler
+    <com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
         android:id="@+id/recGroup"
         android:layout_width="match_parent"
         android:layout_height="0dp"

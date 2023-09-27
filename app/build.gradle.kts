@@ -11,12 +11,12 @@ plugins {
 
 android {
     namespace = "com.moondroid.project01_meetingapp"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.moondroid.project01_meetingapp"
         minSdk = 23
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "0.0.1"
 

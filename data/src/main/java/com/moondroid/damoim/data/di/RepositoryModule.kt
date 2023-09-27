@@ -19,6 +19,7 @@ interface RepositoryModule {
 
     @Binds
     fun provideGroupRepository(repository: GroupRepositoryImpl): GroupRepository
+
     @Binds
     fun provideProfileRepository(repository: ProfileRepositoryImpl): ProfileRepository
 

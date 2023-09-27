@@ -6,7 +6,7 @@ import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.damoim.domain.model.status.onSuccess
-import com.moondroid.damoim.domain.usecase.group.GroupUseCase
+import com.moondroid.damoim.domain.usecase.group.GetGroupUseCase
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
@@ -15,15 +15,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GroupListViewModel @Inject constructor(private val groupUseCase: GroupUseCase) : BaseViewModel() {
+class GroupListViewModel @Inject constructor(private val getGroupUseCase: GetGroupUseCase) : BaseViewModel() {
 
     fun getList(type: GroupType) {
         viewModelScope.launch {
-            groupUseCase(type).collect { result ->
+            getGroupUseCase(type).collect { result ->
                 result.onSuccess {
                     updateList(it)
                 }.onError {
-                    it.logException()
+                    logException(it)
                 }
             }
         }

@@ -1,18 +1,18 @@
 package com.moondroid.project01_meetingapp.presentation.ui.home.map
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeLocationBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.map.MapViewModel.Event
-import com.moondroid.project01_meetingapp.utils.DMUtils
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.LocationTrackingMode
@@ -22,6 +22,8 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @AndroidEntryPoint
 class LocationFragment : BaseFragment(R.layout.fragment_home_location),
@@ -63,7 +65,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_home_location),
         when (event) {
             is Event.Update ->  {
                 event.list.forEach { item ->
-                    if (DMUtils.beforeDate(item.date, "yyyy.MM.dd")) {
+                    if (beforeDate(item.date, "yyyy.MM.dd")) {
                         val marker = Marker()
                         marker.apply {
                             position = LatLng(item.lat, item.lng)
@@ -115,8 +117,22 @@ class LocationFragment : BaseFragment(R.layout.fragment_home_location),
 
             viewModel.getMoim()
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun beforeDate(date: String, pattern: String): Boolean {
+        var result = false
+        try {
+            val format = SimpleDateFormat(pattern)
+            val targetDate = format.parse(date)
+            val toDay = Date(System.currentTimeMillis())
+            result = targetDate!!.after(toDay)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return result
     }
 
     //MapView 사용시 프레그먼트, 액티비티의 생명주기에 따른 MapView 생명주기를 호출해 줘야 함.

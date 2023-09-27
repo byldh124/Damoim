@@ -4,20 +4,23 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.RadioButton
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import com.moondroid.damoim.common.ActivityTy
-import com.moondroid.damoim.common.Extension.init
+import com.moondroid.project01_meetingapp.utils.ViewExtension.init
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
-import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.databinding.ActivitySignUpBinding
+import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
+import com.moondroid.project01_meetingapp.presentation.ui.signup.SignUpViewModel.SignUpEvent
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
+import java.util.Locale
 
 /**
  * 회원 가입
@@ -27,7 +30,7 @@ import java.util.*
  * 3. 회원가입
  */
 @AndroidEntryPoint
-class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
+class SignUpActivity : BaseActivity() {
     private val binding by viewBinding(ActivitySignUpBinding::inflate)
 
     private val viewModel: SignUpViewModel by viewModels()
@@ -59,7 +62,7 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
                     val rb = group.findViewById<RadioButton>(checkedId)
                     viewModel.gender.value = rb.text.toString()
                 } catch (e: Exception) {
-                    e.logException()
+                    logException(e)
                 }
             }
             tvBirth.setOnClickListener { showDateDialog() }
@@ -89,11 +92,11 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
         viewModel.gender.value = binding.rbAccountMale.text.toString()
     }
 
-    private fun handleEvent(event: Event) {
+    private fun handleEvent(event: SignUpEvent) {
         when (event) {
-            is Event.Loading -> showLoading(event.show)
-            is Event.Message -> showMessage(event.message)
-            is Event.Home -> goToHomeActivity(ActivityTy.SIGN_IN)
+            is SignUpEvent.Loading -> showLoading(event.show)
+            is SignUpEvent.Message -> showMessage(event.message)
+            is SignUpEvent.Home -> goToHomeActivity(ActivityTy.SIGN_IN)
         }
     }
 
@@ -118,19 +121,25 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
      * 관심지역 선택 화면 전환
      */
     private fun toLocation() {
-        val intent = Intent(this, LocationActivity::class.java)
-        activityResult(intent) {
-            viewModel.location.setValue(intent.getStringExtra(IntentParam.LOCATION).toString())
-        }
+        registerForActivityResult(StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                result.data?.let {
+                    viewModel.location.setValue(intent.getStringExtra(IntentParam.LOCATION).toString())
+                }
+            }
+        }.launch(Intent(this, LocationActivity::class.java))
     }
 
     /**
      * 관심사 선택 화면 전환
      */
     private fun toInterest() {
-        val intent = Intent(this, InterestActivity::class.java)
-        activityResult(intent) {
-            viewModel.interest.setValue(getString(intent.getIntExtra(IntentParam.INTEREST, 0)))
-        }
+        registerForActivityResult(StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                result.data?.let {
+                    viewModel.interest.setValue(getString(intent.getIntExtra(IntentParam.INTEREST, 0)))
+                }
+            }
+        }.launch(Intent(this, InterestActivity::class.java))
     }
 }

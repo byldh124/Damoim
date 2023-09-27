@@ -4,13 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import com.moondroid.damoim.common.ActivityTy
-import com.moondroid.damoim.common.Constants
-import com.moondroid.damoim.common.Extension.exitApp
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.project01_meetingapp.BuildConfig
 import com.moondroid.project01_meetingapp.R
@@ -18,7 +15,8 @@ import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.splash.SplashViewModel.SplashEvent
-import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
+import com.moondroid.project01_meetingapp.utils.ViewExtension.exitApp
+import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -30,13 +28,13 @@ import dagger.hilt.android.AndroidEntryPoint
  * */
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
-class SplashActivity : BaseActivity(R.layout.activity_splash) {
+class SplashActivity : BaseActivity() {
     private val binding by viewBinding(ActivitySplashBinding::inflate)
     private val viewModel: SplashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DMAnalyze.logEvent("Splash_Loaded")
+        FBAnalyze.logEvent("Splash_Loaded")
         repeatOnStarted {
             viewModel.eventFlow.collect {
                 handleEvent(it)
@@ -63,7 +61,7 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
                                 intent.data = Uri.parse("market://details?id=$packageName")
                                 startActivity(intent)
                             } catch (e: Exception) {
-                                e.logException()
+                                logException(e)
                             }
                         }
                     }

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.startActivityWithAnim
+
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.project01_meetingapp.R
@@ -21,7 +21,7 @@ import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListAda
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileActivity : BaseActivity(R.layout.activity_profile) {
+class ProfileActivity : BaseActivity() {
     private val binding by viewBinding(ActivityProfileBinding::inflate)
     private val viewModel: ProfileViewModel by viewModels()
     lateinit var adapter: GroupListAdapter
@@ -42,7 +42,7 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
 
             viewModel.getMyGroup(profileUser!!.id)
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -85,7 +85,7 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
             }
             binding.recycler.adapter = adapter
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -94,9 +94,9 @@ class ProfileActivity : BaseActivity(R.layout.activity_profile) {
             val intent = Intent(this, ReportActivity::class.java)
             intent.putExtra(IntentParam.REPORT_ID, profileUser!!.id)
             intent.putExtra(IntentParam.REPORT_NAME, profileUser!!.name)
-            startActivityWithAnim(intent)
+            startActivity(intent)
         } catch (e:Exception) {
-            e.logException()
+            logException(e)
         }
     }
 }

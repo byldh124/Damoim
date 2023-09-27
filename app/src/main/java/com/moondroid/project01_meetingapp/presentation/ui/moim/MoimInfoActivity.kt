@@ -6,9 +6,9 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.moondroid.damoim.common.Extension.init
+import com.moondroid.project01_meetingapp.utils.ViewExtension.init
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.startActivityWithAnim
+
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.MoimItem
 import com.moondroid.damoim.domain.model.Profile
@@ -21,7 +21,7 @@ import com.moondroid.project01_meetingapp.presentation.ui.group.main.MemberAdapt
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MoimInfoActivity : BaseActivity(R.layout.activity_moim_info) {
+class MoimInfoActivity : BaseActivity() {
     private val binding by viewBinding(ActivityMoimInfoBinding::inflate)
     private val viewModel: MoimInfoViewModel by viewModels()
 
@@ -51,7 +51,7 @@ class MoimInfoActivity : BaseActivity(R.layout.activity_moim_info) {
 
             binding.btnJoin.setOnClickListener { join() }
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -61,7 +61,7 @@ class MoimInfoActivity : BaseActivity(R.layout.activity_moim_info) {
             addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
-        this@MoimInfoActivity.startActivityWithAnim(intent)
+        this@MoimInfoActivity.startActivity(intent)
     }
 
     private fun join() {

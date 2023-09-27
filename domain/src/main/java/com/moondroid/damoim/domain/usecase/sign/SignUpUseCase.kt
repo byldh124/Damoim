@@ -3,7 +3,7 @@ package com.moondroid.damoim.domain.usecase.sign
 import com.moondroid.damoim.domain.repository.SignRepository
 import javax.inject.Inject
 
-class SignUpUseCase @Inject constructor(private val signRepository: SignRepository) {
+class SignUpUseCase @Inject constructor(private val repository: SignRepository) {
 
     suspend fun execute(
         id: String,
@@ -39,5 +39,5 @@ class SignUpUseCase @Inject constructor(private val signRepository: SignReposito
         location: String,
         interest: String,
         thumb: String
-    ) = signRepository.signUp(id, hashPw, salt, name, birth, gender, location, interest, thumb)
+    ) = repository.signUp(id, hashPw, salt, name, birth, gender, location, interest, thumb)
 }

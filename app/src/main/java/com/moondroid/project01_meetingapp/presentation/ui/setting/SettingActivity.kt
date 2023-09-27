@@ -3,19 +3,31 @@ package com.moondroid.project01_meetingapp.presentation.ui.setting
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import com.moondroid.project01_meetingapp.utils.ViewExtension.init
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.startActivityWithAnim
+
+import com.moondroid.damoim.domain.model.status.onSuccess
+import com.moondroid.damoim.domain.usecase.profile.DeleteProfileUseCase
+import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivitySettingBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.signin.SignInActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class SettingActivity : BaseActivity(R.layout.activity_setting) {
+class SettingActivity : BaseActivity() {
     private val binding by viewBinding(ActivitySettingBinding::inflate)
     private val viewModel: SettingViewModel by viewModels()
+
+    @Inject
+    lateinit var deleteProfileUseCase: DeleteProfileUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,27 +39,22 @@ class SettingActivity : BaseActivity(R.layout.activity_setting) {
      * Initialize View
      */
     private fun initView() {
-        try {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.let {
-                it.setDisplayHomeAsUpEnabled(true)
-                it.setDisplayShowTitleEnabled(false)
+        binding.toolbar.init(this)
+        binding.btnLogout.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                deleteProfileUseCase().collect {
+                    logout()
+                }
             }
-        } catch (e: Exception) {
-            e.logException()
         }
     }
 
     /**
      * 로그아웃
      */
-    fun logout() {
-        try {
-            val intent = Intent(this, SignInActivity::class.java)
-            finishAffinity()
-            startActivityWithAnim(intent)
-        } catch (e: Exception) {
-            e.logException()
-        }
+    private fun logout() {
+        val intent = Intent(this, SignInActivity::class.java)
+        finishAffinity()
+        startActivity(intent)
     }
 }

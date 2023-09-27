@@ -5,14 +5,18 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.kakao.sdk.common.KakaoSdk
 import com.moondroid.damoim.common.Preferences
 import com.moondroid.damoim.domain.model.GroupItem
-import com.moondroid.project01_meetingapp.utils.firebase.DMAnalyze
+import com.moondroid.damoim.domain.model.Profile
+import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class DMApp : Application() {
 
     companion object {
+        lateinit var profile: Profile
         lateinit var group: GroupItem
+
+        fun setProfile() = ::profile.isInitialized
     }
 
     override fun onCreate() {
@@ -26,6 +30,6 @@ class DMApp : Application() {
         Preferences.init(applicationContext)
 
         /* initialize firebase analytics */
-        DMAnalyze.init(applicationContext)
+        FBAnalyze.init(applicationContext)
     }
 }

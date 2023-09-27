@@ -27,7 +27,7 @@
 
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <com.moondroid.project01_meetingapp.presentation.common.DMRecycler
+        <com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
             android:id="@+id/recycler"
             emptyMessage="@{type}"
             android:layout_width="match_parent"

@@ -2,8 +2,7 @@ package com.moondroid.damoim.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.moondroid.damoim.data.source.local.LocalDatabase
-import com.moondroid.damoim.data.mapper.DataTypeConverter
+import com.moondroid.damoim.data.datasource.local.LocalDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

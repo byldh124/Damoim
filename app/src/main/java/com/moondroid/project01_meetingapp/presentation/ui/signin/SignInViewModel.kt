@@ -4,8 +4,9 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.toast
+import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.damoim.common.DMRegex
+import com.moondroid.damoim.common.Extension.hashingPw
 import com.moondroid.damoim.common.Preferences
 import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.domain.model.status.onError
@@ -15,6 +16,7 @@ import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.damoim.domain.usecase.sign.SaltUseCase
 import com.moondroid.damoim.domain.usecase.sign.SocialSignUseCase
 import com.moondroid.damoim.domain.usecase.sign.SignInUseCase
+import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
@@ -55,7 +57,7 @@ class SignInViewModel @Inject constructor(
                 getSalt(id.value.toString())
             }
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 
@@ -63,12 +65,12 @@ class SignInViewModel @Inject constructor(
         viewModelScope.launch {
             saltUseCase(id).collect { result ->
                 result.onSuccess {
-                    val hashPw = DMUtils.hashingPw(pw.value.toString(), it)
+                    val hashPw = hashingPw(pw.value.toString(), it)
                     signIn(id, hashPw)
                 }.onFail {
                     if (it == ResponseCode.NOT_EXIST) context.toast(R.string.error_id_not_exist)
                 }.onError {
-                    it.logException()
+                    logException(it)
                 }
             }
         }
@@ -80,6 +82,7 @@ class SignInViewModel @Inject constructor(
             signInUseCase.signIn(id, hashPw).collect { result ->
                 result.onSuccess {
                     Preferences.setAutoSign(autoSign.value == true)
+                    DMApp.profile = it
                     home()
                 }
                 loading(false)

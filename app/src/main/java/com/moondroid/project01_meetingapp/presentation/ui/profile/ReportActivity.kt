@@ -3,17 +3,16 @@ package com.moondroid.project01_meetingapp.presentation.ui.profile
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.toast
+import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityReportBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.utils.DMUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ReportActivity : BaseActivity(R.layout.activity_report) {
+class ReportActivity : BaseActivity() {
     private lateinit var reportId: String
     private val binding by viewBinding(ActivityReportBinding::inflate)
     private val viewModel: ReportViewModel by viewModels()
@@ -55,11 +54,11 @@ class ReportActivity : BaseActivity(R.layout.activity_report) {
                 .append("\n")
                 .append(getString(R.string.cmn_report_date))
                 .append(" : ")
-                .append(DMUtils.getToday("yyyy-MM-dd HH:mm:ss"))
+
 
                 viewModel.reportUser(builder.toString())
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 }

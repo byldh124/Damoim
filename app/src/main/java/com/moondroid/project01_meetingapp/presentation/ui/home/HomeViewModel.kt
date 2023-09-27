@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.damoim.domain.model.status.onError
-import com.moondroid.damoim.data.api.response.onSuccess
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.profile.InterestUseCase
 import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
@@ -43,12 +41,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateInterest( interest: String) {
+    fun updateInterest(interest: String) {
         viewModelScope.launch {
             interestUseCase(interest).collect { result ->
                 result.onSuccess {
-                    updateInterest(it.code == ResponseCode.SUCCESS)
-                }.onError { it.logException() }
+                    event(Event.UpdateInterest)
+                }.onError { logException(it) }
             }
         }
     }
@@ -63,12 +61,11 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun setProfile(profile: Profile) = event(Event.SetProfile(profile))
-    private fun updateInterest(b: Boolean) = event(Event.UpdateInterest(b))
     fun toMyProfile() = event(Event.MyProfile)
 
-    sealed class Event {
-        data class SetProfile(val profile: Profile) : Event()
-        data class UpdateInterest(val b: Boolean) : Event()
-        object MyProfile : Event()
+    sealed interface Event {
+        data class SetProfile(val profile: Profile) : Event
+        object UpdateInterest : Event
+        object MyProfile : Event
     }
 }

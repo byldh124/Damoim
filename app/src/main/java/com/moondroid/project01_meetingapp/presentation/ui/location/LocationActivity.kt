@@ -9,9 +9,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.moondroid.damoim.common.ActivityTy
-import com.moondroid.damoim.common.Extension.afterTextChanged
+import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.Extension.visible
+import com.moondroid.project01_meetingapp.utils.ViewExtension.visible
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.MoimAddress
 import com.moondroid.project01_meetingapp.R
@@ -28,7 +28,7 @@ import java.util.*
  */
 
 @AndroidEntryPoint
-class LocationActivity : BaseActivity(R.layout.activity_location) {
+class LocationActivity : BaseActivity() {
     private lateinit var locationAdapter: LocationAdapter
     private lateinit var addressAdapter: AddressAdapter
     private lateinit var geocoder: Geocoder
@@ -152,13 +152,13 @@ class LocationActivity : BaseActivity(R.layout.activity_location) {
                                 addressAdapter.updateList(address)
                             }
                         } catch (e: Exception) {
-                            e.logException()
+                            logException(e)
                         }
                     }
                 }
             }
         } catch (e: Exception) {
-            e.logException()
+            logException(e)
         }
     }
 }
