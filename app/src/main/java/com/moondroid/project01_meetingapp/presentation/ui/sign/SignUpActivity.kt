@@ -1,16 +1,12 @@
-package com.moondroid.project01_meetingapp.presentation.ui.signup
+package com.moondroid.project01_meetingapp.presentation.ui.sign
 
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.RadioButton
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
-import com.moondroid.damoim.common.ActivityTy
-import com.moondroid.project01_meetingapp.utils.ViewExtension.init
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivitySignUpBinding
@@ -18,7 +14,9 @@ import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
-import com.moondroid.project01_meetingapp.presentation.ui.signup.SignUpViewModel.SignUpEvent
+import com.moondroid.project01_meetingapp.presentation.ui.sign.SignUpViewModel.SignUpEvent
+import com.moondroid.project01_meetingapp.utils.ViewExtension.init
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
@@ -96,7 +94,7 @@ class SignUpActivity : BaseActivity() {
         when (event) {
             is SignUpEvent.Loading -> showLoading(event.show)
             is SignUpEvent.Message -> showMessage(event.message)
-            is SignUpEvent.Home -> goToHomeActivity(ActivityTy.SIGN_IN)
+            is SignUpEvent.Home -> goToHomeActivity()
         }
     }
 

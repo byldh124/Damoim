@@ -4,7 +4,9 @@ import com.google.gson.JsonObject
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.data.model.dto.GroupItemDTO
 import com.moondroid.damoim.data.model.dto.MoimItemDTO
+import com.moondroid.damoim.data.model.dto.ProfileDTO
 import com.moondroid.damoim.data.model.entity.ProfileEntity
+import com.moondroid.damoim.data.model.request.CreateMoimRequest
 import com.moondroid.damoim.data.model.request.SaltRequest
 import com.moondroid.damoim.data.model.request.SignInRequest
 import com.moondroid.damoim.data.model.request.SignUpRequest
@@ -27,6 +29,7 @@ interface RemoteDataSource {
 
     //Profile
     suspend fun updateToken(id: String, token: String): ApiResult<Unit>                                 // 푸시토큰 업데이트
+
     suspend fun updateInterest(id: String, interest: String): ApiResult<Unit>
     suspend fun updateProfile(body: Map<String, RequestBody>, thumb: MultipartBody.Part?): ApiResult<ProfileEntity>
 
@@ -37,7 +40,14 @@ interface RemoteDataSource {
         body: Map<String, RequestBody>, thumb: MultipartBody.Part?, image: MultipartBody.Part?
     ): ApiResult<GroupItemDTO>
 
+    suspend fun getMembers(title: String): ApiResult<List<ProfileDTO>>
+    suspend fun getMoims(title: String): ApiResult<List<MoimItemDTO>>
+    suspend fun saveRecent(id: String, title: String, lastTime: String): ApiResult<Unit>
+    suspend fun join(id: String, title: String): ApiResult<Unit>
+    suspend fun getFavor(id: String, title: String) : ApiResult<Boolean>
+    suspend fun setFavor(id: String, title: String, active: Boolean) : ApiResult<Unit>
+
     //Moim
     suspend fun getMoimList(): ApiResult<List<MoimItemDTO>>
-    suspend fun createMoim(body: JsonObject): ApiResult<Unit>
+    suspend fun createMoim(body: CreateMoimRequest): ApiResult<Unit>
 }

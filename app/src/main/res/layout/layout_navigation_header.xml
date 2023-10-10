@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             bind:cornerRadius="16dp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/navigation_header_profile_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -38,7 +38,7 @@
         </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
 
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvModify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:textColor="@color/white"
             android:textSize="14dp" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             android:textColor="#ff333333"
             android:textSize="16dp" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

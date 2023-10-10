@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/TitleWhite"
                 android:text="@string/cmn_report" />
 
@@ -44,7 +44,7 @@
                 android:text="@{activity.getReportName()}"
                 android:fontFamily="@font/nanum_square_round_eb"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvReason"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                 android:fontFamily="@font/nanum_square_round_b"/>
 
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnReport"
                 style="@style/ButtonRed01"
                 app:layout_constraintLeft_toLeftOf="parent"

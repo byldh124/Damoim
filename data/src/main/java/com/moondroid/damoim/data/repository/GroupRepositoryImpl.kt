@@ -9,6 +9,9 @@ import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.damoim.domain.model.MoimItem
 import com.moondroid.damoim.data.mapper.DataMapper.toGroupItem
 import com.moondroid.damoim.data.mapper.DataMapper.toMoimItem
+import com.moondroid.damoim.data.mapper.DataMapper.toProfile
+import com.moondroid.damoim.data.model.request.CreateMoimRequest
+import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.damoim.domain.model.status.ApiResult
 import com.moondroid.damoim.domain.repository.GroupRepository
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +63,25 @@ class GroupRepositoryImpl @Inject constructor(
         interest: String,
         file: File
     ): Flow<ApiResult<GroupItem>> {
-        TODO("Not yet implemented")
+        val body = HashMap<String, RequestBody>()
+        body[RequestParam.ID] = id.toRequestBody()
+        body[RequestParam.TITLE] = title.toRequestBody()
+        body[RequestParam.LOCATION] = location.toRequestBody()
+        body[RequestParam.PURPOSE] = purpose.toRequestBody()
+        body[RequestParam.INTEREST] = interest.toRequestBody()
+
+        val requestBody = file.asRequestBody("image/*".toMediaType())
+        val partBody = MultipartBody.Part.createFormData("thumb", file.name, requestBody)
+
+        return flow<ApiResult<GroupItem>> {
+            remoteDataSource.createGroup(body, partBody).run {
+                when (this) {
+                    is ApiResult.Error -> emit(ApiResult.Error(throwable))
+                    is ApiResult.Fail -> emit(ApiResult.Fail(code))
+                    is ApiResult.Success -> emit(ApiResult.Success(response.toGroupItem()))
+                }
+            }
+        }.flowOn(Dispatchers.IO)
     }
 
     override suspend fun updateGroup(
@@ -103,8 +124,58 @@ class GroupRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun createMoim(body: JsonObject): Flow<ApiResult<MoimItem>> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun createMoim(
+        title: String,
+        address: String,
+        date: String,
+        time: String,
+        pay: String,
+        lat: Double,
+        lng: Double,
+        joinMember: String
+    ): Flow<ApiResult<Unit>> = flow {
+        val body = CreateMoimRequest(title, address, date, time, pay, lat, lng, listOf(joinMember))
+        emit(remoteDataSource.createMoim(body))
+    }.flowOn(Dispatchers.IO)
+
+
+    override suspend fun getMembers(title: String): Flow<ApiResult<List<Profile>>> =
+        flow<ApiResult<List<Profile>>> {
+            remoteDataSource.getMembers(title).run {
+                when (this) {
+                    is ApiResult.Error -> emit(ApiResult.Error(throwable))
+                    is ApiResult.Fail -> emit(ApiResult.Fail(code))
+                    is ApiResult.Success -> emit(ApiResult.Success(response.map { it.toProfile() }))
+                }
+            }
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun getMoims(title: String): Flow<ApiResult<List<MoimItem>>> =
+        flow<ApiResult<List<MoimItem>>> {
+            remoteDataSource.getMoims(title).run {
+                when (this) {
+                    is ApiResult.Error -> emit(ApiResult.Error(throwable))
+                    is ApiResult.Fail -> emit(ApiResult.Fail(code))
+                    is ApiResult.Success -> emit(ApiResult.Success(response.map { it.toMoimItem() }))
+                }
+            }
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun saveRecent(id: String, title: String, lastTime: String): Flow<ApiResult<Unit>> = flow {
+        emit(remoteDataSource.saveRecent(id, title, lastTime))
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun join(id: String, title: String): Flow<ApiResult<Unit>> = flow {
+        emit(remoteDataSource.join(id, title))
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun getFavor(id: String, title: String): Flow<ApiResult<Boolean>> = flow {
+        emit(remoteDataSource.getFavor(id, title))
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun setFavor(id: String, title: String, active: Boolean): Flow<ApiResult<Unit>> = flow {
+        emit(remoteDataSource.setFavor(id, title, active))
+    }.flowOn(Dispatchers.IO)
+
 
 }

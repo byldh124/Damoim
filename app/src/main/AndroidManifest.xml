@@ -56,7 +56,7 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.ui.groupinfo.GroupInfoActivity"
+            android:name=".presentation.ui.group.GroupInfoActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
 
@@ -86,19 +86,19 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.White" />
         <activity
-            android:name=".presentation.ui.setting.MyInfoActivity"
+            android:name=".presentation.ui.profile.MyInfoActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.ui.signup.SignUpActivity"
+            android:name=".presentation.ui.sign.SignUpActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.ui.signin.SignInActivity"
+            android:name=".presentation.ui.sign.SignInActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.ui.create.CreateActivity"
+            android:name=".presentation.ui.group.CreateGroupActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Kakao Login Activity -->
         <activity

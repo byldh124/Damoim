@@ -9,7 +9,7 @@
             android:id="@+id/toolbar"
             style="@style/ToolbarWhite">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/TitleRed"
                 android:text="@string/title_interest_choice"/>
         </androidx.appcompat.widget.Toolbar>

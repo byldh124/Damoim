@@ -8,9 +8,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.Extension.logException
-
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.project01_meetingapp.R
@@ -81,7 +79,7 @@ class ProfileActivity : BaseActivity() {
 
             binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
             adapter = GroupListAdapter {
-                goToGroupActivity(ActivityTy.PROFILE)
+                goToGroupActivity()
             }
             binding.recycler.adapter = adapter
         } catch (e: Exception) {

@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.signin
+package com.moondroid.project01_meetingapp.presentation.ui.sign
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +15,6 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.Constants.DEFAULT_PROFILE_IMG
 import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
@@ -24,8 +23,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivitySignInBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.signin.SignInViewModel.SignInEvent
-import com.moondroid.project01_meetingapp.presentation.ui.signup.SignUpActivity
+import com.moondroid.project01_meetingapp.presentation.ui.sign.SignInViewModel.SignInEvent
 import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -68,17 +66,9 @@ class SignInActivity : BaseActivity() {
 
     private fun handleEvent(event: SignInEvent) {
         when (event) {
-            is SignInEvent.Loading -> {
-                showLoading(event.show)
-            }
-
-            is SignInEvent.Message -> {
-                showMessage(event.message)
-            }
-
-            is SignInEvent.Home -> {
-                goToHomeActivity(ActivityTy.SIGN_IN)
-            }
+            is SignInEvent.Loading -> showLoading(event.show)
+            is SignInEvent.Message -> showMessage(event.message)
+            is SignInEvent.Home -> goToHomeActivity()
 
             is SignInEvent.SignUpSocial -> {
                 val intent = Intent(this@SignInActivity, SignUpActivity::class.java)
@@ -102,8 +92,6 @@ class SignInActivity : BaseActivity() {
             icKakao.setOnClickListener { getKakaoAccount() }
             btnSignUp.setOnClickListener { goToSignUp() }
         }
-
-
     }
 
 
@@ -202,7 +190,6 @@ class SignInActivity : BaseActivity() {
      */
     private fun goToSignUp() {
         val intent = Intent(this, SignUpActivity::class.java)
-        intent.putExtra(IntentParam.ACTIVITY, ActivityTy.SIGN_IN)
         startActivity(intent)
     }
 }

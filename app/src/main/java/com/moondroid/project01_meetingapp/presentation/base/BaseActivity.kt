@@ -8,20 +8,15 @@ import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import com.moondroid.damoim.common.Constants.NETWORK_NOT_CONNECTED
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.IntentParam.ACTIVITY
 import com.moondroid.project01_meetingapp.R
+import com.moondroid.project01_meetingapp.presentation.dialog.ButtonDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.LoadingDialog
-import com.moondroid.project01_meetingapp.presentation.dialog.OneButtonDialog
-import com.moondroid.project01_meetingapp.presentation.dialog.TwoButtonDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.WebViewDialog
 import com.moondroid.project01_meetingapp.presentation.ui.group.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
-import com.moondroid.project01_meetingapp.presentation.ui.signin.SignInActivity
-import java.util.concurrent.Executor
+import com.moondroid.project01_meetingapp.presentation.ui.sign.SignInActivity
 
 
 /**
@@ -31,7 +26,6 @@ open class BaseActivity : AppCompatActivity() {
 
     protected val mContext by lazy { this }
 
-    private var oneButtonDialog: OneButtonDialog? = null
     private var loadingDialog: LoadingDialog? = null
     private var webViewDialog: WebViewDialog? = null
 
@@ -60,47 +54,28 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private fun showNetworkError(code: Int, onClick: () -> Unit) {
-        if (code != 0) {
-            if (code == NETWORK_NOT_CONNECTED) {
-                showMessage(getString(R.string.error_network_not_connected), code.toString(), onClick)
-            } else {
-                showMessage(getString(R.string.error_network_fail), code.toString(), onClick)
-            }
-        }
-    }
-
     fun showMessage(msg: String, onClick: () -> Unit = {}) {
-        oneButtonDialog?.let {
-            it.msg = msg
-            it.onClick = onClick
-            it.show()
-        } ?: run {
-            oneButtonDialog = OneButtonDialog(mContext, msg, onClick).apply {
-                show()
-            }
+        val builder = ButtonDialog.Builder(mContext).apply {
+            message = msg
+            setPositiveButton("OK", onClick)
         }
+
+        builder.build()
     }
 
-    fun errorMessage() = showMessage(getString(R.string.error_fail_request))
-
-    fun showMessage(msg: String) {
-        showMessage(msg) {}
+    fun serverError(code: Int, onClick: () -> Unit = {}) {
+        showMessage(getString(R.string.error_server_request_fail, code), onClick)
     }
 
-    fun showMessage(msg: String, code: String) {
-        showMessage(String.format(msg, code))
-    }
-
-    fun showMessage(msg: String, code: String, onClick: () -> Unit) {
-        showMessage(String.format(msg, code), onClick)
+    fun networkError(throwable: Throwable, onClick: () -> Unit = {}) {
+        showMessage("네트워크 에러\n${throwable.message.toString()}", onClick)
+        logException(throwable)
     }
 
     protected fun setResultAndFinish() {
         setResult(RESULT_OK)
         finish()
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
@@ -125,9 +100,8 @@ open class BaseActivity : AppCompatActivity() {
         loadingDialog?.cancel()
     }
 
-    fun goToHomeActivity(activityTy: Int) {
+    protected fun goToHomeActivity() {
         val intent = Intent(mContext, HomeActivity::class.java).apply {
-            putExtra(ACTIVITY, activityTy)
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
@@ -135,21 +109,20 @@ open class BaseActivity : AppCompatActivity() {
         finishAffinity()
     }
 
-    fun goToSignInActivity(activityTy: Int) {
+    fun goToSignInActivity() {
         val intent = Intent(mContext, SignInActivity::class.java).apply {
-            putExtra(ACTIVITY, activityTy)
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
         startActivity(intent)
+        finishAffinity()
     }
 
     /**
      * GROUP_ITEM 클릭시 액티비티 전환
      */
-    fun goToGroupActivity(activityType: Int) {
+    fun goToGroupActivity() {
         val intent = Intent(mContext, GroupActivity::class.java).apply {
-            putExtra(ACTIVITY, activityType)
             addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }

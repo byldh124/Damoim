@@ -8,7 +8,9 @@ import com.moondroid.damoim.data.api.response.ApiStatus
 import com.moondroid.damoim.data.mapper.DataMapper.toProfileEntity
 import com.moondroid.damoim.data.model.dto.GroupItemDTO
 import com.moondroid.damoim.data.model.dto.MoimItemDTO
+import com.moondroid.damoim.data.model.dto.ProfileDTO
 import com.moondroid.damoim.data.model.entity.ProfileEntity
+import com.moondroid.damoim.data.model.request.CreateMoimRequest
 import com.moondroid.damoim.data.model.request.SaltRequest
 import com.moondroid.damoim.data.model.request.SignInRequest
 import com.moondroid.damoim.data.model.request.SignUpRequest
@@ -77,7 +79,7 @@ class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : 
 
     override suspend fun socialSign(request: SocialSignRequest): ApiResult<ProfileEntity> {
         api.signInSocial(request).run {
-            return when(this) {
+            return when (this) {
                 is ApiStatus.Error -> ApiResult.Error(throwable)
                 is ApiStatus.Success -> {
                     if (response.code.success()) ApiResult.Success(response.result.toProfileEntity())
@@ -112,9 +114,12 @@ class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : 
         }
     }
 
-    override suspend fun updateProfile(body: Map<String, RequestBody>, thumb: MultipartBody.Part?): ApiResult<ProfileEntity> {
+    override suspend fun updateProfile(
+        body: Map<String, RequestBody>,
+        thumb: MultipartBody.Part?
+    ): ApiResult<ProfileEntity> {
         api.updateProfile(body, thumb).run {
-            return when(this) {
+            return when (this) {
                 is ApiStatus.Error -> ApiResult.Error(throwable)
                 is ApiStatus.Success -> {
                     if (response.code.success()) ApiResult.Success(response.result.toProfileEntity())
@@ -155,7 +160,73 @@ class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : 
         }
     }
 
-    override suspend fun createMoim(body: JsonObject): ApiResult<Unit> {
+    override suspend fun getMembers(title: String): ApiResult<List<ProfileDTO>> {
+        api.getMembers(title).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success ->
+                    if (response.code.success()) ApiResult.Success(response.result)
+                    else ApiResult.Fail(response.code)
+            }
+        }
+    }
+
+    override suspend fun getMoims(title: String): ApiResult<List<MoimItemDTO>> {
+        api.getMoim(title).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success ->
+                    if (response.code.success()) ApiResult.Success(response.result)
+                    else ApiResult.Fail(response.code)
+            }
+        }
+    }
+
+    override suspend fun saveRecent(id: String, title: String, lastTime: String): ApiResult<Unit> {
+        api.saveRecent(id, title, lastTime).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success ->
+                    if (response.code.success()) ApiResult.Success(Unit)
+                    else ApiResult.Fail(response.code)
+            }
+        }
+    }
+
+    override suspend fun join(id: String, title: String): ApiResult<Unit> {
+        api.join(id, title).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success ->
+                    if (response.code.success()) ApiResult.Success(Unit)
+                    else ApiResult.Fail(response.code)
+            }
+        }
+    }
+
+    override suspend fun getFavor(id: String, title: String): ApiResult<Boolean> {
+        api.getFavor(id, title).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success ->
+                    if (response.code.success()) ApiResult.Success(response.result)
+                    else ApiResult.Fail(response.code)
+            }
+        }
+    }
+
+    override suspend fun setFavor(id: String, title: String, active: Boolean): ApiResult<Unit> {
+        api.saveFavor(id, title, active).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success ->
+                    if (response.code.success()) ApiResult.Success(Unit)
+                    else ApiResult.Fail(response.code)
+            }
+        }
+    }
+
+    override suspend fun createMoim(body: CreateMoimRequest): ApiResult<Unit> {
         api.createMoim(body).run {
             return when (this) {
                 is ApiStatus.Error -> ApiResult.Error(throwable)

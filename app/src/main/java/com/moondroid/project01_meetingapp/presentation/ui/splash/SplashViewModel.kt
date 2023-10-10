@@ -2,6 +2,7 @@ package com.moondroid.project01_meetingapp.presentation.ui.splash
 
 import androidx.lifecycle.viewModelScope
 import com.moondroid.damoim.common.Preferences
+import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
@@ -22,7 +23,7 @@ class SplashViewModel @Inject constructor(
     private val profileUseCase: ProfileUseCase
 ) : BaseViewModel() {
 
-    private val _eventFlow = MutableEventFlow<SplashEvent>()
+    private val _eventFlow = MutableEventFlow<Event>()
     val eventFlow = _eventFlow.asEventFlow()
 
     fun checkAppVersion(
@@ -34,10 +35,13 @@ class SplashViewModel @Inject constructor(
             versionUseCase(packageName, versionCode, versionName).collect { result ->
                 result.onSuccess {
                     checkUser()
-                }.onFail {
-                    event(SplashEvent.Version(it))
-                }.onError {
-                    message(it.message.toString())
+                }.onFail { code ->
+                    when (code) {
+                        ResponseCode.INVALID_VALUE -> event(Event.Update)
+                        else -> event(Event.Fail(code))
+                    }
+                }.onError { t ->
+                    event(Event.NetworkError(t))
                 }
             }
         }
@@ -60,21 +64,21 @@ class SplashViewModel @Inject constructor(
         }
     }
 
-    private fun message(msg: String) = event(SplashEvent.Message(msg))
-    private fun sign() = event(SplashEvent.Sign)
-    private fun main() = event(SplashEvent.Main)
+    private fun sign() = event(Event.Sign)
+    private fun main() = event(Event.Main)
 
-    private fun event(splashEvent: SplashEvent) {
+    private fun event(event: Event) {
         viewModelScope.launch {
-            _eventFlow.emit(splashEvent)
+            _eventFlow.emit(event)
         }
     }
 
-    sealed class SplashEvent {
-        data class Message(val message: String) : SplashEvent()
-        data class Version(val responseCode: Int) : SplashEvent()
-        object Sign : SplashEvent()
-        object Main : SplashEvent()
+    sealed interface Event {
+        object Update : Event
+        object Sign : Event
+        object Main : Event
+        data class Fail(val code: Int) : Event
+        data class NetworkError(val throwable: Throwable) : Event
     }
 }
 

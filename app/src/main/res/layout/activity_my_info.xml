@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.setting.MyInfoActivity">
+        tools:context=".presentation.ui.profile.MyInfoActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -21,7 +21,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/TitleWhite"
                 android:text="@string/title_profile_setting" />
 
@@ -44,7 +44,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/thumb"
                     image="@{profile.thumb}"
                     android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/red_light01" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="6dp"
@@ -136,7 +136,7 @@
             </RadioGroup>
 
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBirth"
                 style="@style/TextBgGray"
                 android:layout_width="0dp"
@@ -149,7 +149,7 @@
                 app:layout_constraintTop_toBottomOf="@id/etName"
                 app:layout_constraintWidth_percent="0.38" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLocation"
                 style="@style/TextBgGray"
                 android:layout_width="0dp"
@@ -178,7 +178,7 @@
                 android:text="@{profile.message}"
                 app:layout_constraintTop_toBottomOf="@id/tvBirth" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvMsgLength"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -190,7 +190,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/etMsg"
                 app:layout_constraintRight_toRightOf="@id/etMsg" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/confirm"
                 style="@style/ButtonRed01"
                 android:layout_marginTop="32dp"

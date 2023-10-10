@@ -5,17 +5,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
-import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.project01_meetingapp.BuildConfig
-import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.splash.SplashViewModel.SplashEvent
-import com.moondroid.project01_meetingapp.utils.ViewExtension.exitApp
+import com.moondroid.project01_meetingapp.presentation.dialog.ButtonDialog
+import com.moondroid.project01_meetingapp.presentation.ui.splash.SplashViewModel.Event
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,38 +40,30 @@ class SplashActivity : BaseActivity() {
         viewModel.checkAppVersion(packageName, BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME)
     }
 
-    private fun handleEvent(event: SplashEvent) {
+    private fun handleEvent(event: Event) {
         when (event) {
-            is SplashEvent.Message -> showMessage(event.message)
-            is SplashEvent.Main -> goToHomeActivity(ActivityTy.SPLASH)
-            is SplashEvent.Sign -> {
-                goToSignInActivity(ActivityTy.SPLASH)
-                finish()
-            }
+            is Event.Main -> goToHomeActivity()
+            is Event.Sign -> goToSignInActivity()
+            Event.Update -> toUpdate()
+            is Event.Fail -> serverError(event.code, ::finish)
+            is Event.NetworkError -> networkError(event.throwable, ::finish)
+        }
+    }
 
-            is SplashEvent.Version -> {
-                when (event.responseCode) {
-                    ResponseCode.INACTIVE -> {
-                        showMessage(getString(R.string.error_request_update)) {
-                            try {
-                                val intent = Intent(Intent.ACTION_VIEW)
-                                intent.data = Uri.parse("market://details?id=$packageName")
-                                startActivity(intent)
-                            } catch (e: Exception) {
-                                logException(e)
-                            }
-                        }
-                    }
-
-                    ResponseCode.NOT_EXIST -> {
-                        showMessage(getString(R.string.error_version_not_checked)) {
-                            exitApp()
-                        }
-                    }
-
-                    else -> errorMessage()
+    private fun toUpdate() {
+        val builder = ButtonDialog.Builder(mContext).apply {
+            message = "새로운 버전이 출시됐습니다.\n업데이트 후 이용이 가능합니다."
+            setPositiveButton("업데이트") {
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse("market://details?id=$packageName")
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
+            setNegativeButton("나가기", ::finish)
         }
+        builder.build()
     }
 }

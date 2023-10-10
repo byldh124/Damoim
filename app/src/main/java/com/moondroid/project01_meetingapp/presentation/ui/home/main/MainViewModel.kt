@@ -23,7 +23,6 @@ class MainViewModel @Inject constructor(private val getGroupUseCase: GetGroupUse
     fun getGroup() {
         viewModelScope.launch {
             getGroupUseCase(GroupType.ALL).collect { result ->
-                debug("getGroup : $result")
                 result.onSuccess {
                     update(it)
                 }.onError {

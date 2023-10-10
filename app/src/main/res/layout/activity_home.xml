@@ -34,12 +34,12 @@
                     android:id="@+id/toolbar"
                     style="@style/ToolbarRed">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/title"
                         android:text="@{name}"
                         style="@style/TitleWhite" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/icShare"
                         android:layout_width="40dp"
                         android:layout_height="40dp"

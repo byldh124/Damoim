@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.moondroid.damoim.common.ActivityTy
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeMyGroupBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
@@ -14,6 +12,7 @@ import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListAdapter
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.mygroup.MyGroupViewModel.Event
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,7 +50,7 @@ class MyGroupFragment :
 
     private fun initView() {
         groupAdapter = GroupListAdapter {
-            activity.goToGroupActivity(ActivityTy.HOME)
+            activity.goToGroupActivity()
         }
         binding.recycler.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

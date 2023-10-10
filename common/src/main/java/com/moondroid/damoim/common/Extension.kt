@@ -1,9 +1,14 @@
 package com.moondroid.damoim.common
 
+import android.content.Intent
+import android.os.Build
+import android.os.Parcelable
 import android.util.Log
+import androidx.annotation.Keep
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.crashlytics.FBCrash
+import java.io.Serializable
 import java.security.MessageDigest
 
 object Extension {
@@ -19,6 +24,18 @@ object Extension {
             )
         }
         FBCrash.report(e)
+    }
+
+    @Keep
+    inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
+        Build.VERSION.SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
+    }
+
+    @Keep
+    inline fun <reified T : Serializable> Intent.serializable(key: String): T? = when {
+        Build.VERSION.SDK_INT >= 33 -> getSerializableExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
     }
 
     fun hashingPw(password: String, salt: String): String {

@@ -7,9 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.common.IntentParam.ACTIVITY
+import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
@@ -19,9 +18,10 @@ import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.dialog.TutorialDialog
 import com.moondroid.project01_meetingapp.presentation.ui.group.chat.ChatFragment
 import com.moondroid.project01_meetingapp.presentation.ui.group.gallery.GalleryFragment
-import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupMainFragment
-import com.moondroid.project01_meetingapp.presentation.ui.groupinfo.GroupInfoActivity
+import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupDetailFragment
 import com.moondroid.project01_meetingapp.presentation.ui.moim.MoimActivity
+import com.moondroid.project01_meetingapp.utils.ViewExtension.init
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -43,7 +43,7 @@ class GroupActivity : BaseActivity() {
     var isFavor = false
     val fragments =
         arrayOf(
-            GroupMainFragment(),
+            GroupDetailFragment(),
             //BoardFragment(),
             GalleryFragment(),
             ChatFragment()
@@ -63,9 +63,23 @@ class GroupActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.activity = this
-        groupInfo = DMApp.group
+        binding.lifecycleOwner = this
+        binding.model = viewModel
+
+        repeatOnStarted {
+            viewModel.eventFlow.collect {
+                handleEvent(it)
+            }
+        }
+
         initView()
+    }
+
+    private fun handleEvent(event: GroupViewModel.Event) {
+        when (event) {
+            is GroupViewModel.Event.NetworkError -> networkError(event.throwable)
+            is GroupViewModel.Event.ServerError -> serverError(event.code)
+        }
     }
 
     /**
@@ -73,8 +87,8 @@ class GroupActivity : BaseActivity() {
      */
     private fun initView() {
         try { //Action Bar
-            title = groupInfo.title
-
+            binding.toolbar.init(this)
+            binding.tvTitle.text = DMApp.group.title
             val pagerAdapter = PagerAdapter(this)
             binding.pager.adapter = pagerAdapter
 
@@ -88,7 +102,7 @@ class GroupActivity : BaseActivity() {
                 }
             }.attach()
 
-            if (intent.getIntExtra(ACTIVITY, 0) == ActivityTy.CREATE)
+            if (intent.getBooleanExtra(IntentParam.SHOW_TUTORIAL, false))
                 TutorialDialog(this).show()
 
             //binding.icSetting.gone(groupInfo.masterId != user!!.id)
@@ -111,27 +125,13 @@ class GroupActivity : BaseActivity() {
         overridePendingTransition(android.R.anim.fade_in, 0)
     }
 
-    fun favor() {
-        viewModel.saveFavor(groupInfo.title, !isFavor)
-    }
-
     fun toGroupInfo() {
-        try {
-            val intent = Intent(this, GroupInfoActivity::class.java)
-            intent.putExtra(ACTIVITY, ActivityTy.GROUP)
-            startActivity(intent)
-        } catch (e: Exception) {
-            logException(e)
-        }
+        val intent = Intent(this, GroupInfoActivity::class.java)
+        startActivity(intent)
     }
 
     fun toMoimActivity() {
-        try {
-            val intent = Intent(this, MoimActivity::class.java)
-            intent.putExtra(ACTIVITY, ActivityTy.GROUP)
-            startActivity(intent)
-        } catch (e: Exception) {
-            logException(e)
-        }
+        val intent = Intent(this, MoimActivity::class.java)
+        startActivity(intent)
     }
 }

@@ -24,7 +24,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             style="@style/ToolbarRed">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 style="@style/TitleWhite"
                 android:text="@string/title_moim_info"/>
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvMoimInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                             android:textColor="@color/gray_dark01"
                             android:textSize="16dp"/>
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                             android:textColor="@color/gray_dark01"
                             android:textSize="14dp" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvLocation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
                             android:textColor="@color/gray_dark01"
                             android:textSize="14dp" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvPay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/btnJoin"
                     style="@style/ButtonRed01"
 
@@ -131,7 +131,7 @@
                     android:layout_marginEnd="16dp"
                     android:text="@string/cmn_join_in_moim" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/moimMember"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

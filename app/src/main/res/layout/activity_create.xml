@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.create.CreateActivity">
+        tools:context=".presentation.ui.group.CreateGroupActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -13,7 +13,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 style="@style/TitleWhite"
                 android:text="@string/title_create_group" />
@@ -37,14 +37,14 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/thumb"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_thumb"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />
 
-                <TextView
-                    android:id="@+id/tvImage"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_empty_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/red_light02"
@@ -62,15 +62,15 @@
                 android:translationX="8dp"
                 android:translationY="8dp"
                 app:cornerRadius="18dp"
-                app:layout_constraintBottom_toBottomOf="@id/thumbWrapper"
-                app:layout_constraintRight_toRightOf="@id/thumbWrapper">
+                app:layout_constraintBottom_toBottomOf="@id/wr_thumb"
+                app:layout_constraintRight_toRightOf="@id/wr_thumb">
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/red_light01" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="6dp"
@@ -87,10 +87,10 @@
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/thumbWrapper"
+                app:layout_constraintTop_toBottomOf="@id/wr_thumb"
                 app:layout_constraintWidth_percent="0.8" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ic_interest"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -100,18 +100,18 @@
                 app:layout_constraintLeft_toRightOf="@id/etTitle"
                 app:layout_constraintTop_toTopOf="@id/etTitle" />
 
-            <TextView
-                android:id="@+id/tvLocation"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_location"
                 style="@style/TextBgGray"
                 android:layout_width="0dp"
                 android:layout_marginTop="16dp"
                 android:hint="@string/cmn_group_location"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="@id/icInterest"
+                app:layout_constraintRight_toRightOf="@id/ic_interest"
                 app:layout_constraintTop_toBottomOf="@id/etTitle" />
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etPurpose"
+                android:id="@+id/et_purpose"
                 style="@style/TextBgGray"
                 android:layout_marginTop="16dp"
                 android:gravity="top"
@@ -122,9 +122,9 @@
                 android:maxLength="50"
                 android:privateImeOptions="defaultInputmode=korean"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvLocation" />
+                app:layout_constraintTop_toBottomOf="@id/tv_location" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvMsgLength"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -132,17 +132,17 @@
                 android:elevation="2dp"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:textColor="@color/gray_dark01"
-                android:textSize="14dp"
-                app:layout_constraintBottom_toBottomOf="@id/etPurpose"
-                app:layout_constraintRight_toRightOf="@id/etPurpose" />
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/et_purpose"
+                app:layout_constraintRight_toRightOf="@id/et_purpose" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btn_save"
                 style="@style/ButtonRed01"
                 android:layout_marginTop="32dp"
                 android:text="@string/cmn_save"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etPurpose" />
+                app:layout_constraintTop_toBottomOf="@id/et_purpose" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

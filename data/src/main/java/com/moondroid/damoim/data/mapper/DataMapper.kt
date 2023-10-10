@@ -14,6 +14,8 @@ object DataMapper {
 
     fun ProfileEntity.toProfile(): Profile = Profile(id, name, birth, gender, location, interest, thumb, message)
 
+    fun ProfileDTO.toProfile(): Profile = Profile(id, name, birth, gender, location, interest, thumb, message)
+
     fun MoimItemDTO.toMoimItem(): MoimItem = MoimItem(title, address, date, time, pay, lat, lng, joinMember)
 
     fun GroupItemDTO.toGroupItem(): GroupItem =

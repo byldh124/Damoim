@@ -33,10 +33,12 @@ import com.moondroid.damoim.data.model.response.MoimResponse
 import com.moondroid.damoim.data.model.response.ProfileResponse
 import com.moondroid.damoim.data.model.response.SimpleResponse
 import com.moondroid.damoim.data.api.response.ApiStatus
+import com.moondroid.damoim.data.model.request.CreateMoimRequest
 import com.moondroid.damoim.data.model.request.SaltRequest
 import com.moondroid.damoim.data.model.request.SignInRequest
 import com.moondroid.damoim.data.model.request.SignUpRequest
 import com.moondroid.damoim.data.model.request.SocialSignRequest
+import com.moondroid.damoim.data.model.response.FavorResponse
 import com.moondroid.damoim.data.model.response.GroupResponse
 import com.moondroid.damoim.data.model.response.MemberResponse
 import okhttp3.MultipartBody
@@ -111,10 +113,10 @@ interface ApiInterface {
 
 
     @GET(GET_MOIM)
-    suspend fun getMoim(@Query(RequestParam.TITLE) title: String): ApiStatus<SimpleResponse>
+    suspend fun getMoim(@Query(RequestParam.TITLE) title: String): ApiStatus<MoimResponse>
 
     @POST(CREATE_MOIM)
-    suspend fun createMoim(@Body body: JsonObject): ApiStatus<SimpleResponse>
+    suspend fun createMoim(@Body body: CreateMoimRequest): ApiStatus<SimpleResponse>
 
     @JvmSuppressWildcards
     @Multipart
@@ -157,7 +159,7 @@ interface ApiInterface {
     suspend fun getFavor(
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.TITLE) title: String
-    ): ApiStatus<SimpleResponse>
+    ): ApiStatus<FavorResponse>
 
     @GET(GET_MOIM_MEMBER)
     suspend fun getMoimMember(

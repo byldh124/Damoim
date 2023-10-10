@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.signup
+package com.moondroid.project01_meetingapp.presentation.ui.sign
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
@@ -23,7 +23,6 @@ import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
 import com.moondroid.damoim.domain.usecase.sign.SignUpUseCase
 import com.moondroid.damoim.domain.usecase.profile.UpdateTokenUseCase
 import com.moondroid.project01_meetingapp.DMApp
-import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

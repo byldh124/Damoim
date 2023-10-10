@@ -4,8 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.moondroid.damoim.common.ActivityTy
-import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.project01_meetingapp.R
@@ -14,6 +12,7 @@ import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListAdapter
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
+import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
 
 class SearchFragment : BaseFragment(R.layout.fragment_home_search) {
     private val binding by viewBinding(FragmentHomeSearchBinding::bind)
@@ -35,7 +34,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_home_search) {
     private fun initView() {
         try {
             groupAdapter = GroupListAdapter {
-                activity.goToGroupActivity(ActivityTy.HOME)
+                activity.goToGroupActivity()
             }
             binding.recycler.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

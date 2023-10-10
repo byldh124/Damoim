@@ -10,8 +10,6 @@ object Constants{
 
     /* Room Table name */
     const val DM_USER = "DMUser"
-
-
 }
 
 object ResponseCode {
@@ -21,25 +19,6 @@ object ResponseCode {
     const val ALREADY_EXIST = 2002
     const val INVALID_VALUE = 2003
     const val INACTIVE = 2004
-}
-
-
-object ActivityTy {
-    const val SPLASH = 1
-    const val SIGN_IN = 2
-    const val SIGN_UP = 3
-    const val HOME = 4
-    const val GROUP = 5
-    const val CREATE = 6
-    const val GROUP_LIST = 7
-    const val GROUP_INFO = 8
-    const val MOIM = 9
-    const val INTEREST = 10
-    const val LOCATION = 11
-    const val MY_INFO = 12
-    const val SETTING = 13
-    const val PROFILE = 14
-    const val MOIM_INFO = 15
 }
 
 enum class GroupType {
@@ -114,6 +93,8 @@ object IntentParam {
     const val MOIM = "MOIM"
     const val REPORT_ID = "REPORT_ID"
     const val REPORT_NAME = "REPORT_NAME"
+    const val SHOW_TUTORIAL = "SHOW_TUTORIAL"
+    const val LOCATION_TYPE = "LOCATION_TYPE"
 }
 
 object NotificationParam {

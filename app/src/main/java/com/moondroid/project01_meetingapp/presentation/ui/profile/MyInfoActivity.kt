@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.setting
+package com.moondroid.project01_meetingapp.presentation.ui.profile
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -6,9 +6,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.activity.viewModels
 import com.bumptech.glide.Glide
-import com.moondroid.damoim.common.ActivityTy
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.status.onError
@@ -42,7 +40,6 @@ import javax.inject.Inject
 class MyInfoActivity : BaseActivity() {
 
     private val binding by viewBinding(ActivityMyInfoBinding::inflate)
-    private val viewModel: MyInfoViewModel by viewModels()
     private var path: String? = null
     private lateinit var gender: String
 
@@ -94,16 +91,15 @@ class MyInfoActivity : BaseActivity() {
      * 지역 선택
      */
     fun toLocation() {
-        registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                result.data?.let { intent ->
-                    binding.tvLocation.text = intent.getStringExtra(IntentParam.LOCATION).toString()
-                }
+        locationLauncher.launch(Intent(mContext, LocationActivity::class.java))
+    }
+
+    private val locationLauncher = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            result.data?.let { intent ->
+                binding.tvLocation.text = intent.getStringExtra(IntentParam.LOCATION).toString()
             }
-        }.launch(
-            Intent(this, LocationActivity::class.java)
-                .putExtra(IntentParam.ACTIVITY, ActivityTy.MY_INFO)
-        )
+        }
     }
 
     /**
@@ -160,7 +156,7 @@ class MyInfoActivity : BaseActivity() {
     }
 
     fun update() {
-        val thumbFile : File? = path?.let { File(it) }
+        val thumbFile: File? = path?.let { File(it) }
         CoroutineScope(Dispatchers.Main).launch {
             updateProfileUseCase(
                 id = DMApp.profile.id,

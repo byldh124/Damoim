@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.signin
+package com.moondroid.project01_meetingapp.presentation.ui.sign
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData

@@ -7,10 +7,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import com.google.gson.Gson
-import com.moondroid.damoim.common.ActivityTy
-import com.moondroid.project01_meetingapp.utils.ViewExtension.init
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.MoimAddress
 import com.moondroid.project01_meetingapp.R
@@ -18,6 +15,8 @@ import com.moondroid.project01_meetingapp.databinding.ActivityMoimBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
+import com.moondroid.project01_meetingapp.utils.ViewExtension.init
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.LocationTrackingMode
@@ -55,26 +54,26 @@ class MoimActivity : BaseActivity(), OnMapReadyCallback {
     }
 
 
-    fun toLocation() {
-        registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                result.data?.let { intent ->
-                    val json = intent.getStringExtra(IntentParam.ADDRESS).toString()
-                    val temp = Gson().fromJson(json, MoimAddress::class.java)
-                    temp?.let { address ->
-                        binding.tvLocation.text = address.address
-                        val marker = Marker(LatLng(address.lat, address.lng))
-                        marker.map = mNaverMap
-                        mNaverMap.cameraPosition = CameraPosition(LatLng(address.lat, address.lng), 16.0, 0.0, 0.0)
-                        viewModel.address = address
-                    }
+    private fun toLocation() {
+        val sIntent = Intent(mContext, LocationActivity::class.java)
+            .putExtra(IntentParam.LOCATION_TYPE, LocationActivity.LocationType.ADDRESS)
+        locationLauncher.launch(sIntent)
+    }
+
+    private val locationLauncher = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            result.data?.let { intent ->
+                val json = intent.getStringExtra(IntentParam.ADDRESS).toString()
+                val temp = Gson().fromJson(json, MoimAddress::class.java)
+                temp?.let { address ->
+                    binding.tvLocation.text = address.address
+                    val marker = Marker(LatLng(address.lat, address.lng))
+                    marker.map = mNaverMap
+                    mNaverMap.cameraPosition = CameraPosition(LatLng(address.lat, address.lng), 16.0, 0.0, 0.0)
+                    viewModel.address = address
                 }
             }
-        }.launch(
-            Intent(this, LocationActivity::class.java).apply {
-                putExtra(IntentParam.ACTIVITY, ActivityTy.MOIM)
-            }
-        )
+        }
     }
 
 

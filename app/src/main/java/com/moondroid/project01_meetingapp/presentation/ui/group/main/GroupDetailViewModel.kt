@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.group
+package com.moondroid.project01_meetingapp.presentation.ui.group.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -22,10 +22,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GroupViewModel @Inject constructor(
-    private val saveRecentUseCase: SaveRecentUseCase,
-    private val getFavorUseCase: GetFavorUseCase,
-    private val setFavorUseCase: SetFavorUseCase
+class GroupDetailViewModel @Inject constructor(
+    private val getMoimUseCase: GetMoimsUseCase,
+    private val getMembersUseCase: GetMembersUseCase,
+    private val joinUseCase: JoinUseCase,
 ) : BaseViewModel() {
     private val _eventFlow = MutableEventFlow<Event>()
     val eventFlow = _eventFlow.asEventFlow()
@@ -39,19 +39,25 @@ class GroupViewModel @Inject constructor(
     private fun serverError(code: Int) = event(Event.ServerError(code))
     private fun networkError(throwable: Throwable) = event(Event.NetworkError(throwable))
 
-    val favor = MutableLiveData(false)
-
-    fun saveRecent(title: String, lastTime: String) {
+    fun getMoim(title: String) {
         viewModelScope.launch {
-            saveRecentUseCase(id = DMApp.profile.id, title, lastTime)
+            getMoimUseCase(title).collect { result ->
+                result.onSuccess {
+                    event(Event.Moims(it))
+                }.onError {
+                    networkError(it)
+                }.onFail {
+                    serverError(it)
+                }
+            }
         }
     }
 
-    fun getFavor(title: String) {
+    fun loadMember(title: String) {
         viewModelScope.launch {
-            getFavorUseCase(DMApp.profile.id, title).collect { result ->
+            getMembersUseCase(title).collect { result ->
                 result.onSuccess {
-                    favor.value = it
+                    event(Event.Members(it))
                 }.onFail {
                     serverError(it)
                 }.onError {
@@ -61,23 +67,25 @@ class GroupViewModel @Inject constructor(
         }
     }
 
-    fun saveFavor(title: String) {
-        val sendFavor = !favor.value!!
+    fun join(title: String) {
         viewModelScope.launch {
-            setFavorUseCase(DMApp.profile.id, title, !sendFavor).collect { result ->
+            joinUseCase(DMApp.profile.id, title).collect { result ->
                 result.onSuccess {
-                    favor.value = sendFavor
-                }.onError {
-                    networkError(it)
+                    event(Event.Join)
                 }.onFail {
                     serverError(it)
+                }.onError {
+                    networkError(it)
                 }
             }
         }
     }
 
     sealed interface Event {
+        data class Moims(val list: List<MoimItem>) : Event
+        data class Members(val list: List<Profile>) : Event
         data class ServerError(val code: Int) : Event
         data class NetworkError(val throwable: Throwable) : Event
+        object Join : Event
     }
 }

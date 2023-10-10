@@ -21,7 +21,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/TitleWhite"
                 groupListTitle="@{type}" />
 

@@ -19,7 +19,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             style="@style/ToolbarRed">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 style="@style/TitleWhite"
                 android:text="@string/title_moim"/>
@@ -34,13 +34,13 @@
             android:padding="16dp"
             android:orientation="vertical">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDate"
                 style="@style/TextBgGray"
                 android:hint="@string/cmn_moim_date"
                 android:onClick="@{() -> model.showDate()}"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTime"
                 style="@style/TextBgGray"
                 android:layout_marginTop="16dp"
@@ -55,7 +55,7 @@
                 android:text="@={model.pay}"
                 android:hint="@string/cmn_moim_pay"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLocation"
                 style="@style/TextBgGray"
                 android:layout_marginTop="16dp"
@@ -69,7 +69,7 @@
                 android:layout_weight="1"
                 android:layout_marginTop="16dp"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/ButtonRed01"
                 android:layout_marginTop="16dp"
                 android:text="@string/cmn_save"

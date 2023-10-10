@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.google.android.gms.common.SignInButton
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
@@ -33,6 +34,17 @@ object BindingAdapter {
     fun ImageView.loadImage(imageURL: String) {
         glide(imageURL)
     }
+
+    @BindingAdapter("favor")
+    @JvmStatic
+    fun ImageView.setFavorImage(favor: Boolean) {
+        if (favor) {
+            glide(R.drawable.ic_favorite)
+        } else {
+            glide(R.drawable.ic_favorite_not)
+        }
+    }
+
 
     /**
      * 관심사 문자열로 관심사 아이콘 로드
