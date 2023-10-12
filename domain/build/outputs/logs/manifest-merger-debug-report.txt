@@ -1,0 +1,16 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/domain/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7816977576814335177.xml:2:13-83
+INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/domain/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7816977576814335177.xml:2:13-83
+	package
+		INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/domain/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7816977576814335177.xml
+	xmlns:android
+		ADDED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/domain/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7816977576814335177.xml:2:23-81
+uses-sdk
+INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/domain/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7816977576814335177.xml reason: use-sdk injection requested
+INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/domain/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7816977576814335177.xml
+INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/domain/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7816977576814335177.xml
+	android:targetSdkVersion
+		INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/domain/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7816977576814335177.xml
+	android:minSdkVersion
+		INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/domain/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7816977576814335177.xml
