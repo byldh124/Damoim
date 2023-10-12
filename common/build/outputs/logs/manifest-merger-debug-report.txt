@@ -1,16 +1,16 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest2307786892879443379.xml:2:13-83
-INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest2307786892879443379.xml:2:13-83
+ADDED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4631858938209578514.xml:2:13-83
+INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4631858938209578514.xml:2:13-83
 	package
-		INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest2307786892879443379.xml
+		INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4631858938209578514.xml
 	xmlns:android
-		ADDED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest2307786892879443379.xml:2:23-81
+		ADDED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4631858938209578514.xml:2:23-81
 uses-sdk
-INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest2307786892879443379.xml reason: use-sdk injection requested
-INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest2307786892879443379.xml
-INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest2307786892879443379.xml
+INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4631858938209578514.xml reason: use-sdk injection requested
+INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4631858938209578514.xml
+INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4631858938209578514.xml
 	android:targetSdkVersion
-		INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest2307786892879443379.xml
+		INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4631858938209578514.xml
 	android:minSdkVersion
-		INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest2307786892879443379.xml
+		INJECTED from /Users/sehan/Desktop/workspace/02.Private/Android/Project/Damoim/common/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4631858938209578514.xml
