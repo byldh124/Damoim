@@ -13,7 +13,7 @@ class ResponseAdapterFactory : CallAdapter.Factory() {
         check(returnType is ParameterizedType)
 
         val responseType = getParameterUpperBound(0, returnType)
-        if (getRawType(responseType) != ApiStatus::class.java) return null
+        if (getRawType(responseType) !== ApiStatus::class.java) return null
         check(responseType is ParameterizedType)
 
         val successType = getParameterUpperBound(0, responseType)

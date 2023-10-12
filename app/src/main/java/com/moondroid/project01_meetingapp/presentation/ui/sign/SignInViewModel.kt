@@ -3,25 +3,24 @@ package com.moondroid.project01_meetingapp.presentation.ui.sign
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.damoim.common.DMRegex
 import com.moondroid.damoim.common.Extension.hashingPw
+import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.Preferences
 import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
-import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.damoim.domain.usecase.sign.SaltUseCase
-import com.moondroid.damoim.domain.usecase.sign.SocialSignUseCase
 import com.moondroid.damoim.domain.usecase.sign.SignInUseCase
+import com.moondroid.damoim.domain.usecase.sign.SocialSignUseCase
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
 import com.moondroid.project01_meetingapp.utils.*
+import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +32,6 @@ class SignInViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val signInUseCase: SignInUseCase,
     private val saltUseCase: SaltUseCase,
-    private val profileUseCase: ProfileUseCase,
     private val socialSignUseCase: SocialSignUseCase
 ) : BaseViewModel() {
 
@@ -68,9 +66,9 @@ class SignInViewModel @Inject constructor(
                     val hashPw = hashingPw(pw.value.toString(), it)
                     signIn(id, hashPw)
                 }.onFail {
-                    if (it == ResponseCode.NOT_EXIST) context.toast(R.string.error_id_not_exist)
+                    event(SignInEvent.NotExist)
                 }.onError {
-                    logException(it)
+                    event(SignInEvent.Error(it))
                 }
             }
         }
@@ -80,12 +78,20 @@ class SignInViewModel @Inject constructor(
         loading(true)
         viewModelScope.launch {
             signInUseCase.signIn(id, hashPw).collect { result ->
+                loading(false)
                 result.onSuccess {
                     Preferences.setAutoSign(autoSign.value == true)
                     DMApp.profile = it
                     home()
+                }.onFail {
+                    when (it) {
+                        ResponseCode.INVALID_VALUE -> event(SignInEvent.InvalidPw)
+                        ResponseCode.NOT_EXIST -> event(SignInEvent.NotExist)
+                        else -> event(SignInEvent.Fail(it))
+                    }
+                }.onError {
+                    event(SignInEvent.Error(it))
                 }
-                loading(false)
             }
         }
     }
@@ -123,6 +129,10 @@ class SignInViewModel @Inject constructor(
     sealed class SignInEvent {
         data class Loading(val show: Boolean) : SignInEvent()
         data class Message(val message: String) : SignInEvent()
+        object InvalidPw : SignInEvent()
+        object NotExist : SignInEvent()
+        data class Fail(val code: Int) : SignInEvent()
+        data class Error(val throwable: Throwable) : SignInEvent()
         object Home : SignInEvent()
         data class SignUpSocial(val id: String, val name: String, val thumb: String) : SignInEvent()
     }

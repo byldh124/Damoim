@@ -25,6 +25,7 @@ import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.sign.SignInViewModel.SignInEvent
 import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.snack
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -79,6 +80,10 @@ class SignInActivity : BaseActivity() {
                 startActivity(intent)
             }
 
+            is SignInEvent.Error -> networkError(event.throwable)
+            is SignInEvent.Fail -> serverError(event.code)
+            SignInEvent.InvalidPw -> binding.root.snack(getString(R.string.error_wrong_password))
+            SignInEvent.NotExist -> binding.root.snack(getString(R.string.error_id_not_exist))
         }
     }
 
@@ -96,9 +101,7 @@ class SignInActivity : BaseActivity() {
 
 
     private val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-        if (error != null) {
-            debug("카카오톡 로그인 실패 $error")
-        } else if (token != null) {
+        if (error != null && token != null)  {
             requestSign()
         }
     }
@@ -107,8 +110,6 @@ class SignInActivity : BaseActivity() {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(mContext)) {
             UserApiClient.instance.loginWithKakaoTalk(mContext) { token, error ->
                 if (error != null) {
-                    debug("카카오톡으로 로그인 실패 $error")
-
                     // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
                     // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
