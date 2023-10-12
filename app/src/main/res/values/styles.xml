@@ -5,8 +5,6 @@
     <style name="AppTheme.Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@color/background_01</item>
     </style>
 
     <!--Splash Activity 제외 다른 Activity -->
@@ -22,9 +20,10 @@
 
     <!-- 다이얼로그 -->
     <style name="DialogTheme">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/dialog</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
     </style>
 
     <!-- DatePickerDialog -->
@@ -77,32 +76,39 @@
         <item name="android:fontFamily">@font/jalnan</item>
     </style>
 
-    <style name="ButtonRed01">
+    <style name="Button">
+        <item name="android:fontFamily">@font/nanum_square_round_eb</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@font/jalnan</item>
         <item name="android:gravity">center</item>
         <item name="android:elevation">2dp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ButtonRed01" parent="Button">
         <item name="android:background">@drawable/bg_button_red_01</item>
     </style>
 
-    <style name="ButtonGray01">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@font/jalnan</item>
-        <item name="android:gravity">center</item>
-        <item name="android:elevation">2dp</item>
-        <item name="android:paddingTop">12dp</item>
-        <item name="android:paddingBottom">12dp</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textSize">16dp</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="ButtonGray01" parent="Button">
         <item name="android:background">@drawable/bg_button_gray_01</item>
+    </style>
+
+    <style name="ButtonRed02" parent="Button">
+        <item name="android:background">@drawable/bg_button_red_02</item>
+    </style>
+
+    <style name="ButtonGray02" parent="Button">
+        <item name="android:background">@drawable/bg_button_gray_02</item>
+    </style>
+
+    <style name="Icon">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:padding">8dp</item>
     </style>
 
     <style name="TextBgGray">
@@ -114,6 +120,26 @@
         <item name="android:fontFamily">@font/nanum_square_round_b</item>
         <item name="android:textColor">@color/gray_dark01</item>
         <item name="android:textColorHint">@color/gray_light01</item>
+    </style>
+
+    <style name="TextSign">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:background">@drawable/bg_edit_white01</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/default_text</item>
+        <item name="android:textColorHint">@color/gray_dark01</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="RadioButtonGender">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/selector_text_color_radiobutton</item>
     </style>
 
     <style name="TextTab" parent="TextAppearance.Design.Tab">
@@ -129,5 +155,4 @@
         <item name="android:fontFamily">@font/nanum_square_round_b</item>
         <item name="android:textSize">12dp</item>
     </style>
-
 </resources>

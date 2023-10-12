@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="userDetail"
-            type="com.moondroid.project01_meetingapp.model.DMUser" />
+            name="profile"
+            type="com.moondroid.damoim.domain.model.Profile" />
     </data>
 
     <FrameLayout
@@ -33,9 +33,9 @@
                     android:layout_height="60dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="8dp"
-                    bind:image="@{userDetail.thumb}" />
+                    bind:image="@{profile.thumb}" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -43,12 +43,12 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_toEndOf="@id/ivMemberThumb"
-                    android:text="@{userDetail.name}"
+                    android:text="@{profile.name}"
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:textColor="@color/gray_dark01"
                     android:textSize="16dp" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvMaster"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                     android:textColor="@color/pastel_5"
                     android:visibility="invisible" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvMsg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -71,7 +71,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/nanum_square_round_b"
                     android:maxLines="1"
-                    android:text="@{userDetail.message}"
+                    android:text="@{profile.message}"
                     android:textColor="@color/gray_dark02"
                     android:textSize="16dp" />
             </RelativeLayout>

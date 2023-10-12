@@ -1,97 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout>
+
     <data>
+
         <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.GroupActivity" />
-
-        <import type="android.view.View"/>
+            name="model"
+            type="com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupViewModel" />
     </data>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".ui.view.activity.GroupActivity">
 
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/header"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ui.group.main.GroupActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                style="@style/ToolbarRed">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_title"
+                    style="@style/TitleWhite"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icSetting"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="8dp"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_setting" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    favor="@{model.favor}"
+                    android:onClick="@{() -> model.toggleFavor()}"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="8dp"
+                    android:padding="4dp" />
+
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent">
+                app:tabIndicatorColor="@color/red_light01"
+                app:tabSelectedTextColor="@color/red_light01"
+                app:tabTextAppearance="@style/TextTab" />
 
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/toolbar"
-                    style="@style/ToolbarRed">
+        </com.google.android.material.appbar.AppBarLayout>
 
-                    <TextView
-                        android:id="@+id/title"
-                        style="@style/TitleWhite"
-                        android:text="@{activity.title}"/>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header" />
 
-                    <ImageView
-                        android:visibility="gone"
-                        android:id="@+id/icSetting"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:padding="4dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_gravity="end"
-                        android:onClick="@{activity::toGroupInfo}"
-                        android:src="@drawable/ic_setting"/>
-
-                   <!-- <ImageView
-                        android:id="@+id/icWarning"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:padding="4dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_gravity="end"
-                        android:onClick="@{activity::toGroupInfo}"
-                        android:src="@drawable/ic_round_warning_24"/>-->
-
-                    <FrameLayout
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="end"
-                        android:padding="4dp"
-                        android:onClick="@{activity::favor}"
-                        android:layout_marginEnd="8dp">
-
-                        <ImageView
-                            android:visibility="@{activity.isFavor ? View.VISIBLE : View.GONE}"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_favorite"/>
-
-                        <ImageView
-                            android:visibility="@{activity.isFavor ? View.GONE : View.VISIBLE}"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_favorite_not"/>
-
-                    </FrameLayout>
-
-
-                </com.google.android.material.appbar.MaterialToolbar>
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:tabSelectedTextColor="@color/red_light01"
-                    app:tabTextAppearance="@style/TextTab"
-                    app:tabIndicatorColor="@color/red_light01"/>
-
-            </com.google.android.material.appbar.AppBarLayout>
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@id/header"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

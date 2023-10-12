@@ -5,7 +5,7 @@
 
         <variable
             name="moim"
-            type="com.moondroid.project01_meetingapp.model.Moim" />
+            type="com.moondroid.damoim.domain.model.MoimItem" />
     </data>
 
     <FrameLayout
@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
                     android:textColor="@color/gray_dark01"
                     android:textSize="16dp" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
                     android:text="@{moim.time}"
                     android:textColor="@color/gray_dark01" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                     android:text="@{moim.address}"
                     android:textColor="@color/gray_dark01" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -68,7 +68,6 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/nanum_square_round_b"
-                    android:text="@{moim.itemPay()}"
                     android:textColor="@color/gray_dark01" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

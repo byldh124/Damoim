@@ -1,6 +1,6 @@
 # Add project specific ProGuard rules here.
 # You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
+# proguardFiles setting in build.gradle.kts.
 #
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
@@ -68,7 +68,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.moondroid.project01_meetingapp.model.** { *; }
+-keep class com.moondroid.damoim.domain.model.** { *; }
+-keep class com.moondroid.damoim.domain.model.status.** { *; }
+-keep class com.moondroid.damoim.data.model.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
 
 # Prevent proguard from stripping interface information from TypeAdapterFactory,

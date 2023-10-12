@@ -6,14 +6,14 @@
     <data>
 
         <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.MyInfoActivity" />
+            name="profile"
+            type="com.moondroid.damoim.domain.model.Profile" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.view.activity.MyInfoActivity">
+        tools:context=".presentation.ui.profile.MyInfoActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -21,7 +21,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/TitleWhite"
                 android:text="@string/title_profile_setting" />
 
@@ -34,27 +34,26 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-            <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView
+            <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
                 android:id="@+id/thumbWrapper"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_marginTop="16dp"
-                android:onClick="@{activity::getImage}"
                 app:cornerRadius="16dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/thumb"
-                    image="@{activity.user.thumb}"
+                    image="@{profile.thumb}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />
 
-            </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
+            </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
 
-            <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView
+            <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:translationX="8dp"
@@ -68,12 +67,12 @@
                     android:layout_height="match_parent"
                     android:background="@color/red_light01" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="6dp"
                     android:src="@drawable/ic_camera01" />
-            </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
+            </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
 
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -86,7 +85,7 @@
                 android:hint="@string/cmn_name"
                 android:inputType="text"
                 android:privateImeOptions="defaultInputmode=korean"
-                android:text="@{activity.user.name}"
+                android:text="@{profile.name}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/thumbWrapper" />
 
@@ -109,9 +108,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked='@{profile.gender.equals("남자")}'
                     android:background="@drawable/bg_rb_male"
                     android:button="@android:color/transparent"
-                    android:checked="true"
                     android:elevation="2dp"
                     android:ems="2"
                     android:fontFamily="@font/jalnan"
@@ -125,6 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked='@{profile.gender.equals("여자")}'
                     android:background="@drawable/bg_rb_female"
                     android:button="@android:color/transparent"
                     android:elevation="2dp"
@@ -137,7 +137,7 @@
             </RadioGroup>
 
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBirth"
                 style="@style/TextBgGray"
                 android:layout_width="0dp"
@@ -145,13 +145,12 @@
                 android:elevation="2dp"
                 android:gravity="center_vertical"
                 android:hint="@string/cmn_birth"
-                android:onClick="@{activity::toBirth}"
-                android:text="@{activity.user.birth}"
+                android:text="@{profile.birth}"
                 app:layout_constraintLeft_toLeftOf="@id/etName"
                 app:layout_constraintTop_toBottomOf="@id/etName"
                 app:layout_constraintWidth_percent="0.38" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLocation"
                 style="@style/TextBgGray"
                 android:layout_width="0dp"
@@ -159,8 +158,7 @@
                 android:elevation="2dp"
                 android:gravity="center_vertical"
                 android:hint="@string/cmn_location"
-                android:onClick="@{activity::toLocation}"
-                android:text="@{activity.user.location}"
+                android:text="@{profile.location}"
                 app:layout_constraintLeft_toRightOf="@id/tvBirth"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvBirth" />
@@ -178,10 +176,10 @@
                 android:maxLength="50"
                 android:maxLines="4"
                 android:privateImeOptions="defaultInputmode=korean"
-                android:text="@{activity.user.message}"
+                android:text="@{profile.message}"
                 app:layout_constraintTop_toBottomOf="@id/tvBirth" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvMsgLength"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -189,15 +187,14 @@
                 android:elevation="2dp"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:textColor="@color/gray_dark01"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@id/etMsg"
                 app:layout_constraintRight_toRightOf="@id/etMsg" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/confirm"
                 style="@style/ButtonRed01"
                 android:layout_marginTop="32dp"
-                android:onClick="@{activity::saveProfile}"
                 android:text="@string/cmn_save"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etMsg" />

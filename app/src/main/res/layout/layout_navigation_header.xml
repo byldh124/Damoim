@@ -6,39 +6,39 @@
     <data>
 
         <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.HomeActivity" />
+            name="model"
+            type="com.moondroid.project01_meetingapp.presentation.ui.home.HomeViewModel" />
 
         <variable
-            name="user"
-            type="com.moondroid.project01_meetingapp.model.DMUser" />
+            name="profile"
+            type="com.moondroid.damoim.domain.model.Profile" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:background="#9FE3D7"
-        android:onClick="@{activity::toMyInfoActivity}"
+        android:onClick="@{() -> model.toMyProfile()}"
         android:padding="16dp">
 
-        <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView
+        <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
             android:id="@+id/thumbWrapper"
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:layout_centerVertical="true"
             bind:cornerRadius="16dp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/navigation_header_profile_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                bind:image="@{user.thumb}" />
+                bind:image="@{profile.thumb}" />
 
-        </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
+        </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
 
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvModify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:textColor="@color/white"
             android:textSize="14dp" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,11 +56,11 @@
             android:layout_marginStart="16dp"
             android:fontFamily="@font/nanum_square_round_eb"
             android:layout_toEndOf="@id/thumbWrapper"
-            android:text="@{user.name}"
+            android:text="@{profile.name}"
             android:textColor="#ff333333"
             android:textSize="16dp" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
             android:layout_alignStart="@id/tvName"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/nanum_square_round_b"
-            android:text="@{user.message}" />
+            android:text="@{profile.message}" />
 
     </RelativeLayout>
 </layout>

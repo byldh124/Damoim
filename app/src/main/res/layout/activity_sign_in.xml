@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout>
 
     <data>
 
         <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.SignInActivity" />
+            name="model"
+            type="com.moondroid.project01_meetingapp.presentation.ui.sign.SignInViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.view.activity.SignInActivity">
+        tools:context=".presentation.ui.sign.SignInActivity">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -26,26 +26,26 @@
             app:layout_constraintDimensionRatio="3:1"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nanum_square_round_eb"
                 android:text="@string/app_name"
                 android:textColor="@color/white"
-                android:textSize="28dp" />
+                android:textSize="28sp" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/nanum_square_round_eb"
                 android:text="@string/app_sub_name"
                 android:textColor="@color/white"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -66,6 +66,7 @@
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="16dp"
                 android:privateImeOptions="defaultInputmode=english"
+                android:text="@={model.id}"
                 android:textColor="@color/gray_dark01"
                 android:textColorHint="@color/gray_light01"
                 android:textSize="14dp" />
@@ -82,6 +83,7 @@
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="16dp"
                 android:privateImeOptions="defaultInputmode=english"
+                android:text="@={model.pw}"
                 android:textColor="@color/gray_dark01"
                 android:textColorHint="@color/gray_light01"
                 android:textSize="14dp" />
@@ -92,23 +94,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:buttonTint="@color/red_light01"
-                android:checked="true"
+                android:checked="@={model.autoSign}"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:text="@string/cmn_auto_sign_in"
                 android:textColor="@color/gray_dark02" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvSignIn"
+                android:id="@+id/btnSignIn"
                 style="@style/ButtonRed01"
                 android:layout_marginTop="16dp"
-                android:onClick="@{activity::checkField}"
+                android:onClick="@{() -> model.checkField()}"
                 android:text="@string/cmn_sign_in" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvSignUp"
+                android:id="@+id/btnSignUp"
                 style="@style/ButtonGray01"
                 android:layout_marginTop="12dp"
-                android:onClick="@{activity::goToSignUp}"
                 android:text="@string/cmn_sign_up" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -120,8 +121,8 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     app:cardElevation="2dp">
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -130,10 +131,8 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/btn_kakao_login"
-                        android:onClick="@{activity::getKakaoProfile}"
                         app:elevation="4dp" />
                 </com.google.android.material.card.MaterialCardView>
-
 
                 <Space
                     android:layout_width="8dp"
@@ -147,7 +146,6 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:elevation="0dp"
-                    app:onClick="@{activity::getGoogleAccount}"
                     app:backgroundTint="@null" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -160,10 +158,10 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtUseTerm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanum_square_round_eb"
-                    android:onClick="@{activity::showUseTerm}"
                     android:text="@string/cmn_use_terms"
                     android:textColor="@color/gray_dark01" />
 
@@ -176,17 +174,17 @@
                     android:textColor="@color/gray_dark01" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtPrivacy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanum_square_round_eb"
-                    android:onClick="@{activity::showPrivacy}"
                     android:text="@string/cmn_privacy"
                     android:textColor="@color/gray_dark01" />
 
             </LinearLayout>
 
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -199,7 +197,7 @@
             android:text="@string/warning_private_project"
             android:textAlignment="center"
             android:textColor="@color/gray_dark01"
-            android:textSize="13dp"
+            android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />

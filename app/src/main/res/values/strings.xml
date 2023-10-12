@@ -107,7 +107,7 @@
     <string name="error_network_not_connected">네트워크가 불안정합니다.\n연결상태를 확인해주세요.</string>
     <string name="error_plz_input_id">아이디를 입력해주세요.</string>
     <string name="error_id_mismatch">아이디는 5글자 이상 16글자 이하 영문, 숫자로 이루어져 있습니다.</string>
-    <string name="error_password_mismatch">비밀번호는 8글자 이상 영문, 숫자, 특수기호로 이루어져 있습니다.</string>
+    <string name="error_password_mismatch">비밀번호는 8글자 이상 영문, 숫자로 이루어져 있습니다.</string>
     <string name="error_id_not_exist">해당 아이디가 존재하지 않습니다.</string>
     <string name="error_wrong_password">잘못된 비밀번호 입니다.</string>
     <string name="error_sign_in_fail">로그인 실패 [%s]</string>
@@ -138,6 +138,13 @@
     <string name="error_moim_already_exist">동일 날짜에 이미 정모가 등록되어 있습니다.</string>
     <string name="error_create_moim_fail">모임 만들기에 실패했습니다. [%s]</string>
     <string name="error_join_moim_fail">정모 참여에 실패했습니다. [%s]</string>
+    <string name="error_server_request_fail">서버 응답 실패\n고객센터로 문의해주세요.[%1$d]</string>
+    <string name="error_unexpected_message">Unexpected error occurred. We are working on it.</string>
+    <string name="error_client_unexpected_message">Something technically is wrong. We are working on it.</string>
+    <string name="error_server_unexpected_message">Oops! Something went wrong on the server. We are working on it.</string>
+    <string name="error_timeout_message">Looks like the server is taking to long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while</string>
+    <string name="error_network">Oops! Something went wrong on the server. We are working on it.</string>
+    <string name="no_results_found">No results found!</string>
 
     <!-- 사용자 알림 -->
     <string name="alm_profile_update_success">프로필 업데이트가 완료되었습니다.</string>
@@ -181,4 +188,5 @@
     <string name="alm_report_success">신고 처리가 완료되었습니다</string>
     <string name="error_report_fail">신고처리가 실패됐습니다. %s</string>
     <string name="cmn_sign_in_google">구글 로그인</string>
+    <string name="error_fail_request">현재 서버가 불안정 합니다.\n다시 시도해 주세요.</string>
 </resources>

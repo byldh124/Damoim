@@ -4,16 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.SignUpActivity" />
+            name="model"
+            type="com.moondroid.project01_meetingapp.presentation.ui.sign.SignUpViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.view.activity.SignUpActivity">
+        tools:context=".presentation.ui.sign.SignUpActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -36,71 +35,45 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                style="@style/TextSign"
                 android:hint="@string/cmn_id"
-                android:fontFamily="@font/nanum_square_round_b"
-                android:background="@drawable/bg_edit_white01"
-                android:textSize="14dp"
-                android:textColor="@color/gray_dark01"
-                android:padding="12dp"
+                android:text="@={model.id}"
+                app:visible="@{!model.fromSocial}"
                 android:inputType="text"
                 android:privateImeOptions="defaultInputmode=english" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etPw"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                style="@style/TextSign"
                 android:hint="@string/cmn_pw"
-                android:fontFamily="@font/nanum_square_round_b"
-                android:background="@drawable/bg_edit_white01"
-                android:textSize="14dp"
-                android:textColor="@color/gray_dark01"
-                android:padding="12dp"
+                android:text="@={model.pw}"
+                app:visible="@{!model.fromSocial}"
                 android:inputType="textPassword"
                 android:privateImeOptions="defaultInputmode=english" />
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etPw2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                style="@style/TextSign"
+                android:text="@={model.pw2}"
+                app:visible="@{!model.fromSocial}"
                 android:hint="@string/cmn_pw_check"
-                android:fontFamily="@font/nanum_square_round_b"
-                android:background="@drawable/bg_edit_white01"
-                android:textSize="14dp"
-                android:textColor="@color/gray_dark01"
                 android:inputType="textPassword"
-                android:padding="12dp"
                 android:privateImeOptions="defaultInputmode=english" />
 
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/nanum_square_round_b"
-                android:background="@drawable/bg_edit_white01"
+                style="@style/TextSign"
                 android:hint="@string/cmn_name"
-                android:textColor="@color/gray_dark01"
-                android:textSize="14dp"
+                android:text="@={model.name}"
+                app:visible="@{!model.fromSocial}"
                 android:inputType="text"
-                android:padding="12dp"
                 android:privateImeOptions="defaultInputmode=korean" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBirth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_edit_white01"
-                android:textColor="@color/gray_dark01"
-                android:hint="@string/cmn_birth"
-                android:onClick="@{activity::showDateDialog}"
-                android:padding="12dp"
-                android:textSize="14dp" />
+                style="@style/TextSign"
+                android:text="@={model.birth}"
+                android:hint="@string/cmn_birth" />
 
             <RadioGroup
                 android:id="@+id/rgAccount"
@@ -109,113 +82,93 @@
                 android:layout_marginBottom="16dp"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/rbAccountMale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/RadioButtonGender"
                     android:background="@drawable/bg_rb_male"
-                    android:button="@android:color/transparent"
                     android:checked="true"
-                    android:gravity="center"
-                    android:text="@string/cmn_male"
-                    android:textColor="@color/selector_text_color_radiobutton" />
+                    android:text="@string/cmn_male"/>
 
-                <RadioButton
+                <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/rbAccountFemale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/RadioButtonGender"
                     android:background="@drawable/bg_rb_female"
-                    android:button="@android:color/transparent"
-                    android:gravity="center"
                     android:text="@string/cmn_female"
-                    android:textColor="@color/selector_text_color_radiobutton"
                     app:backgroundTint="@null" />
             </RadioGroup>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_edit_white01"
-                android:textColor="@color/gray_dark01"
-                android:hint="@string/cmn_location"
-                android:onClick="@{activity::goToLocationActivity}"
-                android:padding="12dp"
-                android:textSize="14dp" />
+                style="@style/TextSign"
+                android:text="@={model.location}"
+                android:hint="@string/cmn_location" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvInterest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_edit_white01"
-                android:textColor="@color/gray_dark01"
-                android:hint="@string/cmn_interest"
-                android:onClick="@{activity::goToInterestActivity}"
-                android:padding="12dp"
-                android:textSize="14dp" />
+                style="@style/TextSign"
+                android:text="@={model.interest}"
+                android:hint="@string/cmn_interest"/>
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/checkBox"
+                <androidx.appcompat.widget.AppCompatCheckBox
                     android:buttonTint="@color/red_light01"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:checked="@={model.toAgree}"
                     android:layout_marginEnd="8dp"/>
-                
-                <TextView
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvUseTerm"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/gray_dark01"
                     android:gravity="center_vertical"
                     android:fontFamily="@font/nanum_square_round_eb"
-                    android:onClick="@{activity::showUseTerm}"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:text="@string/cmn_use_term_short"/>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:fontFamily="@font/nanum_square_round_b"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:layout_marginHorizontal="4dp"
                     android:textColor="@color/gray_light01"
                     android:text="@string/cmn_divider"/>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPrivacy"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:gravity="center_vertical"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:textColor="@color/gray_dark01"
-                    android:onClick="@{activity::showPrivacy}"
                     android:text="@string/cmn_privacy"/>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:fontFamily="@font/nanum_square_round_b"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:textColor="@color/gray_light01"
                     android:text="@string/cmn_agree_to"/>
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnSave"
                 style="@style/ButtonRed01"
                 android:text="@string/cmn_save"
                 android:layout_marginTop="32dp"
-                android:onClick="@{activity::signUp}"/>
+                android:onClick="@{()-> model.signUp()}"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

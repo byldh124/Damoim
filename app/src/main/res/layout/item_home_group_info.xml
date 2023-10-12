@@ -7,7 +7,7 @@
     <data>
         <variable
             name="groupDetail"
-            type="com.moondroid.project01_meetingapp.model.GroupInfo" />
+            type="com.moondroid.damoim.domain.model.GroupItem" />
     </data>
 
     <FrameLayout
@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView
+                <com.moondroid.project01_meetingapp.presentation.widget.DMRoundView
                     android:id="@+id/imgWrapper"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -38,16 +38,16 @@
                     android:layout_marginStart="8dp"
                     app:cornerRadius="16dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/titleImg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         bind:image="@{groupDetail.thumb}" />
 
-                </com.moondroid.project01_meetingapp.ui.view.widget.DMRoundView>
+                </com.moondroid.project01_meetingapp.presentation.widget.DMRoundView>
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/interestIcon"
                     interest="@{groupDetail.interest}"
                     android:layout_width="24dp"
@@ -56,7 +56,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_toEndOf="@id/imgWrapper" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                     android:layout_toEndOf="@id/interestIcon"
                     android:text="@{groupDetail.location}" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtGroupTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                     android:textColor="@color/gray_dark01"
                     android:textSize="16dp" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtGroupPurpose"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

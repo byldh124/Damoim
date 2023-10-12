@@ -5,13 +5,13 @@
     <data>
         <variable
             name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.SettingActivity" />
+            type="com.moondroid.project01_meetingapp.presentation.ui.setting.SettingActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.view.activity.SettingActivity">
+        tools:context=".presentation.ui.setting.SettingActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -33,11 +33,11 @@
             android:padding="16dp">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnLogout"
                 style="@style/ButtonRed01"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:text="@string/cmn_logout"
-                android:onClick="@{activity::logout}"/>
+                android:text="@string/cmn_logout"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

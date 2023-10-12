@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
-    <data>
-
-        <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.ui.view.activity.InterestActivity" />
-    </data>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,7 +9,7 @@
             android:id="@+id/toolbar"
             style="@style/ToolbarWhite">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/TitleRed"
                 android:text="@string/title_interest_choice"/>
         </androidx.appcompat.widget.Toolbar>
