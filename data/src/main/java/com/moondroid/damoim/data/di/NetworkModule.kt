@@ -32,7 +32,7 @@ object NetworkModule {
     @Singleton
     fun provideHttpClient(): OkHttpClient = if (BuildConfig.DEBUG) {
         val loggingInterceptor = HttpLoggingInterceptor {
-            Log.d("SehanRF", it)
+            Log.d("HttpClient", it)
         }
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         OkHttpClient.Builder().addInterceptor(loggingInterceptor)

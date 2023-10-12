@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
@@ -44,6 +45,7 @@ class SignUpActivity : BaseActivity() {
                 handleEvent(it)
             }
         }
+        binding.lifecycleOwner = this
         binding.model = viewModel
         initView()
         checkSocial()
@@ -109,6 +111,7 @@ class SignUpActivity : BaseActivity() {
                 year = y
                 month = m
                 date = d
+                debug(String.format(Locale.KOREA, "%d.%d.%d", year, month + 1, date))
                 viewModel.birth.value = String.format(Locale.KOREA, "%d.%d.%d", year, month + 1, date)
             }, year, month, date
         )
@@ -119,25 +122,30 @@ class SignUpActivity : BaseActivity() {
      * 관심지역 선택 화면 전환
      */
     private fun toLocation() {
-        registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                result.data?.let {
-                    viewModel.location.setValue(intent.getStringExtra(IntentParam.LOCATION).toString())
-                }
+        locationLauncher.launch(Intent(this, LocationActivity::class.java))
+    }
+
+    private val locationLauncher = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            result.data?.let { intent ->
+                debug(intent.getStringExtra(IntentParam.LOCATION).toString())
+                viewModel.location.value = intent.getStringExtra(IntentParam.LOCATION).toString()
             }
-        }.launch(Intent(this, LocationActivity::class.java))
+        }
     }
 
     /**
      * 관심사 선택 화면 전환
      */
     private fun toInterest() {
-        registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                result.data?.let {
-                    viewModel.interest.setValue(getString(intent.getIntExtra(IntentParam.INTEREST, 0)))
-                }
+        interestLauncher.launch(Intent(this, InterestActivity::class.java))
+    }
+
+    private val interestLauncher = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            result.data?.let { intent ->
+                viewModel.interest.value = getString(intent.getIntExtra(IntentParam.INTEREST, 0))
             }
-        }.launch(Intent(this, InterestActivity::class.java))
+        }
     }
 }

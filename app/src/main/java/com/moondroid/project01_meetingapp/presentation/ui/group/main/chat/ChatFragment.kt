@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.group.chat
+package com.moondroid.project01_meetingapp.presentation.ui.group.main.chat
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -16,7 +16,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupChatBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.group.GroupActivity
+import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import java.text.SimpleDateFormat
 
 class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {

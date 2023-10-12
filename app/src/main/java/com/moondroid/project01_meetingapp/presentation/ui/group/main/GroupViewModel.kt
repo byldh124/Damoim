@@ -2,15 +2,12 @@ package com.moondroid.project01_meetingapp.presentation.ui.group.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.moondroid.damoim.domain.model.MoimItem
-import com.moondroid.damoim.domain.model.Profile
+import com.moondroid.damoim.common.Extension
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.group.GetFavorUseCase
-import com.moondroid.damoim.domain.usecase.group.GetMembersUseCase
-import com.moondroid.damoim.domain.usecase.group.GetMoimsUseCase
-import com.moondroid.damoim.domain.usecase.group.JoinUseCase
 import com.moondroid.damoim.domain.usecase.group.SaveRecentUseCase
 import com.moondroid.damoim.domain.usecase.group.SetFavorUseCase
 import com.moondroid.project01_meetingapp.DMApp
@@ -22,10 +19,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GroupDetailViewModel @Inject constructor(
-    private val getMoimUseCase: GetMoimsUseCase,
-    private val getMembersUseCase: GetMembersUseCase,
-    private val joinUseCase: JoinUseCase,
+class GroupViewModel @Inject constructor(
+    private val saveRecentUseCase: SaveRecentUseCase,
+    private val getFavorUseCase: GetFavorUseCase,
+    private val setFavorUseCase: SetFavorUseCase
 ) : BaseViewModel() {
     private val _eventFlow = MutableEventFlow<Event>()
     val eventFlow = _eventFlow.asEventFlow()
@@ -36,56 +33,62 @@ class GroupDetailViewModel @Inject constructor(
         }
     }
 
+    init {
+        saveRecent(DMApp.group.title, System.currentTimeMillis().toString())
+        getFavor(DMApp.group.title)
+    }
+
     private fun serverError(code: Int) = event(Event.ServerError(code))
     private fun networkError(throwable: Throwable) = event(Event.NetworkError(throwable))
 
-    fun getMoim(title: String) {
+    val favor = MutableLiveData(false)
+    private var favorChanging = false
+
+    fun toggleFavor() {
+        if (!favorChanging) {
+            favorChanging = true
+            saveFavor(DMApp.group.title)
+        }
+    }
+
+    private fun saveRecent(title: String, lastTime: String) {
         viewModelScope.launch {
-            getMoimUseCase(title).collect { result ->
+            saveRecentUseCase(DMApp.profile.id, title, lastTime).collect{}
+        }
+    }
+
+    private fun getFavor(title: String) {
+        viewModelScope.launch {
+            getFavorUseCase(DMApp.profile.id, title).collect { result ->
                 result.onSuccess {
-                    event(Event.Moims(it))
-                }.onError {
-                    networkError(it)
+                    favor.value = it
                 }.onFail {
                     serverError(it)
+                }.onError {
+                    networkError(it)
                 }
             }
         }
     }
 
-    fun loadMember(title: String) {
+    private fun saveFavor(title: String) {
+        val sendFavor = !favor.value!!
         viewModelScope.launch {
-            getMembersUseCase(title).collect { result ->
+            setFavorUseCase(DMApp.profile.id, title, sendFavor).collect { result ->
                 result.onSuccess {
-                    event(Event.Members(it))
-                }.onFail {
-                    serverError(it)
+                    favor.value = sendFavor
+                    favorChanging = false
                 }.onError {
                     networkError(it)
-                }
-            }
-        }
-    }
-
-    fun join(title: String) {
-        viewModelScope.launch {
-            joinUseCase(DMApp.profile.id, title).collect { result ->
-                result.onSuccess {
-                    event(Event.Join)
                 }.onFail {
                     serverError(it)
-                }.onError {
-                    networkError(it)
                 }
             }
         }
     }
 
     sealed interface Event {
-        data class Moims(val list: List<MoimItem>) : Event
-        data class Members(val list: List<Profile>) : Event
         data class ServerError(val code: Int) : Event
         data class NetworkError(val throwable: Throwable) : Event
-        object Join : Event
     }
 }

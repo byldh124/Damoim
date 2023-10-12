@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
@@ -8,6 +10,11 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.android.kotlin.kapt)
 }
+
+val properties = gradleLocalProperties(rootDir)
+val naverClientId: String = properties.getProperty("naver.client.id")
+val kakaoClientId: String = properties.getProperty("kakao.client.id")
+
 
 android {
     namespace = "com.moondroid.project01_meetingapp"
@@ -21,21 +28,28 @@ android {
         versionName = "0.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders["naverClientId"] = naverClientId
+        manifestPlaceholders["kakaoClientId"] = kakaoClientId
     }
 
     buildTypes {
-        getByName("debug") {
+        debug {
             isMinifyEnabled = false
+            resValue("string", "naver_client_id", naverClientId)
+            resValue("string", "kakao_client_id", kakaoClientId)
         }
 
-        getByName("release") {
+        release {
             isMinifyEnabled = true
-            @Suppress("UnstableApiUsage")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            resValue("string", "naver_client_id", naverClientId)
+            resValue("string", "kakao_client_id", kakaoClientId)
         }
+
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -105,7 +119,7 @@ dependencies {
     /** Naver **/
     implementation(libs.naver.map)
 
-    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation(libs.play.services.location)
 
     //Clean Architecture
     implementation((project(":common")))

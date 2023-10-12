@@ -5,12 +5,15 @@ import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.GroupItem
+import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.group.GetGroupUseCase
+import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,33 +21,38 @@ import javax.inject.Inject
 class GroupListViewModel @Inject constructor(private val getGroupUseCase: GetGroupUseCase) : BaseViewModel() {
 
     fun getList(type: GroupType) {
+        loading(true)
         viewModelScope.launch {
-            getGroupUseCase(type).collect { result ->
+            getGroupUseCase(DMApp.profile.id, type).collect { result ->
+                loading(false)
                 result.onSuccess {
                     updateList(it)
+                }.onFail {
+                    event(Event.ServerError(it))
                 }.onError {
-                    logException(it)
+                    event(Event.NetworkError(it))
                 }
             }
         }
     }
 
 
-    private val _eventFlow = MutableEventFlow<GroupListEvent>()
+    private val _eventFlow = MutableEventFlow<Event>()
     val eventFlow = _eventFlow.asEventFlow()
 
-    private fun loading(b: Boolean) = event(GroupListEvent.Loading(b))
-    private fun updateList(list: List<GroupItem>) = event(GroupListEvent.Update(list))
+    private fun loading(b: Boolean) = event(Event.Loading(b))
+    private fun updateList(list: List<GroupItem>) = event(Event.Update(list))
 
-    private fun event(groupListEvent: GroupListEvent) {
+    private fun event(event: Event) {
         viewModelScope.launch {
-            _eventFlow.emit(groupListEvent)
+            _eventFlow.emit(event)
         }
     }
 
-    sealed class GroupListEvent {
-        data class Loading(val boolean: Boolean) : GroupListEvent()
-        data class Error(val code: Int) : GroupListEvent()
-        data class Update(val list: List<GroupItem>) : GroupListEvent()
+    sealed interface Event {
+        data class Loading(val boolean: Boolean) : Event
+        data class ServerError(val code: Int) : Event
+        data class NetworkError(val throwable: Throwable) : Event
+        data class Update(val list: List<GroupItem>) : Event
     }
 }

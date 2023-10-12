@@ -1,5 +1,6 @@
 [versions]
 androidx = "1.5.1"
+playServicesLocation = "21.0.1"
 room = "2.5.1"
 glide = "4.15.1"
 retrofit2 = "2.9.0"
@@ -38,6 +39,7 @@ androidx-lifecycle-compiler = { module = "androidx.lifecycle:lifecycle-compiler"
 androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycle-version" }
 
 # room
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-guava = { module = "androidx.room:room-guava", version.ref = "room" }
@@ -96,7 +98,7 @@ security-preference = {module = "androidx.security:security-crypto", version = "
 kakao-all = { group = "com.kakao.sdk" , name = "v2-all", version.ref = "kakao"}
 
 #naver-map
-naver-map = {group = "com.naver.maps", name = "map-sdk", version = "3.15.0"}
+naver-map = {group = "com.naver.maps", name = "map-sdk", version = "3.17.0"}
 
 #lottie
 lottie-animation = "com.airbnb.android:lottie:6.0.0"

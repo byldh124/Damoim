@@ -7,7 +7,9 @@ import com.moondroid.damoim.domain.repository.ProfileRepository
 import com.moondroid.damoim.domain.repository.SignRepository
 import com.moondroid.damoim.data.repository.AppRepositoryImpl
 import com.moondroid.damoim.data.repository.GroupRepositoryImpl
+import com.moondroid.damoim.data.repository.MoimRepositoryImpl
 import com.moondroid.damoim.data.repository.SignRepositoryImpl
+import com.moondroid.damoim.domain.repository.MoimRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -28,6 +30,9 @@ interface RepositoryModule {
 
     @Binds
     fun provideAppRepository(repository: AppRepositoryImpl): AppRepository
+
+    @Binds
+    fun provideMoimRepository(repository: MoimRepositoryImpl) : MoimRepository
 }
 
 

@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
@@ -95,23 +96,21 @@ class HomeActivity : BaseActivity() {
         checkPermission()
     }
 
-    private val updateProfile =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                viewModel.getUser()
-            }
+    private val updateProfile = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            viewModel.getUser()
         }
+    }
 
-    private val getInterest =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                result.data?.let { intent ->
-                    viewModel.updateInterest(
-                        getString(intent.getIntExtra(IntentParam.INTEREST, 0))
-                    )
-                }
+    private val getInterest = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.let { intent ->
+                viewModel.updateInterest(
+                    getString(intent.getIntExtra(IntentParam.INTEREST, 0))
+                )
             }
         }
+    }
 
     private fun handleEvent(event: Event) {
         when (event) {
@@ -230,7 +229,7 @@ class HomeActivity : BaseActivity() {
      */
     private fun checkPermission() {
         val requestPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions -> //DO NOTHING
+            registerForActivityResult(RequestMultiplePermissions()) { permissions -> //DO NOTHING
                 val denied = permissions.filter { !it.value }
                 if (denied.isNotEmpty()) {
                     showMessage("현재 적용하지 않은 권한은 추후에 변경이 가능합니다.")

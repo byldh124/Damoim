@@ -8,6 +8,7 @@ import com.moondroid.damoim.domain.model.status.onError
 
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.group.GetGroupUseCase
+import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
@@ -20,7 +21,7 @@ class MyGroupViewModel @Inject constructor(private val getGroupUseCase: GetGroup
 
     fun getMyGroup() {
         viewModelScope.launch {
-            getGroupUseCase(GroupType.MY_GROUP).collect { result ->
+            getGroupUseCase(DMApp.profile.id, GroupType.MY_GROUP).collect { result ->
                 result.onSuccess { update(it) }
                     .onError { logException(it) }
             }

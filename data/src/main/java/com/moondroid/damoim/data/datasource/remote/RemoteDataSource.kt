@@ -1,6 +1,5 @@
 package com.moondroid.damoim.data.datasource.remote
 
-import com.google.gson.JsonObject
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.data.model.dto.GroupItemDTO
 import com.moondroid.damoim.data.model.dto.MoimItemDTO
@@ -11,7 +10,6 @@ import com.moondroid.damoim.data.model.request.SaltRequest
 import com.moondroid.damoim.data.model.request.SignInRequest
 import com.moondroid.damoim.data.model.request.SignUpRequest
 import com.moondroid.damoim.data.model.request.SocialSignRequest
-import com.moondroid.damoim.data.model.response.SimpleResponse
 import com.moondroid.damoim.domain.model.status.ApiResult
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -20,7 +18,6 @@ interface RemoteDataSource {
     //Application
     suspend fun checkAppVersion(packageName: String, versionCode: Int, versionName: String): ApiResult<Unit>
 
-
     //Sign
     suspend fun getSalt(request: SaltRequest): ApiResult<String>                                        // 로그인 관련
     suspend fun signUp(request: SignUpRequest): ApiResult<ProfileEntity>                                // 회원가입
@@ -28,8 +25,7 @@ interface RemoteDataSource {
     suspend fun socialSign(request: SocialSignRequest): ApiResult<ProfileEntity>                        // 카카오 로그인
 
     //Profile
-    suspend fun updateToken(id: String, token: String): ApiResult<Unit>                                 // 푸시토큰 업데이트
-
+    suspend fun updateToken(id: String, token: String): ApiResult<Unit>                                 // 토큰 업데이트
     suspend fun updateInterest(id: String, interest: String): ApiResult<Unit>
     suspend fun updateProfile(body: Map<String, RequestBody>, thumb: MultipartBody.Part?): ApiResult<ProfileEntity>
 
@@ -41,13 +37,14 @@ interface RemoteDataSource {
     ): ApiResult<GroupItemDTO>
 
     suspend fun getMembers(title: String): ApiResult<List<ProfileDTO>>
-    suspend fun getMoims(title: String): ApiResult<List<MoimItemDTO>>
     suspend fun saveRecent(id: String, title: String, lastTime: String): ApiResult<Unit>
-    suspend fun join(id: String, title: String): ApiResult<Unit>
-    suspend fun getFavor(id: String, title: String) : ApiResult<Boolean>
-    suspend fun setFavor(id: String, title: String, active: Boolean) : ApiResult<Unit>
+    suspend fun joinGroup(id: String, title: String): ApiResult<Unit>
+    suspend fun getFavor(id: String, title: String): ApiResult<Boolean>
+    suspend fun setFavor(id: String, title: String, active: Boolean): ApiResult<Unit>
 
     //Moim
-    suspend fun getMoimList(): ApiResult<List<MoimItemDTO>>
-    suspend fun createMoim(body: CreateMoimRequest): ApiResult<Unit>
+    suspend fun createMoim(request: CreateMoimRequest): ApiResult<Unit>
+    suspend fun getMoims(title: String): ApiResult<List<MoimItemDTO>>
+    suspend fun getMoimMember(joinMembers: String): ApiResult<List<ProfileDTO>>
+    suspend fun joinMoim(id: String, title: String, date: String): ApiResult<MoimItemDTO>
 }

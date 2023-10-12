@@ -43,7 +43,7 @@ class SignUpViewModel @Inject constructor(
     val pw2 = MutableLiveData<String>()                            // PW - 유효성 확인 및 해시값 생성에만 사용
     val name = MutableLiveData<String>()                           // 이름
     val gender = MutableLiveData<String>()                         // 성별
-    val thumb = MutableLiveData<String>()                          // 썸네일 - 카카오 로그인이 아닌경우는 기본값으로 설정
+    val thumb = MutableLiveData<String>("http://moondroid.dothome.co.kr/damoim/thumbs/IMG_20210302153242unnamed.jpg")                          // 썸네일 - 카카오 로그인이 아닌경우는 기본값으로 설정
     val birth = MutableLiveData<String>()                          // 생년월일
     val location = MutableLiveData<String>()                       // 관심지역
     val interest = MutableLiveData<String>()                       // 관심사

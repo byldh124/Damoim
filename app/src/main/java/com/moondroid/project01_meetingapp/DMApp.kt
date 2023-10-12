@@ -7,6 +7,7 @@ import com.moondroid.damoim.common.Preferences
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
+import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -24,7 +25,10 @@ class DMApp : Application() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)                      //다크모드 지원 X
 
         /* initialize kakao */
-        KakaoSdk.init(this, resources.getString(R.string.kakao_native_app_key))
+        KakaoSdk.init(this, getString(R.string.kakao_client_id))
+
+        /* initialize naver */
+        NaverMapSdk.getInstance(this).client = NaverMapSdk.NaverCloudPlatformClient(getString(R.string.naver_client_id))
 
         // initialize Preferences
         Preferences.init(applicationContext)

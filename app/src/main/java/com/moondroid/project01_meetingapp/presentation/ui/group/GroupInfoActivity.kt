@@ -3,11 +3,9 @@ package com.moondroid.project01_meetingapp.presentation.ui.group
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import com.bumptech.glide.Glide
 import com.moondroid.damoim.common.DMRegex
-import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.status.onError
@@ -21,7 +19,6 @@ import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
-import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import com.moondroid.project01_meetingapp.utils.image.ImageHelper.getPathFromUri
@@ -29,10 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import javax.inject.Inject
 

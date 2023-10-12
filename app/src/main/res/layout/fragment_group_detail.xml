@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+<layout>
 
     <data>
+
         <variable
             name="groupInfo"
             type="com.moondroid.damoim.domain.model.GroupItem" />
 
         <variable
-            name="isMaster"
-            type="Boolean" />
+            name="userType"
+            type="com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity.UserType" />
 
-        <import type="android.view.View" />
+        <import type="com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity.UserType" />
     </data>
 
-    <FrameLayout
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -43,8 +44,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
-                    android:fontFamily="@font/jalnan"
                     android:layout_marginTop="24dp"
+                    android:fontFamily="@font/jalnan"
                     android:gravity="center_vertical"
                     android:text="@string/cmn_group_information"
                     android:textColor="@color/gray_dark01"
@@ -67,6 +68,7 @@
                     style="@style/ButtonRed01"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="16dp"
+                    visible="@{userType == UserType.VISITOR}"
                     android:text="@string/cmn_join"
                     bind:layout_constraintLeft_toLeftOf="parent"
                     bind:layout_constraintTop_toBottomOf="@id/tvInformation" />
@@ -106,11 +108,11 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/btnCreate"
                         style="@style/ButtonRed01"
+                        visible="@{userType == UserType.MASTER}"
                         android:layout_below="@id/moimWrapper"
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="16dp"
-                        android:text="@string/cmn_create_moim"
-                        android:visibility="@{isMaster ? View.VISIBLE: View.GONE}" />
+                        android:text="@string/cmn_create_moim" />
 
 
                     <androidx.appcompat.widget.AppCompatTextView

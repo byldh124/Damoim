@@ -38,7 +38,7 @@
                 style="@style/TextSign"
                 android:hint="@string/cmn_id"
                 android:text="@={model.id}"
-                app:visible="@{model.fromSocial}"
+                app:visible="@{!model.fromSocial}"
                 android:inputType="text"
                 android:privateImeOptions="defaultInputmode=english" />
 
@@ -47,14 +47,14 @@
                 style="@style/TextSign"
                 android:hint="@string/cmn_pw"
                 android:text="@={model.pw}"
-                app:visible="@{model.fromSocial}"
+                app:visible="@{!model.fromSocial}"
                 android:inputType="textPassword"
                 android:privateImeOptions="defaultInputmode=english" />
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etPw2"
                 style="@style/TextSign"
                 android:text="@={model.pw2}"
-                app:visible="@{model.fromSocial}"
+                app:visible="@{!model.fromSocial}"
                 android:hint="@string/cmn_pw_check"
                 android:inputType="textPassword"
                 android:privateImeOptions="defaultInputmode=english" />
@@ -65,13 +65,14 @@
                 style="@style/TextSign"
                 android:hint="@string/cmn_name"
                 android:text="@={model.name}"
-                app:visible="@{model.fromSocial}"
+                app:visible="@{!model.fromSocial}"
                 android:inputType="text"
                 android:privateImeOptions="defaultInputmode=korean" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBirth"
                 style="@style/TextSign"
+                android:text="@={model.birth}"
                 android:hint="@string/cmn_birth" />
 
             <RadioGroup

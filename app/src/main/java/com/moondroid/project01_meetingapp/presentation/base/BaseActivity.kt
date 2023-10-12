@@ -14,7 +14,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.dialog.ButtonDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.WebViewDialog
-import com.moondroid.project01_meetingapp.presentation.ui.group.GroupActivity
+import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
 import com.moondroid.project01_meetingapp.presentation.ui.sign.SignInActivity
 

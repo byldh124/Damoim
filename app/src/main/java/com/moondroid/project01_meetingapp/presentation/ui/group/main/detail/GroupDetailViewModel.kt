@@ -1,31 +1,30 @@
-package com.moondroid.project01_meetingapp.presentation.ui.group
+package com.moondroid.project01_meetingapp.presentation.ui.group.main.detail
 
-import androidx.lifecycle.MutableLiveData
+import android.annotation.SuppressLint
 import androidx.lifecycle.viewModelScope
 import com.moondroid.damoim.domain.model.MoimItem
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
-import com.moondroid.damoim.domain.usecase.group.GetFavorUseCase
 import com.moondroid.damoim.domain.usecase.group.GetMembersUseCase
-import com.moondroid.damoim.domain.usecase.group.GetMoimsUseCase
-import com.moondroid.damoim.domain.usecase.group.JoinUseCase
-import com.moondroid.damoim.domain.usecase.group.SaveRecentUseCase
-import com.moondroid.damoim.domain.usecase.group.SetFavorUseCase
+import com.moondroid.damoim.domain.usecase.moim.GetMoimsUseCase
+import com.moondroid.damoim.domain.usecase.group.JoinGroupUseCase
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class GroupViewModel @Inject constructor(
-    private val saveRecentUseCase: SaveRecentUseCase,
-    private val getFavorUseCase: GetFavorUseCase,
-    private val setFavorUseCase: SetFavorUseCase
+class GroupDetailViewModel @Inject constructor(
+    private val getMoimUseCase: GetMoimsUseCase,
+    private val getMembersUseCase: GetMembersUseCase,
+    private val joinGroupUseCase: JoinGroupUseCase,
 ) : BaseViewModel() {
     private val _eventFlow = MutableEventFlow<Event>()
     val eventFlow = _eventFlow.asEventFlow()
@@ -39,19 +38,31 @@ class GroupViewModel @Inject constructor(
     private fun serverError(code: Int) = event(Event.ServerError(code))
     private fun networkError(throwable: Throwable) = event(Event.NetworkError(throwable))
 
-    val favor = MutableLiveData(false)
-
-    fun saveRecent(title: String, lastTime: String) {
+    @SuppressLint("SimpleDateFormat")
+    fun getMoim(title: String) {
         viewModelScope.launch {
-            saveRecentUseCase(id = DMApp.profile.id, title, lastTime)
+            getMoimUseCase(title).collect { result ->
+                result.onSuccess {list ->
+                    val finalList = list.filter {
+                        val format = SimpleDateFormat("yyyy.MM.dd")
+                        val date = format.parse(it.date)
+                        !(date!!.before(Date()))
+                    }
+                    event(Event.Moims(finalList))
+                }.onError {
+                    networkError(it)
+                }.onFail {
+                    serverError(it)
+                }
+            }
         }
     }
 
-    fun getFavor(title: String) {
+    fun loadMember(title: String) {
         viewModelScope.launch {
-            getFavorUseCase(DMApp.profile.id, title).collect { result ->
+            getMembersUseCase(title).collect { result ->
                 result.onSuccess {
-                    favor.value = it
+                    event(Event.Members(it))
                 }.onFail {
                     serverError(it)
                 }.onError {
@@ -61,23 +72,25 @@ class GroupViewModel @Inject constructor(
         }
     }
 
-    fun saveFavor(title: String) {
-        val sendFavor = !favor.value!!
+    fun join(title: String) {
         viewModelScope.launch {
-            setFavorUseCase(DMApp.profile.id, title, !sendFavor).collect { result ->
+            joinGroupUseCase(DMApp.profile.id, title).collect { result ->
                 result.onSuccess {
-                    favor.value = sendFavor
-                }.onError {
-                    networkError(it)
+                    event(Event.Join)
                 }.onFail {
                     serverError(it)
+                }.onError {
+                    networkError(it)
                 }
             }
         }
     }
 
     sealed interface Event {
+        data class Moims(val list: List<MoimItem>) : Event
+        data class Members(val list: List<Profile>) : Event
         data class ServerError(val code: Int) : Event
         data class NetworkError(val throwable: Throwable) : Event
+        object Join : Event
     }
 }

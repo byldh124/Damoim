@@ -23,6 +23,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityCreateBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
+import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
 import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
@@ -193,6 +194,7 @@ class CreateGroupActivity : BaseActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             createGroupUseCase(DMApp.profile.id, title, location, purpose, interest, file).collect { result ->
                 result.onSuccess {
+                    DMApp.group = it
                     val sIntent = Intent(mContext, GroupActivity::class.java)
                     sIntent.putExtra(IntentParam.SHOW_TUTORIAL, true)
                     startActivity(sIntent)

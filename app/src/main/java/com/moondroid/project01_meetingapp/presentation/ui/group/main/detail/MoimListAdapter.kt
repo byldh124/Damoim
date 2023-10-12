@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.group.main
+package com.moondroid.project01_meetingapp.presentation.ui.group.main.detail
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -30,6 +30,9 @@ class MoimListAdapter(private val onClick: (MoimItem) -> Unit) :
         if (position != RecyclerView.NO_POSITION) {
             val moim: MoimItem = moimList[position]
             holder.bind(moim)
+            holder.itemView.setOnClickListener {
+                onClick(moim)
+            }
         }
     }
 

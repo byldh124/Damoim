@@ -56,7 +56,7 @@ class MoimActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun toLocation() {
         val sIntent = Intent(mContext, LocationActivity::class.java)
-            .putExtra(IntentParam.LOCATION_TYPE, LocationActivity.LocationType.ADDRESS)
+            .putExtra(IntentParam.LOCATION_TO_ADDRESS, true)
         locationLauncher.launch(sIntent)
     }
 
@@ -109,6 +109,9 @@ class MoimActivity : BaseActivity(), OnMapReadyCallback {
             MoimViewModel.Event.Date -> showDate()
             MoimViewModel.Event.Location -> toLocation()
             MoimViewModel.Event.Time -> showTime()
+            MoimViewModel.Event.Success -> showMessage("모임생성 완료", ::setResultAndFinish)
+            is MoimViewModel.Event.Fail -> serverError(event.code)
+            is MoimViewModel.Event.Error -> networkError(event.throwable)
         }
     }
 

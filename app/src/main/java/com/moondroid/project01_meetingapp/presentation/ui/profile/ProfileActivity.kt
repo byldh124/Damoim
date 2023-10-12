@@ -11,36 +11,48 @@ import com.google.gson.Gson
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.Profile
+import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityProfileBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListAdapter
+import com.moondroid.project01_meetingapp.utils.ViewExtension.init
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfileActivity : BaseActivity() {
     private val binding by viewBinding(ActivityProfileBinding::inflate)
     private val viewModel: ProfileViewModel by viewModels()
-    lateinit var adapter: GroupListAdapter
+    private val adapter = GroupListAdapter {
+        DMApp.group = it
+        goToGroupActivity()
+    }
     private var profileUser: Profile? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        try {
-            binding.activity = this
-            val userJson = intent.getStringExtra(IntentParam.USER)
-            profileUser = Gson().fromJson(userJson, Profile::class.java)
+        repeatOnStarted {
+            viewModel.eventFlow.collect {
+                handleEvent(it)
+            }
+        }
+        val userJson = intent.getStringExtra(IntentParam.USER)
+        profileUser = Gson().fromJson(userJson, Profile::class.java)
 
-            if (profileUser == null) finish()
+        if (profileUser == null) finish()
 
-            binding.user = profileUser
+        binding.user = profileUser
 
-            initView()
+        initView()
 
-            viewModel.getMyGroup(profileUser!!.id)
-        } catch (e: Exception) {
-            logException(e)
+        viewModel.getMyGroup(profileUser!!.id)
+    }
+
+    private fun handleEvent(event: ProfileViewModel.Event) {
+        when (event) {
+            is ProfileViewModel.Event.UpdateGroup -> adapter.update(event.list)
         }
     }
 
@@ -69,32 +81,17 @@ class ProfileActivity : BaseActivity() {
      * Initialize View
      */
     private fun initView() {
-        try {
-            setSupportActionBar(binding.toolbar)
+        binding.toolbar.init(this)
 
-            supportActionBar?.let {
-                it.setDisplayHomeAsUpEnabled(true)
-                it.setDisplayShowTitleEnabled(false)
-            }
+        binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-            binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-            adapter = GroupListAdapter {
-                goToGroupActivity()
-            }
-            binding.recycler.adapter = adapter
-        } catch (e: Exception) {
-            logException(e)
-        }
+        binding.recycler.adapter = adapter
     }
 
     private fun toReportActivity() {
-        try {
-            val intent = Intent(this, ReportActivity::class.java)
-            intent.putExtra(IntentParam.REPORT_ID, profileUser!!.id)
-            intent.putExtra(IntentParam.REPORT_NAME, profileUser!!.name)
-            startActivity(intent)
-        } catch (e:Exception) {
-            logException(e)
-        }
+        val intent = Intent(this, ReportActivity::class.java)
+        intent.putExtra(IntentParam.REPORT_ID, profileUser!!.id)
+        intent.putExtra(IntentParam.REPORT_NAME, profileUser!!.name)
+        startActivity(intent)
     }
 }

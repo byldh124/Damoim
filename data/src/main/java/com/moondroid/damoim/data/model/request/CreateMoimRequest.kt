@@ -8,5 +8,5 @@ data class CreateMoimRequest(
     val pay: String,
     val lat: Double,
     val lng: Double,
-    val members: List<String>
+    val joinMember: String
 )

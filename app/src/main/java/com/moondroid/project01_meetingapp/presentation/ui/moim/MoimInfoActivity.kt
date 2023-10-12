@@ -12,47 +12,75 @@ import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.MoimItem
 import com.moondroid.damoim.domain.model.Profile
-import com.moondroid.project01_meetingapp.R
+import com.moondroid.damoim.domain.model.status.onError
+import com.moondroid.damoim.domain.model.status.onFail
+import com.moondroid.damoim.domain.model.status.onSuccess
+import com.moondroid.damoim.domain.usecase.moim.JoinMoimUseCase
+import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.databinding.ActivityMoimInfoBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.profile.ProfileActivity
-import com.moondroid.project01_meetingapp.presentation.ui.group.main.MemberAdapter
+import com.moondroid.project01_meetingapp.presentation.ui.group.main.detail.MemberAdapter
+import com.moondroid.project01_meetingapp.utils.BindingAdapter.visible
+import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MoimInfoActivity : BaseActivity() {
     private val binding by viewBinding(ActivityMoimInfoBinding::inflate)
     private val viewModel: MoimInfoViewModel by viewModels()
 
-    private lateinit var adapter: MemberAdapter
+    private val adapter = MemberAdapter {
+        toProfile(it)
+    }
     private lateinit var moim: MoimItem
+
+    @Inject
+    lateinit var joinMoimUseCase: JoinMoimUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.activity = this
         moim = Gson().fromJson(intent.getStringExtra(IntentParam.MOIM), MoimItem::class.java)
         binding.moim = moim
+
+        repeatOnStarted {
+            viewModel.eventFlow.collect {
+                handleEvent(it)
+            }
+        }
 
         initView()
 
         viewModel.getMember(moim.joinMember)
     }
 
-    private fun initView() {
-        try {
-            binding.toolbar.init(this)
-
-            binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-            adapter = MemberAdapter {
-                toProfile(it)
+    private fun handleEvent(event: MoimInfoViewModel.Event) {
+        when (event) {
+            is MoimInfoViewModel.Event.Error -> networkError(event.throwable)
+            is MoimInfoViewModel.Event.Fail -> serverError(event.code)
+            is MoimInfoViewModel.Event.Loading -> showLoading(event.loading)
+            is MoimInfoViewModel.Event.Members -> {
+                event.list.also {
+                    binding.btnJoin.visible(!it.contains(DMApp.profile))
+                    adapter.updateList(it)
+                }
             }
-            binding.recycler.adapter = adapter
-
-            binding.btnJoin.setOnClickListener { join() }
-        } catch (e: Exception) {
-            logException(e)
         }
+    }
+
+    private fun initView() {
+        binding.toolbar.init(this)
+
+        binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+        binding.recycler.adapter = adapter
+
+        binding.btnJoin.setOnClickListener { join() }
     }
 
     private fun toProfile(profile: Profile) {
@@ -61,10 +89,23 @@ class MoimInfoActivity : BaseActivity() {
             addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
-        this@MoimInfoActivity.startActivity(intent)
+        startActivity(intent)
     }
 
     private fun join() {
-        viewModel.join(moim.title, moim.date)
+        CoroutineScope(Dispatchers.Main).launch {
+            showLoading(true)
+            joinMoimUseCase(DMApp.profile.id, moim.title, moim.date).collect { result ->
+                showLoading(false)
+                result.onSuccess {
+                    moim = it
+                    viewModel.getMember(moim.joinMember)
+                }.onFail {
+                    serverError(it)
+                }.onError {
+                    networkError(it)
+                }
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@ import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.domain.model.MoimItem
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onSuccess
-import com.moondroid.damoim.domain.usecase.group.MoimUseCase
+import com.moondroid.damoim.domain.usecase.moim.GetMoimsUseCase
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
@@ -15,11 +15,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor(
-    private val moimUseCase: MoimUseCase
+    private val getMoimsUseCase: GetMoimsUseCase
 ) : BaseViewModel() {
     fun getMoim() {
         viewModelScope.launch {
-            moimUseCase().collect { result ->
+            getMoimsUseCase().collect { result ->
                 result.onSuccess { update(it) }
                     .onError { logException(it) }
             }

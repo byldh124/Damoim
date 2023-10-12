@@ -9,6 +9,7 @@
         android:resizeable="false"
         android:smallScreens="false"
         android:xlargeScreens="false" /> <!-- Media -->
+
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 인터넷 사용 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />      <!-- 위치 정보 관련 -->
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />     <!-- 위치 정보 관련 -->
@@ -24,6 +25,7 @@
         android:minSdkVersion="33" />
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
 
     <queries>
         <package android:name="com.kakao.talk" />
@@ -62,7 +64,7 @@
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="csit8ak1h9" />
+            android:value="${naverClientId}" />
 
         <activity
             android:name=".presentation.ui.profile.ReportActivity"
@@ -112,7 +114,7 @@
 
                 <data
                     android:host="oauth"
-                    android:scheme="kakaof33663a89ab7e4f6ace89f2ebeade100" />
+                    android:scheme="${kakaoClientId}" />
             </intent-filter>
         </activity>
         <activity
@@ -141,7 +143,7 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.ui.group.GroupActivity"
+            android:name=".presentation.ui.group.main.GroupActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Google FCM Background Service -->
         <service

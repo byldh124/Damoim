@@ -16,6 +16,7 @@ import com.moondroid.project01_meetingapp.presentation.ui.home.map.MapViewModel.
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.LocationTrackingMode
+import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.InfoWindow
@@ -31,6 +32,8 @@ class LocationFragment : BaseFragment(R.layout.fragment_home_location),
 
     private val binding by viewBinding(FragmentHomeLocationBinding::bind)
     private val viewModel: MapViewModel by viewModels()
+
+    private lateinit var mapView : MapView
 
     lateinit var activity: HomeActivity
     private lateinit var mNaverMap: NaverMap
@@ -56,8 +59,9 @@ class LocationFragment : BaseFragment(R.layout.fragment_home_location),
     }
 
     private fun initView(savedInstanceState: Bundle?) {
-        binding.mapView.onCreate(savedInstanceState)
-        binding.mapView.getMapAsync(this)
+        mapView = binding.mapView
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, 0xff)
     }
 
@@ -138,36 +142,36 @@ class LocationFragment : BaseFragment(R.layout.fragment_home_location),
     //MapView 사용시 프레그먼트, 액티비티의 생명주기에 따른 MapView 생명주기를 호출해 줘야 함.
     override fun onStart() {
         super.onStart()
-        binding.mapView.onStart()
+        mapView.onStart()
     }
 
     override fun onResume() {
         super.onResume()
-        binding.mapView.onResume()
+        mapView.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        binding.mapView.onPause()
+        mapView.onPause()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        binding.mapView.onSaveInstanceState(outState)
+        mapView.onSaveInstanceState(outState)
     }
 
     override fun onStop() {
         super.onStop()
-        binding.mapView.onStop()
+        mapView.onStop()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.mapView.onDestroy()
+        mapView.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        binding.mapView.onLowMemory()
+        mapView.onLowMemory()
     }
 }

@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.group.gallery
+package com.moondroid.project01_meetingapp.presentation.ui.group.main.gallery
 
 import android.annotation.SuppressLint
 import android.content.Context

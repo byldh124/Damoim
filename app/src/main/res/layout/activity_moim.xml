@@ -38,6 +38,7 @@
                 android:id="@+id/tvDate"
                 style="@style/TextBgGray"
                 android:hint="@string/cmn_moim_date"
+                android:text="@{model.date}"
                 android:onClick="@{() -> model.showDate()}"/>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -45,6 +46,7 @@
                 style="@style/TextBgGray"
                 android:layout_marginTop="16dp"
                 android:hint="@string/cmn_moim_time"
+                android:text="@{model.time}"
                 android:onClick="@{() -> model.showTime()}"/>
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -73,7 +75,7 @@
                 style="@style/ButtonRed01"
                 android:layout_marginTop="16dp"
                 android:text="@string/cmn_save"
-                android:onClick="@{() -> model.save()}"/>
+                android:onClick="@{() -> model.createMoim()}"/>
         </LinearLayout>
 
 

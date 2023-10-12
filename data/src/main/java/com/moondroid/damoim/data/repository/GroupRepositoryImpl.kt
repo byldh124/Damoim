@@ -1,16 +1,12 @@
 package com.moondroid.damoim.data.repository
 
-import com.google.gson.JsonObject
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.common.RequestParam
 import com.moondroid.damoim.data.datasource.remote.RemoteDataSource
+import com.moondroid.damoim.data.mapper.DataMapper.toGroupItem
+import com.moondroid.damoim.data.mapper.DataMapper.toProfile
 import com.moondroid.damoim.data.model.dao.ProfileDao
 import com.moondroid.damoim.domain.model.GroupItem
-import com.moondroid.damoim.domain.model.MoimItem
-import com.moondroid.damoim.data.mapper.DataMapper.toGroupItem
-import com.moondroid.damoim.data.mapper.DataMapper.toMoimItem
-import com.moondroid.damoim.data.mapper.DataMapper.toProfile
-import com.moondroid.damoim.data.model.request.CreateMoimRequest
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.damoim.domain.model.status.ApiResult
 import com.moondroid.damoim.domain.repository.GroupRepository
@@ -28,32 +24,17 @@ import javax.inject.Inject
 
 class GroupRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: ProfileDao
 ) : GroupRepository {
-    override suspend fun getGroupList(type: GroupType): Flow<ApiResult<List<GroupItem>>> =
+    override suspend fun getGroupList(id: String, type: GroupType): Flow<ApiResult<List<GroupItem>>> =
         flow<ApiResult<List<GroupItem>>> {
-            localDataSource.getProfile().run {
-                this?.let { profile ->
-                    remoteDataSource.getGroupList(profile.id, type).run {
-                        when (this) {
-                            is ApiResult.Success -> emit(ApiResult.Success(response.map { it.toGroupItem() }))
-                            is ApiResult.Fail -> emit(ApiResult.Fail(code))
-                            is ApiResult.Error -> emit(ApiResult.Error(throwable))
-                        }
-                    }
+            remoteDataSource.getGroupList(id, type).run {
+                when (this) {
+                    is ApiResult.Success -> emit(ApiResult.Success(response.map { it.toGroupItem() }))
+                    is ApiResult.Fail -> emit(ApiResult.Fail(code))
+                    is ApiResult.Error -> emit(ApiResult.Error(throwable))
                 }
             }
         }.flowOn(Dispatchers.IO)
-
-    override suspend fun getMoim(): Flow<ApiResult<List<MoimItem>>> = flow {
-        remoteDataSource.getMoimList().run {
-            when (this) {
-                is ApiResult.Error -> emit(ApiResult.Error(throwable))
-                is ApiResult.Fail -> emit(ApiResult.Fail(code))
-                is ApiResult.Success -> emit(ApiResult.Success(response.map { it.toMoimItem() }))
-            }
-        }
-    }
 
     override suspend fun createGroup(
         id: String,
@@ -124,21 +105,6 @@ class GroupRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun createMoim(
-        title: String,
-        address: String,
-        date: String,
-        time: String,
-        pay: String,
-        lat: Double,
-        lng: Double,
-        joinMember: String
-    ): Flow<ApiResult<Unit>> = flow {
-        val body = CreateMoimRequest(title, address, date, time, pay, lat, lng, listOf(joinMember))
-        emit(remoteDataSource.createMoim(body))
-    }.flowOn(Dispatchers.IO)
-
-
     override suspend fun getMembers(title: String): Flow<ApiResult<List<Profile>>> =
         flow<ApiResult<List<Profile>>> {
             remoteDataSource.getMembers(title).run {
@@ -150,23 +116,12 @@ class GroupRepositoryImpl @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
 
-    override suspend fun getMoims(title: String): Flow<ApiResult<List<MoimItem>>> =
-        flow<ApiResult<List<MoimItem>>> {
-            remoteDataSource.getMoims(title).run {
-                when (this) {
-                    is ApiResult.Error -> emit(ApiResult.Error(throwable))
-                    is ApiResult.Fail -> emit(ApiResult.Fail(code))
-                    is ApiResult.Success -> emit(ApiResult.Success(response.map { it.toMoimItem() }))
-                }
-            }
-        }.flowOn(Dispatchers.IO)
-
     override suspend fun saveRecent(id: String, title: String, lastTime: String): Flow<ApiResult<Unit>> = flow {
         emit(remoteDataSource.saveRecent(id, title, lastTime))
     }.flowOn(Dispatchers.IO)
 
     override suspend fun join(id: String, title: String): Flow<ApiResult<Unit>> = flow {
-        emit(remoteDataSource.join(id, title))
+        emit(remoteDataSource.joinGroup(id, title))
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getFavor(id: String, title: String): Flow<ApiResult<Boolean>> = flow {

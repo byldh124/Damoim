@@ -1,6 +1,5 @@
 package com.moondroid.damoim.data.api
 
-import com.google.gson.JsonObject
 import com.moondroid.damoim.common.RequestParam
 import com.moondroid.damoim.data.api.URLManager.BLOCK
 import com.moondroid.damoim.data.api.URLManager.CREATE_GROUP
@@ -27,20 +26,21 @@ import com.moondroid.damoim.data.api.URLManager.UPDATE_GROUP
 import com.moondroid.damoim.data.api.URLManager.UPDATE_INTEREST
 import com.moondroid.damoim.data.api.URLManager.UPDATE_PROFILE
 import com.moondroid.damoim.data.api.URLManager.UPDATE_TOKEN
-import com.moondroid.damoim.data.model.request.UpdateTokenRequest
-import com.moondroid.damoim.data.model.response.GroupListResponse
-import com.moondroid.damoim.data.model.response.MoimResponse
-import com.moondroid.damoim.data.model.response.ProfileResponse
-import com.moondroid.damoim.data.model.response.SimpleResponse
 import com.moondroid.damoim.data.api.response.ApiStatus
 import com.moondroid.damoim.data.model.request.CreateMoimRequest
 import com.moondroid.damoim.data.model.request.SaltRequest
 import com.moondroid.damoim.data.model.request.SignInRequest
 import com.moondroid.damoim.data.model.request.SignUpRequest
 import com.moondroid.damoim.data.model.request.SocialSignRequest
+import com.moondroid.damoim.data.model.request.UpdateTokenRequest
 import com.moondroid.damoim.data.model.response.FavorResponse
+import com.moondroid.damoim.data.model.response.GroupListResponse
 import com.moondroid.damoim.data.model.response.GroupResponse
 import com.moondroid.damoim.data.model.response.MemberResponse
+import com.moondroid.damoim.data.model.response.MoimListResponse
+import com.moondroid.damoim.data.model.response.MoimResponse
+import com.moondroid.damoim.data.model.response.ProfileResponse
+import com.moondroid.damoim.data.model.response.SimpleResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -109,11 +109,7 @@ interface ApiInterface {
     //Region End
 
     @GET(GET_MOIM)
-    suspend fun getMoim(): ApiStatus<MoimResponse>
-
-
-    @GET(GET_MOIM)
-    suspend fun getMoim(@Query(RequestParam.TITLE) title: String): ApiStatus<MoimResponse>
+    suspend fun getMoim(@Query(RequestParam.TITLE) title: String): ApiStatus<MoimListResponse>
 
     @POST(CREATE_MOIM)
     suspend fun createMoim(@Body body: CreateMoimRequest): ApiStatus<SimpleResponse>
@@ -164,14 +160,14 @@ interface ApiInterface {
     @GET(GET_MOIM_MEMBER)
     suspend fun getMoimMember(
         @Query(RequestParam.JOIN_MEMBER) joinMember: String
-    ): ApiStatus<SimpleResponse>
+    ): ApiStatus<MemberResponse>
 
     @GET(JOIN_INTO_MOIM)
     suspend fun joinInMoim(
         @Query(RequestParam.ID) id: String,
         @Query(RequestParam.TITLE) title: String,
         @Query(RequestParam.DATE) date: String
-    ): ApiStatus<SimpleResponse>
+    ): ApiStatus<MoimResponse>
 
     @GET(BLOCK)
     suspend fun blockUser(

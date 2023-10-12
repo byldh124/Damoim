@@ -60,7 +60,7 @@ class LocationActivity : BaseActivity() {
             it.setDisplayShowTitleEnabled(false)
         }
 
-        val fromMoim = intent.getBooleanExtra(IntentParam.LOCATION_TYPE, false)
+        val fromMoim = intent.getBooleanExtra(IntentParam.LOCATION_TO_ADDRESS, false)
 
         if (fromMoim) {
             binding.txtTitle.text = getString(R.string.title_address)

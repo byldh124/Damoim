@@ -30,15 +30,6 @@ class GroupListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val group: GroupItem = groupList[position]
         holder.container.setOnClickListener {
-            /* FIXME
-            * 권장하는 아이템 클릭 프로세스
-            * 모임의 이름만 파라미터로 넘겨준뒤 해당 이름을 인텐트 엑스트라를 통해 GroupActivity 로 전달
-            * GroupActivity에서 해당 모임 이름값으로 api 호출로 detail group info 를 전달 받음
-            *
-            * 현재 구성된 클릭 이벤트 프로세스
-            * 아이템 클릭시 해당 모임의 정보를 글로벌로 올린뒤 GroupActivity 에서
-            * 글로벌에 저장된 해당 정보를 조회하여 표현
-            */
             onClick(group)
         }
 
@@ -66,9 +57,7 @@ class GroupListAdapter(
     private fun setList() {
         val sampleList: MutableList<GroupItem> = ArrayList()
         listContainer.forEach {
-            if (it.interest == currentCategory
-                || currentCategory == CATEGORY_ALL
-            ) {
+            if (it.interest == currentCategory || currentCategory == CATEGORY_ALL) {
                 sampleList.add(it)
             }
         }

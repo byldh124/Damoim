@@ -46,9 +46,6 @@ class MyInfoActivity : BaseActivity() {
     @Inject
     lateinit var updateProfileUseCase: UpdateProfileUseCase
 
-    @Inject
-    lateinit var profileUseCase: ProfileUseCase
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FBAnalyze.logEvent("MyInfo Loaded")
@@ -69,13 +66,8 @@ class MyInfoActivity : BaseActivity() {
                 binding.tvMsgLength.text =
                     String.format(getString(R.string.cmn_message_length), it.length)
             }
-            rg.setOnCheckedChangeListener { _, id ->
-                gender = if (id == R.id.rbMale) {
-                    this@MyInfoActivity.getString(R.string.cmn_male)
-                } else {
-                    this@MyInfoActivity.getString(R.string.cmn_female)
-                }
-            }
+
+            profile
 
             confirm.setOnClickListener {
                 update()
@@ -84,16 +76,18 @@ class MyInfoActivity : BaseActivity() {
             thumbWrapper.setOnClickListener {
                 imageLauncher.launch(Intent(Intent.ACTION_PICK).setType("image/*"))
             }
+            tvLocation.setOnClickListener {
+                locationLauncher.launch(Intent(mContext, LocationActivity::class.java))
+            }
+            tvBirth.setOnClickListener {
+                toBirth()
+            }
         }
     }
 
     /**
      * 지역 선택
      */
-    fun toLocation() {
-        locationLauncher.launch(Intent(mContext, LocationActivity::class.java))
-    }
-
     private val locationLauncher = registerForActivityResult(StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             result.data?.let { intent ->
@@ -105,7 +99,7 @@ class MyInfoActivity : BaseActivity() {
     /**
      * 생년월일 선택
      */
-    fun toBirth() {
+    private fun toBirth() {
         try {
             val array = binding.tvBirth.text.toString().split(".")
             val year: Int = try {
@@ -168,11 +162,12 @@ class MyInfoActivity : BaseActivity() {
                 thumb = thumbFile
             ).collect { result ->
                 result.onSuccess {
+                    DMApp.profile = it
                     showMessage("변경이 완료되었습니다", ::setResultAndFinish)
                 }.onFail {
-
+                    serverError(it)
                 }.onError {
-
+                    networkError(it)
                 }
             }
         }

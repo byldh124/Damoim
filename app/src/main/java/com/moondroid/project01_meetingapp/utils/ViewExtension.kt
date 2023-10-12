@@ -21,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.moondroid.damoim.common.Extension.debug
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -34,13 +35,11 @@ internal object ViewExtension {
         toast(getString(resId))
     }
 
-
     fun LifecycleOwner.repeatOnStarted(block: suspend CoroutineScope.() -> Unit) {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED, block)
         }
     }
-
 
     fun View.snack(message: String) {
         Snackbar.make(this, message, Snackbar.LENGTH_SHORT).show()
@@ -80,6 +79,10 @@ internal object ViewExtension {
     fun View.visible(visible: Boolean = true) {
         visibility = if (visible) View.VISIBLE
         else View.GONE
+    }
+
+    fun View.enable(enable: Boolean = true) {
+        isEnabled = enable
     }
 
     fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {

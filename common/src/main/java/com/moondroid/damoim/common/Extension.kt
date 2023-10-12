@@ -1,5 +1,6 @@
 package com.moondroid.damoim.common
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Parcelable
@@ -10,6 +11,7 @@ import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.crashlytics.FBCrash
 import java.io.Serializable
 import java.security.MessageDigest
+import java.text.SimpleDateFormat
 
 object Extension {
     fun Any.debug(msg: String) {

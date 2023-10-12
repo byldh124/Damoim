@@ -13,8 +13,8 @@ import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.databinding.ActivityGroupListBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.group.GroupActivity
-import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListViewModel.GroupListEvent
+import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
+import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListViewModel.Event
 import com.moondroid.project01_meetingapp.utils.ViewExtension.init
 import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,45 +44,35 @@ class GroupListActivity : BaseActivity() {
      * View initialize
      */
     private fun initView() {
-        try {
-            binding.toolbar.init(this)
+        binding.toolbar.init(this)
 
-            val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-            binding.recycler.layoutManager = layoutManager
+        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        binding.recycler.layoutManager = layoutManager
 
-            adapter = GroupListAdapter {
-                DMApp.group = it
-                startActivity(Intent(mContext, GroupActivity::class.java))
-                goToGroupActivity()
-            }
-            binding.recycler.adapter = adapter
-
-
-            val type: GroupType = when (intent.getIntExtra(IntentParam.TYPE, 0)) {
-                GroupListType.FAVORITE -> {
-                    GroupType.FAVORITE
-                }
-                GroupListType.RECENT -> {
-                    GroupType.RECENT
-                }
-                else -> {
-                    return
-                }
-            }
-
-            binding.type = type
-            viewModel.getList(type)
-
-        } catch (e: Exception) {
-            logException(e)
+        adapter = GroupListAdapter {
+            DMApp.group = it
+            startActivity(Intent(mContext, GroupActivity::class.java))
+            goToGroupActivity()
         }
+        binding.recycler.adapter = adapter
+
+        val type: GroupType = when (intent.getIntExtra(IntentParam.TYPE, 0)) {
+            GroupListType.FAVORITE -> GroupType.FAVORITE
+            GroupListType.RECENT -> GroupType.RECENT
+            else -> return
+        }
+
+        binding.type = type
+        viewModel.getList(type)
+
     }
 
-    private fun handleEvent(event: GroupListEvent) {
+    private fun handleEvent(event: Event) {
         when (event) {
-            is GroupListEvent.Error -> showMessage(event.code.toString())
-            is GroupListEvent.Loading -> showLoading(event.boolean)
-            is GroupListEvent.Update -> adapter.update(event.list)
+            is Event.Loading -> showLoading(event.boolean)
+            is Event.Update -> adapter.update(event.list)
+            is Event.NetworkError -> networkError(event.throwable)
+            is Event.ServerError -> serverError(event.code)
         }
     }
 }

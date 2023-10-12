@@ -108,9 +108,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked='@{profile.gender.equals("남자")}'
                     android:background="@drawable/bg_rb_male"
                     android:button="@android:color/transparent"
-                    android:checked="true"
                     android:elevation="2dp"
                     android:ems="2"
                     android:fontFamily="@font/jalnan"
@@ -124,6 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked='@{profile.gender.equals("여자")}'
                     android:background="@drawable/bg_rb_female"
                     android:button="@android:color/transparent"
                     android:elevation="2dp"
@@ -186,7 +187,7 @@
                 android:elevation="2dp"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:textColor="@color/gray_dark01"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@id/etMsg"
                 app:layout_constraintRight_toRightOf="@id/etMsg" />
 

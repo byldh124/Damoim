@@ -4,10 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <variable
-            name="activity"
-            type="com.moondroid.project01_meetingapp.presentation.ui.moim.MoimInfoActivity" />
         <variable
             name="moim"
             type="com.moondroid.damoim.domain.model.MoimItem" />
@@ -124,7 +120,6 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/btnJoin"
                     style="@style/ButtonRed01"
-
                     android:layout_below="@id/moimWrapper"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
