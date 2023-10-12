@@ -11,14 +11,24 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.moondroid.damoim.domain.model.ChatItem
 import com.moondroid.damoim.domain.model.Profile
+import com.moondroid.damoim.domain.model.status.onError
+import com.moondroid.damoim.domain.model.status.onFail
+import com.moondroid.damoim.domain.model.status.onSuccess
+import com.moondroid.damoim.domain.usecase.group.GetMembersUseCase
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupChatBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {
     private val binding by viewBinding(FragmentGroupChatBinding::bind)
 
@@ -30,6 +40,9 @@ class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {
     private lateinit var adapter: ChatAdapter
     private lateinit var user: Profile
 
+    @Inject lateinit var membersUseCase: GetMembersUseCase
+    private lateinit var members: List<Profile>
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as GroupActivity
@@ -38,7 +51,21 @@ class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //binding.isMember = DMApp.group.isMember
+        binding.isMember = activity.userType == GroupActivity.UserType.VISITOR
         initView()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            membersUseCase(DMApp.group.title).collect { result ->
+                result.onSuccess {
+                    members = it
+                    initView()
+                }.onError {
+                    activity.networkError(it)
+                }.onFail {
+                    activity.serverError(it)
+                }
+            }
+        }
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -68,7 +95,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {
         chatRef.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 chat = snapshot.getValue(ChatItem::class.java)!!
-                /*DMApp.group.member.forEach {
+                members.forEach {
                     if (chat.id == it.id) {
                         chat.thumb = it.thumb
                         chat.name = it.name
@@ -77,7 +104,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {
                         }
                         return@forEach
                     }
-                }*/
+                }
                 chatList.add(chat)
                 adapter.update(chatList)
                 binding.list.setSelection(chatList.size - 1)

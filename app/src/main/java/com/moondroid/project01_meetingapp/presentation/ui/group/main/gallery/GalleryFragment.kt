@@ -21,6 +21,7 @@ import com.moondroid.project01_meetingapp.databinding.FragmentGroupGalleryBindin
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
+import com.moondroid.project01_meetingapp.utils.BindingAdapter.visible
 import java.text.SimpleDateFormat
 
 class GalleryFragment : BaseFragment(R.layout.fragment_group_gallery) {
@@ -50,6 +51,8 @@ class GalleryFragment : BaseFragment(R.layout.fragment_group_gallery) {
         adapter = GalleryAdapter(activity)
         binding.recycler.adapter = adapter
 
+        binding.icAdd.visible(activity.userType != GroupActivity.UserType.VISITOR)
+        binding.icAdd.setOnClickListener { add() }
         getImage()
     }
 
@@ -58,6 +61,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_group_gallery) {
         imageLauncher.launch(Intent(Intent.ACTION_PICK).setType("image/*"))
     }
 
+    @SuppressLint("SimpleDateFormat")
     private val imageLauncher = registerForActivityResult(StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             result.data?.let { intent ->
