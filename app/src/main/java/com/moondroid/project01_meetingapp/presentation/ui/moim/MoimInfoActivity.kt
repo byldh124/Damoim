@@ -23,6 +23,7 @@ import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.profile.ProfileActivity
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.detail.MemberAdapter
 import com.moondroid.project01_meetingapp.utils.BindingAdapter.visible
+import com.moondroid.project01_meetingapp.utils.ViewExtension.enable
 import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -39,12 +40,15 @@ class MoimInfoActivity : BaseActivity() {
         toProfile(it)
     }
     private lateinit var moim: MoimItem
+    private var isMember = false
 
     @Inject
     lateinit var joinMoimUseCase: JoinMoimUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        isMember = intent.getBooleanExtra(IntentParam.USER_IS_MEMBER_THIS_GROUP, false)
+
         moim = Gson().fromJson(intent.getStringExtra(IntentParam.MOIM), MoimItem::class.java)
         binding.moim = moim
 
@@ -79,6 +83,8 @@ class MoimInfoActivity : BaseActivity() {
         binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         binding.recycler.adapter = adapter
+
+        binding.btnJoin.enable(isMember)
 
         binding.btnJoin.setOnClickListener { join() }
     }

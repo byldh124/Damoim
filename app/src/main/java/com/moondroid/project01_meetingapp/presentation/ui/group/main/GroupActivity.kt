@@ -135,6 +135,7 @@ class GroupActivity : BaseActivity() {
         moimLauncher.launch(sIntent)
     }
 
+
     private val moimLauncher = registerForActivityResult(StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             (fragments[0] as GroupDetailFragment).getMoim()

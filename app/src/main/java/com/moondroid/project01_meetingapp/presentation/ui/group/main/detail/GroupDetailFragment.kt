@@ -98,6 +98,7 @@ class GroupDetailFragment : BaseFragment(R.layout.fragment_group_detail) {
         }
         moimListAdapter = MoimListAdapter {
             val sIntent = Intent(activity, MoimInfoActivity::class.java)
+                .putExtra(IntentParam.USER_IS_MEMBER_THIS_GROUP, activity.userType != GroupActivity.UserType.VISITOR)
                 .putExtra(IntentParam.MOIM, Gson().toJson(it))
             activity.startActivity(sIntent)
         }

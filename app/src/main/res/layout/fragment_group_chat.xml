@@ -18,13 +18,14 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{isMember ? View.VISIBLE: View.GONE}"
+            visible="@{isMember}"
             android:orientation="vertical">
             <ListView
                 android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@color/white"
+                android:overScrollMode="never"
                 android:dividerHeight="0dp"
                 android:divider="@color/white"
                 android:layout_weight="1"/>
@@ -77,7 +78,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:gravity="center"
-            android:visibility="@{isMember ? View.GONE : View.VISIBLE}"/>
+            visible="@{!isMember}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

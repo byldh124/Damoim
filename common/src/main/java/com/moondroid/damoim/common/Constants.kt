@@ -95,6 +95,7 @@ object IntentParam {
     const val REPORT_NAME = "REPORT_NAME"
     const val SHOW_TUTORIAL = "SHOW_TUTORIAL"
     const val LOCATION_TO_ADDRESS = "LOCATION_TO_ADDRESS"
+    const val USER_IS_MEMBER_THIS_GROUP = "USER_IS_MEMBER_THIS_GROUP"
 }
 
 object NotificationParam {

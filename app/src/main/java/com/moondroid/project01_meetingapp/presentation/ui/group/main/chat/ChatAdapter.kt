@@ -6,18 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.domain.model.ChatItem
 import com.moondroid.project01_meetingapp.databinding.ItemChatBinding
 import kotlin.properties.Delegates
 
 class ChatAdapter(private val context: Context) :BaseAdapter(){
 
-    private var chatList: List<ChatItem> by Delegates.observable(emptyList()) { _, _, _ ->
-        notifyDataSetChanged()
-    }
+    private var chatList: List<ChatItem> = emptyList()
 
     fun update(newChatList: List<ChatItem>) {
         chatList = newChatList
+        notifyDataSetChanged()
     }
 
     override fun getCount(): Int {

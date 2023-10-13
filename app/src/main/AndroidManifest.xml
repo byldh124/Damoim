@@ -145,6 +145,7 @@
         <activity
             android:name=".presentation.ui.group.main.GroupActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Google FCM Background Service -->
         <service
             android:name=".utils.firebase.FBMessage"
