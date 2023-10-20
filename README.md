@@ -33,6 +33,7 @@ https://play.google.com/store/apps/details?id=com.moondroid.project01_meetingapp
 - Firebase
   - Analytics
   - Crashslytics
+  - Cloud Message
   - Dynamic Link
   - Storage
 - Naver Map
