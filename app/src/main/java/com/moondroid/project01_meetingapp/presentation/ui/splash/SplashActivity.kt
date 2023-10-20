@@ -11,7 +11,8 @@ import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.dialog.ButtonDialog
-import com.moondroid.project01_meetingapp.presentation.ui.splash.SplashViewModel.Event
+import com.moondroid.project01_meetingapp.presentation.ui.splash.SplashViewModel.*
+import com.moondroid.project01_meetingapp.presentation.ui.splashmvp.SplashPresenter
 import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.AndroidEntryPoint

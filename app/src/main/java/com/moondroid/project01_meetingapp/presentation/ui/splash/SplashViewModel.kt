@@ -74,9 +74,9 @@ class SplashViewModel @Inject constructor(
     }
 
     sealed interface Event {
-        object Update : Event
-        object Sign : Event
-        object Main : Event
+        data object Update : Event
+        data object Sign : Event
+        data object Main : Event
         data class Fail(val code: Int) : Event
         data class NetworkError(val throwable: Throwable) : Event
     }

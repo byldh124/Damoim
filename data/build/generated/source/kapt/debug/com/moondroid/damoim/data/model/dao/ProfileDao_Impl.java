@@ -2,6 +2,8 @@ package com.moondroid.damoim.data.model.dao;
 
 import android.database.Cursor;
 import android.os.CancellationSignal;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.CoroutinesRoom;
 import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
@@ -34,60 +36,63 @@ public final class ProfileDao_Impl implements ProfileDao {
 
   private final SharedSQLiteStatement __preparedStmtOfDeleteProfileAll;
 
-  public ProfileDao_Impl(RoomDatabase __db) {
+  public ProfileDao_Impl(@NonNull final RoomDatabase __db) {
     this.__db = __db;
     this.__insertionAdapterOfProfileEntity = new EntityInsertionAdapter<ProfileEntity>(__db) {
       @Override
-      public String createQuery() {
+      @NonNull
+      protected String createQuery() {
         return "INSERT OR REPLACE INTO `profile` (`id`,`name`,`birth`,`gender`,`location`,`interest`,`thumb`,`message`) VALUES (?,?,?,?,?,?,?,?)";
       }
 
       @Override
-      public void bind(SupportSQLiteStatement stmt, ProfileEntity value) {
-        if (value.getId() == null) {
-          stmt.bindNull(1);
+      protected void bind(@NonNull final SupportSQLiteStatement statement,
+          @Nullable final ProfileEntity entity) {
+        if (entity.getId() == null) {
+          statement.bindNull(1);
         } else {
-          stmt.bindString(1, value.getId());
+          statement.bindString(1, entity.getId());
         }
-        if (value.getName() == null) {
-          stmt.bindNull(2);
+        if (entity.getName() == null) {
+          statement.bindNull(2);
         } else {
-          stmt.bindString(2, value.getName());
+          statement.bindString(2, entity.getName());
         }
-        if (value.getBirth() == null) {
-          stmt.bindNull(3);
+        if (entity.getBirth() == null) {
+          statement.bindNull(3);
         } else {
-          stmt.bindString(3, value.getBirth());
+          statement.bindString(3, entity.getBirth());
         }
-        if (value.getGender() == null) {
-          stmt.bindNull(4);
+        if (entity.getGender() == null) {
+          statement.bindNull(4);
         } else {
-          stmt.bindString(4, value.getGender());
+          statement.bindString(4, entity.getGender());
         }
-        if (value.getLocation() == null) {
-          stmt.bindNull(5);
+        if (entity.getLocation() == null) {
+          statement.bindNull(5);
         } else {
-          stmt.bindString(5, value.getLocation());
+          statement.bindString(5, entity.getLocation());
         }
-        if (value.getInterest() == null) {
-          stmt.bindNull(6);
+        if (entity.getInterest() == null) {
+          statement.bindNull(6);
         } else {
-          stmt.bindString(6, value.getInterest());
+          statement.bindString(6, entity.getInterest());
         }
-        if (value.getThumb() == null) {
-          stmt.bindNull(7);
+        if (entity.getThumb() == null) {
+          statement.bindNull(7);
         } else {
-          stmt.bindString(7, value.getThumb());
+          statement.bindString(7, entity.getThumb());
         }
-        if (value.getMessage() == null) {
-          stmt.bindNull(8);
+        if (entity.getMessage() == null) {
+          statement.bindNull(8);
         } else {
-          stmt.bindString(8, value.getMessage());
+          statement.bindString(8, entity.getMessage());
         }
       }
     };
     this.__preparedStmtOfDeleteProfileAll = new SharedSQLiteStatement(__db) {
       @Override
+      @NonNull
       public String createQuery() {
         final String _query = "DELETE FROM profile";
         return _query;
@@ -100,6 +105,7 @@ public final class ProfileDao_Impl implements ProfileDao {
       final Continuation<? super Unit> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
+      @NonNull
       public Unit call() throws Exception {
         __db.beginTransaction();
         try {
@@ -117,15 +123,19 @@ public final class ProfileDao_Impl implements ProfileDao {
   public Object deleteProfileAll(final Continuation<? super Unit> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
+      @NonNull
       public Unit call() throws Exception {
         final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteProfileAll.acquire();
-        __db.beginTransaction();
         try {
-          _stmt.executeUpdateDelete();
-          __db.setTransactionSuccessful();
-          return Unit.INSTANCE;
+          __db.beginTransaction();
+          try {
+            _stmt.executeUpdateDelete();
+            __db.setTransactionSuccessful();
+            return Unit.INSTANCE;
+          } finally {
+            __db.endTransaction();
+          }
         } finally {
-          __db.endTransaction();
           __preparedStmtOfDeleteProfileAll.release(_stmt);
         }
       }
@@ -139,6 +149,7 @@ public final class ProfileDao_Impl implements ProfileDao {
     final CancellationSignal _cancellationSignal = DBUtil.createCancellationSignal();
     return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<List<ProfileEntity>>() {
       @Override
+      @NonNull
       public List<ProfileEntity> call() throws Exception {
         final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
         try {
@@ -151,7 +162,7 @@ public final class ProfileDao_Impl implements ProfileDao {
           final int _cursorIndexOfThumb = CursorUtil.getColumnIndexOrThrow(_cursor, "thumb");
           final int _cursorIndexOfMessage = CursorUtil.getColumnIndexOrThrow(_cursor, "message");
           final List<ProfileEntity> _result = new ArrayList<ProfileEntity>(_cursor.getCount());
-          while(_cursor.moveToNext()) {
+          while (_cursor.moveToNext()) {
             final ProfileEntity _item;
             final String _tmpId;
             if (_cursor.isNull(_cursorIndexOfId)) {
@@ -218,6 +229,7 @@ public final class ProfileDao_Impl implements ProfileDao {
     return ProfileDao.DefaultImpls.getProfile(ProfileDao_Impl.this, $completion);
   }
 
+  @NonNull
   public static List<Class<?>> getRequiredConverters() {
     return Collections.emptyList();
   }

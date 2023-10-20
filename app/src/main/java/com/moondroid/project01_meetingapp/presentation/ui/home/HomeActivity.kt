@@ -47,6 +47,7 @@ import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.system.measureTimeMillis
 
 /**
  * 메인 화면 (HOME)
@@ -90,6 +91,10 @@ class HomeActivity : BaseActivity() {
             viewModel.eventFlow.collect {
                 handleEvent(it)
             }
+        }
+
+        measureTimeMillis {
+
         }
         initView()
 

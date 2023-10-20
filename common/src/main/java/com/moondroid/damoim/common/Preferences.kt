@@ -2,6 +2,7 @@ package com.moondroid.damoim.common
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 object Preferences {
 
@@ -21,7 +22,9 @@ object Preferences {
     }
 
     private fun putString(key: String, value: String) {
-        preferences.edit().putString(key, value).apply()
+        preferences.edit {
+            putString(key, value)
+        }
     }
 
     private fun getBoolean(key: String, defVal: Boolean = false): Boolean {
@@ -29,7 +32,9 @@ object Preferences {
     }
 
     private fun putBoolean(key: String, value: Boolean) {
-        preferences.edit().putBoolean(key, value).apply()
+        preferences.edit {
+            putBoolean(key, value)
+        }
     }
 
     fun setAutoSign(auto: Boolean) = putBoolean(PrefsKey.AUTO_SIGN, auto)
