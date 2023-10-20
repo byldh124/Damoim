@@ -15,9 +15,9 @@ interface SignRepository {
         location: String,
         interest: String,
         thumb: String
-    ): Flow<ApiResult<Profile>>           // 회원가입
+    ): Flow<ApiResult<Profile>>
 
-    suspend fun signIn(id: String, hashPw: String): Flow<ApiResult<Profile>>            // 로그인
-    suspend fun getSalt(id: String): Flow<ApiResult<String>>                            // 로그인 관련
-    suspend fun socialSign(id: String): Flow<ApiResult<Profile>>                      // 카카오 로그인
+    suspend fun signIn(id: String, hashPw: String): Flow<ApiResult<Profile>>
+    suspend fun getSalt(id: String): Flow<ApiResult<String>>
+    suspend fun socialSign(id: String): Flow<ApiResult<Profile>>
 }

@@ -16,7 +16,6 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.moondroid.damoim.common.Constants.DEFAULT_PROFILE_IMG
-import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
@@ -24,7 +23,7 @@ import com.moondroid.project01_meetingapp.databinding.ActivitySignInBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.sign.SignInViewModel.SignInEvent
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import com.moondroid.project01_meetingapp.utils.ViewExtension.snack
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,14 +52,11 @@ class SignInActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        repeatOnStarted {
-            viewModel.eventFlow.collect {
-                handleEvent(it)
-            }
-        }
-
         binding.lifecycleOwner = this
         binding.model = viewModel
+
+        collectEvent(viewModel.eventFlow, ::handleEvent)
+
         initView()
     }
 
@@ -101,7 +97,7 @@ class SignInActivity : BaseActivity() {
 
 
     private val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-        if (error != null && token != null)  {
+        if (error != null && token != null) {
             requestSign()
         }
     }

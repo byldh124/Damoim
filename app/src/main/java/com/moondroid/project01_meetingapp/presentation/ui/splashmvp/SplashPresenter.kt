@@ -6,7 +6,7 @@ import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
-import com.moondroid.damoim.domain.usecase.app.VersionUseCase
+import com.moondroid.damoim.domain.usecase.app.CheckVersionUseCase
 import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
@@ -16,13 +16,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SplashPresenter constructor(
-    private val versionUseCase: VersionUseCase,
+    private val checkVersionUseCase: CheckVersionUseCase,
     private val profileUseCase: ProfileUseCase,
     private val view: SplashContract.View
 ) : SplashContract.Presenter {
     override fun checkAppVersion(code: Int, name: String, pckName: String) {
         CoroutineScope(Dispatchers.Main).launch {
-            versionUseCase(packageName = pckName, versionCode = code, versionName = name).collect { result ->
+            checkVersionUseCase(packageName = pckName, versionCode = code, versionName = name).collect { result ->
                 result.onSuccess {
                     debug("success")
                     checkSign()

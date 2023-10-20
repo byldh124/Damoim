@@ -12,7 +12,6 @@ import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
-import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.damoim.domain.usecase.profile.UpdateProfileUseCase
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
@@ -23,7 +22,7 @@ import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActiv
 import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
-import com.moondroid.project01_meetingapp.utils.ViewExtension.init
+import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import com.moondroid.project01_meetingapp.utils.image.ImageHelper.getPathFromUri
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,14 +59,15 @@ class MyInfoActivity : BaseActivity() {
     private fun initView() {
         with(binding) {
             thumb.glide(DMApp.profile.thumb)
-            toolbar.init(this@MyInfoActivity)
+
+            setupToolbar(binding.toolbar)
+            
             tvMsgLength.text = String.format(getString(R.string.cmn_message_length), binding.etMsg.length())
+
             etMsg.afterTextChanged {
                 binding.tvMsgLength.text =
                     String.format(getString(R.string.cmn_message_length), it.length)
             }
-
-            profile
 
             confirm.setOnClickListener {
                 update()

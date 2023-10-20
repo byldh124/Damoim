@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.GroupListType
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.common.IntentParam
@@ -15,8 +14,8 @@ import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListViewModel.Event
-import com.moondroid.project01_meetingapp.utils.ViewExtension.init
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
+import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -32,11 +31,7 @@ class GroupListActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        repeatOnStarted {
-            viewModel.eventFlow.collect {
-                handleEvent(it)
-            }
-        }
+        collectEvent(viewModel.eventFlow, ::handleEvent)
         initView()
     }
 
@@ -44,7 +39,7 @@ class GroupListActivity : BaseActivity() {
      * View initialize
      */
     private fun initView() {
-        binding.toolbar.init(this)
+        setupToolbar(binding.toolbar)
 
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         binding.recycler.layoutManager = layoutManager

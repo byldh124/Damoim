@@ -16,24 +16,25 @@ class DMApp : Application() {
     companion object {
         lateinit var profile: Profile
         lateinit var group: GroupItem
-
         fun setProfile() = ::profile.isInitialized
     }
 
+
     override fun onCreate() {
         super.onCreate()
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)                      //다크모드 지원 X
+        //다크모드 지원 X
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        /* initialize kakao */
+        // Firebase Analytics 초기화
+        FBAnalyze.init(applicationContext)
+
+        // 카카오 sdk 초기화
         KakaoSdk.init(this, getString(R.string.kakao_client_id))
 
-        /* initialize naver */
+        // 네이버 맵 클라이언트 초기화
         NaverMapSdk.getInstance(this).client = NaverMapSdk.NaverCloudPlatformClient(getString(R.string.naver_client_id))
 
-        // initialize Preferences
+        // SharedPreferences 초기화
         Preferences.init(applicationContext)
-
-        /* initialize firebase analytics */
-        FBAnalyze.init(applicationContext)
     }
 }

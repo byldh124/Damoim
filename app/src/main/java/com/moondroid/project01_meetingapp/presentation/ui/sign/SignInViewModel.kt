@@ -126,15 +126,16 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    sealed class SignInEvent {
-        data class Loading(val show: Boolean) : SignInEvent()
-        data class Message(val message: String) : SignInEvent()
-        object InvalidPw : SignInEvent()
-        object NotExist : SignInEvent()
-        data class Fail(val code: Int) : SignInEvent()
-        data class Error(val throwable: Throwable) : SignInEvent()
-        object Home : SignInEvent()
-        data class SignUpSocial(val id: String, val name: String, val thumb: String) : SignInEvent()
+    sealed interface SignInEvent {
+        data class Loading(val show: Boolean) : SignInEvent
+        data class Message(val message: String) : SignInEvent
+        data class Fail(val code: Int) : SignInEvent
+        data class Error(val throwable: Throwable) : SignInEvent
+        data class SignUpSocial(val id: String, val name: String, val thumb: String) : SignInEvent
+
+        data object InvalidPw : SignInEvent
+        data object NotExist : SignInEvent
+        data object Home : SignInEvent
     }
 }
 

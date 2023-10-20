@@ -1,7 +1,5 @@
 package com.moondroid.project01_meetingapp.presentation.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.domain.model.Profile
@@ -21,11 +19,6 @@ class HomeViewModel @Inject constructor(
     private val profileUseCase: ProfileUseCase,
     private val interestUseCase: InterestUseCase,
 ) : BaseViewModel() {
-    private val _showLoading = MutableLiveData<Boolean>()
-    val showLoading: LiveData<Boolean> get() = _showLoading
-
-    private val _showError = MutableLiveData<Int>()
-    val showError: LiveData<Int> get() = _showError
 
     init {
         getUser()
@@ -65,7 +58,7 @@ class HomeViewModel @Inject constructor(
 
     sealed interface Event {
         data class SetProfile(val profile: Profile) : Event
-        object UpdateInterest : Event
-        object MyProfile : Event
+        data object UpdateInterest : Event
+        data object MyProfile : Event
     }
 }

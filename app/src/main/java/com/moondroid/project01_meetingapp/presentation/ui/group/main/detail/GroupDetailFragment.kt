@@ -7,9 +7,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
-import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.IntentParam
-import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupDetailBinding
@@ -18,7 +16,7 @@ import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.moim.MoimInfoActivity
 import com.moondroid.project01_meetingapp.presentation.ui.profile.ProfileActivity
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,11 +38,7 @@ class GroupDetailFragment : BaseFragment(R.layout.fragment_group_detail) {
         binding.groupInfo = DMApp.group
         initView()
 
-        repeatOnStarted {
-            viewModel.eventFlow.collect {
-                handleEvent(it)
-            }
-        }
+        collectEvent(viewModel.eventFlow, ::handleEvent)
 
         viewModel.loadMember(DMApp.group.title)
         viewModel.getMoim(DMApp.group.title)
@@ -98,7 +92,10 @@ class GroupDetailFragment : BaseFragment(R.layout.fragment_group_detail) {
         }
         moimListAdapter = MoimListAdapter {
             val sIntent = Intent(activity, MoimInfoActivity::class.java)
-                .putExtra(IntentParam.USER_IS_MEMBER_THIS_GROUP, activity.userType != GroupActivity.UserType.VISITOR)
+                .putExtra(
+                    IntentParam.USER_IS_MEMBER_THIS_GROUP,
+                    activity.userType != GroupActivity.UserType.VISITOR
+                )
                 .putExtra(IntentParam.MOIM, Gson().toJson(it))
             activity.startActivity(sIntent)
         }

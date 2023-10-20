@@ -6,9 +6,6 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.moondroid.project01_meetingapp.utils.ViewExtension.init
-import com.moondroid.damoim.common.Extension.logException
-
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.MoimItem
 import com.moondroid.damoim.domain.model.Profile
@@ -20,11 +17,12 @@ import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.databinding.ActivityMoimInfoBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.profile.ProfileActivity
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.detail.MemberAdapter
+import com.moondroid.project01_meetingapp.presentation.ui.profile.ProfileActivity
 import com.moondroid.project01_meetingapp.utils.BindingAdapter.visible
+import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import com.moondroid.project01_meetingapp.utils.ViewExtension.enable
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,11 +50,7 @@ class MoimInfoActivity : BaseActivity() {
         moim = Gson().fromJson(intent.getStringExtra(IntentParam.MOIM), MoimItem::class.java)
         binding.moim = moim
 
-        repeatOnStarted {
-            viewModel.eventFlow.collect {
-                handleEvent(it)
-            }
-        }
+        collectEvent(viewModel.eventFlow, ::handleEvent)
 
         initView()
 
@@ -78,7 +72,7 @@ class MoimInfoActivity : BaseActivity() {
     }
 
     private fun initView() {
-        binding.toolbar.init(this)
+        setupToolbar(binding.toolbar)
 
         binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 

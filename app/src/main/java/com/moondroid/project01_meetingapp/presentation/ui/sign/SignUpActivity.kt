@@ -15,9 +15,9 @@ import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
-import com.moondroid.project01_meetingapp.presentation.ui.sign.SignUpViewModel.SignUpEvent
-import com.moondroid.project01_meetingapp.utils.ViewExtension.init
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
+import com.moondroid.project01_meetingapp.presentation.ui.sign.SignUpViewModel.Event
+import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
+import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
@@ -40,13 +40,11 @@ class SignUpActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        repeatOnStarted {
-            viewModel.eventFlow.collect {
-                handleEvent(it)
-            }
-        }
         binding.lifecycleOwner = this
         binding.model = viewModel
+
+        collectEvent(viewModel.eventFlow, ::handleEvent)
+
         initView()
         checkSocial()
     }
@@ -56,7 +54,7 @@ class SignUpActivity : BaseActivity() {
      */
     private fun initView() {
         with(binding) {
-            toolbar.init(this@SignUpActivity)
+            setupToolbar(binding.toolbar)
             rgAccount.setOnCheckedChangeListener { group, checkedId ->
                 try {
                     val rb = group.findViewById<RadioButton>(checkedId)
@@ -92,11 +90,13 @@ class SignUpActivity : BaseActivity() {
         viewModel.gender.value = binding.rbAccountMale.text.toString()
     }
 
-    private fun handleEvent(event: SignUpEvent) {
+    private fun handleEvent(event: Event) {
         when (event) {
-            is SignUpEvent.Loading -> showLoading(event.show)
-            is SignUpEvent.Message -> showMessage(event.message)
-            is SignUpEvent.Home -> goToHomeActivity()
+            is Event.Loading -> showLoading(event.show)
+            is Event.Message -> showMessage(event.message)
+            is Event.Home -> goToHomeActivity()
+            is Event.Fail -> serverError(event.code)
+            is Event.NetworkError -> networkError(event.throwable)
         }
     }
 

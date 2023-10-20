@@ -12,9 +12,7 @@ import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.dialog.ButtonDialog
 import com.moondroid.project01_meetingapp.presentation.ui.splash.SplashViewModel.*
-import com.moondroid.project01_meetingapp.presentation.ui.splashmvp.SplashPresenter
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
-import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
+import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -32,12 +30,7 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FBAnalyze.logEvent("Splash_Loaded")
-        repeatOnStarted {
-            viewModel.eventFlow.collect {
-                handleEvent(it)
-            }
-        }
+        collectEvent(viewModel.eventFlow, ::handleEvent)
         viewModel.checkAppVersion(packageName, BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME)
     }
 
@@ -51,6 +44,9 @@ class SplashActivity : BaseActivity() {
         }
     }
 
+    /**
+     * 앱 버전이 비활성화 된 버전일 경우 업데이트 유도
+     */
     private fun toUpdate() {
         val builder = ButtonDialog.Builder(mContext).apply {
             message = "새로운 버전이 출시됐습니다.\n업데이트 후 이용이 가능합니다."

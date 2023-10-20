@@ -28,10 +28,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FBMessage : FirebaseMessagingService() {
 
-    private val channelId = "channel_dm"
+    companion object {
+        const val CHANNEL_ID = "Damoim_push_channel"
+        const val CHANNEL_NAME = "Damoim_message"
 
-    @Inject
-    lateinit var retrofit: Retrofit
+        const val PENDING_INTENT_REQUEST_CODE = 0x10
+        const val NOTIFICATION_ID = 0x11
+    }
 
     @Inject
     lateinit var updateTokenUseCase: UpdateTokenUseCase
@@ -49,14 +52,14 @@ class FBMessage : FirebaseMessagingService() {
             val builder: NotificationCompat.Builder =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     val channel = NotificationChannel(
-                        channelId,
-                        "push ch ",
+                        CHANNEL_ID,
+                        CHANNEL_NAME,
                         NotificationManager.IMPORTANCE_DEFAULT
                     )
                     notificationManager.createNotificationChannel(channel)
-                    NotificationCompat.Builder(this, channelId)
+                    NotificationCompat.Builder(this, CHANNEL_ID)
                 } else {
-                    NotificationCompat.Builder(this, channelId)
+                    NotificationCompat.Builder(this, CHANNEL_ID)
                 }
 
             var notiTitle: String
@@ -91,10 +94,10 @@ class FBMessage : FirebaseMessagingService() {
                 }
 
             val pendingIntent =
-                PendingIntent.getActivity(baseContext, 100, intent, PendingIntent.FLAG_IMMUTABLE)
+                PendingIntent.getActivity(baseContext, PENDING_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_IMMUTABLE)
             builder.setContentIntent(pendingIntent)
 
-            notificationManager.notify(11, builder.build())
+            notificationManager.notify(NOTIFICATION_ID, builder.build())
         } catch (e: Exception) {
             logException(e)
         }

@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.project01_meetingapp.DMApp
@@ -17,8 +16,8 @@ import com.moondroid.project01_meetingapp.databinding.ActivityProfileBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListAdapter
-import com.moondroid.project01_meetingapp.utils.ViewExtension.init
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
+import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,17 +32,14 @@ class ProfileActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        repeatOnStarted {
-            viewModel.eventFlow.collect {
-                handleEvent(it)
-            }
-        }
         val userJson = intent.getStringExtra(IntentParam.USER)
         profileUser = Gson().fromJson(userJson, Profile::class.java)
 
         if (profileUser == null) finish()
 
         binding.user = profileUser
+
+        collectEvent(viewModel.eventFlow, ::handleEvent)
 
         initView()
 
@@ -81,7 +77,7 @@ class ProfileActivity : BaseActivity() {
      * Initialize View
      */
     private fun initView() {
-        binding.toolbar.init(this)
+        setupToolbar(binding.toolbar)
 
         binding.recycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 

@@ -43,7 +43,9 @@ class SignUpViewModel @Inject constructor(
     val pw2 = MutableLiveData<String>()                            // PW - 유효성 확인 및 해시값 생성에만 사용
     val name = MutableLiveData<String>()                           // 이름
     val gender = MutableLiveData<String>()                         // 성별
-    val thumb = MutableLiveData<String>("http://moondroid.dothome.co.kr/damoim/thumbs/IMG_20210302153242unnamed.jpg")                          // 썸네일 - 카카오 로그인이 아닌경우는 기본값으로 설정
+
+    // 썸네일 - 카카오 로그인이 아닌경우는 기본값으로 설정
+    val thumb = MutableLiveData("http://moondroid.dothome.co.kr/damoim/thumbs/IMG_20210302153242unnamed.jpg")
     val birth = MutableLiveData<String>()                          // 생년월일
     val location = MutableLiveData<String>()                       // 관심지역
     val interest = MutableLiveData<String>()                       // 관심사
@@ -51,7 +53,7 @@ class SignUpViewModel @Inject constructor(
 
     var fromSocial = false
 
-    private val _eventFlow = MutableEventFlow<SignUpEvent>()
+    private val _eventFlow = MutableEventFlow<Event>()
     val eventFlow = _eventFlow.asEventFlow()
 
     fun signUp() {
@@ -177,32 +179,30 @@ class SignUpViewModel @Inject constructor(
      * [토큰 미등록시에도 정상처리]
      */
     private fun updateToken(token: String) {
-        try {
-            viewModelScope.launch {
-                updateTokenUseCase(DMApp.profile.id, token).collect {
-                    loading(false)
-                    home()
-                }
+        viewModelScope.launch {
+            updateTokenUseCase(DMApp.profile.id, token).collect {
+                loading(false)
+                home()
             }
-        } catch (e: Exception) {
-            logException(e)
         }
     }
 
-    private fun loading(b: Boolean) = event(SignUpEvent.Loading(b))
-    fun message(msg: String) = event(SignUpEvent.Message(msg))
-    private fun home() = event(SignUpEvent.Home)
+    private fun loading(b: Boolean) = event(Event.Loading(b))
+    fun message(msg: String) = event(Event.Message(msg))
+    private fun home() = event(Event.Home)
 
-    private fun event(event: SignUpEvent) {
+    private fun event(event: Event) {
         viewModelScope.launch {
             _eventFlow.emit(event)
         }
     }
 
-    sealed class SignUpEvent {
-        class Loading(val show: Boolean) : SignUpEvent()
-        class Message(val message: String) : SignUpEvent()
-        object Home : SignUpEvent()
+    sealed interface Event {
+        data class Fail(val code: Int) : Event
+        data class NetworkError(val throwable: Throwable) : Event
+        data class Loading(val show: Boolean) : Event
+        data class Message(val message: String) : Event
+        data object Home : Event
     }
 }
 

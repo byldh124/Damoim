@@ -21,8 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.moondroid.damoim.common.Extension.debug
-import kotlinx.coroutines.CoroutineScope
+import com.moondroid.project01_meetingapp.presentation.common.EventFlow
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -35,9 +34,23 @@ internal object ViewExtension {
         toast(getString(resId))
     }
 
-    fun LifecycleOwner.repeatOnStarted(block: suspend CoroutineScope.() -> Unit) {
+    /**
+     * viewModel 의 이벤트 처리
+     *
+     * @param T - 이벤트 타입
+     * @param event - 이벤트
+     * @param collector - 이벤트 처리 구현
+     * @param lifecycleState - default: onStart()
+     */
+    fun <T> LifecycleOwner.collectEvent(
+        event: EventFlow<T>,
+        collector: (T) -> Unit,
+        lifecycleState: Lifecycle.State = Lifecycle.State.STARTED
+    ) {
         lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED, block)
+            lifecycle.repeatOnLifecycle(lifecycleState) {
+                event.collect(collector)
+            }
         }
     }
 
@@ -49,15 +62,11 @@ internal object ViewExtension {
         snack(context.resources.getString(resId))
     }
 
-    fun Toolbar.init(activity: AppCompatActivity) {
-        try {
-            activity.setSupportActionBar(this)
-            activity.supportActionBar?.let {
-                it.setDisplayHomeAsUpEnabled(true)
-                it.setDisplayShowTitleEnabled(false)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+    fun AppCompatActivity.setupToolbar(toolbar: Toolbar, setHomeAsUp: Boolean = true) {
+        setSupportActionBar(toolbar)
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(setHomeAsUp)
+            it.setDisplayShowTitleEnabled(false)
         }
     }
 
@@ -106,7 +115,7 @@ internal object ViewExtension {
                 false
             } else {
                 val width = metrics.widthPixels
-                width >= 580.dpToPixel(this)
+                width >= 600.dpToPixel(this)
             }
         } catch (e: Exception) {
             false

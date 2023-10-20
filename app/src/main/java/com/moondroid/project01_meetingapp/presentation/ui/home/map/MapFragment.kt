@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeLocationBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.map.MapViewModel.Event
+import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.LocationTrackingMode
@@ -33,7 +33,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_home_location),
     private val binding by viewBinding(FragmentHomeLocationBinding::bind)
     private val viewModel: MapViewModel by viewModels()
 
-    private lateinit var mapView : MapView
+    private lateinit var mapView: MapView
 
     lateinit var activity: HomeActivity
     private lateinit var mNaverMap: NaverMap
@@ -46,11 +46,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_home_location),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        repeatOnStarted {
-            viewModel.eventFlow.collect {
-                handleEvent(it)
-            }
-        }
+        collectEvent(event = viewModel.eventFlow, collector = ::handleEvent)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,7 +63,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_home_location),
 
     private fun handleEvent(event: Event) {
         when (event) {
-            is Event.Update ->  {
+            is Event.Update -> {
                 event.list.forEach { item ->
                     if (beforeDate(item.date, "yyyy.MM.dd")) {
                         val marker = Marker()

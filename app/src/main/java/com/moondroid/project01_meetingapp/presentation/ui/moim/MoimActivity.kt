@@ -15,8 +15,8 @@ import com.moondroid.project01_meetingapp.databinding.ActivityMoimBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
-import com.moondroid.project01_meetingapp.utils.ViewExtension.init
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
+import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.LocationTrackingMode
@@ -39,18 +39,21 @@ class MoimActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        repeatOnStarted {
-            viewModel.eventFlow.collect {
-                handleEvent(it)
-            }
-        }
+        binding.lifecycleOwner = this
+        binding.model = viewModel
+
+        collectEvent(viewModel.eventFlow, ::handleEvent)
+
+        initView(savedInstanceState)
+    }
+
+    private fun initView(savedInstanceState: Bundle?) {
+        setupToolbar(binding.toolbar)
+
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, requestCode)
 
-        binding.lifecycleOwner = this
-        binding.model = viewModel
-        binding.toolbar.init(this)
     }
 
 

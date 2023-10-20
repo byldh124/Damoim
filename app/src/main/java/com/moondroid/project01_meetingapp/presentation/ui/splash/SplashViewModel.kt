@@ -6,7 +6,7 @@ import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
-import com.moondroid.damoim.domain.usecase.app.VersionUseCase
+import com.moondroid.damoim.domain.usecase.app.CheckVersionUseCase
 import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
@@ -19,20 +19,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val versionUseCase: VersionUseCase,
+    private val checkVersionUseCase: CheckVersionUseCase,
     private val profileUseCase: ProfileUseCase
 ) : BaseViewModel() {
 
     private val _eventFlow = MutableEventFlow<Event>()
     val eventFlow = _eventFlow.asEventFlow()
 
-    fun checkAppVersion(
+    /**
+     * 앱 버전 체크 [성공, 실패, 비활성, 없음]
+     */
+         fun checkAppVersion(
         packageName: String,
         versionCode: Int,
         versionName: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            versionUseCase(packageName, versionCode, versionName).collect { result ->
+            checkVersionUseCase(packageName, versionCode, versionName).collect { result ->
                 result.onSuccess {
                     checkUser()
                 }.onFail { code ->
@@ -74,11 +77,12 @@ class SplashViewModel @Inject constructor(
     }
 
     sealed interface Event {
+        data class Fail(val code: Int) : Event
+        data class NetworkError(val throwable: Throwable) : Event
+
         data object Update : Event
         data object Sign : Event
         data object Main : Event
-        data class Fail(val code: Int) : Event
-        data class NetworkError(val throwable: Throwable) : Event
     }
 }
 

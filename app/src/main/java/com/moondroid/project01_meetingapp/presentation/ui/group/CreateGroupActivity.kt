@@ -28,7 +28,7 @@ import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActiv
 import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
 import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
-import com.moondroid.project01_meetingapp.utils.ViewExtension.init
+import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.project01_meetingapp.utils.ViewExtension.visible
 import com.moondroid.project01_meetingapp.utils.image.ImageHelper.getPathFromUri
@@ -61,7 +61,7 @@ class CreateGroupActivity : BaseActivity() {
      * View 초기화
      */
     private fun initView() {
-        binding.toolbar.init(mContext)
+        setupToolbar(toolbar = binding.toolbar)
 
         binding.tvMsgLength.text =
             String.format(getString(R.string.cmn_message_length), binding.etPurpose.length())

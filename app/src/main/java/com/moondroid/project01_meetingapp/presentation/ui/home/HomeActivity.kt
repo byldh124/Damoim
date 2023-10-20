@@ -9,7 +9,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -42,12 +41,11 @@ import com.moondroid.project01_meetingapp.presentation.ui.home.search.SearchFrag
 import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.profile.MyInfoActivity
 import com.moondroid.project01_meetingapp.presentation.ui.setting.SettingActivity
-import com.moondroid.project01_meetingapp.utils.ViewExtension.init
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
+import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.system.measureTimeMillis
 
 /**
  * 메인 화면 (HOME)
@@ -87,15 +85,8 @@ class HomeActivity : BaseActivity() {
         headerBinding.model = viewModel
         headerBinding.profile = DMApp.profile
 
-        repeatOnStarted {
-            viewModel.eventFlow.collect {
-                handleEvent(it)
-            }
-        }
+        collectEvent(viewModel.eventFlow, ::handleEvent)
 
-        measureTimeMillis {
-
-        }
         initView()
 
         checkPermission()
@@ -149,7 +140,7 @@ class HomeActivity : BaseActivity() {
     private fun initView() {
         name = getString(R.string.cmn_find_group)
 
-        binding.toolbar.init(this)
+        setupToolbar(binding.toolbar)
 
         binding.icShare.setOnClickListener { share() }
 

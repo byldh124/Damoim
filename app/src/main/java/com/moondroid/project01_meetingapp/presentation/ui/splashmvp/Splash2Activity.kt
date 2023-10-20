@@ -5,7 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.damoim.domain.usecase.app.VersionUseCase
+import com.moondroid.damoim.domain.usecase.app.CheckVersionUseCase
 import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
 import com.moondroid.project01_meetingapp.BuildConfig
 import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
@@ -29,13 +29,13 @@ class Splash2Activity : BaseActivity(), SplashContract.View {
     private lateinit var presenter: SplashContract.Presenter
 
     @Inject
-    lateinit var versionUseCase: VersionUseCase
+    lateinit var checkVersionUseCase: CheckVersionUseCase
     @Inject
     lateinit var profileUseCase: ProfileUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = SplashPresenter(versionUseCase, profileUseCase, this)
+        presenter = SplashPresenter(checkVersionUseCase, profileUseCase, this)
         presenter.checkAppVersion(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, packageName)
     }
 

@@ -18,12 +18,12 @@ import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.dialog.TutorialDialog
 import com.moondroid.project01_meetingapp.presentation.ui.group.GroupInfoActivity
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.chat.ChatFragment
-import com.moondroid.project01_meetingapp.presentation.ui.group.main.gallery.GalleryFragment
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.detail.GroupDetailFragment
+import com.moondroid.project01_meetingapp.presentation.ui.group.main.gallery.GalleryFragment
 import com.moondroid.project01_meetingapp.presentation.ui.moim.MoimActivity
 import com.moondroid.project01_meetingapp.utils.BindingAdapter.visible
-import com.moondroid.project01_meetingapp.utils.ViewExtension.init
-import com.moondroid.project01_meetingapp.utils.ViewExtension.repeatOnStarted
+import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
+import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
@@ -67,11 +67,8 @@ class GroupActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.model = viewModel
 
-        repeatOnStarted {
-            viewModel.eventFlow.collect {
-                handleEvent(it)
-            }
-        }
+        collectEvent(viewModel.eventFlow, ::handleEvent)
+
         initView()
     }
 
@@ -86,7 +83,8 @@ class GroupActivity : BaseActivity() {
      * View, Fragment 초기화
      */
     private fun initView() {
-        binding.toolbar.init(this)
+        setupToolbar(binding.toolbar)
+
         binding.tvTitle.text = DMApp.group.title
         val pagerAdapter = PagerAdapter(this)
         binding.pager.adapter = pagerAdapter
