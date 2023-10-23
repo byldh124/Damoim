@@ -189,4 +189,5 @@
     <string name="error_report_fail">신고처리가 실패됐습니다. %s</string>
     <string name="cmn_sign_in_google">구글 로그인</string>
     <string name="error_fail_request">현재 서버가 불안정 합니다.\n다시 시도해 주세요.</string>
+    <string name="error_share_kakao">카카오톡 공유 실패</string>
 </resources>

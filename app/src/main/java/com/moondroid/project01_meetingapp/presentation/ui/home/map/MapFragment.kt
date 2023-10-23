@@ -63,6 +63,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_home_location),
 
     private fun handleEvent(event: Event) {
         when (event) {
+            // 모임정보 불러오 이후 마커 표시
             is Event.Update -> {
                 event.list.forEach { item ->
                     if (beforeDate(item.date, "yyyy.MM.dd")) {

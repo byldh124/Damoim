@@ -74,6 +74,7 @@ class MainFragment : BaseFragment(R.layout.fragment_home_main) {
 
     private fun handleEvent(event: Event) {
         when (event) {
+            // 카테고리 클릭에 따른 리스트 업데이트
             is Event.Update -> {
                 activity.groupsList = event.list
                 groupAdapter?.updateList(event.list)

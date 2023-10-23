@@ -16,11 +16,7 @@ class InterestAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind()
-
-        holder.itemView.setOnClickListener {
-            onClick(position)
-        }
+        holder.bind(position)
     }
 
     override fun getItemCount(): Int {
@@ -31,8 +27,11 @@ class InterestAdapter(
         private val binding: ItemInterestBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind() {
-            binding.position = adapterPosition + 1
+        fun bind(position: Int) {
+            binding.position = position + 1
+            itemView.setOnClickListener {
+                onClick(position)
+            }
             binding.executePendingBindings()
         }
     }

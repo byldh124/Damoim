@@ -43,6 +43,7 @@ import com.moondroid.project01_meetingapp.presentation.ui.profile.MyInfoActivity
 import com.moondroid.project01_meetingapp.presentation.ui.setting.SettingActivity
 import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
+import com.moondroid.project01_meetingapp.utils.ViewExtension.snack
 import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,6 +79,24 @@ class HomeActivity : BaseActivity() {
 
     private var name = String()
 
+    //관심사 설정 런처
+    private val getInterest = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.let { intent ->
+                viewModel.updateInterest(
+                    getString(intent.getIntExtra(IntentParam.INTEREST, 0))
+                )
+            }
+        }
+    }
+
+    //프로필 업데이트 런처
+    private val updateProfile = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            viewModel.getUser()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         headerBinding = LayoutNavigationHeaderBinding.bind(binding.homeNav.getHeaderView(0))
@@ -90,22 +109,6 @@ class HomeActivity : BaseActivity() {
         initView()
 
         checkPermission()
-    }
-
-    private val updateProfile = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            viewModel.getUser()
-        }
-    }
-
-    private val getInterest = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.let { intent ->
-                viewModel.updateInterest(
-                    getString(intent.getIntExtra(IntentParam.INTEREST, 0))
-                )
-            }
-        }
     }
 
     private fun handleEvent(event: Event) {
@@ -121,6 +124,11 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+
+
+    /**
+     * Custom backPressed()
+     */
     override fun onBack() {
         if (binding.homeNav.visibility == View.VISIBLE) {
             binding.drawer.closeDrawers()
@@ -128,7 +136,7 @@ class HomeActivity : BaseActivity() {
             binding.bnv.selectedItemId = R.id.bnv_tab1
         } else if (System.currentTimeMillis() - mBackWait >= 2000) {
             mBackWait = System.currentTimeMillis()
-            toast(getString(R.string.alm_two_click_exit))
+            binding.root.snack(getString(R.string.alm_two_click_exit))
         } else {
             super.onBack()
         }
@@ -262,6 +270,9 @@ class HomeActivity : BaseActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit()
     }
 
+    /**
+     * 카카오 공유
+     **/
     private fun share() {
         FBAnalyze.logEvent("Share Clicked")
 
@@ -288,9 +299,8 @@ class HomeActivity : BaseActivity() {
         if (ShareClient.instance.isKakaoTalkSharingAvailable(this)) { // 카카오톡으로 카카오톡 공유 가능
             ShareClient.instance.shareDefault(this, params) { sharingResult, error ->
                 if (error != null) {
-                    debug("카카오톡 공유 실패 : $error")
+                    showMessage(getString(R.string.error_share_kakao))
                 } else if (sharingResult != null) {
-                    debug("카카오톡 공유 성공 ${sharingResult.intent}")
                     startActivity(sharingResult.intent)
 
                     // 카카오톡 공유에 성공했지만 아래 경고 메시지가 존재할 경우 일부 컨텐츠가 정상 동작하지 않을 수 있습니다.
@@ -298,24 +308,24 @@ class HomeActivity : BaseActivity() {
                     debug("Argument Msg: ${sharingResult.argumentMsg}")
                 }
             }
-        } else { // 카카오톡 미설치: 웹 공유 사용 권장
-            // 웹 공유 예시 코드
+        } else {
+            // 카카오톡 미설치: 웹 공유 사용 권장
             val sharerUrl = WebSharerClient.instance.makeDefaultUrl(params)
-
-            // CustomTabs 으로 웹 브라우저 열기
 
             // 1. CustomTabsServiceConnection 지원 브라우저 열기
             // ex) Chrome, 삼성 인터넷, FireFox, 웨일 등
             try {
                 KakaoCustomTabsClient.openWithDefault(this, sharerUrl)
-            } catch (e: UnsupportedOperationException) { // CustomTabsServiceConnection 지원 브라우저가 없을 때 예외처리
+            } catch (e: UnsupportedOperationException) {
+                // CustomTabsServiceConnection 지원 브라우저가 없을 때 예외처리
             }
 
             // 2. CustomTabsServiceConnection 미지원 브라우저 열기
             // ex) 다음, 네이버 등
             try {
                 KakaoCustomTabsClient.open(this, sharerUrl)
-            } catch (e: ActivityNotFoundException) { // 디바이스에 설치된 인터넷 브라우저가 없을 때 예외처리
+            } catch (e: ActivityNotFoundException) {
+                // 디바이스에 설치된 인터넷 브라우저가 없을 때 예외처리
             }
         }
     }
