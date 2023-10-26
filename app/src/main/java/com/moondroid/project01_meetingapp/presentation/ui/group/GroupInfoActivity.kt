@@ -3,6 +3,7 @@ package com.moondroid.project01_meetingapp.presentation.ui.group
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import com.bumptech.glide.Glide
 import com.moondroid.damoim.common.DMRegex
@@ -79,23 +80,70 @@ class GroupInfoActivity : BaseActivity() {
             it.setDisplayShowTitleEnabled(false)
         }
 
+        //주소정보 가져오기
         binding.tvLocation.setOnClickListener {
-            locationLauncher.launch(Intent(mContext, LocationActivity::class.java))
+            startActivityForResult(Intent(mContext, LocationActivity::class.java)) { intent ->
+                intent?.let {
+                    location = it.getStringExtra(IntentParam.LOCATION).toString()
+                    binding.tvLocation.text = location
+                }
+            }
         }
 
+        //관심사 가져오기
         binding.icInterest.setOnClickListener {
-            interestLauncher.launch(Intent(mContext, InterestActivity::class.java))
+            startActivityForResult(Intent(mContext, InterestActivity::class.java)) { intent ->
+                intent?.let {
+                    interest = getString(it.getIntExtra(IntentParam.INTEREST, 0))
+                    val resId = it.getIntExtra(IntentParam.INTEREST_ICON, 0)
+                    Glide.with(this).load(resId).into(binding.icInterest)
+                }
+            }
         }
 
+        //대문 사진 가져오기
         binding.ivIntro.setOnClickListener {
-            introLauncher.launch(Intent(Intent.ACTION_PICK).setType("image/*"))
+            startActivityForResult(
+                Intent(
+                    Intent.ACTION_PICK,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                )
+            ) { intent ->
+                intent?.data?.let { uri ->
+                    try {
+                        imagePath = getPathFromUri(this, uri)
+                        val bitmap = BitmapFactory.decodeFile(imagePath)
+                        Glide.with(this).load(bitmap).into(binding.ivIntro)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                }
+            }
         }
 
+        //썸네일 사진 가져오기
         binding.ivThumb.setOnClickListener {
-            thumbLauncher.launch(Intent(Intent.ACTION_PICK).setType("image/*"))
+            startActivityForResult(
+                Intent(
+                    Intent.ACTION_PICK,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                )
+            ) { intent ->
+                intent?.data?.let { uri ->
+                    try {
+                        thumbPath = getPathFromUri(this, uri)
+                        val bitmap = BitmapFactory.decodeFile(thumbPath)
+                        Glide.with(this).load(bitmap).into(binding.ivThumb)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                }
+            }
         }
 
-        binding.btnSave.setOnClickListener { checkField() }
+        binding.btnSave.setOnClickListener {
+            checkField()
+        }
     }
 
     /**
@@ -133,7 +181,16 @@ class GroupInfoActivity : BaseActivity() {
         val introFile = imagePath?.let { File(it) }
 
         CoroutineScope(Dispatchers.Main).launch {
-            updateGroupUseCase(originTitle, title, location, purpose, interest, information, thumbFile, introFile)
+            updateGroupUseCase(
+                originTitle,
+                title,
+                location,
+                purpose,
+                interest,
+                information,
+                thumbFile,
+                introFile
+            )
                 .collect { result ->
                     result.onSuccess {
                         DMApp.group = it
@@ -144,67 +201,6 @@ class GroupInfoActivity : BaseActivity() {
                         networkError(it)
                     }
                 }
-        }
-    }
-
-    /**
-     * 관심사 선택
-     */
-    private val interestLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.let { intent ->
-                interest = getString(intent.getIntExtra(IntentParam.INTEREST, 0))
-                val resId = intent.getIntExtra(IntentParam.INTEREST_ICON, 0)
-                Glide.with(this).load(resId).into(binding.icInterest)
-            }
-        }
-    }
-
-    /**
-     * 지역 선택
-     */
-    private val locationLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.let { intent ->
-                location = intent.getStringExtra(IntentParam.LOCATION).toString()
-                binding.tvLocation.text = location
-            }
-        }
-    }
-
-    /**
-     * 썸네일 이미지 선택
-     */
-    private val thumbLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.let { intent ->
-                val uri = intent.data
-                uri?.let { u ->
-                    thumbPath = getPathFromUri(this, u)
-                    if (!thumbPath.isNullOrEmpty()) {
-                        val bitmap = BitmapFactory.decodeFile(thumbPath)
-                        Glide.with(this).load(bitmap).into(binding.ivThumb)
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * 배경 이미지 선택
-     */
-    private val introLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.let { intent ->
-                val uri = intent.data
-                uri?.let { u ->
-                    imagePath = getPathFromUri(this, u)
-                    if (!imagePath.isNullOrEmpty()) {
-                        val bitmap = BitmapFactory.decodeFile(imagePath)
-                        Glide.with(this).load(bitmap).into(binding.ivIntro)
-                    }
-                }
-            }
         }
     }
 }

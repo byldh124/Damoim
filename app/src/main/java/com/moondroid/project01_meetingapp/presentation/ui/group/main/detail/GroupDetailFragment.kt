@@ -16,6 +16,7 @@ import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.moim.MoimInfoActivity
 import com.moondroid.project01_meetingapp.presentation.ui.profile.ProfileActivity
+import com.moondroid.project01_meetingapp.utils.BindingAdapter.visible
 import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -99,6 +100,8 @@ class GroupDetailFragment : BaseFragment(R.layout.fragment_group_detail) {
                 .putExtra(IntentParam.MOIM, Gson().toJson(it))
             activity.startActivity(sIntent)
         }
+
+        binding.btnJoin.visible(DMApp.profile.id != "test01")
 
         binding.btnJoin.setOnClickListener {
             viewModel.join(DMApp.group.title)

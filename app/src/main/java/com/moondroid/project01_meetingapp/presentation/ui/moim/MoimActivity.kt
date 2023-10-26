@@ -58,21 +58,19 @@ class MoimActivity : BaseActivity(), OnMapReadyCallback {
 
 
     private fun toLocation() {
-        val sIntent = Intent(mContext, LocationActivity::class.java)
-            .putExtra(IntentParam.LOCATION_TO_ADDRESS, true)
-        locationLauncher.launch(sIntent)
-    }
-
-    private val locationLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.let { intent ->
+        startActivityForResult(
+            Intent(mContext, LocationActivity::class.java)
+                .putExtra(IntentParam.LOCATION_TO_ADDRESS, true)
+        ) { intent ->
+            intent?.let {
                 val json = intent.getStringExtra(IntentParam.ADDRESS).toString()
                 val temp = Gson().fromJson(json, MoimAddress::class.java)
                 temp?.let { address ->
                     binding.tvLocation.text = address.address
                     val marker = Marker(LatLng(address.lat, address.lng))
                     marker.map = mNaverMap
-                    mNaverMap.cameraPosition = CameraPosition(LatLng(address.lat, address.lng), 16.0, 0.0, 0.0)
+                    mNaverMap.cameraPosition =
+                        CameraPosition(LatLng(address.lat, address.lng), 16.0, 0.0, 0.0)
                     viewModel.address = address
                 }
             }
@@ -95,16 +93,12 @@ class MoimActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     private fun showTime() {
-        try {
-            val timePicker = TimePickerDialog(
-                this, R.style.TimePickerSpin, { _, hour, minute ->
-                    viewModel.time.value = String.format("%02d : %02d", hour, minute)
-                }, 12, 0, true
-            )
-            timePicker.show()
-        } catch (e: Exception) {
-            logException(e)
-        }
+        val timePicker = TimePickerDialog(
+            this, R.style.TimePickerSpin, { _, hour, minute ->
+                viewModel.time.value = String.format("%02d : %02d", hour, minute)
+            }, 12, 0, true
+        )
+        timePicker.show()
     }
 
     private fun handleEvent(event: MoimViewModel.Event) {

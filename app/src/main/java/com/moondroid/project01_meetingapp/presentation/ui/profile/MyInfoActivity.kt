@@ -3,10 +3,15 @@ package com.moondroid.project01_meetingapp.presentation.ui.profile
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import android.provider.MediaStore
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.*
 import com.bumptech.glide.Glide
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.status.onError
@@ -24,6 +29,7 @@ import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
 import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
+import com.moondroid.project01_meetingapp.utils.image.ImageHelper
 import com.moondroid.project01_meetingapp.utils.image.ImageHelper.getPathFromUri
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -61,7 +67,7 @@ class MyInfoActivity : BaseActivity() {
             thumb.glide(DMApp.profile.thumb)
 
             setupToolbar(binding.toolbar)
-            
+
             tvMsgLength.text = String.format(getString(R.string.cmn_message_length), binding.etMsg.length())
 
             etMsg.afterTextChanged {
@@ -74,24 +80,32 @@ class MyInfoActivity : BaseActivity() {
             }
 
             thumbWrapper.setOnClickListener {
-                imageLauncher.launch(Intent(Intent.ACTION_PICK).setType("image/*"))
+                startActivityForResult(
+                    Intent(
+                        Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    )
+                ) { intent ->
+                    intent?.data?.let { uri ->
+                        try {
+                            path = getPathFromUri(mContext, uri)
+                            val bitmap = BitmapFactory.decodeFile(path)
+                            binding.thumb.glide(bitmap)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
+                    }
+                }
             }
             tvLocation.setOnClickListener {
-                locationLauncher.launch(Intent(mContext, LocationActivity::class.java))
+                startActivityForResult(Intent(mContext, LocationActivity::class.java)) { intent ->
+                    intent?.let {
+                        binding.tvLocation.text = intent.getStringExtra(IntentParam.LOCATION).toString()
+                    }
+                }
             }
             tvBirth.setOnClickListener {
                 toBirth()
-            }
-        }
-    }
-
-    /**
-     * 지역 선택
-     */
-    private val locationLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.let { intent ->
-                binding.tvLocation.text = intent.getStringExtra(IntentParam.LOCATION).toString()
             }
         }
     }
@@ -128,24 +142,6 @@ class MyInfoActivity : BaseActivity() {
             datePicker.show()
         } catch (e: Exception) {
             logException(e)
-        }
-    }
-
-    /**
-     * 프로필 이미지 선택
-     */
-    private val imageLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.let { intent ->
-                val uri = intent.data
-                uri?.let { u ->
-                    path = getPathFromUri(this, u)
-                    if (!path.isNullOrEmpty()) {
-                        val bitmap = BitmapFactory.decodeFile(path)
-                        Glide.with(this).load(bitmap).into(binding.thumb)
-                    }
-                }
-            }
         }
     }
 

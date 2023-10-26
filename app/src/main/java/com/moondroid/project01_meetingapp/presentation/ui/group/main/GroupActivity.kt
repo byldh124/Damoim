@@ -103,14 +103,9 @@ class GroupActivity : BaseActivity() {
             TutorialDialog(this).show()
 
         binding.icSetting.setOnClickListener {
-            val sIntent = Intent(this, GroupInfoActivity::class.java)
-            settingLauncher.launch(sIntent)
-        }
-    }
-
-    private val settingLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            (fragments[0] as GroupDetailFragment).reset()
+            startActivityForResult(Intent(this, GroupInfoActivity::class.java)) {
+                (fragments[0] as GroupDetailFragment).reset()
+            }
         }
     }
 
@@ -123,19 +118,8 @@ class GroupActivity : BaseActivity() {
         }
     }
 
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(android.R.anim.fade_in, 0)
-    }
-
     fun toMoimActivity() {
-        val sIntent = Intent(this, MoimActivity::class.java)
-        moimLauncher.launch(sIntent)
-    }
-
-
-    private val moimLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
+        startActivityForResult(Intent(this, MoimActivity::class.java)) {
             (fragments[0] as GroupDetailFragment).getMoim()
         }
     }

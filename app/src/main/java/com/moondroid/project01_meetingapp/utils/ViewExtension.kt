@@ -3,6 +3,7 @@ package com.moondroid.project01_meetingapp.utils
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.text.Editable
 import android.text.TextWatcher
@@ -92,6 +93,11 @@ internal object ViewExtension {
 
     fun View.enable(enable: Boolean = true) {
         isEnabled = enable
+    }
+
+    fun Activity.setResultAndFinish(intent: Intent? = null) {
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {

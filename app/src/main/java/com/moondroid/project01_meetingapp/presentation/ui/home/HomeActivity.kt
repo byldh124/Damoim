@@ -79,24 +79,6 @@ class HomeActivity : BaseActivity() {
 
     private var name = String()
 
-    //관심사 설정 런처
-    private val getInterest = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.let { intent ->
-                viewModel.updateInterest(
-                    getString(intent.getIntExtra(IntentParam.INTEREST, 0))
-                )
-            }
-        }
-    }
-
-    //프로필 업데이트 런처
-    private val updateProfile = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            viewModel.getUser()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         headerBinding = LayoutNavigationHeaderBinding.bind(binding.homeNav.getHeaderView(0))
@@ -117,14 +99,13 @@ class HomeActivity : BaseActivity() {
             is Event.SetProfile -> headerBinding.profile = event.profile
 
             Event.MyProfile -> {
-                val sendIntent = Intent(mContext, MyInfoActivity::class.java)
-                updateProfile.launch(sendIntent)
                 hideNavigation()
+                startActivityForResult(Intent(mContext, MyInfoActivity::class.java)) {
+                    viewModel.getUser()
+                }
             }
         }
     }
-
-
 
     /**
      * Custom backPressed()
@@ -201,13 +182,21 @@ class HomeActivity : BaseActivity() {
 
         binding.homeNav.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.navInterest -> getInterest.launch(Intent(mContext, InterestActivity::class.java))
+                R.id.navInterest -> updateInterest()
                 R.id.navFavorite -> goToGroupListActivity(GroupListType.FAVORITE)
                 R.id.navRecent -> goToGroupListActivity(GroupListType.RECENT)
                 R.id.navSetting -> startActivity(Intent(mContext, SettingActivity::class.java))
             }
             hideNavigation()
             true
+        }
+    }
+
+    private fun updateInterest() {
+        startActivityForResult(Intent(mContext, InterestActivity::class.java)) {
+            it?.let {
+                viewModel.updateInterest(getString(it.getIntExtra(IntentParam.INTEREST, 0)))
+            }
         }
     }
 
@@ -250,7 +239,12 @@ class HomeActivity : BaseActivity() {
         }
 
         val deniedList =
-            list.filter { ActivityCompat.checkSelfPermission(mContext, it) == PackageManager.PERMISSION_DENIED }
+            list.filter {
+                ActivityCompat.checkSelfPermission(
+                    mContext,
+                    it
+                ) == PackageManager.PERMISSION_DENIED
+            }
 
         requestPermissionLauncher.launch(deniedList.toTypedArray())
     }

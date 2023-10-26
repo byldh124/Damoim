@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
@@ -15,6 +17,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupGalleryBinding
@@ -22,6 +25,8 @@ import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.utils.BindingAdapter.visible
+import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
+import com.moondroid.project01_meetingapp.utils.image.ImageHelper
 import java.text.SimpleDateFormat
 
 class GalleryFragment : BaseFragment(R.layout.fragment_group_gallery) {
@@ -58,24 +63,22 @@ class GalleryFragment : BaseFragment(R.layout.fragment_group_gallery) {
 
     @SuppressLint("SimpleDateFormat")
     fun add() {
-        imageLauncher.launch(Intent(Intent.ACTION_PICK).setType("image/*"))
-    }
+        startActivityForResult(
+            Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+        ) { intent ->
+            val time = SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis())
+            imgRef = FirebaseStorage.getInstance().getReference("GalleryImgs").child(time)
 
-    @SuppressLint("SimpleDateFormat")
-    private val imageLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.let { intent ->
-                val time = SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis())
-                imgRef = FirebaseStorage.getInstance().getReference("GalleryImgs").child(time)
-                imgUri = intent.data
-                imgUri?.let { uri ->
-                    imgRef.putFile(uri).addOnSuccessListener {
-                        imgRef.downloadUrl.addOnSuccessListener { uri2 ->
-                            val fdb = FirebaseDatabase.getInstance()
-                            val dbRef = fdb.getReference("GalleryImgs/${DMApp.group.title}")
-                            dbRef.child(time).setValue(uri2.toString()).addOnSuccessListener {
-                                getImage()
-                            }
+            intent?.data?.let { uri ->
+                imgRef.putFile(uri).addOnSuccessListener {
+                    imgRef.downloadUrl.addOnSuccessListener { uri2 ->
+                        val fdb = FirebaseDatabase.getInstance()
+                        val dbRef = fdb.getReference("GalleryImgs/${DMApp.group.title}")
+                        dbRef.child(time).setValue(uri2.toString()).addOnSuccessListener {
+                            getImage()
                         }
                     }
                 }

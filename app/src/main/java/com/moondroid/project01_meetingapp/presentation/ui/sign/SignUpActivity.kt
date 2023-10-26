@@ -122,13 +122,8 @@ class SignUpActivity : BaseActivity() {
      * 관심지역 선택 화면 전환
      */
     private fun toLocation() {
-        locationLauncher.launch(Intent(this, LocationActivity::class.java))
-    }
-
-    private val locationLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.let { intent ->
-                debug(intent.getStringExtra(IntentParam.LOCATION).toString())
+        startActivityForResult(Intent(this, LocationActivity::class.java)) { intent ->
+            intent?.let {
                 viewModel.location.value = intent.getStringExtra(IntentParam.LOCATION).toString()
             }
         }
@@ -138,12 +133,8 @@ class SignUpActivity : BaseActivity() {
      * 관심사 선택 화면 전환
      */
     private fun toInterest() {
-        interestLauncher.launch(Intent(this, InterestActivity::class.java))
-    }
-
-    private val interestLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.let { intent ->
+        startActivityForResult(Intent(this, InterestActivity::class.java)) { intent ->
+            intent?.let {
                 viewModel.interest.value = getString(intent.getIntExtra(IntentParam.INTEREST, 0))
             }
         }

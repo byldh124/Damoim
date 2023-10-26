@@ -8,7 +8,11 @@ import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.appcompat.app.AppCompatActivity
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.dialog.ButtonDialog
@@ -37,6 +41,14 @@ open class BaseActivity : AppCompatActivity() {
 
     open fun onBack() = finish()
 
+    private var onResult: (Intent?) -> Unit = {}
+
+    private val resultLauncher = registerForActivityResult(StartActivityForResult()) {
+        if (it.resultCode == RESULT_OK) {
+            onResult(it.data)
+        }
+    }
+
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +56,7 @@ open class BaseActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this, callback)
     }
 
+    @SuppressLint("WrongConstant")
     override fun onStart() {
         super.onStart()
         if (Build.VERSION.SDK_INT >= 34) {
@@ -52,6 +65,12 @@ open class BaseActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             overridePendingTransition(0, 0)
         }
+    }
+
+    fun startActivityForResult(intent: Intent, onResult: (Intent?) -> Unit) {
+        debug("::startActivityForResult")
+        this.onResult = onResult
+        resultLauncher.launch(intent)
     }
 
     fun showMessage(msg: String, onClick: () -> Unit = {}) {
@@ -63,6 +82,11 @@ open class BaseActivity : AppCompatActivity() {
         builder.build()
     }
 
+    fun setResultAndFinish(intent: Intent? = null) {
+        setResult(RESULT_OK, intent)
+        finish()
+    }
+
     fun serverError(code: Int, onClick: () -> Unit = {}) {
         showMessage(getString(R.string.error_server_request_fail, code), onClick)
     }
@@ -70,11 +94,6 @@ open class BaseActivity : AppCompatActivity() {
     fun networkError(throwable: Throwable, onClick: () -> Unit = {}) {
         showMessage("네트워크 에러\n${throwable.message.toString()}", onClick)
         logException(throwable)
-    }
-
-    protected fun setResultAndFinish() {
-        setResult(RESULT_OK)
-        finish()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

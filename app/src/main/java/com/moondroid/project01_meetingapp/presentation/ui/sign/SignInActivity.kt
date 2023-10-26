@@ -16,6 +16,7 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.moondroid.damoim.common.Constants.DEFAULT_PROFILE_IMG
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
@@ -97,7 +98,7 @@ class SignInActivity : BaseActivity() {
 
 
     private val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-        if (error != null && token != null) {
+        if (token != null) {
             requestSign()
         }
     }
@@ -142,43 +143,29 @@ class SignInActivity : BaseActivity() {
         }
     }
 
-    //Google Account Activity Result
-    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        try {
-            if (it.resultCode == RESULT_OK) {
-                val data: Intent? = it.data
-                val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
-                val account = task.getResult(ApiException::class.java)
-
-                val id = account.id.toString()
-                val name = account.displayName.toString()
-                val thumb = if (account.photoUrl == null) {
-                    DEFAULT_PROFILE_IMG
-                } else {
-                    account.photoUrl.toString()
-                }
-
-                viewModel.signInSocial(id, name, thumb)
-            }
-        } catch (e: Exception) {
-            logException(e)
-        }
-    }
-
 
     private fun getGoogleAccount() {
-        try {
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build()
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
 
-            val mGoogleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        val mGoogleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-            val singInIntent = mGoogleSignInClient.signInIntent
+        val singInIntent = mGoogleSignInClient.signInIntent
 
-            resultLauncher.launch(singInIntent)
-        } catch (e: Exception) {
-            logException(e)
+        startActivityForResult(singInIntent) { intent ->
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(intent)
+            val account = task.getResult(ApiException::class.java)
+
+            val id = account.id.toString()
+            val name = account.displayName.toString()
+            val thumb = if (account.photoUrl == null) {
+                DEFAULT_PROFILE_IMG
+            } else {
+                account.photoUrl.toString()
+            }
+
+            viewModel.signInSocial(id, name, thumb)
         }
     }
 
