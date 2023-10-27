@@ -23,17 +23,29 @@ interface RemoteDataSource {
     suspend fun signUp(request: SignUpRequest): ApiResult<ProfileEntity>                                // 회원가입
     suspend fun signIn(request: SignInRequest): ApiResult<ProfileEntity>                                // 로그인
     suspend fun socialSign(request: SocialSignRequest): ApiResult<ProfileEntity>                        // 카카오 로그인
+    suspend fun resign(id: String): ApiResult<Unit>
 
     //Profile
-    suspend fun updateToken(id: String, token: String): ApiResult<Unit>                                 // 토큰 업데이트
+    suspend fun updateToken(
+        id: String,
+        token: String,
+    ): ApiResult<Unit>                                 // 토큰 업데이트
+
     suspend fun updateInterest(id: String, interest: String): ApiResult<Unit>
-    suspend fun updateProfile(body: Map<String, RequestBody>, thumb: MultipartBody.Part?): ApiResult<ProfileEntity>
+    suspend fun updateProfile(
+        body: Map<String, RequestBody>,
+        thumb: MultipartBody.Part?,
+    ): ApiResult<ProfileEntity>
 
     //Group
     suspend fun getGroupList(id: String, type: GroupType): ApiResult<List<GroupItemDTO>>
-    suspend fun createGroup(body: Map<String, RequestBody>, file: MultipartBody.Part?): ApiResult<GroupItemDTO>
+    suspend fun createGroup(
+        body: Map<String, RequestBody>,
+        file: MultipartBody.Part?,
+    ): ApiResult<GroupItemDTO>
+
     suspend fun updateGroup(
-        body: Map<String, RequestBody>, thumb: MultipartBody.Part?, image: MultipartBody.Part?
+        body: Map<String, RequestBody>, thumb: MultipartBody.Part?, image: MultipartBody.Part?,
     ): ApiResult<GroupItemDTO>
 
     suspend fun getMembers(title: String): ApiResult<List<ProfileDTO>>

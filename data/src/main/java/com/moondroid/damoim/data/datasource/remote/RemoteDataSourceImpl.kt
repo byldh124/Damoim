@@ -25,7 +25,7 @@ class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : 
     override suspend fun checkAppVersion(
         packageName: String,
         versionCode: Int,
-        versionName: String
+        versionName: String,
     ): ApiResult<Unit> {
         api.checkAppVersion(packageName, versionCode, versionName).run {
             return when (this) {
@@ -88,6 +88,18 @@ class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : 
         }
     }
 
+    override suspend fun resign(id: String): ApiResult<Unit> {
+        api.resign(id).run {
+            return when (this) {
+                is ApiStatus.Error -> ApiResult.Error(throwable)
+                is ApiStatus.Success -> {
+                    if (response.code.success()) ApiResult.Success(Unit)
+                    else ApiResult.Fail(response.code)
+                }
+            }
+        }
+    }
+
     override suspend fun updateToken(id: String, token: String): ApiResult<Unit> {
         api.updateToken(UpdateTokenRequest(id, token)).run {
             return when (this) {
@@ -115,7 +127,7 @@ class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : 
 
     override suspend fun updateProfile(
         body: Map<String, RequestBody>,
-        thumb: MultipartBody.Part?
+        thumb: MultipartBody.Part?,
     ): ApiResult<ProfileEntity> {
         api.updateProfile(body, thumb).run {
             return when (this) {
@@ -130,7 +142,7 @@ class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : 
 
     override suspend fun createGroup(
         body: Map<String, RequestBody>,
-        file: MultipartBody.Part?
+        file: MultipartBody.Part?,
     ): ApiResult<GroupItemDTO> {
         api.createGroup(body, file).run {
             return when (this) {
@@ -146,7 +158,7 @@ class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : 
     override suspend fun updateGroup(
         body: Map<String, RequestBody>,
         thumb: MultipartBody.Part?,
-        image: MultipartBody.Part?
+        image: MultipartBody.Part?,
     ): ApiResult<GroupItemDTO> {
         api.updateGroup(body = body, thumb = thumb, image = image).run {
             return when (this) {

@@ -190,4 +190,5 @@
     <string name="cmn_sign_in_google">구글 로그인</string>
     <string name="error_fail_request">현재 서버가 불안정 합니다.\n다시 시도해 주세요.</string>
     <string name="error_share_kakao">카카오톡 공유 실패</string>
+    <string name="desc_resign">가입하신 모든 모임에서 탈퇴하고\n회원정보는 지원집니다.\n정말로 탈퇴하시겠습니까?</string>
 </resources>

@@ -34,6 +34,7 @@ object URLManager {
     const val SIGN_UP = "sign/signUp.php"
     const val SIGN_IN_SOCIAL = "sign/signInKakao.php"
     const val SALT = "sign/salt.php"
+    const val RESIGN = "sign/resign.php"
 
     /** 유저 정보 관련 **/
     const val UPDATE_TOKEN = "user/updateToken.php"

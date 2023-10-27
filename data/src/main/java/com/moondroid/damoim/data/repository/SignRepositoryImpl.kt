@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class SignRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: ProfileDao
+    private val localDataSource: ProfileDao,
 ) : SignRepository {
     override suspend fun signUp(
         id: String,
@@ -29,7 +29,7 @@ class SignRepositoryImpl @Inject constructor(
         gender: String,
         location: String,
         interest: String,
-        thumb: String
+        thumb: String,
     ): Flow<ApiResult<Profile>> {
         return flow<ApiResult<Profile>> {
             remoteDataSource.signUp(
@@ -82,6 +82,10 @@ class SignRepositoryImpl @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    override suspend fun resign(id: String): Flow<ApiResult<Unit>> = flow {
+        emit(remoteDataSource.resign(id))
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun getSalt(id: String): Flow<ApiResult<String>> {
         return flow<ApiResult<String>> {
