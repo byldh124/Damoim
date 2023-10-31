@@ -1,6 +1,5 @@
 package com.moondroid.damoim.data.datasource.remote
 
-import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.data.api.ApiInterface
@@ -159,9 +158,9 @@ class RemoteDataSourceImpl @Inject constructor(private val api: ApiInterface) : 
     override suspend fun updateGroup(
         body: Map<String, RequestBody>,
         thumb: MultipartBody.Part?,
-        image: MultipartBody.Part?,
+        intro: MultipartBody.Part?,
     ): ApiResult<GroupItemDTO> {
-        api.updateGroup(body = body, thumb = thumb, image = image).run {
+        api.updateGroup(body = body, thumb = thumb, intro = intro).run {
             return when (this) {
                 is ApiStatus.Error -> ApiResult.Error(throwable)
                 is ApiStatus.Success -> {

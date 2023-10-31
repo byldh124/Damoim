@@ -5,7 +5,6 @@ import com.moondroid.damoim.common.RequestParam
 import com.moondroid.damoim.data.datasource.remote.RemoteDataSource
 import com.moondroid.damoim.data.mapper.DataMapper.toGroupItem
 import com.moondroid.damoim.data.mapper.DataMapper.toProfile
-import com.moondroid.damoim.data.model.dao.ProfileDao
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.damoim.domain.model.status.ApiResult
@@ -73,7 +72,7 @@ class GroupRepositoryImpl @Inject constructor(
         interest: String,
         information: String,
         thumb: File?,
-        image: File?
+        intro: File?
     ): Flow<ApiResult<GroupItem>> {
         val body = HashMap<String, RequestBody>()
         body[RequestParam.ORIGIN_TITLE] = originTitle.toRequestBody()
@@ -90,7 +89,7 @@ class GroupRepositoryImpl @Inject constructor(
         }
 
         var introPart: MultipartBody.Part? = null
-        thumb?.let { file ->
+        intro?.let { file ->
             val requestBody = file.asRequestBody("image/*".toMediaType())
             introPart = MultipartBody.Part.createFormData("intro", file.name, requestBody)
         }

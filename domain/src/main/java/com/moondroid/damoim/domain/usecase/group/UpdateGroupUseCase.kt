@@ -13,6 +13,6 @@ class UpdateGroupUseCase @Inject constructor(private val repository: GroupReposi
         interest: String,
         information: String,
         thumb: File?,
-        image: File?,
-    ) = repository.updateGroup(originTitle, title, location, purpose, interest, information, thumb, image)
+        intro: File?,
+    ) = repository.updateGroup(originTitle, title, location, purpose, interest, information, thumb, intro)
 }

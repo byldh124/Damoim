@@ -45,7 +45,7 @@ interface RemoteDataSource {
     ): ApiResult<GroupItemDTO>
 
     suspend fun updateGroup(
-        body: Map<String, RequestBody>, thumb: MultipartBody.Part?, image: MultipartBody.Part?,
+        body: Map<String, RequestBody>, thumb: MultipartBody.Part?, intro: MultipartBody.Part?,
     ): ApiResult<GroupItemDTO>
 
     suspend fun getMembers(title: String): ApiResult<List<ProfileDTO>>

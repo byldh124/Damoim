@@ -2,7 +2,6 @@ package com.moondroid.damoim.domain.repository
 
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.domain.model.GroupItem
-import com.moondroid.damoim.domain.model.MoimItem
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.damoim.domain.model.status.ApiResult
 import kotlinx.coroutines.flow.Flow
@@ -28,7 +27,7 @@ interface GroupRepository {
         interest: String,
         information: String,
         thumb: File?,
-        image: File?
+        intro: File?
     ): Flow<ApiResult<GroupItem>>
 
     suspend fun getMembers(title: String): Flow<ApiResult<List<Profile>>>

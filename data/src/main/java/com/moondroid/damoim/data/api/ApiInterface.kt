@@ -129,7 +129,7 @@ interface ApiInterface {
     suspend fun updateGroup(
         @PartMap body: Map<String, RequestBody>,
         @Part thumb: MultipartBody.Part?,
-        @Part image: MultipartBody.Part?,
+        @Part intro: MultipartBody.Part?,
     ): ApiStatus<GroupResponse>
 
     @GET(SAVE_RECENT)

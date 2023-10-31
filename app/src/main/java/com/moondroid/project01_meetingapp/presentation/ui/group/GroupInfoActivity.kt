@@ -4,10 +4,8 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import com.bumptech.glide.Glide
 import com.moondroid.damoim.common.DMRegex
-import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.status.onError
@@ -51,7 +49,7 @@ class GroupInfoActivity : BaseActivity() {
     private lateinit var information: String                            // 모임 설명
 
     private var thumbPath: String? = null                               // 썸네일 Real Path
-    private var imagePath: String? = null                               // 배경이미지 Real Path
+    private var introPath: String? = null                               // 배경이미지 Real Path
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,8 +110,8 @@ class GroupInfoActivity : BaseActivity() {
             ) { intent ->
                 intent?.data?.let { uri ->
                     try {
-                        imagePath = getPathFromUri(this, uri)
-                        val bitmap = BitmapFactory.decodeFile(imagePath)
+                        introPath = getPathFromUri(this, uri)
+                        val bitmap = BitmapFactory.decodeFile(introPath)
                         Glide.with(this).load(bitmap).into(binding.ivIntro)
                     } catch (e: Exception) {
                         logException(e)
@@ -179,7 +177,7 @@ class GroupInfoActivity : BaseActivity() {
      */
     private fun updateGroupInfo() {
         val thumbFile = thumbPath?.let { File(it) }
-        val introFile = imagePath?.let { File(it) }
+        val introFile = introPath?.let { File(it) }
 
         CoroutineScope(Dispatchers.Main).launch {
             updateGroupUseCase(
