@@ -85,13 +85,13 @@ class GroupRepositoryImpl @Inject constructor(
 
         var thumbPart: MultipartBody.Part? = null
         thumb?.let { file ->
-            val requestBody = file.asRequestBody("thumb/*".toMediaType())
+            val requestBody = file.asRequestBody("image/*".toMediaType())
             thumbPart = MultipartBody.Part.createFormData("thumb", file.name, requestBody)
         }
 
         var introPart: MultipartBody.Part? = null
         thumb?.let { file ->
-            val requestBody = file.asRequestBody("intro/*".toMediaType())
+            val requestBody = file.asRequestBody("image/*".toMediaType())
             introPart = MultipartBody.Part.createFormData("intro", file.name, requestBody)
         }
         return flow {
