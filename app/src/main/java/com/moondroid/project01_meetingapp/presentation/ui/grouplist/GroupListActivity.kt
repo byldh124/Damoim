@@ -59,7 +59,6 @@ class GroupListActivity : BaseActivity() {
 
         binding.type = type
         viewModel.getList(type)
-
     }
 
     private fun handleEvent(event: Event) {

@@ -2,7 +2,7 @@ package com.moondroid.damoim.data.di
 
 import android.util.Log
 import com.google.gson.GsonBuilder
-import com.moondroid.damoim.common.Extension.debug
+import com.google.gson.JsonObject
 import com.moondroid.damoim.data.BuildConfig
 import com.moondroid.damoim.data.api.ApiInterface
 import com.moondroid.damoim.data.api.URLManager.BASE_URL
@@ -14,28 +14,55 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.ResponseBody
 import okhttp3.internal.EMPTY_RESPONSE
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.UnsupportedEncodingException
 import java.lang.reflect.Type
+import java.net.URLDecoder
+import java.net.URLEncoder
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    class ResponseInterceptor : Interceptor {
+        override fun intercept(chain: Interceptor.Chain): Response {
+            val response = chain.proceed(chain.request())
+            val modified = response.newBuilder()
+                .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8")
+                .build()
+            return modified
+        }
+    }
+
     @Provides
     @Singleton
     fun provideHttpClient(): OkHttpClient = if (BuildConfig.DEBUG) {
         val loggingInterceptor = HttpLoggingInterceptor {
-            Log.d("HttpClient", it)
+            val log = try {
+                JSONObject(it).toString()
+            } catch (e: JSONException) {
+                //URLDecoder.decode(it, "UTF-8")
+                it
+            }
+            Log.d("HttpClient", log)
         }
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        OkHttpClient.Builder().addInterceptor(loggingInterceptor)
+        OkHttpClient.Builder()
+            .addInterceptor(ResponseInterceptor())
+            .addInterceptor(loggingInterceptor)
             .build()
     } else {
         OkHttpClient.Builder().build()
@@ -45,7 +72,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofitInstance(
         okHttpClient: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory
+        gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
