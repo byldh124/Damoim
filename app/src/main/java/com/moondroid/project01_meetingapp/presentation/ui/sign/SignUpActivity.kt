@@ -13,8 +13,8 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivitySignUpBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
-import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
+import com.moondroid.project01_meetingapp.presentation.ui.common.interest.InterestActivity
+import com.moondroid.project01_meetingapp.presentation.ui.common.location.LocationActivity
 import com.moondroid.project01_meetingapp.presentation.ui.sign.SignUpViewModel.Event
 import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar

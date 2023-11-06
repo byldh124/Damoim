@@ -117,8 +117,8 @@
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:buttonTint="@color/red_light01"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:checked="@={model.toAgree}"
                     android:layout_marginEnd="8dp"/>
 

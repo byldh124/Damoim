@@ -3,6 +3,8 @@ package com.moondroid.project01_meetingapp.presentation.ui.setting
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import com.moondroid.damoim.common.Extension.debug
+import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
@@ -55,11 +57,12 @@ class SettingActivity : BaseActivity() {
                 setNegativeButton("예") {
                     resign()
                 }
-            }
+            }.show()
         }
     }
 
     private fun resign() {
+        debug("id : ${DMApp.profile.id}")
         CoroutineScope(Dispatchers.Main).launch {
             resignUseCase(DMApp.profile.id).collect { result ->
                 result.onSuccess {
@@ -73,9 +76,13 @@ class SettingActivity : BaseActivity() {
                         }
                     }
                 }.onFail {
-
+                    if (it == ResponseCode.INVALID_VALUE) {
+                        showMessage("모임장은 탈퇴할수 없습니다.\n모임장을 위임후에 탈퇴해주세요.")
+                    } else {
+                        serverError(it)
+                    }
                 }.onError {
-
+                    networkError(it)
                 }
             }
         }

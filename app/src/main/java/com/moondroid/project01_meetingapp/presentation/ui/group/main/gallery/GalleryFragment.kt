@@ -63,23 +63,16 @@ class GalleryFragment : BaseFragment(R.layout.fragment_group_gallery) {
 
     @SuppressLint("SimpleDateFormat")
     fun add() {
-        startActivityForResult(
-            Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            )
-        ) { intent ->
+        activity.getCroppedImage { uri ->
             val time = SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis())
             imgRef = FirebaseStorage.getInstance().getReference("GalleryImgs").child(time)
 
-            intent?.data?.let { uri ->
-                imgRef.putFile(uri).addOnSuccessListener {
-                    imgRef.downloadUrl.addOnSuccessListener { uri2 ->
-                        val fdb = FirebaseDatabase.getInstance()
-                        val dbRef = fdb.getReference("GalleryImgs/${DMApp.group.title}")
-                        dbRef.child(time).setValue(uri2.toString()).addOnSuccessListener {
-                            getImage()
-                        }
+            imgRef.putFile(uri).addOnSuccessListener {
+                imgRef.downloadUrl.addOnSuccessListener { uri2 ->
+                    val fdb = FirebaseDatabase.getInstance()
+                    val dbRef = fdb.getReference("GalleryImgs/${DMApp.group.title}")
+                    dbRef.child(time).setValue(uri2.toString()).addOnSuccessListener {
+                        getImage()
                     }
                 }
             }

@@ -3,14 +3,10 @@ package com.moondroid.project01_meetingapp.presentation.ui.profile
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.*
-import com.bumptech.glide.Glide
 import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
@@ -23,13 +19,13 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityMyInfoBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
+import com.moondroid.project01_meetingapp.presentation.ui.common.crop.CropImageActivity
+import com.moondroid.project01_meetingapp.presentation.ui.common.location.LocationActivity
 import com.moondroid.project01_meetingapp.utils.*
 import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
 import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
-import com.moondroid.project01_meetingapp.utils.image.ImageHelper
 import com.moondroid.project01_meetingapp.utils.image.ImageHelper.getPathFromUri
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -80,21 +76,10 @@ class MyInfoActivity : BaseActivity() {
             }
 
             thumbWrapper.setOnClickListener {
-                startActivityForResult(
-                    Intent(
-                        Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                    )
-                ) { intent ->
-                    intent?.data?.let { uri ->
-                        try {
-                            path = getPathFromUri(mContext, uri)
-                            val bitmap = BitmapFactory.decodeFile(path)
-                            binding.thumb.glide(bitmap)
-                        } catch (e: Exception) {
-                            logException(e)
-                        }
-                    }
+                getCroppedImage { uri ->
+                    path = getPathFromUri(mContext, uri)
+                    val bitmap = BitmapFactory.decodeFile(path)
+                    binding.thumb.glide(bitmap)
                 }
             }
             tvLocation.setOnClickListener {
@@ -148,6 +133,7 @@ class MyInfoActivity : BaseActivity() {
     fun update() {
         val thumbFile: File? = path?.let { File(it) }
         CoroutineScope(Dispatchers.Main).launch {
+            showLoading(true)
             updateProfileUseCase(
                 id = DMApp.profile.id,
                 name = binding.etName.text.toString(),
@@ -157,6 +143,8 @@ class MyInfoActivity : BaseActivity() {
                 message = binding.etMsg.text.toString(),
                 thumb = thumbFile
             ).collect { result ->
+                showLoading(false)
+                thumbFile?.delete()
                 result.onSuccess {
                     DMApp.profile = it
                     showMessage("변경이 완료되었습니다", ::setResultAndFinish)

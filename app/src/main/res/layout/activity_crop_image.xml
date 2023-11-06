@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarRed">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/TitleWhite"
+            android:text="사진 설정" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="완료"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nanum_square_round_eb"
+            android:textSize="18sp"
+            android:padding="16dp"/>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+
+        <com.canhub.cropper.CropImageView
+            android:id="@+id/crop_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cropScaleType="centerCrop"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

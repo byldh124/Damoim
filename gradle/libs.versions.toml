@@ -106,6 +106,10 @@ lottie-animation = "com.airbnb.android:lottie:6.0.0"
 # Open Source
 circle-imageview = "de.hdodenhof:circleimageview:3.1.0"
 
+# Crop image
+# https://github.com/CanHub/Android-Image-Cropper
+image-cropper = "com.vanniktech:android-image-cropper:4.5.0"
+
 # test
 junit = "junit:junit:4.13.2"
 junit-ext = "androidx.test.ext:junit:1.1.5"

@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.location
+package com.moondroid.project01_meetingapp.presentation.ui.common.location
 
 import android.app.Activity
 import android.content.Intent
@@ -35,11 +35,6 @@ class LocationActivity : BaseActivity() {
     val title = MutableLiveData<String>()
     private val binding by viewBinding(ActivityLocationBinding::inflate)
 
-    enum class LocationType {
-        LOCAL,                  // 읍,면,동 검색
-        ADDRESS                 // 상세 주소 검색[모임]
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         geocoder = Geocoder(this, Locale.KOREA)
@@ -71,13 +66,13 @@ class LocationActivity : BaseActivity() {
         locationAdapter = LocationAdapter {
             val intent = Intent()
             intent.putExtra(IntentParam.LOCATION, it)
-            setResult(Activity.RESULT_OK, intent)
+            setResult(RESULT_OK, intent)
             finish()
         }
 
         addressAdapter = AddressAdapter {
             val intent = Intent().putExtra(IntentParam.ADDRESS, Gson().toJson(it))
-            setResult(Activity.RESULT_OK, intent)
+            setResult(RESULT_OK, intent)
             finish()
         }
 

@@ -53,7 +53,7 @@ class Splash2Activity : BaseActivity(), SplashContract.View {
             }
             setNegativeButton("나가기", ::finish)
         }
-        builder.build()
+        builder.show()
     }
 
     override fun error(throwable: Throwable) {

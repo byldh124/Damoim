@@ -67,7 +67,7 @@ class ButtonDialog private constructor(
             negativeButtonOnClick = onClick
         }
 
-        fun build() {
+        fun show() {
             ButtonDialog(
                 context,
                 message,

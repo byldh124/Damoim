@@ -60,7 +60,6 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
-    @Suppress("UnstableApiUsage")
     buildFeatures {
         buildConfig = true
         viewBinding = true
@@ -83,9 +82,6 @@ dependencies {
     androidTestImplementation(libs.junit.espresso)
 
     implementation(libs.circle.imageview)
-
-    //EncryptedSharedPreference
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 
     //Lottie
     implementation(libs.lottie.animation)
@@ -120,6 +116,8 @@ dependencies {
     implementation(libs.naver.map)
 
     implementation(libs.play.services.location)
+
+    implementation(libs.image.cropper)
 
     //Clean Architecture
     implementation((project(":common")))

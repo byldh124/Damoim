@@ -14,7 +14,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityMoimBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
+import com.moondroid.project01_meetingapp.presentation.ui.common.location.LocationActivity
 import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import com.naver.maps.geometry.LatLng
