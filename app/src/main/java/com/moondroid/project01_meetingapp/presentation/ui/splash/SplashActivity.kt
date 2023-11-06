@@ -61,6 +61,6 @@ class SplashActivity : BaseActivity() {
             }
             setNegativeButton("나가기", ::finish)
         }
-        builder.build()
+        builder.show()
     }
 }

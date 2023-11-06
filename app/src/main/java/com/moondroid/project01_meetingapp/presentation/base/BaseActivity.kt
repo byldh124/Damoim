@@ -6,15 +6,12 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.MenuItem
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -29,8 +26,6 @@ import com.moondroid.project01_meetingapp.presentation.ui.common.crop.CropImageA
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
 import com.moondroid.project01_meetingapp.presentation.ui.sign.SignInActivity
-import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
-import com.moondroid.project01_meetingapp.utils.image.ImageHelper
 
 
 /**
@@ -135,7 +130,7 @@ open class BaseActivity : AppCompatActivity() {
             setPositiveButton("OK", onClick)
         }
 
-        builder.build()
+        builder.show()
     }
 
     fun setResultAndFinish(intent: Intent? = null) {
