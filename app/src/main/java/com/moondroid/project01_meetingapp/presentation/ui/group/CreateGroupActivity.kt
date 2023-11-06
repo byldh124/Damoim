@@ -25,8 +25,8 @@ import com.moondroid.project01_meetingapp.databinding.ActivityCreateBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
-import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
-import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
+import com.moondroid.project01_meetingapp.presentation.ui.common.interest.InterestActivity
+import com.moondroid.project01_meetingapp.presentation.ui.common.location.LocationActivity
 import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
 import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
@@ -72,7 +72,15 @@ class CreateGroupActivity : BaseActivity() {
         }
 
         binding.wrThumb.setOnClickListener {
-            checkImagePermission()
+            getCroppedImage { uri ->
+                path = getPathFromUri(this, uri)
+                if (!path.isNullOrEmpty()) {
+                    val bitmap = BitmapFactory.decodeFile(path)
+                    binding.ivThumb.glide(bitmap)
+                    binding.tvEmptyImage.visible(false)
+                }
+
+            }
         }
 
         binding.icInterest.setOnClickListener {
@@ -90,55 +98,6 @@ class CreateGroupActivity : BaseActivity() {
 
         binding.btnSave.setOnClickListener {
             checkField()
-        }
-    }
-
-    /**
-     * 이미지 퍼미션 확인
-     **/
-    private fun checkImagePermission() {
-        val imagePermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Manifest.permission.READ_MEDIA_IMAGES
-        } else {
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        }
-
-        if (ContextCompat.checkSelfPermission(
-                mContext, imagePermission
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            getImage()
-        } else {
-            requestPermissionLauncher.launch(imagePermission)
-        }
-    }
-
-    /** 이미지 퍼미션 런쳐 **/
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            getImage()
-        } else {
-
-        }
-    }
-
-    /**
-     * 썸네일 이미지 선택
-     */
-    private fun getImage() {
-        debug("getImage")
-        startActivityForResult(Intent(Intent.ACTION_PICK).setType("image/*")) { intent ->
-            val uri = intent?.data
-            uri?.let {
-                path = getPathFromUri(this, it)
-                if (!path.isNullOrEmpty()) {
-                    val bitmap = BitmapFactory.decodeFile(path)
-                    binding.ivThumb.glide(bitmap)
-                    binding.tvEmptyImage.visible(false)
-                }
-            }
         }
     }
 
@@ -186,6 +145,7 @@ class CreateGroupActivity : BaseActivity() {
                     val sIntent = Intent(mContext, GroupActivity::class.java)
                     sIntent.putExtra(IntentParam.SHOW_TUTORIAL, true)
                     startActivity(sIntent)
+                    file.delete()
                     finish()
                 }.onFail {
                     serverError(it)

@@ -38,7 +38,7 @@ import com.moondroid.project01_meetingapp.presentation.ui.home.main.MainFragment
 import com.moondroid.project01_meetingapp.presentation.ui.home.map.LocationFragment
 import com.moondroid.project01_meetingapp.presentation.ui.home.mygroup.MyGroupFragment
 import com.moondroid.project01_meetingapp.presentation.ui.home.search.SearchFragment
-import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
+import com.moondroid.project01_meetingapp.presentation.ui.common.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.profile.MyInfoActivity
 import com.moondroid.project01_meetingapp.presentation.ui.setting.SettingActivity
 import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent

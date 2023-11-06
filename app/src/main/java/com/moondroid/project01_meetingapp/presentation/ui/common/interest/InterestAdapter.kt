@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.interest
+package com.moondroid.project01_meetingapp.presentation.ui.common.interest
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

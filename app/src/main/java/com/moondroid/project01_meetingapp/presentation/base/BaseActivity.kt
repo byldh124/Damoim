@@ -1,26 +1,36 @@
 package com.moondroid.project01_meetingapp.presentation.base
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.MenuItem
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
+import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.dialog.ButtonDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.WebViewDialog
+import com.moondroid.project01_meetingapp.presentation.ui.common.crop.CropImageActivity
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
 import com.moondroid.project01_meetingapp.presentation.ui.sign.SignInActivity
+import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
+import com.moondroid.project01_meetingapp.utils.image.ImageHelper
 
 
 /**
@@ -70,6 +80,53 @@ open class BaseActivity : AppCompatActivity() {
     fun startActivityForResult(intent: Intent, onResult: (Intent?) -> Unit) {
         this.onResult = onResult
         resultLauncher.launch(intent)
+    }
+
+    /**
+     * 이미지 퍼미션 확인
+     **/
+    private fun checkImagePermission(ratio: Int = 1, onResult: (Uri) -> Unit) {
+        val imagePermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+
+        if (ContextCompat.checkSelfPermission(
+                mContext, imagePermission
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            getImage(ratio, onResult)
+        } else {
+            registerForActivityResult(RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                    getImage(ratio, onResult)
+                }
+            }.launch(imagePermission)
+        }
+    }
+
+    fun getCroppedImage(ratio: Int = 1, onResult: (Uri) -> Unit) {
+        checkImagePermission(ratio, onResult)
+    }
+
+    private fun getImage(ratio: Int = 1, onResult: (Uri) -> Unit) {
+        startActivityForResult(
+            Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+        ) { intent ->
+            intent?.data?.let { uri ->
+                startActivityForResult(Intent(mContext, CropImageActivity::class.java).apply {
+                    putExtra(IntentParam.CROP_IMAGE_WITH_RATIO, ratio)
+                    data = uri
+                }) {
+                    debug("debug page1")
+                    it?.data?.let(onResult)
+                }
+            }
+        }
     }
 
     fun showMessage(msg: String, onClick: () -> Unit = {}) {

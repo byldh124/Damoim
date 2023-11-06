@@ -24,7 +24,7 @@
         android:name="android.permission.READ_MEDIA_IMAGES"
         android:minSdkVersion="33" />
 
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <queries>
         <package android:name="com.kakao.talk" />
@@ -38,9 +38,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.Project01_MeetingApp"
-        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         tools:ignore="DataExtractionRules"
         tools:targetApi="s">
@@ -80,11 +80,11 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" />
         <activity
-            android:name=".presentation.ui.location.LocationActivity"
+            android:name=".presentation.ui.common.location.LocationActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.White" />
         <activity
-            android:name=".presentation.ui.interest.InterestActivity"
+            android:name=".presentation.ui.common.interest.InterestActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.White" />
         <activity
@@ -103,6 +103,11 @@
             android:name=".presentation.ui.group.CreateGroupActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Kakao Login Activity -->
+
+        <activity
+            android:name=".presentation.ui.common.crop.CropImageActivity"
+            android:exported="false" />
+
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -145,8 +150,8 @@
         <activity
             android:name=".presentation.ui.group.main.GroupActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AppTheme.NoActionBar.Theme.Red" /> <!-- Google FCM Background Service -->
+            android:theme="@style/AppTheme.NoActionBar.Theme.Red"
+            android:windowSoftInputMode="adjustResize" /> <!-- Google FCM Background Service -->
         <service
             android:name=".utils.firebase.FBMessage"
             android:exported="false"

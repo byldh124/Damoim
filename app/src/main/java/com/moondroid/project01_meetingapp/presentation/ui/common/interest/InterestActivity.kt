@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.interest
+package com.moondroid.project01_meetingapp.presentation.ui.common.interest
 
 import android.app.Activity
 import android.content.Intent
@@ -40,7 +40,7 @@ class InterestActivity : BaseActivity() {
                 IntentParam.INTEREST_ICON,
                 getDrawableId(this, String.format("ic_interest_%02d", it + 1))
             )
-            setResult(Activity.RESULT_OK, intent)
+            setResult(RESULT_OK, intent)
             finish()
         }
         binding.recycler.adapter = adapter

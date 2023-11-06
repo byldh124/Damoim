@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import com.bumptech.glide.Glide
 import com.moondroid.damoim.common.DMRegex
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.status.onError
@@ -17,8 +18,9 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityGroupInfoBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.interest.InterestActivity
-import com.moondroid.project01_meetingapp.presentation.ui.location.LocationActivity
+import com.moondroid.project01_meetingapp.presentation.ui.common.interest.InterestActivity
+import com.moondroid.project01_meetingapp.presentation.ui.common.location.LocationActivity
+import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
 import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import com.moondroid.project01_meetingapp.utils.image.ImageHelper.getPathFromUri
@@ -102,41 +104,19 @@ class GroupInfoActivity : BaseActivity() {
 
         //대문 사진 가져오기
         binding.ivIntro.setOnClickListener {
-            startActivityForResult(
-                Intent(
-                    Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                )
-            ) { intent ->
-                intent?.data?.let { uri ->
-                    try {
-                        introPath = getPathFromUri(this, uri)
-                        val bitmap = BitmapFactory.decodeFile(introPath)
-                        Glide.with(this).load(bitmap).into(binding.ivIntro)
-                    } catch (e: Exception) {
-                        logException(e)
-                    }
-                }
+            getCroppedImage(2) { uri ->
+                introPath = getPathFromUri(mContext, uri)
+                val bitmap = BitmapFactory.decodeFile(introPath)
+                binding.ivIntro.glide(bitmap)
             }
         }
 
         //썸네일 사진 가져오기
         binding.ivThumb.setOnClickListener {
-            startActivityForResult(
-                Intent(
-                    Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                )
-            ) { intent ->
-                intent?.data?.let { uri ->
-                    try {
-                        thumbPath = getPathFromUri(this, uri)
-                        val bitmap = BitmapFactory.decodeFile(thumbPath)
-                        Glide.with(this).load(bitmap).into(binding.ivThumb)
-                    } catch (e: Exception) {
-                        logException(e)
-                    }
-                }
+            getCroppedImage { uri ->
+                thumbPath = getPathFromUri(this, uri)
+                val bitmap = BitmapFactory.decodeFile(thumbPath)
+                Glide.with(this).load(bitmap).into(binding.ivThumb)
             }
         }
 
@@ -189,17 +169,18 @@ class GroupInfoActivity : BaseActivity() {
                 information,
                 thumbFile,
                 introFile
-            )
-                .collect { result ->
-                    result.onSuccess {
-                        DMApp.group = it
-                        showMessage("그룹 정보를 수정했습니다.", ::setResultAndFinish)
-                    }.onFail {
-                        serverError(it)
-                    }.onError {
-                        networkError(it)
-                    }
+            ).collect { result ->
+                result.onSuccess {
+                    introFile?.delete()
+                    thumbFile?.delete()
+                    DMApp.group = it
+                    showMessage("그룹 정보를 수정했습니다.", ::setResultAndFinish)
+                }.onFail {
+                    serverError(it)
+                }.onError {
+                    networkError(it)
                 }
+            }
         }
     }
 }

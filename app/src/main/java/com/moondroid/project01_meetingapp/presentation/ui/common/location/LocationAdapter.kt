@@ -1,4 +1,4 @@
-package com.moondroid.project01_meetingapp.presentation.ui.location
+package com.moondroid.project01_meetingapp.presentation.ui.common.location
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
