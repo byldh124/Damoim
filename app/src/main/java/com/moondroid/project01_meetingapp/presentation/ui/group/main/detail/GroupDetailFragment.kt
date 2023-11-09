@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
@@ -16,7 +17,7 @@ import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.moim.MoimInfoActivity
 import com.moondroid.project01_meetingapp.presentation.ui.profile.ProfileActivity
-import com.moondroid.project01_meetingapp.utils.BindingAdapter.visible
+import com.moondroid.project01_meetingapp.utils.ProfileHelper
 import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,16 +58,19 @@ class GroupDetailFragment : BaseFragment(R.layout.fragment_group_detail) {
         when (event) {
             is GroupDetailViewModel.Event.Members -> {
                 var userType = GroupActivity.UserType.VISITOR
-                event.list.forEachIndexed { index, profile ->
-                    if (profile == DMApp.profile) {
-                        userType = if (index == 0) {
-                            GroupActivity.UserType.MASTER
-                        } else {
-                            GroupActivity.UserType.MEMBER
-                        }
-                        return@forEachIndexed
-                    }
+
+                if (ProfileHelper.isTester()) {
+                    userType = GroupActivity.UserType.TESTER
                 }
+
+                val index = event.list.indexOf(ProfileHelper.profile)
+
+                if (index == 0) {
+                    userType = GroupActivity.UserType.MASTER
+                } else if (index > 0) {
+                    userType = GroupActivity.UserType.MEMBER
+                }
+
                 binding.userType = userType
                 activity.userType = userType
                 memberAdapter.updateList(event.list)
@@ -100,8 +104,6 @@ class GroupDetailFragment : BaseFragment(R.layout.fragment_group_detail) {
                 .putExtra(IntentParam.MOIM, Gson().toJson(it))
             activity.startActivity(sIntent)
         }
-
-        binding.btnJoin.visible(DMApp.profile.id != "test01")
 
         binding.btnJoin.setOnClickListener {
             viewModel.join(DMApp.group.title)

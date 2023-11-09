@@ -10,13 +10,13 @@ import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.profile.DeleteProfileUseCase
 import com.moondroid.damoim.domain.usecase.sign.ResignUseCase
-import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivitySettingBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.dialog.ButtonDialog
 import com.moondroid.project01_meetingapp.presentation.ui.sign.SignInActivity
+import com.moondroid.project01_meetingapp.utils.ProfileHelper
 import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -62,9 +62,9 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun resign() {
-        debug("id : ${DMApp.profile.id}")
+        debug("id : ${ProfileHelper.profile.id}")
         CoroutineScope(Dispatchers.Main).launch {
-            resignUseCase(DMApp.profile.id).collect { result ->
+            resignUseCase(ProfileHelper.profile.id).collect { result ->
                 result.onSuccess {
                     deleteProfileUseCase().collect { result ->
                         result.onSuccess {

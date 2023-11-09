@@ -25,6 +25,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupChatBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
+import com.moondroid.project01_meetingapp.utils.ProfileHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +58,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentGroupChatBinding.inflate(inflater, container, false)
         return binding.root
@@ -106,10 +107,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {
             val time = System.currentTimeMillis()
 
             val chat = ChatItem(
-                DMApp.profile.id,
-                DMApp.profile.name,
+                ProfileHelper.profile.id,
+                ProfileHelper.profile.name,
                 SimpleDateFormat("MM.dd HH:ss").format(time),
-                DMApp.profile.thumb,
+                ProfileHelper.profile.thumb,
                 binding.etMessage.text.toString()
             )
 
@@ -133,7 +134,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {
                 if (chat.id == it.id) {
                     chat.thumb = it.thumb
                     chat.name = it.name
-                    chat.other = chat.id != DMApp.profile.id
+                    chat.other = chat.id != ProfileHelper.profile.id
                     return@forEach
                 }
             }

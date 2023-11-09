@@ -5,9 +5,7 @@ import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
 import com.google.android.gms.common.SignInButton
-import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
@@ -15,18 +13,13 @@ import com.moondroid.project01_meetingapp.utils.ViewExtension.getDrawableId
 import com.moondroid.project01_meetingapp.utils.ViewExtension.getInterestNum
 import com.moondroid.project01_meetingapp.utils.ViewExtension.getStringId
 import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
-import com.moondroid.project01_meetingapp.utils.image.GlideApp
-import com.moondroid.project01_meetingapp.utils.image.ImageHelper.getImgUrl
+import com.moondroid.project01_meetingapp.utils.ViewExtension.visible
 
 object BindingAdapter {
     @BindingAdapter("visible")
     @JvmStatic
-    fun View.visible(boolean: Boolean) {
-        if (boolean) {
-            this.visibility = View.VISIBLE
-        } else {
-            this.visibility = View.GONE
-        }
+    fun View.setVisible(boolean: Boolean) {
+        visible(boolean)
     }
 
     @BindingAdapter("image")

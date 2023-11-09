@@ -1,19 +1,11 @@
 package com.moondroid.project01_meetingapp.presentation.ui.group
 
-import android.Manifest
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.core.content.ContextCompat
 import com.moondroid.damoim.common.DMRegex
-import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onFail
@@ -24,9 +16,10 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityCreateBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
-import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.common.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.common.location.LocationActivity
+import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
+import com.moondroid.project01_meetingapp.utils.ProfileHelper
 import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
 import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
@@ -139,7 +132,14 @@ class CreateGroupActivity : BaseActivity() {
      */
     private fun createGroup(location: String, interest: String, file: File) {
         CoroutineScope(Dispatchers.Main).launch {
-            createGroupUseCase(DMApp.profile.id, title, location, purpose, interest, file).collect { result ->
+            createGroupUseCase(
+                ProfileHelper.profile.id,
+                title,
+                location,
+                purpose,
+                interest,
+                file
+            ).collect { result ->
                 result.onSuccess {
                     DMApp.group = it
                     val sIntent = Intent(mContext, GroupActivity::class.java)

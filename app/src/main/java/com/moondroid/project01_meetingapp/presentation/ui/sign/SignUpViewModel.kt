@@ -23,6 +23,7 @@ import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
 import com.moondroid.damoim.domain.usecase.sign.SignUpUseCase
 import com.moondroid.damoim.domain.usecase.profile.UpdateTokenUseCase
 import com.moondroid.project01_meetingapp.DMApp
+import com.moondroid.project01_meetingapp.utils.ProfileHelper
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -143,7 +144,7 @@ class SignUpViewModel @Inject constructor(
                 result.onSuccess {
                     FBAnalyze.setProperty(it)
                     FBCrash.setProperty(it.id)
-                    DMApp.profile = it
+                    ProfileHelper.profile = it
                     getMsgToken()
                 }.onFail {
                     if (it == ResponseCode.ALREADY_EXIST) context.toast(R.string.error_id_already_exist)
@@ -180,7 +181,7 @@ class SignUpViewModel @Inject constructor(
      */
     private fun updateToken(token: String) {
         viewModelScope.launch {
-            updateTokenUseCase(DMApp.profile.id, token).collect {
+            updateTokenUseCase(ProfileHelper.profile.id, token).collect {
                 loading(false)
                 home()
             }

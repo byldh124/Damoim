@@ -8,10 +8,10 @@ import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.app.CheckVersionUseCase
 import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
-import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
+import com.moondroid.project01_meetingapp.utils.ProfileHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val checkVersionUseCase: CheckVersionUseCase,
-    private val profileUseCase: ProfileUseCase
+    private val profileUseCase: ProfileUseCase,
 ) : BaseViewModel() {
 
     private val _eventFlow = MutableEventFlow<Event>()
@@ -29,10 +29,10 @@ class SplashViewModel @Inject constructor(
     /**
      * 앱 버전 체크 [성공, 실패, 비활성, 없음]
      */
-         fun checkAppVersion(
+    fun checkAppVersion(
         packageName: String,
         versionCode: Int,
-        versionName: String
+        versionName: String,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             checkVersionUseCase(packageName, versionCode, versionName).collect { result ->
@@ -55,7 +55,7 @@ class SplashViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 profileUseCase().collect { result ->
                     result.onSuccess {
-                        DMApp.profile = it
+                        ProfileHelper.profile = it
                         main()
                     }.onError {
                         sign()

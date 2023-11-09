@@ -14,9 +14,8 @@ import dagger.hilt.android.HiltAndroidApp
 class DMApp : Application() {
 
     companion object {
-        lateinit var profile: Profile
         lateinit var group: GroupItem
-        fun setProfile() = ::profile.isInitialized
+
     }
 
 

@@ -81,7 +81,7 @@ class SignInViewModel @Inject constructor(
                 loading(false)
                 result.onSuccess {
                     Preferences.setAutoSign(autoSign.value == true)
-                    DMApp.profile = it
+                    ProfileHelper.profile = it
                     home()
                 }.onFail {
                     when (it) {

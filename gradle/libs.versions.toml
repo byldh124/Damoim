@@ -82,9 +82,9 @@ squareup-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHtt
 squareup-okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okHttp" }
 
 #firebase
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx", version = "21.4.0" }
-firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx", version = "23.3.0" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx", version = "18.5.0" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx", version = "21.5.0" }
+firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx", version = "23.3.1" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx", version = "18.5.1" }
 firebase-dynamic-link = { group = "com.google.firebase", name = "firebase-dynamic-links-ktx", version = "21.2.0" }
 firebase-realtime-database = { group = "com.google.firebase", name = "firebase-database-ktx", version = "20.3.0" }
 firebase-cloud-storage = { group = "com.google.firebase", name = "firebase-storage-ktx", version = "20.3.0" }
