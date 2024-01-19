@@ -21,8 +21,6 @@ class MoimInfoViewModel @Inject constructor(
     private val _eventFlow = MutableEventFlow<Event>()
     val eventFlow = _eventFlow.asEventFlow()
 
-    private fun loading(loading: Boolean) = event(Event.Loading(loading))
-
     private fun event(event: Event) {
         viewModelScope.launch {
             _eventFlow.emit(event)
@@ -37,18 +35,15 @@ class MoimInfoViewModel @Inject constructor(
                 result.onSuccess {
                     event(Event.Members(it))
                 }.onFail {
-                    event(Event.Fail(it))
+                    serverError(it)
                 }.onError {
-                    event(Event.Error(it))
+                    networkError(it)
                 }
             }
         }
     }
 
     sealed interface Event {
-        data class Loading(val loading: Boolean) : Event
-        data class Error(val throwable: Throwable) : Event
-        data class Fail(val code: Int) : Event
         data class Members(val list: List<Profile>) : Event
     }
 }

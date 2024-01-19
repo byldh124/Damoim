@@ -2,7 +2,7 @@ package com.moondroid.project01_meetingapp.presentation.ui.setting
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.domain.model.status.onError
@@ -27,7 +27,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SettingActivity : BaseActivity() {
     private val binding by viewBinding(ActivitySettingBinding::inflate)
-    private val viewModel: SettingViewModel by viewModels()
+    private val viewModel: SettingViewModel by viewModel()
 
     @Inject
     lateinit var deleteProfileUseCase: DeleteProfileUseCase

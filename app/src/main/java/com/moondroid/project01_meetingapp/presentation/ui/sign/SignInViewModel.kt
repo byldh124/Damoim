@@ -68,7 +68,7 @@ class SignInViewModel @Inject constructor(
                 }.onFail {
                     event(SignInEvent.NotExist)
                 }.onError {
-                    event(SignInEvent.Error(it))
+                    networkError(it)
                 }
             }
         }
@@ -87,10 +87,10 @@ class SignInViewModel @Inject constructor(
                     when (it) {
                         ResponseCode.INVALID_VALUE -> event(SignInEvent.InvalidPw)
                         ResponseCode.NOT_EXIST -> event(SignInEvent.NotExist)
-                        else -> event(SignInEvent.Fail(it))
+                        else -> serverError(it)
                     }
                 }.onError {
-                    event(SignInEvent.Error(it))
+                    networkError(it)
                 }
             }
         }
@@ -114,8 +114,6 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun loading(b: Boolean) = event(SignInEvent.Loading(b))
-    private fun message(msg: String) = event(SignInEvent.Message(msg))
     private fun home() = event(SignInEvent.Home)
     private fun signUpSocial(id: String, name: String, thumb: String) =
         event(SignInEvent.SignUpSocial(id = id, name = name, thumb = thumb))
@@ -127,12 +125,7 @@ class SignInViewModel @Inject constructor(
     }
 
     sealed interface SignInEvent {
-        data class Loading(val show: Boolean) : SignInEvent
-        data class Message(val message: String) : SignInEvent
-        data class Fail(val code: Int) : SignInEvent
-        data class Error(val throwable: Throwable) : SignInEvent
         data class SignUpSocial(val id: String, val name: String, val thumb: String) : SignInEvent
-
         data object InvalidPw : SignInEvent
         data object NotExist : SignInEvent
         data object Home : SignInEvent

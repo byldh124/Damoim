@@ -10,3 +10,9 @@ open class BaseDialog(context: Context) : Dialog(context, R.style.DialogTheme) {
         if (isShowing) super.cancel()
     }
 }
+
+inline var BaseDialog.isShow: Boolean
+    get() = isShowing
+    set(value) {
+        if (value) this.show() else this.exit()
+    }

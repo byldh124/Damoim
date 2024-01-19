@@ -1,5 +1,6 @@
 package com.moondroid.project01_meetingapp.presentation.ui.splash
 
+import android.app.Activity
 import androidx.lifecycle.viewModelScope
 import com.moondroid.damoim.common.Preferences
 import com.moondroid.damoim.common.ResponseCode
@@ -41,10 +42,14 @@ class SplashViewModel @Inject constructor(
                 }.onFail { code ->
                     when (code) {
                         ResponseCode.INVALID_VALUE -> event(Event.Update)
-                        else -> event(Event.Fail(code))
+                        else -> serverError(code) {
+                            (it as Activity).finish()
+                        }
                     }
                 }.onError { t ->
-                    event(Event.NetworkError(t))
+                    networkError(t) {
+                        (it as Activity).finish()
+                    }
                 }
             }
         }
@@ -77,9 +82,6 @@ class SplashViewModel @Inject constructor(
     }
 
     sealed interface Event {
-        data class Fail(val code: Int) : Event
-        data class NetworkError(val throwable: Throwable) : Event
-
         data object Update : Event
         data object Sign : Event
         data object Main : Event

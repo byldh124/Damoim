@@ -1,7 +1,6 @@
 package com.moondroid.project01_meetingapp.presentation.ui.home.map
 
 import androidx.lifecycle.viewModelScope
-import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.domain.model.MoimItem
 import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onSuccess
@@ -15,13 +14,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor(
-    private val getMoimsUseCase: GetMoimsUseCase
+    private val getMoimsUseCase: GetMoimsUseCase,
 ) : BaseViewModel() {
     fun getMoim() {
         viewModelScope.launch {
             getMoimsUseCase().collect { result ->
                 result.onSuccess { update(it) }
-                    .onError { logException(it) }
+                    .onError { networkError(it) }
             }
         }
     }

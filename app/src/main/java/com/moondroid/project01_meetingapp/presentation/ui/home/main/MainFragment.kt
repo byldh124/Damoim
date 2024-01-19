@@ -3,12 +3,12 @@ package com.moondroid.project01_meetingapp.presentation.ui.home.main
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeMainBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListAdapter
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
@@ -19,10 +19,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainFragment : BaseFragment(R.layout.fragment_home_main) {
     private val binding by viewBinding(FragmentHomeMainBinding::bind)
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModel()
 
     lateinit var activity: HomeActivity
-    private var groupAdapter: GroupListAdapter? = null
+    private val groupAdapter = GroupListAdapter {
+        DMApp.group = it
+        activity.goToGroupActivity()
+    }
     private lateinit var categoryAdapter: CategoryListAdapter
 
     override fun onAttach(context: Context) {
@@ -46,10 +49,6 @@ class MainFragment : BaseFragment(R.layout.fragment_home_main) {
     }
 
     private fun initView() {
-        groupAdapter = GroupListAdapter {
-            DMApp.group = it
-            activity.goToGroupActivity()
-        }
 
         binding.recGroup.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -57,7 +56,12 @@ class MainFragment : BaseFragment(R.layout.fragment_home_main) {
         binding.recGroup.adapter = groupAdapter
 
         categoryAdapter = CategoryListAdapter {
-            groupAdapter?.updateList(it)
+            val list = if (it == "전체") {
+                activity.groupsList
+            } else {
+                activity.groupsList.filter { item -> item.interest == it }
+            }
+            groupAdapter.submitList(list)
             binding.recGroup.setEmptyText(String.format(getString(R.string.alm_empty_data_for_query), it))
         }
 
@@ -77,7 +81,7 @@ class MainFragment : BaseFragment(R.layout.fragment_home_main) {
             // 카테고리 클릭에 따른 리스트 업데이트
             is Event.Update -> {
                 activity.groupsList = event.list
-                groupAdapter?.updateList(event.list)
+                groupAdapter.submitList(event.list)
             }
         }
     }

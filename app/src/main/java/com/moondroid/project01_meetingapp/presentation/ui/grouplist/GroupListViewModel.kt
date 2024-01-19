@@ -23,13 +23,9 @@ class GroupListViewModel @Inject constructor(private val getGroupUseCase: GetGro
         viewModelScope.launch {
             getGroupUseCase(ProfileHelper.profile.id, type).collect { result ->
                 loading(false)
-                result.onSuccess {
-                    updateList(it)
-                }.onFail {
-                    event(Event.ServerError(it))
-                }.onError {
-                    event(Event.NetworkError(it))
-                }
+                result.onSuccess { updateList(it) }
+                    .onFail { serverError(it) }
+                    .onError { networkError(it) }
             }
         }
     }
@@ -38,7 +34,6 @@ class GroupListViewModel @Inject constructor(private val getGroupUseCase: GetGro
     private val _eventFlow = MutableEventFlow<Event>()
     val eventFlow = _eventFlow.asEventFlow()
 
-    private fun loading(b: Boolean) = event(Event.Loading(b))
     private fun updateList(list: List<GroupItem>) = event(Event.Update(list))
 
     private fun event(event: Event) {
@@ -48,9 +43,6 @@ class GroupListViewModel @Inject constructor(private val getGroupUseCase: GetGro
     }
 
     sealed interface Event {
-        data class Loading(val boolean: Boolean) : Event
-        data class ServerError(val code: Int) : Event
-        data class NetworkError(val throwable: Throwable) : Event
         data class Update(val list: List<GroupItem>) : Event
     }
 }

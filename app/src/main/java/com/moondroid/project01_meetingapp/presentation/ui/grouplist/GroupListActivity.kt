@@ -2,7 +2,6 @@ package com.moondroid.project01_meetingapp.presentation.ui.grouplist
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.moondroid.damoim.common.GroupListType
@@ -11,6 +10,7 @@ import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.databinding.ActivityGroupListBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListViewModel.Event
@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class GroupListActivity : BaseActivity() {
     private val binding by viewBinding(ActivityGroupListBinding::inflate)
     private lateinit var adapter: GroupListAdapter
-    private val viewModel: GroupListViewModel by viewModels()
+    private val viewModel: GroupListViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,10 +63,7 @@ class GroupListActivity : BaseActivity() {
 
     private fun handleEvent(event: Event) {
         when (event) {
-            is Event.Loading -> showLoading(event.boolean)
-            is Event.Update -> adapter.update(event.list)
-            is Event.NetworkError -> networkError(event.throwable)
-            is Event.ServerError -> serverError(event.code)
+            is Event.Update -> adapter.submitList(event.list)
         }
     }
 }

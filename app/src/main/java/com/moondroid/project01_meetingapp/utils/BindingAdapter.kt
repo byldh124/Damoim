@@ -4,6 +4,8 @@ import android.view.View
 import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.google.android.gms.common.SignInButton
 import com.moondroid.damoim.common.GroupType
@@ -35,6 +37,16 @@ object BindingAdapter {
             glide(R.drawable.ic_favorite)
         } else {
             glide(R.drawable.ic_favorite_not)
+        }
+    }
+
+    @BindingAdapter("isSelect")
+    @JvmStatic
+    fun AppCompatTextView.setSelectedBackground(b: Boolean) {
+        if (b) {
+            setTextColor(ContextCompat.getColor(context, R.color.red_light01))
+        } else {
+            setTextColor(ContextCompat.getColor(context, R.color.gray_light01))
         }
     }
 
@@ -72,7 +84,6 @@ object BindingAdapter {
     @JvmStatic
     fun TextView.interestText(position: Int) {
         val name = String.format("interest_%02d", position)
-
         this.text = context.getString(getStringId(context, name))
     }
 

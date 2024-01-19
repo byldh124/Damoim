@@ -34,10 +34,6 @@ class GroupDetailViewModel @Inject constructor(
             _eventFlow.emit(event)
         }
     }
-
-    private fun serverError(code: Int) = event(Event.ServerError(code))
-    private fun networkError(throwable: Throwable) = event(Event.NetworkError(throwable))
-
     @SuppressLint("SimpleDateFormat")
     fun getMoim(title: String) {
         viewModelScope.launch {
@@ -89,8 +85,6 @@ class GroupDetailViewModel @Inject constructor(
     sealed interface Event {
         data class Moims(val list: List<MoimItem>) : Event
         data class Members(val list: List<Profile>) : Event
-        data class ServerError(val code: Int) : Event
-        data class NetworkError(val throwable: Throwable) : Event
         object Join : Event
     }
 }

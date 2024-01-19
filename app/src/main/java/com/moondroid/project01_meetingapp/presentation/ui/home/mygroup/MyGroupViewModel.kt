@@ -1,10 +1,10 @@
 package com.moondroid.project01_meetingapp.presentation.ui.home.mygroup
 
 import androidx.lifecycle.viewModelScope
-import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.damoim.domain.model.GroupItem
 import com.moondroid.damoim.domain.model.status.onError
+import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.group.GetGroupUseCase
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
@@ -22,7 +22,8 @@ class MyGroupViewModel @Inject constructor(private val getGroupUseCase: GetGroup
         viewModelScope.launch {
             getGroupUseCase(ProfileHelper.profile.id, GroupType.MY_GROUP).collect { result ->
                 result.onSuccess { update(it) }
-                    .onError { logException(it) }
+                    .onFail { serverError(it) }
+                    .onError { networkError(it) }
             }
         }
     }

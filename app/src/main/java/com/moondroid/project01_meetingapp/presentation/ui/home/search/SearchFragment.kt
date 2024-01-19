@@ -55,7 +55,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_home_search) {
                     }
                 }
 
-                groupAdapter.update(groups)
+                groupAdapter.submitList(groups)
             }
 
         } catch (e: Exception) {

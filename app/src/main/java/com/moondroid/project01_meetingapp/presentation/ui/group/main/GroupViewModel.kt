@@ -23,22 +23,10 @@ class GroupViewModel @Inject constructor(
     private val getFavorUseCase: GetFavorUseCase,
     private val setFavorUseCase: SetFavorUseCase,
 ) : BaseViewModel() {
-    private val _eventFlow = MutableEventFlow<Event>()
-    val eventFlow = _eventFlow.asEventFlow()
-
-    private fun event(event: Event) {
-        viewModelScope.launch {
-            _eventFlow.emit(event)
-        }
-    }
-
     init {
         saveRecent(DMApp.group.title, System.currentTimeMillis().toString())
         getFavor(DMApp.group.title)
     }
-
-    private fun serverError(code: Int) = event(Event.ServerError(code))
-    private fun networkError(throwable: Throwable) = event(Event.NetworkError(throwable))
 
     val favor = MutableLiveData(false)
     private var favorChanging = false
@@ -84,10 +72,5 @@ class GroupViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    sealed interface Event {
-        data class ServerError(val code: Int) : Event
-        data class NetworkError(val throwable: Throwable) : Event
     }
 }

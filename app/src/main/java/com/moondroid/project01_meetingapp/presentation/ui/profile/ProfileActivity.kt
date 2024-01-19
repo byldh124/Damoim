@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ProfileActivity : BaseActivity() {
     private val binding by viewBinding(ActivityProfileBinding::inflate)
-    private val viewModel: ProfileViewModel by viewModels()
+    private val viewModel: ProfileViewModel by viewModel()
     private val adapter = GroupListAdapter {
         DMApp.group = it
         goToGroupActivity()
@@ -48,7 +48,7 @@ class ProfileActivity : BaseActivity() {
 
     private fun handleEvent(event: ProfileViewModel.Event) {
         when (event) {
-            is ProfileViewModel.Event.UpdateGroup -> adapter.update(event.list)
+            is ProfileViewModel.Event.UpdateGroup -> adapter.submitList(event.list)
         }
     }
 

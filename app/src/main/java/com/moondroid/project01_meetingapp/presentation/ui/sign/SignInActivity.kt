@@ -3,8 +3,7 @@ package com.moondroid.project01_meetingapp.presentation.ui.sign
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -16,7 +15,6 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.moondroid.damoim.common.Constants.DEFAULT_PROFILE_IMG
-import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
@@ -49,7 +47,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SignInActivity : BaseActivity() {
     private val binding by viewBinding(ActivitySignInBinding::inflate)
-    private val viewModel: SignInViewModel by viewModels()
+    private val viewModel: SignInViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,8 +62,6 @@ class SignInActivity : BaseActivity() {
 
     private fun handleEvent(event: SignInEvent) {
         when (event) {
-            is SignInEvent.Loading -> showLoading(event.show)
-            is SignInEvent.Message -> showMessage(event.message)
             is SignInEvent.Home -> goToHomeActivity()
 
             is SignInEvent.SignUpSocial -> {
@@ -76,9 +72,6 @@ class SignInActivity : BaseActivity() {
 
                 startActivity(intent)
             }
-
-            is SignInEvent.Error -> networkError(event.throwable)
-            is SignInEvent.Fail -> serverError(event.code)
             SignInEvent.InvalidPw -> binding.root.snack(getString(R.string.error_wrong_password))
             SignInEvent.NotExist -> binding.root.snack(getString(R.string.error_id_not_exist))
         }

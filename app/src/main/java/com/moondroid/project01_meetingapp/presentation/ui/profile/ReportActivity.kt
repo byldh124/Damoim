@@ -1,7 +1,7 @@
 package com.moondroid.project01_meetingapp.presentation.ui.profile
 
 import android.os.Bundle
-import androidx.activity.viewModels
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.damoim.common.IntentParam
@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ReportActivity : BaseActivity() {
     private lateinit var reportId: String
     private val binding by viewBinding(ActivityReportBinding::inflate)
-    private val viewModel: ReportViewModel by viewModels()
+    private val viewModel: ReportViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

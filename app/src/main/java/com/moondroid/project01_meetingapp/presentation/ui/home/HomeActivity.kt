@@ -9,7 +9,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.*
-import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -28,6 +27,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityHomeBinding
 import com.moondroid.project01_meetingapp.databinding.LayoutNavigationHeaderBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.common.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.group.CreateGroupActivity
@@ -69,9 +69,9 @@ class HomeActivity : BaseActivity() {
     private val binding by viewBinding(ActivityHomeBinding::inflate)
 
     private lateinit var headerBinding: LayoutNavigationHeaderBinding
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModel()
 
-    lateinit var groupsList: List<GroupItem>
+    var groupsList: List<GroupItem> = emptyList()
 
     private var mBackWait = 0L       //Back 2번 클릭
 

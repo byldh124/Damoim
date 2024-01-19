@@ -59,13 +59,9 @@ class MoimViewModel @Inject constructor(
                     address!!.lng,
                     ProfileHelper.profile.id
                 ).collect { result ->
-                    result.onSuccess {
-                        event(Event.Success)
-                    }.onFail {
-                        event(Event.Fail(it))
-                    }.onError {
-                        event(Event.Error(it))
-                    }
+                    result.onSuccess { event(Event.Success) }
+                        .onFail { serverError(it) }
+                        .onError { networkError(it) }
                 }
             }
         }
@@ -85,11 +81,9 @@ class MoimViewModel @Inject constructor(
     }
 
     sealed interface Event {
-        object Location : Event
-        object Date : Event
-        object Time : Event
-        object Success : Event
-        data class Fail(val code: Int) : Event
-        data class Error(val throwable: Throwable) : Event
+        data object Location : Event
+        data object Date : Event
+        data object Time : Event
+        data object Success : Event
     }
 }

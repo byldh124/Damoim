@@ -2,7 +2,7 @@ package com.moondroid.project01_meetingapp.presentation.ui.group.main
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -44,7 +44,7 @@ class GroupActivity : BaseActivity() {
 
     private val pageNum = 3
     private val binding by viewBinding(ActivityGroupBinding::inflate)
-    private val viewModel: GroupViewModel by viewModels()
+    private val viewModel: GroupViewModel by viewModel()
     lateinit var groupInfo: GroupItem
 
     val fragments = arrayOf(GroupDetailFragment(), GalleryFragment(), ChatFragment())
@@ -66,16 +66,7 @@ class GroupActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.model = viewModel
 
-        collectEvent(viewModel.eventFlow, ::handleEvent)
-
         initView()
-    }
-
-    private fun handleEvent(event: GroupViewModel.Event) {
-        when (event) {
-            is GroupViewModel.Event.NetworkError -> networkError(event.throwable)
-            is GroupViewModel.Event.ServerError -> serverError(event.code)
-        }
     }
 
     /**

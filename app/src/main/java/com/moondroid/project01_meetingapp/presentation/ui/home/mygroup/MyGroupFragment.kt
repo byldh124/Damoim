@@ -3,11 +3,11 @@ package com.moondroid.project01_meetingapp.presentation.ui.home.mygroup
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeMyGroupBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListAdapter
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
@@ -21,8 +21,10 @@ class MyGroupFragment :
     private val binding by viewBinding(FragmentHomeMyGroupBinding::bind)
 
     lateinit var activity: HomeActivity
-    private val viewModel: MyGroupViewModel by viewModels()
-    private var groupAdapter: GroupListAdapter? = null
+    private val viewModel: MyGroupViewModel by viewModel()
+    private var groupAdapter = GroupListAdapter {
+        activity.goToGroupActivity()
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -45,9 +47,7 @@ class MyGroupFragment :
     }
 
     private fun initView() {
-        groupAdapter = GroupListAdapter {
-            activity.goToGroupActivity()
-        }
+
         binding.recycler.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.recycler.adapter = groupAdapter
@@ -56,7 +56,7 @@ class MyGroupFragment :
 
     private fun handleEvent(event: Event) {
         when (event) {
-            is Event.Update -> groupAdapter?.update(event.list)
+            is Event.Update -> groupAdapter.submitList(event.list)
         }
     }
 }

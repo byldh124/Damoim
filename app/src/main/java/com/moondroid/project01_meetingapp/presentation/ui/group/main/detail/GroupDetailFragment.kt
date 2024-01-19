@@ -4,15 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
-import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupDetailBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.moim.MoimInfoActivity
@@ -23,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GroupDetailFragment : BaseFragment(R.layout.fragment_group_detail) {
-    private val viewModel: GroupDetailViewModel by viewModels()
+    private val viewModel: GroupDetailViewModel by viewModel()
     private lateinit var activity: GroupActivity
     private val binding by viewBinding(FragmentGroupDetailBinding::bind)
 
@@ -73,12 +72,10 @@ class GroupDetailFragment : BaseFragment(R.layout.fragment_group_detail) {
 
                 binding.userType = userType
                 activity.userType = userType
-                memberAdapter.updateList(event.list)
+                memberAdapter.submitList(event.list)
             }
 
-            is GroupDetailViewModel.Event.Moims -> moimListAdapter.updateList(event.list)
-            is GroupDetailViewModel.Event.NetworkError -> activity.networkError(event.throwable)
-            is GroupDetailViewModel.Event.ServerError -> activity.serverError(event.code)
+            is GroupDetailViewModel.Event.Moims -> moimListAdapter.submitList(event.list)
             GroupDetailViewModel.Event.Join -> activity.showMessage("가입을 완료했습니다") {
                 viewModel.loadMember(DMApp.group.title)
             }

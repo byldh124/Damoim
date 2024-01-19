@@ -4,8 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.RadioButton
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.activity.viewModels
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
@@ -32,7 +31,7 @@ import java.util.Locale
 class SignUpActivity : BaseActivity() {
     private val binding by viewBinding(ActivitySignUpBinding::inflate)
 
-    private val viewModel: SignUpViewModel by viewModels()
+    private val viewModel: SignUpViewModel by viewModel()
 
     private var year = 1990
     private var month = 0
@@ -92,11 +91,7 @@ class SignUpActivity : BaseActivity() {
 
     private fun handleEvent(event: Event) {
         when (event) {
-            is Event.Loading -> showLoading(event.show)
-            is Event.Message -> showMessage(event.message)
             is Event.Home -> goToHomeActivity()
-            is Event.Fail -> serverError(event.code)
-            is Event.NetworkError -> networkError(event.throwable)
         }
     }
 

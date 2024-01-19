@@ -78,7 +78,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_group_gallery) {
             it.children.forEach { ds ->
                 urlList.add(ds.getValue(String::class.java)!!)
             }
-            adapter.update(urlList)
+            adapter.submitList(urlList)
         }
     }
 }
