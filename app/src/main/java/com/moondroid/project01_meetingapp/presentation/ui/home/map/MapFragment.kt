@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeLocationBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.map.MapViewModel.Event
@@ -31,7 +31,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_home_location),
     OnMapReadyCallback {
 
     private val binding by viewBinding(FragmentHomeLocationBinding::bind)
-    private val viewModel: MapViewModel by viewModels()
+    private val viewModel: MapViewModel by viewModel()
 
     private lateinit var mapView: MapView
 

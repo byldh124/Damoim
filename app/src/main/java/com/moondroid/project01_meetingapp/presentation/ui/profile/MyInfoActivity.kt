@@ -50,7 +50,7 @@ class MyInfoActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FBAnalyze.logEvent("MyInfo Loaded")
-        binding.profile = DMApp.profile
+        binding.profile = ProfileHelper.profile
         initView()
     }
 
@@ -60,7 +60,7 @@ class MyInfoActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun initView() {
         with(binding) {
-            thumb.glide(DMApp.profile.thumb)
+            thumb.glide(ProfileHelper.profile.thumb)
 
             setupToolbar(binding.toolbar)
 
@@ -135,7 +135,7 @@ class MyInfoActivity : BaseActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             showLoading(true)
             updateProfileUseCase(
-                id = DMApp.profile.id,
+                id = ProfileHelper.profile.id,
                 name = binding.etName.text.toString(),
                 birth = binding.tvBirth.text.toString(),
                 gender = if (binding.rbMale.isChecked) "남자" else "여자",
@@ -146,7 +146,7 @@ class MyInfoActivity : BaseActivity() {
                 showLoading(false)
                 thumbFile?.delete()
                 result.onSuccess {
-                    DMApp.profile = it
+                    ProfileHelper.profile = it
                     showMessage("변경이 완료되었습니다", ::setResultAndFinish)
                 }.onFail {
                     serverError(it)

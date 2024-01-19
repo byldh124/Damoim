@@ -1,9 +1,9 @@
 package com.moondroid.project01_meetingapp.presentation.ui.home
 
 import androidx.lifecycle.viewModelScope
-import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.domain.model.Profile
 import com.moondroid.damoim.domain.model.status.onError
+import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.profile.InterestUseCase
 import com.moondroid.damoim.domain.usecase.profile.ProfileUseCase
@@ -27,9 +27,9 @@ class HomeViewModel @Inject constructor(
     fun getUser() {
         viewModelScope.launch {
             profileUseCase().collect { result ->
-                result.onSuccess {
-                    setProfile(it)
-                }
+                result.onSuccess { setProfile(it) }
+                    .onFail { serverError(it) }
+                    .onError { networkError(it) }
             }
         }
     }
@@ -37,9 +37,9 @@ class HomeViewModel @Inject constructor(
     fun updateInterest(interest: String) {
         viewModelScope.launch {
             interestUseCase(interest).collect { result ->
-                result.onSuccess {
-                    event(Event.UpdateInterest)
-                }.onError { logException(it) }
+                result.onSuccess { event(Event.UpdateInterest) }
+                    .onFail { serverError(it) }
+                    .onError { networkError(it) }
             }
         }
     }

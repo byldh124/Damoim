@@ -2,7 +2,7 @@ package com.moondroid.project01_meetingapp.presentation.ui.moim
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -13,16 +13,16 @@ import com.moondroid.damoim.domain.model.status.onError
 import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.moim.JoinMoimUseCase
-import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.databinding.ActivityMoimInfoBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.detail.MemberAdapter
 import com.moondroid.project01_meetingapp.presentation.ui.profile.ProfileActivity
-import com.moondroid.project01_meetingapp.utils.BindingAdapter.visible
+import com.moondroid.project01_meetingapp.utils.ProfileHelper
 import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import com.moondroid.project01_meetingapp.utils.ViewExtension.enable
 import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
+import com.moondroid.project01_meetingapp.utils.ViewExtension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +32,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MoimInfoActivity : BaseActivity() {
     private val binding by viewBinding(ActivityMoimInfoBinding::inflate)
-    private val viewModel: MoimInfoViewModel by viewModels()
+    private val viewModel: MoimInfoViewModel by viewModel()
 
     private val adapter = MemberAdapter {
         toProfile(it)
@@ -59,13 +59,10 @@ class MoimInfoActivity : BaseActivity() {
 
     private fun handleEvent(event: MoimInfoViewModel.Event) {
         when (event) {
-            is MoimInfoViewModel.Event.Error -> networkError(event.throwable)
-            is MoimInfoViewModel.Event.Fail -> serverError(event.code)
-            is MoimInfoViewModel.Event.Loading -> showLoading(event.loading)
             is MoimInfoViewModel.Event.Members -> {
                 event.list.also {
-                    binding.btnJoin.visible(!it.contains(DMApp.profile))
-                    adapter.updateList(it)
+                    binding.btnJoin.visible(!it.contains(ProfileHelper.profile))
+                    adapter.submitList(it)
                 }
             }
         }
@@ -95,7 +92,7 @@ class MoimInfoActivity : BaseActivity() {
     private fun join() {
         CoroutineScope(Dispatchers.Main).launch {
             showLoading(true)
-            joinMoimUseCase(DMApp.profile.id, moim.title, moim.date).collect { result ->
+            joinMoimUseCase(ProfileHelper.profile.id, moim.title, moim.date).collect { result ->
                 showLoading(false)
                 result.onSuccess {
                     moim = it

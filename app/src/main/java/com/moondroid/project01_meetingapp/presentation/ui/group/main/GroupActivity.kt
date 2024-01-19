@@ -2,8 +2,7 @@ package com.moondroid.project01_meetingapp.presentation.ui.group.main
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.activity.viewModels
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -21,9 +20,9 @@ import com.moondroid.project01_meetingapp.presentation.ui.group.main.chat.ChatFr
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.detail.GroupDetailFragment
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.gallery.GalleryFragment
 import com.moondroid.project01_meetingapp.presentation.ui.moim.MoimActivity
-import com.moondroid.project01_meetingapp.utils.BindingAdapter.visible
 import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
+import com.moondroid.project01_meetingapp.utils.ViewExtension.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
@@ -40,12 +39,12 @@ import kotlin.properties.Delegates
 class GroupActivity : BaseActivity() {
 
     enum class UserType {
-        MASTER, MEMBER, VISITOR
+        MASTER, MEMBER, VISITOR, TESTER
     }
 
     private val pageNum = 3
     private val binding by viewBinding(ActivityGroupBinding::inflate)
-    private val viewModel: GroupViewModel by viewModels()
+    private val viewModel: GroupViewModel by viewModel()
     lateinit var groupInfo: GroupItem
 
     val fragments = arrayOf(GroupDetailFragment(), GalleryFragment(), ChatFragment())
@@ -67,16 +66,7 @@ class GroupActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.model = viewModel
 
-        collectEvent(viewModel.eventFlow, ::handleEvent)
-
         initView()
-    }
-
-    private fun handleEvent(event: GroupViewModel.Event) {
-        when (event) {
-            is GroupViewModel.Event.NetworkError -> networkError(event.throwable)
-            is GroupViewModel.Event.ServerError -> serverError(event.code)
-        }
     }
 
     /**

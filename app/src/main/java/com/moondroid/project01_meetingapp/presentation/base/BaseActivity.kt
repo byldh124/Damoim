@@ -13,12 +13,17 @@ import android.provider.MediaStore
 import android.view.MenuItem
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelLazy
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
+import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel.Event
 import com.moondroid.project01_meetingapp.presentation.dialog.ButtonDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.LoadingDialog
 import com.moondroid.project01_meetingapp.presentation.dialog.WebViewDialog
@@ -26,6 +31,8 @@ import com.moondroid.project01_meetingapp.presentation.ui.common.crop.CropImageA
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeActivity
 import com.moondroid.project01_meetingapp.presentation.ui.sign.SignInActivity
+import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
+import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 
 
 /**
@@ -35,7 +42,10 @@ open class BaseActivity : AppCompatActivity() {
 
     protected val mContext by lazy { this }
 
-    private var loadingDialog: LoadingDialog? = null
+    // BaseVieModel
+    var commonViewModel: Lazy<BaseViewModel>? = null
+
+    private val loadingDialog by lazy { LoadingDialog(mContext) }
     private var webViewDialog: WebViewDialog? = null
 
     private val callback = object : OnBackPressedCallback(true) {
@@ -59,6 +69,10 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         onBackPressedDispatcher.addCallback(this, callback)
+
+        commonViewModel?.let {
+            collectEvent(it.value.commonEvent, ::handleEvent)
+        }
     }
 
     @SuppressLint("WrongConstant")
@@ -75,6 +89,24 @@ open class BaseActivity : AppCompatActivity() {
     fun startActivityForResult(intent: Intent, onResult: (Intent?) -> Unit) {
         this.onResult = onResult
         resultLauncher.launch(intent)
+    }
+
+    fun handleEvent(event: Event) {
+        when (event) {
+            is Event.Loading -> showLoading(event.isLoading)
+            is Event.Message -> showMessage(event.message) {
+                event.onClick(mContext)
+            }
+
+            is Event.Toast -> toast(event.message)
+            is Event.NetworkError -> networkError(event.throwable) {
+                event.onClick(mContext)
+            }
+
+            is Event.ServerError -> serverError(event.code) {
+                event.onClick(mContext)
+            }
+        }
     }
 
     /**
@@ -155,19 +187,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun showLoading(b: Boolean) {
-        if (b) showLoading() else hideLoading()
-    }
-
-    private fun showLoading() {
-        loadingDialog?.show() ?: run {
-            loadingDialog = LoadingDialog(mContext).apply {
-                show()
-            }
-        }
-    }
-
-    private fun hideLoading() {
-        loadingDialog?.cancel()
+        loadingDialog.isShow = b
     }
 
     protected fun goToHomeActivity() {
@@ -216,4 +236,27 @@ open class BaseActivity : AppCompatActivity() {
         }
         webViewDialog?.show()
     }
+}
+
+/**
+ * BaseViewModel delegate
+ */
+@MainThread
+inline fun <reified VM : BaseViewModel> BaseActivity.viewModel(
+    noinline extrasProducer: (() -> CreationExtras)? = null,
+    noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null,
+): Lazy<VM> {
+    val factoryPromise = factoryProducer ?: {
+        defaultViewModelProviderFactory
+    }
+
+    val lazyViewModel = ViewModelLazy(
+        VM::class,
+        { viewModelStore },
+        factoryPromise,
+        { extrasProducer?.invoke() ?: this.defaultViewModelCreationExtras }
+    )
+
+    commonViewModel = lazyViewModel
+    return lazyViewModel
 }

@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.viewModels
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.project01_meetingapp.BuildConfig
 import com.moondroid.project01_meetingapp.databinding.ActivitySplashBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.dialog.ButtonDialog
 import com.moondroid.project01_meetingapp.presentation.ui.splash.SplashViewModel.*
@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SplashActivity : BaseActivity() {
     private val binding by viewBinding(ActivitySplashBinding::inflate)
-    private val viewModel: SplashViewModel by viewModels()
+    private val viewModel: SplashViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +39,6 @@ class SplashActivity : BaseActivity() {
             is Event.Main -> goToHomeActivity()
             is Event.Sign -> goToSignInActivity()
             Event.Update -> toUpdate()
-            is Event.Fail -> serverError(event.code, ::finish)
-            is Event.NetworkError -> networkError(event.throwable, ::finish)
         }
     }
 

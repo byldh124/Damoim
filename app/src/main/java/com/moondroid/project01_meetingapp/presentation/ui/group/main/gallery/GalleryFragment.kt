@@ -1,32 +1,23 @@
 package com.moondroid.project01_meetingapp.presentation.ui.group.main.gallery
 
 import android.annotation.SuppressLint
-import android.app.Activity.RESULT_OK
 import android.content.Context
-import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentGroupGalleryBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.group.main.GroupActivity
-import com.moondroid.project01_meetingapp.utils.BindingAdapter.visible
-import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
-import com.moondroid.project01_meetingapp.utils.image.ImageHelper
+import com.moondroid.project01_meetingapp.utils.ViewExtension.visible
 import java.text.SimpleDateFormat
 
 class GalleryFragment : BaseFragment(R.layout.fragment_group_gallery) {
@@ -87,7 +78,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_group_gallery) {
             it.children.forEach { ds ->
                 urlList.add(ds.getValue(String::class.java)!!)
             }
-            adapter.update(urlList)
+            adapter.submitList(urlList)
         }
     }
 }

@@ -2,7 +2,6 @@ package com.moondroid.project01_meetingapp.presentation.ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,7 +9,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.*
-import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -25,12 +23,13 @@ import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.GroupListType
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.GroupItem
-import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivityHomeBinding
 import com.moondroid.project01_meetingapp.databinding.LayoutNavigationHeaderBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
+import com.moondroid.project01_meetingapp.presentation.ui.common.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.group.CreateGroupActivity
 import com.moondroid.project01_meetingapp.presentation.ui.grouplist.GroupListActivity
 import com.moondroid.project01_meetingapp.presentation.ui.home.HomeViewModel.Event
@@ -38,13 +37,12 @@ import com.moondroid.project01_meetingapp.presentation.ui.home.main.MainFragment
 import com.moondroid.project01_meetingapp.presentation.ui.home.map.LocationFragment
 import com.moondroid.project01_meetingapp.presentation.ui.home.mygroup.MyGroupFragment
 import com.moondroid.project01_meetingapp.presentation.ui.home.search.SearchFragment
-import com.moondroid.project01_meetingapp.presentation.ui.common.interest.InterestActivity
 import com.moondroid.project01_meetingapp.presentation.ui.profile.MyInfoActivity
 import com.moondroid.project01_meetingapp.presentation.ui.setting.SettingActivity
+import com.moondroid.project01_meetingapp.utils.ProfileHelper
 import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import com.moondroid.project01_meetingapp.utils.ViewExtension.setupToolbar
 import com.moondroid.project01_meetingapp.utils.ViewExtension.snack
-import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -71,9 +69,9 @@ class HomeActivity : BaseActivity() {
     private val binding by viewBinding(ActivityHomeBinding::inflate)
 
     private lateinit var headerBinding: LayoutNavigationHeaderBinding
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModel()
 
-    lateinit var groupsList: List<GroupItem>
+    var groupsList: List<GroupItem> = emptyList()
 
     private var mBackWait = 0L       //Back 2번 클릭
 
@@ -84,7 +82,7 @@ class HomeActivity : BaseActivity() {
         headerBinding = LayoutNavigationHeaderBinding.bind(binding.homeNav.getHeaderView(0))
         binding.model = viewModel
         headerBinding.model = viewModel
-        headerBinding.profile = DMApp.profile
+        headerBinding.profile = ProfileHelper.profile
 
         collectEvent(viewModel.eventFlow, ::handleEvent)
 

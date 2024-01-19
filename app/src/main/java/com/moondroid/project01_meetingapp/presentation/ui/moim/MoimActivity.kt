@@ -4,8 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.activity.viewModels
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.google.gson.Gson
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
@@ -29,7 +28,7 @@ import java.util.Calendar
 
 @AndroidEntryPoint
 class MoimActivity : BaseActivity(), OnMapReadyCallback {
-    private val viewModel: MoimViewModel by viewModels()
+    private val viewModel: MoimViewModel by viewModel()
     private val binding by viewBinding(ActivityMoimBinding::inflate)
 
     private val requestCode = 0xf0f0
@@ -107,8 +106,6 @@ class MoimActivity : BaseActivity(), OnMapReadyCallback {
             MoimViewModel.Event.Location -> toLocation()
             MoimViewModel.Event.Time -> showTime()
             MoimViewModel.Event.Success -> showMessage("모임생성 완료", ::setResultAndFinish)
-            is MoimViewModel.Event.Fail -> serverError(event.code)
-            is MoimViewModel.Event.Error -> networkError(event.throwable)
         }
     }
 

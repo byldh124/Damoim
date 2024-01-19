@@ -13,6 +13,7 @@ import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
+import com.moondroid.project01_meetingapp.utils.ProfileHelper
 import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -22,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MoimViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val createMoimUseCase: CreateMoimUseCase
+    private val createMoimUseCase: CreateMoimUseCase,
 ) : BaseViewModel() {
 
     val date = MutableLiveData<String>()
@@ -56,15 +57,11 @@ class MoimViewModel @Inject constructor(
                     pay.value!!,
                     address!!.lat,
                     address!!.lng,
-                    DMApp.profile.id
+                    ProfileHelper.profile.id
                 ).collect { result ->
-                    result.onSuccess {
-                        event(Event.Success)
-                    }.onFail {
-                        event(Event.Fail(it))
-                    }.onError {
-                        event(Event.Error(it))
-                    }
+                    result.onSuccess { event(Event.Success) }
+                        .onFail { serverError(it) }
+                        .onError { networkError(it) }
                 }
             }
         }
@@ -84,11 +81,9 @@ class MoimViewModel @Inject constructor(
     }
 
     sealed interface Event {
-        object Location : Event
-        object Date : Event
-        object Time : Event
-        object Success: Event
-        data class Fail(val code: Int): Event
-        data class Error(val throwable: Throwable) : Event
+        data object Location : Event
+        data object Date : Event
+        data object Time : Event
+        data object Success : Event
     }
 }

@@ -4,10 +4,10 @@ import android.view.View
 import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
 import com.google.android.gms.common.SignInButton
-import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.GroupType
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.widget.DMRecycler
@@ -15,18 +15,13 @@ import com.moondroid.project01_meetingapp.utils.ViewExtension.getDrawableId
 import com.moondroid.project01_meetingapp.utils.ViewExtension.getInterestNum
 import com.moondroid.project01_meetingapp.utils.ViewExtension.getStringId
 import com.moondroid.project01_meetingapp.utils.ViewExtension.glide
-import com.moondroid.project01_meetingapp.utils.image.GlideApp
-import com.moondroid.project01_meetingapp.utils.image.ImageHelper.getImgUrl
+import com.moondroid.project01_meetingapp.utils.ViewExtension.visible
 
 object BindingAdapter {
     @BindingAdapter("visible")
     @JvmStatic
-    fun View.visible(boolean: Boolean) {
-        if (boolean) {
-            this.visibility = View.VISIBLE
-        } else {
-            this.visibility = View.GONE
-        }
+    fun View.setVisible(boolean: Boolean) {
+        visible(boolean)
     }
 
     @BindingAdapter("image")
@@ -42,6 +37,16 @@ object BindingAdapter {
             glide(R.drawable.ic_favorite)
         } else {
             glide(R.drawable.ic_favorite_not)
+        }
+    }
+
+    @BindingAdapter("isSelect")
+    @JvmStatic
+    fun AppCompatTextView.setSelectedBackground(b: Boolean) {
+        if (b) {
+            setTextColor(ContextCompat.getColor(context, R.color.red_light01))
+        } else {
+            setTextColor(ContextCompat.getColor(context, R.color.gray_light01))
         }
     }
 
@@ -79,7 +84,6 @@ object BindingAdapter {
     @JvmStatic
     fun TextView.interestText(position: Int) {
         val name = String.format("interest_%02d", position)
-
         this.text = context.getString(getStringId(context, name))
     }
 

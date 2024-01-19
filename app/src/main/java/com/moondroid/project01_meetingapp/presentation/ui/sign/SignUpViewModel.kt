@@ -5,24 +5,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import com.moondroid.damoim.common.Extension.logException
-import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.damoim.common.DMRegex
 import com.moondroid.damoim.common.Extension.byteToString
 import com.moondroid.damoim.common.Extension.hashingPw
+import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.ResponseCode
 import com.moondroid.damoim.common.crashlytics.FBCrash
 import com.moondroid.damoim.domain.model.status.onError
-
 import com.moondroid.damoim.domain.model.status.onFail
 import com.moondroid.damoim.domain.model.status.onSuccess
+import com.moondroid.damoim.domain.usecase.profile.UpdateTokenUseCase
+import com.moondroid.damoim.domain.usecase.sign.SignUpUseCase
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
 import com.moondroid.project01_meetingapp.presentation.common.asEventFlow
-import com.moondroid.damoim.domain.usecase.sign.SignUpUseCase
-import com.moondroid.damoim.domain.usecase.profile.UpdateTokenUseCase
-import com.moondroid.project01_meetingapp.DMApp
+import com.moondroid.project01_meetingapp.utils.ProfileHelper
+import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
 import com.moondroid.project01_meetingapp.utils.firebase.FBAnalyze
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -35,7 +34,7 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val signUpUseCase: SignUpUseCase,
-    private val updateTokenUseCase: UpdateTokenUseCase
+    private val updateTokenUseCase: UpdateTokenUseCase,
 ) : BaseViewModel() {
 
     val id = MutableLiveData<String>()                             // ID
@@ -134,20 +133,33 @@ class SignUpViewModel @Inject constructor(
         gender: String,
         location: String,
         interest: String,
-        thumb: String
+        thumb: String,
     ) {
         loading(true)
         viewModelScope.launch {
-            signUpUseCase(id, hashPw, salt, name, birth, gender, location, interest, thumb).collect { result ->
+            signUpUseCase(
+                id,
+                hashPw,
+                salt,
+                name,
+                birth,
+                gender,
+                location,
+                interest,
+                thumb
+            ).collect { result ->
                 loading(false)
                 result.onSuccess {
                     FBAnalyze.setProperty(it)
                     FBCrash.setProperty(it.id)
-                    DMApp.profile = it
+                    ProfileHelper.profile = it
                     getMsgToken()
                 }.onFail {
                     if (it == ResponseCode.ALREADY_EXIST) context.toast(R.string.error_id_already_exist)
-                }.onError { message(it.message.toString()) }
+                    else serverError(it)
+                }.onError {
+                    networkError(it)
+                }
             }
         }
     }
@@ -180,15 +192,13 @@ class SignUpViewModel @Inject constructor(
      */
     private fun updateToken(token: String) {
         viewModelScope.launch {
-            updateTokenUseCase(DMApp.profile.id, token).collect {
+            updateTokenUseCase(ProfileHelper.profile.id, token).collect {
                 loading(false)
                 home()
             }
         }
     }
 
-    private fun loading(b: Boolean) = event(Event.Loading(b))
-    fun message(msg: String) = event(Event.Message(msg))
     private fun home() = event(Event.Home)
 
     private fun event(event: Event) {
@@ -198,10 +208,6 @@ class SignUpViewModel @Inject constructor(
     }
 
     sealed interface Event {
-        data class Fail(val code: Int) : Event
-        data class NetworkError(val throwable: Throwable) : Event
-        data class Loading(val show: Boolean) : Event
-        data class Message(val message: String) : Event
         data object Home : Event
     }
 }

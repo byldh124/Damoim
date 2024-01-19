@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getGroupUseCase: GetGroupUseCase
+    private val getGroupUseCase: GetGroupUseCase,
 ) : BaseViewModel() {
     private val _eventFlow = MutableEventFlow<Event>()
     val eventFlow = _eventFlow.asEventFlow()
@@ -33,19 +33,15 @@ class ProfileViewModel @Inject constructor(
 
     fun getMyGroup(id: String) {
         viewModelScope.launch {
-            getGroupUseCase(id, GroupType.MY_GROUP).collect {result ->
-                result.onSuccess {
-                    event(Event.UpdateGroup(it))
-                }.onFail {
-
-                }.onError {
-
-                }
+            getGroupUseCase(id, GroupType.MY_GROUP).collect { result ->
+                result.onSuccess { event(Event.UpdateGroup(it)) }
+                    .onFail { serverError(it) }
+                    .onError { networkError(it) }
             }
         }
     }
 
     sealed interface Event {
-        data class UpdateGroup(val list: List<GroupItem>): Event
+        data class UpdateGroup(val list: List<GroupItem>) : Event
     }
 }
