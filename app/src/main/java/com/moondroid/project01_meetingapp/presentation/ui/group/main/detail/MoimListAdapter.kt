@@ -33,12 +33,10 @@ class MoimListAdapter(private val onClick: (MoimItem) -> Unit) :
     inner class ViewHolder(
         private val binding: ItemMoimBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(moim: MoimItem) {
             binding.moim = moim
             binding.executePendingBindings()
         }
-
     }
 
     object MoimItemDiffCallback : DiffUtil.ItemCallback<MoimItem>() {

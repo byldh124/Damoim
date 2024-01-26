@@ -1,6 +1,7 @@
 package com.moondroid.project01_meetingapp.presentation.widget
 
 import android.content.Context
+import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
@@ -12,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.utils.ViewExtension.dpToPixel
@@ -85,7 +87,7 @@ class DMRecycler : RecyclerView {
                     is FrameLayout -> {
                         FrameLayout.LayoutParams(
                             FrameLayout.LayoutParams.MATCH_PARENT,
-                            FrameLayout.LayoutParams.WRAP_CONTENT
+                            FrameLayout.LayoutParams.MATCH_PARENT
                         ).apply {
                             gravity = Gravity.CENTER
                         }
@@ -110,19 +112,8 @@ class DMRecycler : RecyclerView {
         }
     }
 
-    private val emptyObserver = object : AdapterDataObserver() {
-        override fun onChanged() {
-            super.onChanged()
-            adapter?.let { adapter ->
-                emptyView.visible(adapter.itemCount == 0)
-            }
-        }
-    }
-
-    override fun setAdapter(adapter: Adapter<*>?) {
-        super.setAdapter(adapter)
-
-        adapter?.registerAdapterDataObserver(emptyObserver)
-        emptyObserver.onChanged()
+    override fun onDraw(c: Canvas) {
+        super.onDraw(c)
+        emptyView.isVisible = adapter?.itemCount == 0
     }
 }

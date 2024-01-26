@@ -23,6 +23,10 @@ class GalleryAdapter(
         )
     }
 
+
+    override fun submitList(list: MutableList<String>?) {
+        super.submitList(list)
+    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
         holder.itemView.setOnClickListener {
@@ -48,7 +52,6 @@ class GalleryAdapter(
     }
 
     object StringDifferCallBack : DiffUtil.ItemCallback<String>() {
-
         override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
             return oldItem === newItem
         }
