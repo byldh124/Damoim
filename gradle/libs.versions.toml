@@ -98,7 +98,7 @@ security-preference = {module = "androidx.security:security-crypto", version = "
 kakao-all = { group = "com.kakao.sdk" , name = "v2-all", version.ref = "kakao"}
 
 #naver-map
-naver-map = {group = "com.naver.maps", name = "map-sdk", version = "3.17.0"}
+naver-map = {group = "com.naver.maps", name = "map-sdk", version = "3.19.0"}
 
 #lottie
 lottie-animation = "com.airbnb.android:lottie:6.0.0"

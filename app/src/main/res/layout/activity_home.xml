@@ -36,17 +36,17 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/title"
-                        android:text="@{name}"
-                        style="@style/TitleWhite" />
+                        style="@style/TitleWhite"
+                        android:text="@{name}" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/icShare"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:padding="8dp"
                         android:layout_gravity="end"
                         android:layout_marginEnd="16dp"
-                        android:src="@drawable/ic_share"/>
+                        android:padding="8dp"
+                        android:src="@drawable/ic_share" />
                 </com.google.android.material.appbar.MaterialToolbar>
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -62,21 +62,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:itemIconTint="@color/selector_bottom_navigation_icon"
-                app:itemTextColor="@color/selector_bottom_navigation_icon"
                 app:itemTextAppearanceActive="@style/TextBottomNav"
                 app:itemTextAppearanceInactive="@style/TextBottomNav"
+                app:itemTextColor="@color/selector_bottom_navigation_icon"
                 app:labelVisibilityMode="labeled"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:menu="@menu/menu_bottom_navigation" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.navigation.NavigationView
-            app:itemTextAppearance="@style/TextNav"
             android:id="@+id/homeNav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/layout_navigation_header"
+            app:itemTextAppearance="@style/TextNav"
             app:itemTextColor="#ff666666"
             app:menu="@menu/menu_navigation" />
     </androidx.drawerlayout.widget.DrawerLayout>

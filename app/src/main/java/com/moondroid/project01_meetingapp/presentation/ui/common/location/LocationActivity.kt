@@ -1,6 +1,5 @@
 package com.moondroid.project01_meetingapp.presentation.ui.common.location
 
-import android.app.Activity
 import android.content.Intent
 import android.location.Geocoder
 import android.os.Build
@@ -8,7 +7,6 @@ import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
-import com.moondroid.damoim.common.Extension.serializable
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.damoim.domain.model.MoimAddress
 import com.moondroid.project01_meetingapp.R
@@ -18,8 +16,7 @@ import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.utils.ViewExtension.afterTextChanged
 import com.moondroid.project01_meetingapp.utils.ViewExtension.visible
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
-
+import java.util.Locale
 
 /**
  * 지역 선택
