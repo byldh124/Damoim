@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace ="com.moondroid.damoim.common"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 23
@@ -25,7 +25,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = libs.versions.java.get()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     buildFeatures {
@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.bundles.kotlin)
+    implementation(libs.androidx.core.ktx)
 
     // Hilt
     implementation(libs.hilt.android)

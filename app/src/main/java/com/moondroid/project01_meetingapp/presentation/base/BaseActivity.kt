@@ -87,6 +87,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun startActivityForResult(intent: Intent, onResult: (Intent?) -> Unit) {
+        debug("startActivityForResult")
         this.onResult = onResult
         resultLauncher.launch(intent)
     }

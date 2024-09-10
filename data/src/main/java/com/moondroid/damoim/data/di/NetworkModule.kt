@@ -3,6 +3,7 @@ package com.moondroid.damoim.data.di
 import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import com.google.gson.Strictness
 import com.moondroid.damoim.data.BuildConfig
 import com.moondroid.damoim.data.api.ApiInterface
 import com.moondroid.damoim.data.api.URLManager.BASE_URL
@@ -86,7 +87,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideConverterFactory(): GsonConverterFactory =
-        GsonConverterFactory.create(GsonBuilder().setLenient().create())
+        GsonConverterFactory.create(GsonBuilder().setStrictness(Strictness.LENIENT).create())
 
 
     @Provides

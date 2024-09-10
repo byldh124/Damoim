@@ -3,18 +3,15 @@ package com.moondroid.project01_meetingapp.presentation.ui.sign
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialException
 import com.moondroid.project01_meetingapp.presentation.base.viewModel
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.moondroid.damoim.common.Constants.DEFAULT_PROFILE_IMG
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
@@ -25,6 +22,10 @@ import com.moondroid.project01_meetingapp.presentation.ui.sign.SignInViewModel.S
 import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
 import com.moondroid.project01_meetingapp.utils.ViewExtension.snack
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 
 /**
@@ -136,8 +137,27 @@ class SignInActivity : BaseActivity() {
         }
     }
 
-
     private fun getGoogleAccount() {
+        val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(true)
+        .build()
+
+        val request: GetCredentialRequest = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+
+        CoroutineScope(Dispatchers.Default).launch {
+            try {
+                val request = CredentialManager
+
+            } catch (e: GetCredentialException) {
+
+            }
+        }
+    }
+
+
+    /*private fun getGoogleAccount() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
@@ -147,6 +167,8 @@ class SignInActivity : BaseActivity() {
         val singInIntent = mGoogleSignInClient.signInIntent
 
         startActivityForResult(singInIntent) { intent ->
+
+            debug("get google Account")
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(intent)
             val account = task.getResult(ApiException::class.java)
 
@@ -160,7 +182,7 @@ class SignInActivity : BaseActivity() {
 
             viewModel.signInSocial(id, name, thumb)
         }
-    }
+    }*/
 
     /**
      * 회원가입 화면 전환

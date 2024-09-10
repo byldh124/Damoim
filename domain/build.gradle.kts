@@ -9,7 +9,7 @@
 
 android {
     namespace = "com.moondroid.damoim.domain"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 23
@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.bundles.kotlin)
+    implementation(libs.androidx.core.ktx)
 
     // Hilt
     implementation(libs.hilt.android)

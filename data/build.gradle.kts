@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace ="com.moondroid.damoim.data"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 23
@@ -34,8 +34,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.bundles.kotlin)
-
+    implementation(libs.androidx.core.ktx)
     // Gson
     implementation(libs.google.gson)
 
