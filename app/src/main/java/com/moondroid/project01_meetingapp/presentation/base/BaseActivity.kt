@@ -3,6 +3,7 @@ package com.moondroid.project01_meetingapp.presentation.base
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -40,7 +41,7 @@ import com.moondroid.project01_meetingapp.utils.ViewExtension.toast
  **/
 open class BaseActivity : AppCompatActivity() {
 
-    protected val mContext by lazy { this }
+    protected val mContext: Context by lazy { this }
 
     // BaseVieModel
     var commonViewModel: Lazy<BaseViewModel>? = null
@@ -75,7 +76,6 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("WrongConstant")
     override fun onStart() {
         super.onStart()
         if (Build.VERSION.SDK_INT >= 34) {
