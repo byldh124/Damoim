@@ -24,8 +24,8 @@ android {
         applicationId = "com.moondroid.project01_meetingapp"
         minSdk = 23
         targetSdk = 34
-        versionCode = 30
-        versionName = "2.1.1"
+        versionCode = 31
+        versionName = "2.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
