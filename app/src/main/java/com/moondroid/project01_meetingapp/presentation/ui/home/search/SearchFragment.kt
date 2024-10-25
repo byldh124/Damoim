@@ -6,6 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.domain.model.GroupItem
+import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeSearchBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
@@ -19,7 +20,10 @@ class SearchFragment : BaseFragment(R.layout.fragment_home_search) {
 
     lateinit var activity: HomeActivity
     private val groups = ArrayList<GroupItem>()
-    private lateinit var groupAdapter: GroupListAdapter
+    private val groupAdapter = GroupListAdapter {
+        DMApp.group = it
+        activity.goToGroupActivity()
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -33,9 +37,6 @@ class SearchFragment : BaseFragment(R.layout.fragment_home_search) {
 
     private fun initView() {
         try {
-            groupAdapter = GroupListAdapter {
-                activity.goToGroupActivity()
-            }
             binding.recycler.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             binding.recycler.adapter = groupAdapter

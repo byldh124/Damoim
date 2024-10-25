@@ -24,8 +24,8 @@ android {
         applicationId = "com.moondroid.project01_meetingapp"
         minSdk = 23
         targetSdk = 34
-        versionCode = 30
-        versionName = "2.1.1"
+        versionCode = 31
+        versionName = "2.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -72,10 +72,13 @@ android {
 }
 
 dependencies {
-    implementation(libs.bundles.kotlin)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.google.material)
+
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.fragment.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)
@@ -93,10 +96,6 @@ dependencies {
     // Gson
     implementation(libs.google.gson)
 
-    // Lifecycle
-    kapt(libs.androidx.lifecycle.compiler)
-    implementation(libs.bundles.lifecycle)
-
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
@@ -104,10 +103,10 @@ dependencies {
     implementation(libs.bundles.firebase)
 
     // Google - Login
-    implementation(libs.google.sign)
+    implementation(libs.bundles.google.auth)
 
     // Navigation
-    implementation(libs.bundles.navigation)
+    // implementation(libs.bundles.navigation)
 
     /** Kakao **/
     implementation(libs.kakao.all) // 전체 모듈 설치, 2.11.0 버전부터 지원

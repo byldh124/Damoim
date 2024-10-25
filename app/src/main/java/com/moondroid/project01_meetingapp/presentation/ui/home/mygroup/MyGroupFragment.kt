@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.FragmentHomeMyGroupBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseFragment
@@ -23,6 +24,7 @@ class MyGroupFragment :
     lateinit var activity: HomeActivity
     private val viewModel: MyGroupViewModel by viewModel()
     private var groupAdapter = GroupListAdapter {
+        DMApp.group = it
         activity.goToGroupActivity()
     }
 

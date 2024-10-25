@@ -14,7 +14,6 @@ import com.moondroid.damoim.domain.model.status.onSuccess
 import com.moondroid.damoim.domain.usecase.sign.SaltUseCase
 import com.moondroid.damoim.domain.usecase.sign.SignInUseCase
 import com.moondroid.damoim.domain.usecase.sign.SocialSignUseCase
-import com.moondroid.project01_meetingapp.DMApp
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.presentation.base.BaseViewModel
 import com.moondroid.project01_meetingapp.presentation.common.MutableEventFlow
@@ -32,7 +31,7 @@ class SignInViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val signInUseCase: SignInUseCase,
     private val saltUseCase: SaltUseCase,
-    private val socialSignUseCase: SocialSignUseCase
+    private val socialSignUseCase: SocialSignUseCase,
 ) : BaseViewModel() {
 
     val id = MutableLiveData<String?>()
