@@ -2,21 +2,32 @@ package com.moondroid.project01_meetingapp.presentation.ui.sign
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.TextView
 import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
-import com.moondroid.project01_meetingapp.presentation.base.viewModel
+import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import com.google.firebase.Firebase
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.auth
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.moondroid.damoim.common.Constants.DEFAULT_PROFILE_IMG
+import com.moondroid.damoim.common.Extension.debug
 import com.moondroid.damoim.common.Extension.logException
 import com.moondroid.damoim.common.IntentParam
 import com.moondroid.project01_meetingapp.R
 import com.moondroid.project01_meetingapp.databinding.ActivitySignInBinding
 import com.moondroid.project01_meetingapp.presentation.base.BaseActivity
+import com.moondroid.project01_meetingapp.presentation.base.viewModel
 import com.moondroid.project01_meetingapp.presentation.common.viewBinding
 import com.moondroid.project01_meetingapp.presentation.ui.sign.SignInViewModel.SignInEvent
 import com.moondroid.project01_meetingapp.utils.ViewExtension.collectEvent
@@ -24,8 +35,10 @@ import com.moondroid.project01_meetingapp.utils.ViewExtension.snack
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.security.MessageDigest
+import java.util.UUID
 
 
 /**
@@ -73,6 +86,7 @@ class SignInActivity : BaseActivity() {
 
                 startActivity(intent)
             }
+
             SignInEvent.InvalidPw -> binding.root.snack(getString(R.string.error_wrong_password))
             SignInEvent.NotExist -> binding.root.snack(getString(R.string.error_id_not_exist))
         }
@@ -138,9 +152,20 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun getGoogleAccount() {
+        val rawNonce = UUID.randomUUID().toString()
+        val bytes = rawNonce.toByteArray()
+        val md = MessageDigest.getInstance("SHA-256")
+        val digest = md.digest(bytes)
+        val hashedNonce = digest.fold("") { acc, byte ->
+            acc + "%02x".format(byte)
+        }
+
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(true)
-        .build()
+            .setFilterByAuthorizedAccounts(false)
+            .setServerClientId("1025278143222-6jiup8ffv4hf72jc5pc45a4avdgf3hbu.apps.googleusercontent.com")
+            .setAutoSelectEnabled(true)
+            .setNonce(hashedNonce)
+            .build()
 
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
             .addCredentialOption(googleIdOption)
@@ -148,14 +173,65 @@ class SignInActivity : BaseActivity() {
 
         CoroutineScope(Dispatchers.Default).launch {
             try {
-                val request = CredentialManager
+                val result = CredentialManager.create(mContext).getCredential(
+                    context = mContext,
+                    request = request
+                )
+                handleSignIn(result)
 
+            } catch (e: NoCredentialException) {
+                // Credential 없으면 구글 계정 추가 요청
+                val intent = Intent(Settings.ACTION_ADD_ACCOUNT)
+                intent.putExtra(Settings.EXTRA_ACCOUNT_TYPES, arrayOf("com.google"))
+                startActivityForResult(intent) {
+                    getGoogleAccount()
+                }
             } catch (e: GetCredentialException) {
-
+                logException(e)
             }
         }
     }
 
+    private suspend fun handleSignIn(result: GetCredentialResponse) {
+        val credential = result.credential
+        debug("credential : ${credential.javaClass.simpleName}}")
+        when (credential) {
+            is CustomCredential -> {
+                if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                    try {
+                        val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+                        /*val id = googleIdTokenCredential.id
+                        val name = googleIdTokenCredential.displayName.toString()
+                        val thumb = if (googleIdTokenCredential.profilePictureUri == null) {
+                            DEFAULT_PROFILE_IMG
+                        } else {
+                            googleIdTokenCredential.profilePictureUri.toString()
+                        }*/
+                        //viewModel.signInSocial(id, name, thumb)
+
+                        //
+                        val googleIdToken = googleIdTokenCredential.idToken
+                        val authCredential = GoogleAuthProvider.getCredential(googleIdToken, null)
+                        val user = Firebase.auth.signInWithCredential(authCredential).await().user
+                        user?.let {
+                            val id = it.uid
+                            val name = it.displayName.toString()
+                            val thumb = it.photoUrl?.toString() ?: DEFAULT_PROFILE_IMG
+
+                            viewModel.signInSocial(id, name, thumb)
+                        }
+                    } catch (e: GoogleIdTokenParsingException) {
+                        logException(e)
+                    }
+                }
+            }
+
+            else -> {
+                showMessage("지원하지 않는 자격 증명 방식입니다.\n다른 방법으로 로그인해주세요.")
+            }
+
+        }
+    }
 
     /*private fun getGoogleAccount() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
