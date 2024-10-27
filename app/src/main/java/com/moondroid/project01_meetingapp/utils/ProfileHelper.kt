@@ -2,7 +2,7 @@ package com.moondroid.project01_meetingapp.utils
 
 import com.moondroid.damoim.domain.model.Profile
 
-val tester = arrayOf("test01")
+val tester = arrayOf("gtest01")
 
 object ProfileHelper {
     lateinit var profile: Profile

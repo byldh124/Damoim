@@ -67,7 +67,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_group_chat) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //binding.isMember = DMApp.group.isMember
-        binding.isMember = activity.userType != GroupActivity.UserType.VISITOR
+        binding.isMember = activity.userType == GroupActivity.UserType.MEMBER || activity.userType == GroupActivity.UserType.MASTER
         CoroutineScope(Dispatchers.Main).launch {
             membersUseCase(DMApp.group.title).collect { result ->
                 result.onSuccess {
