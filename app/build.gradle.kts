@@ -11,7 +11,7 @@ plugins {
     alias(libs.plugins.android.kotlin.kapt)
 }
 
-val properties = gradleLocalProperties(rootDir)
+val properties = gradleLocalProperties(rootDir, providers)
 val naverClientId: String = properties.getProperty("naver.client.id")
 val kakaoClientId: String = properties.getProperty("kakao.client.id")
 
